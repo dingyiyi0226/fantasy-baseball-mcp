@@ -104,9 +104,15 @@ export class Session {
 
   // ---- onboarding mutations -------------------------------------------------
 
-  /** Remove stored credentials and refresh token, reverting to the unconfigured state. */
+  /** Remove stored credentials, refresh token, and league/team defaults, reverting to the unconfigured state. */
   async removeCredentials(): Promise<void> {
-    this.config = await updateConfig({ clientId: undefined, clientSecret: undefined, refreshToken: undefined });
+    this.config = await updateConfig({
+      clientId: undefined,
+      clientSecret: undefined,
+      refreshToken: undefined,
+      defaultLeagueKey: undefined,
+      defaultTeamKey: undefined,
+    });
     this.rebuild();
   }
 
