@@ -3,6 +3,8 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Session, LeagueChoice } from "../session.js";
 import { textResult } from "./context.js";
 
+const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
+
 const NETWORK_ALLOWLIST = `Heads up (Claude Desktop): Claude runs this extension in a sandbox
 that blocks outbound network by default, so you must allow the sites it uses. Go to
 **Settings → Capabilities** (Team/Enterprise: **Organization settings → Capabilities**),
@@ -15,7 +17,7 @@ allowed by default — only add them if Yahoo sign-in fails to connect. The same
 applies whether you use this in a normal chat or in Cowork. (Picking **All domains** also
 works, but the list above is the minimum.)`;
 
-const YAHOO_APP_TUTORIAL = `${NETWORK_ALLOWLIST}
+const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}${NETWORK_ALLOWLIST}
 
 To let Claude manage your team, you need your own free Yahoo "app"
 (this is how Yahoo gives you permission keys). One-time, ~3 minutes:
@@ -35,7 +37,7 @@ To let Claude manage your team, you need your own free Yahoo "app"
    OR just paste them to me here and I'll save them securely.`;
 
 function authorizeSteps(url: string): string {
-  return `Your Yahoo credentials are saved. Final step to connect:
+  return `${VERBATIM_PREFIX}Your Yahoo credentials are saved. Final step to connect:
 
 1. Open this link and click **Agree** to allow access:
    ${url}

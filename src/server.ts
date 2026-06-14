@@ -31,9 +31,12 @@ Setup (do this first, once):
 - "fantasy logout" / "fantasy disconnect" -> call fantasy_logout to remove saved
   credentials and start over.
 
-IMPORTANT: When fantasy_login, fantasy_status, or fantasy_logout returns setup
-instructions or an authorization link, always reproduce the full returned text
-in your reply — do not paraphrase or summarize it.
+CRITICAL OUTPUT RULE: When fantasy_login, fantasy_status, or fantasy_logout
+returns text, copy that text into your reply WORD FOR WORD. Do NOT paraphrase,
+condense, rewrite, reorder, or restructure it in any way. Do NOT create your
+own bullet points or "two options" framing. Do NOT omit the network-allowlist
+section, the numbered steps, the URL, or any field names. The user depends on
+the exact instructions; rewriting them breaks the setup flow.
 
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" -> get_team_roster
