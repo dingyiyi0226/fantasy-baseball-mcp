@@ -1,0 +1,14 @@
+# Keep the .mcpb bundle small: ship only the built server + production deps.
+src/
+node_modules/.bin/
+.github/
+.git/
+*.map
+*.ts
+!dist/**/*.d.ts
+tsconfig.json
+.gitignore
+.mcpbignore
+README.md
+api_test/
+*.mcpb

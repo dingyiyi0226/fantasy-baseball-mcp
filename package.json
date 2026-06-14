@@ -19,6 +19,7 @@
     "watch": "tsc --watch",
     "auth": "node dist/cli.js auth",
     "serve": "node dist/cli.js serve",
+    "pack": "npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball.mcpb",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

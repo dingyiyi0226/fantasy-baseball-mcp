@@ -1,0 +1,66 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-latest.schema.json",
+  "manifest_version": "0.4",
+  "name": "yahoo-fantasy-baseball",
+  "display_name": "Yahoo Fantasy Baseball",
+  "version": "0.1.0",
+  "description": "Read and manage your Yahoo Fantasy Baseball team from Claude.",
+  "long_description": "A bring-your-own-credentials extension that lets Claude read your Yahoo Fantasy Baseball roster, matchups, stats, and free agents — and, with your confirmation, add/drop players and set your lineup. You create your own free Yahoo app and complete a one-time authorization right inside Claude (just say \"fantasy start\"). Nothing is hosted; everything runs locally and your credentials stay on your machine.",
+  "author": {
+    "name": "dingyiyi"
+  },
+  "license": "MIT",
+  "keywords": ["yahoo", "fantasy", "baseball", "sports", "mlb"],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/cli.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/cli.js", "serve"],
+      "env": {
+        "YF_CLIENT_ID": "${user_config.client_id}",
+        "YF_CLIENT_SECRET": "${user_config.client_secret}"
+      }
+    }
+  },
+  "tools": [
+    { "name": "fantasy_status", "description": "Check whether setup is complete and what to do next." },
+    { "name": "fantasy_setup", "description": "Start setup: Yahoo app guide and authorization link." },
+    { "name": "fantasy_authorize", "description": "Finish setup with the verification code from Yahoo." },
+    { "name": "fantasy_select_team", "description": "Set your default league and team." },
+    { "name": "list_leagues", "description": "List your leagues, game weeks, and stat categories." },
+    { "name": "get_league", "description": "League teams, settings, and standings." },
+    { "name": "get_teams", "description": "Stats, standings, and matchups for league teams." },
+    { "name": "get_team_roster", "description": "A team's roster with player stats for a date." },
+    { "name": "get_team_stats_week", "description": "A team's stats for a scoring week." },
+    { "name": "get_team_stats_season", "description": "A team's season stats." },
+    { "name": "get_matchups", "description": "League scoreboard for a week." },
+    { "name": "get_team_matchups", "description": "A team's matchups across weeks." },
+    { "name": "get_player_stats", "description": "Stats for players on a date." },
+    { "name": "rank_players", "description": "Rank/search players and free agents." },
+    { "name": "get_transactions", "description": "Recent league adds, drops, and trades." },
+    { "name": "add_drop_player", "description": "Add and/or drop a player (changes your roster)." },
+    { "name": "set_lineup", "description": "Set your daily lineup (changes your roster)." }
+  ],
+  "user_config": {
+    "client_id": {
+      "type": "string",
+      "title": "Yahoo Client ID",
+      "description": "From your Yahoo app (Consumer Key). Say \"fantasy start\" in chat if you don't have one yet.",
+      "required": false,
+      "sensitive": true
+    },
+    "client_secret": {
+      "type": "string",
+      "title": "Yahoo Client Secret",
+      "description": "From your Yahoo app (Consumer Secret).",
+      "required": false,
+      "sensitive": true
+    }
+  },
+  "compatibility": {
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}
