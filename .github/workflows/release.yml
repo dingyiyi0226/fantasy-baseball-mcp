@@ -30,10 +30,12 @@ jobs:
       - name: Prune to production dependencies
         run: npm prune --omit=dev
 
+      # WORKAROUND: repack with STORED (uncompressed) entries to avoid a silent
+      # deadlock in yauzl 2.x + Node 24 on Claude Desktop 1.12603.1.
+      # Revert once upstream fixes the issue:
+      # https://github.com/anthropics/claude-code/issues/67865
       - name: Pack .mcpb bundle
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball-v${VERSION}.mcpb
+        run: npm run pack:safe
 
       - name: Upload bundle to the GitHub Release
         uses: softprops/action-gh-release@v2
