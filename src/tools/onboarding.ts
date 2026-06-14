@@ -165,7 +165,8 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
       return textResult(
         "🎉 Authorized! You're in multiple leagues — which should be the default?\n\n" +
           listLeagues(choices) +
-          '\n\nTell me the number (or league name) and I\'ll set it.',
+          "\n\nTell me the number (or league name) and I'll set it." +
+          "\n\nIf you have multiple teams in the same league, you can say something like \"select a different team in league 7\" to pick a specific one.",
       );
     },
   );
