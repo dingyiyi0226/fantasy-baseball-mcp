@@ -4,6 +4,7 @@ import {
   resolveCredentials,
   type Config,
   type Credentials,
+  type ScoringCategory,
 } from "./config.js";
 import { exchangeAuthCode, buildAuthUrl, TokenManager } from "./tokenManager.js";
 import { startCallbackServer } from "./callbackServer.js";
@@ -100,6 +101,37 @@ export class Session {
       );
     }
     return key;
+  }
+
+  // ---- league scoring categories -------------------------------------------
+
+  /**
+   * Return the scored stat categories for a league. Checks the persisted config
+   * cache first; fetches from Yahoo and caches on miss. Categories rarely change
+   * after a league is created, so a single disk write is the normal cost.
+   */
+  async getLeagueScoringCategories(leagueKey: string): Promise<ScoringCategory[]> {
+    const cached = this.config?.scoringCategories?.[leagueKey];
+    if (cached && cached.length > 0) return cached;
+
+    const data = await this.requireClient().get(`/league/${leagueKey}/settings`);
+    const statList = asArray(data?.league?.settings?.stat_categories?.stats?.stat);
+
+    const categories: ScoringCategory[] = statList
+      .filter((s: any) => str(s?.enabled) === "1")
+      .map((s: any) => ({
+        statId: str(s?.stat_id),
+        displayName: str(s?.display_name),
+        positionType: str(s?.position_type),
+      }))
+      .filter((c: ScoringCategory) => c.statId && c.displayName);
+
+    const existing = this.config?.scoringCategories ?? {};
+    this.config = await updateConfig({
+      scoringCategories: { ...existing, [leagueKey]: categories },
+    });
+
+    return categories;
   }
 
   // ---- onboarding mutations -------------------------------------------------

@@ -218,7 +218,8 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
         "authoritative sources: MLB Stats API (standard stats), Baseball Savant " +
         "(Statcast exit velocity / barrel rate / expected stats / sprint speed), " +
         "and FanGraphs (WAR, wRC+, K%, BB%, plate discipline). " +
-        "Use this before making roster add/drop decisions.",
+        "The response includes the league's scoring categories so advice can focus " +
+        "on stats that actually count. Use this before making roster add/drop decisions.",
       inputSchema: {
         playerName: z
           .string()
@@ -233,7 +234,15 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
     },
     async ({ playerName, season }) => {
       const yr = season ?? currentSeason();
-      const result = await collectPlayerStats(playerName, yr);
+      const [result, categories] = await Promise.all([
+        collectPlayerStats(playerName, yr),
+        ctx.getLeagueScoringCategories(),
+      ]);
+      if (categories.length > 0) {
+        const batting = categories.filter(c => c.positionType === "B").map(c => c.displayName);
+        const pitching = categories.filter(c => c.positionType === "P").map(c => c.displayName);
+        return jsonResult({ ...result, leagueScoringCategories: { batting, pitching } });
+      }
       return jsonResult(result);
     },
   );
@@ -250,7 +259,9 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
         "Fetch advanced stats (Statcast, expected stats, FanGraphs) for every " +
         "player currently on the team's roster. Great for daily lineup decisions " +
         "and identifying underperformers vs. their xStats. " +
-        "Combine with get_team_roster to see who is starting or benched.",
+        "The response includes the league's scoring categories so advice targets " +
+        "stats that actually matter in this league (e.g. SB if stolen bases count, " +
+        "HLD if holds count). Combine with get_team_roster to see who is starting or benched.",
       inputSchema: {
         teamKey: z
           .string()
@@ -271,10 +282,13 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
     async ({ teamKey, date, season }) => {
       const yr = season ?? currentSeason();
       const tk = ctx.resolveTeamKey(teamKey);
-
-      // Fetch roster from Yahoo
       const d = date ?? new Date().toISOString().slice(0, 10);
-      const rosterData = await ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`);
+
+      // Fetch roster and scoring categories concurrently
+      const [rosterData, categories] = await Promise.all([
+        ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`),
+        ctx.getLeagueScoringCategories(),
+      ]);
 
       // Extract player names from Yahoo's XML-derived structure
       const players = asArray(
@@ -299,7 +313,14 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
         }),
       );
 
-      return jsonResult({ season: yr, rosterDate: d, players: results });
+      const leagueScoringCategories = categories.length > 0
+        ? {
+            batting: categories.filter(c => c.positionType === "B").map(c => c.displayName),
+            pitching: categories.filter(c => c.positionType === "P").map(c => c.displayName),
+          }
+        : undefined;
+
+      return jsonResult({ season: yr, rosterDate: d, leagueScoringCategories, players: results });
     },
   );
 }

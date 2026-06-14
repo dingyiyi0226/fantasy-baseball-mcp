@@ -254,6 +254,30 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
+    "get_league_scoring_settings",
+    {
+      title: "Get league scoring categories",
+      description:
+        "Return the stat categories used for scoring in this league (e.g. R, HR, RBI, SB, AVG " +
+        "for batting; W, ERA, WHIP, K, SV, HLD for pitching). Always call this before giving " +
+        "roster add/drop advice so recommendations reflect what actually scores in this league. " +
+        "Results are cached in config since categories rarely change after league creation. " +
+        "Pass leagueKey to force-refresh a different league.",
+      inputSchema: {
+        leagueKey: z.string().optional().describe("League key; defaults to configured league"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ leagueKey }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const categories = await ctx.getLeagueScoringCategories(leagueKey);
+      const batting = categories.filter(c => c.positionType === "B").map(c => c.displayName);
+      const pitching = categories.filter(c => c.positionType === "P").map(c => c.displayName);
+      return jsonResult({ leagueKey: lk, batting, pitching });
+    },
+  );
+
+  server.registerTool(
     "get_transactions",
     {
       title: "Get league transactions",

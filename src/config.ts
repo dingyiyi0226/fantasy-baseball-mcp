@@ -2,6 +2,14 @@ import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+/** A single scored stat category from a Yahoo Fantasy league. */
+export interface ScoringCategory {
+  statId: string;
+  displayName: string;
+  /** "B" = batting, "P" = pitching, "" = unknown */
+  positionType: string;
+}
+
 /**
  * Persistent, per-user configuration. Stored at ~/.yahoo-fantasy-mcp/config.json
  * with 0600 permissions. Holds the user's own Yahoo app credentials, a long-lived
@@ -18,6 +26,8 @@ export interface Config {
   refreshToken?: string;
   defaultLeagueKey?: string;
   defaultTeamKey?: string;
+  /** Scoring categories per league, keyed by leagueKey. Cached because they rarely change. */
+  scoringCategories?: Record<string, ScoringCategory[]>;
 }
 
 /** A resolved Yahoo app credential pair (from config file or environment). */

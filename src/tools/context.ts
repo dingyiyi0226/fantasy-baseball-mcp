@@ -1,5 +1,8 @@
 import type { Session } from "../session.js";
 import type { YahooClient } from "../yahooClient.js";
+import type { ScoringCategory } from "../config.js";
+
+export type { ScoringCategory };
 
 /**
  * Thin adapter the read/write tools use. Delegates to the live Session so that
@@ -20,6 +23,20 @@ export class ToolContext {
 
   resolveTeamKey(teamKey?: string): string {
     return this.session.resolveTeamKey(teamKey);
+  }
+
+  /**
+   * Return scoring categories for a league, using the config cache when
+   * available. Pass undefined to fall back to the configured default league.
+   * Returns an empty array if no league is configured or the fetch fails.
+   */
+  async getLeagueScoringCategories(leagueKey?: string): Promise<ScoringCategory[]> {
+    try {
+      const lk = this.session.resolveLeagueKey(leagueKey);
+      return await this.session.getLeagueScoringCategories(lk);
+    } catch {
+      return [];
+    }
   }
 }
 
