@@ -4,6 +4,7 @@ import {
   resolvePlayer,
   playerRole,
   fetchMlbStats,
+  fetchMlbRecentStats,
   fetchSavantExpected,
   fetchSavantStatcast,
   fetchSavantSprintSpeed,
@@ -25,6 +26,53 @@ function val<T>(r: PromiseSettledResult<T>): T | null {
   return r.status === "fulfilled" ? r.value : null;
 }
 
+// ---------------------------------------------------------------------------
+// MLB stat shape helpers — reused for season and recent splits
+// ---------------------------------------------------------------------------
+function mapBatterMlbStat(mlb: Record<string, unknown>) {
+  return {
+    games: mlb["gamesPlayed"],
+    plateAppearances: mlb["plateAppearances"],
+    atBats: mlb["atBats"],
+    hits: mlb["hits"],
+    doubles: mlb["doubles"],
+    triples: mlb["triples"],
+    homeRuns: mlb["homeRuns"],
+    rbi: mlb["rbi"],
+    runs: mlb["runs"],
+    stolenBases: mlb["stolenBases"],
+    caughtStealing: mlb["caughtStealing"],
+    walks: mlb["baseOnBalls"],
+    strikeouts: mlb["strikeOuts"],
+    avg: mlb["avg"],
+    obp: mlb["obp"],
+    slg: mlb["slg"],
+    ops: mlb["ops"],
+    babip: mlb["babip"],
+  };
+}
+
+function mapPitcherMlbStat(mlb: Record<string, unknown>) {
+  return {
+    games: mlb["gamesPlayed"],
+    gamesStarted: mlb["gamesStarted"],
+    inningsPitched: mlb["inningsPitched"],
+    wins: mlb["wins"],
+    losses: mlb["losses"],
+    saves: mlb["saves"],
+    holds: mlb["holds"],
+    saveOpportunities: mlb["saveOpportunities"],
+    blownSaves: mlb["blownSaves"],
+    era: mlb["era"],
+    whip: mlb["whip"],
+    strikeouts: mlb["strikeOuts"],
+    walks: mlb["baseOnBalls"],
+    homeRunsAllowed: mlb["homeRuns"],
+    strikeoutsPer9: mlb["strikeoutsPer9Inn"],
+    walksPer9: mlb["walksPer9Inn"],
+  };
+}
+
 /** Fetch and assemble multi-source stats for a single player. */
 async function collectPlayerStats(playerName: string, season: number) {
   const identity = await resolvePlayer(playerName);
@@ -34,20 +82,26 @@ async function collectPlayerStats(playerName: string, season: number) {
   const role = playerRole(primaryPositionCode);
   const isPitcher = role === "pitcher";
   const savantType = isPitcher ? "pitcher" : "batter";
+  const mlbGroup = isPitcher ? "pitching" : "hitting";
 
-  const [mlbResult, xResult, scResult, spdResult, fgResult] = await Promise.allSettled([
-    fetchMlbStats(mlbamId, season, isPitcher ? "pitching" : "hitting"),
-    fetchSavantExpected(mlbamId, season, savantType),
-    fetchSavantStatcast(mlbamId, season, savantType),
-    fetchSavantSprintSpeed(mlbamId, season),
-    fetchFanGraphs(mlbamId, season, role),
-  ]);
+  const [mlbResult, xResult, scResult, spdResult, fgResult, r14Result, r30Result] =
+    await Promise.allSettled([
+      fetchMlbStats(mlbamId, season, mlbGroup),
+      fetchSavantExpected(mlbamId, season, savantType),
+      fetchSavantStatcast(mlbamId, season, savantType),
+      fetchSavantSprintSpeed(mlbamId, season),
+      fetchFanGraphs(mlbamId, season, role),
+      fetchMlbRecentStats(mlbamId, 14, mlbGroup),
+      fetchMlbRecentStats(mlbamId, 30, mlbGroup),
+    ]);
 
   const mlb = val(mlbResult);
   const xStats = val(xResult);
   const sc = val(scResult);
   const spd = val(spdResult);
   const fg = val(fgResult);
+  const r14 = val(r14Result);
+  const r30 = val(r30Result);
 
   const brefId = guessBrefId(fullName);
   const fgId = fg?.["playerid"];
@@ -55,47 +109,8 @@ async function collectPlayerStats(playerName: string, season: number) {
 
   const noStatsFound = !mlb && !xStats && !sc && !fg;
 
-  const standard = mlb
-    ? isPitcher
-      ? {
-          games: mlb["gamesPlayed"],
-          gamesStarted: mlb["gamesStarted"],
-          inningsPitched: mlb["inningsPitched"],
-          wins: mlb["wins"],
-          losses: mlb["losses"],
-          saves: mlb["saves"],
-          holds: mlb["holds"],
-          saveOpportunities: mlb["saveOpportunities"],
-          blownSaves: mlb["blownSaves"],
-          era: mlb["era"],
-          whip: mlb["whip"],
-          strikeouts: mlb["strikeOuts"],
-          walks: mlb["baseOnBalls"],
-          homeRunsAllowed: mlb["homeRuns"],
-          strikeoutsPer9: mlb["strikeoutsPer9Inn"],
-          walksPer9: mlb["walksPer9Inn"],
-        }
-      : {
-          games: mlb["gamesPlayed"],
-          plateAppearances: mlb["plateAppearances"],
-          atBats: mlb["atBats"],
-          hits: mlb["hits"],
-          doubles: mlb["doubles"],
-          triples: mlb["triples"],
-          homeRuns: mlb["homeRuns"],
-          rbi: mlb["rbi"],
-          runs: mlb["runs"],
-          stolenBases: mlb["stolenBases"],
-          caughtStealing: mlb["caughtStealing"],
-          walks: mlb["baseOnBalls"],
-          strikeouts: mlb["strikeOuts"],
-          avg: mlb["avg"],
-          obp: mlb["obp"],
-          slg: mlb["slg"],
-          ops: mlb["ops"],
-          babip: mlb["babip"],
-        }
-    : null;
+  const mapStat = isPitcher ? mapPitcherMlbStat : mapBatterMlbStat;
+  const standard = mlb ? mapStat(mlb) : null;
 
   const expectedStats = xStats
     ? isPitcher
@@ -186,6 +201,8 @@ async function collectPlayerStats(playerName: string, season: number) {
       warning: `No ${season} stats found for ${fullName}. The player may be inactive, on the injured list, or not yet in the majors this season. Do not make roster decisions based on this result.`,
     }),
     standard,
+    recent14d: r14 ? mapStat(r14) : null,
+    recent30d: r30 ? mapStat(r30) : null,
     expectedStats,
     statcast,
     sprintSpeed: spd ? {

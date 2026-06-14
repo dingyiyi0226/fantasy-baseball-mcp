@@ -97,6 +97,19 @@ export async function fetchMlbStats(
   return res.data?.stats?.[0]?.splits?.[0]?.stat ?? null;
 }
 
+/** Last-N-days rolling splits from the MLB Stats API.
+ *  Tracks real on-field performance regardless of fantasy roster slot. */
+export async function fetchMlbRecentStats(
+  mlbamId: number,
+  lastNDays: number,
+  group: "hitting" | "pitching" = "hitting",
+): Promise<Record<string, unknown> | null> {
+  const res = await axios.get(`${MLB_API}/people/${mlbamId}/stats`, {
+    params: { stats: "lastXDays", lastXDays: lastNDays, sportId: 1, group },
+  });
+  return res.data?.stats?.[0]?.splits?.[0]?.stat ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Baseball Savant CSV leaderboards — cached per endpoint+type per season
 // ---------------------------------------------------------------------------
