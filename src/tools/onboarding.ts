@@ -153,6 +153,25 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
   );
 
   server.registerTool(
+    "fantasy_remove_credentials",
+    {
+      title: "Remove credentials",
+      description:
+        "Delete the saved Yahoo Client ID, Client Secret, and refresh token, then " +
+        "show the setup instructions again. Use this to reset and start over.",
+      inputSchema: {},
+      annotations: { readOnlyHint: false },
+    },
+    async () => {
+      await session.removeCredentials();
+      return textResult(
+        "✅ Credentials removed. Yahoo Fantasy is no longer connected.\n\n" +
+          YAHOO_APP_TUTORIAL,
+      );
+    },
+  );
+
+  server.registerTool(
     "fantasy_select_team",
     {
       title: "Set default league/team",

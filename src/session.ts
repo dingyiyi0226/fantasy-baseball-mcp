@@ -102,6 +102,12 @@ export class Session {
 
   // ---- onboarding mutations -------------------------------------------------
 
+  /** Remove stored credentials and refresh token, reverting to the unconfigured state. */
+  async removeCredentials(): Promise<void> {
+    this.config = await updateConfig({ clientId: undefined, clientSecret: undefined, refreshToken: undefined });
+    this.rebuild();
+  }
+
   /** Store the Yahoo app credentials (and rebuild the client if possible). */
   async setCredentials(clientId: string, clientSecret: string): Promise<void> {
     this.config = await updateConfig({ clientId, clientSecret });
