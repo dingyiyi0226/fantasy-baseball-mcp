@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import { updateConfig, type Config } from "./config.js";
+import type { Credentials } from "./config.js";
 
 const TOKEN_ENDPOINT = "https://api.login.yahoo.com/oauth2/get_token";
 export const AUTH_BASE = "https://api.login.yahoo.com/oauth2/request_auth";
@@ -82,16 +82,23 @@ export function refreshTokens(
   });
 }
 
+/** Called when Yahoo rotates the refresh token, so the caller can persist it. */
+export type RefreshTokenSink = (refreshToken: string) => Promise<void>;
+
 /**
  * Caches the short-lived (~1h) access token in memory and refreshes it on demand.
  * Access tokens are never written to disk; only the long-lived refresh token is
- * persisted (and replaced if Yahoo rotates it).
+ * persisted by the caller (and replaced if Yahoo rotates it).
  */
 export class TokenManager {
   private accessToken: string | null = null;
   private expiresAt = 0; // epoch ms
 
-  constructor(private config: Config) {}
+  constructor(
+    private readonly creds: Credentials,
+    private refreshToken: string,
+    private readonly onRefreshToken: RefreshTokenSink,
+  ) {}
 
   /** Return a valid access token, refreshing if missing or near expiry. */
   async getAccessToken(): Promise<string> {
@@ -105,16 +112,17 @@ export class TokenManager {
   /** Force a refresh regardless of cache. Used on a 401/token_expired retry. */
   async forceRefresh(): Promise<string> {
     const tokens = await refreshTokens(
-      this.config.clientId,
-      this.config.clientSecret,
-      this.config.refreshToken,
+      this.creds.clientId,
+      this.creds.clientSecret,
+      this.refreshToken,
     );
     this.accessToken = tokens.access_token;
     this.expiresAt = Date.now() + tokens.expires_in * 1000;
 
     // Persist a rotated refresh token so future runs keep working.
-    if (tokens.refresh_token && tokens.refresh_token !== this.config.refreshToken) {
-      this.config = await updateConfig({ refreshToken: tokens.refresh_token });
+    if (tokens.refresh_token && tokens.refresh_token !== this.refreshToken) {
+      this.refreshToken = tokens.refresh_token;
+      await this.onRefreshToken(tokens.refresh_token);
     }
     return this.accessToken;
   }

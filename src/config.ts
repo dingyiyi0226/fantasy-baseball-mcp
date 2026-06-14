@@ -7,22 +7,31 @@ import path from "node:path";
  * with 0600 permissions. Holds the user's own Yahoo app credentials, a long-lived
  * refresh token, and the default league/team to operate on.
  *
- * Nothing here is ever shared or hosted: each user runs their own server locally.
+ * Every field is optional because setup happens incrementally (and credentials
+ * may instead arrive via environment variables, e.g. from the desktop extension
+ * settings form). Nothing here is ever shared or hosted: each user runs their
+ * own server locally.
  */
 export interface Config {
-  clientId: string;
-  clientSecret: string;
-  refreshToken: string;
+  clientId?: string;
+  clientSecret?: string;
+  refreshToken?: string;
   defaultLeagueKey?: string;
   defaultTeamKey?: string;
+}
+
+/** A resolved Yahoo app credential pair (from config file or environment). */
+export interface Credentials {
+  clientId: string;
+  clientSecret: string;
 }
 
 export const CONFIG_DIR = path.join(os.homedir(), ".yahoo-fantasy-mcp");
 export const CONFIG_PATH = path.join(CONFIG_DIR, "config.json");
 
 /**
- * Load the saved config. Returns null when no config file exists yet so callers
- * can show a friendly "run auth first" message instead of a stack trace.
+ * Load the saved config, or null when no file exists yet. Does not throw on
+ * missing fields — callers decide what is "configured enough" to operate.
  */
 export async function loadConfig(): Promise<Config | null> {
   let raw: string;
@@ -33,22 +42,25 @@ export async function loadConfig(): Promise<Config | null> {
     throw err;
   }
 
-  let parsed: Partial<Config>;
   try {
-    parsed = JSON.parse(raw) as Partial<Config>;
+    return JSON.parse(raw) as Config;
   } catch {
     throw new Error(
-      `Config at ${CONFIG_PATH} is not valid JSON. Re-run the \`auth\` command to recreate it.`,
+      `Config at ${CONFIG_PATH} is not valid JSON. Delete it and run setup again.`,
     );
   }
+}
 
-  if (!parsed.clientId || !parsed.clientSecret || !parsed.refreshToken) {
-    throw new Error(
-      `Config at ${CONFIG_PATH} is missing required fields. Re-run the \`auth\` command.`,
-    );
-  }
-
-  return parsed as Config;
+/**
+ * Resolve the Yahoo app credentials, preferring the saved config and falling
+ * back to YF_CLIENT_ID / YF_CLIENT_SECRET (set by the desktop extension form or
+ * the shell). Returns null when either half is missing.
+ */
+export function resolveCredentials(config: Config | null): Credentials | null {
+  const clientId = config?.clientId || process.env.YF_CLIENT_ID;
+  const clientSecret = config?.clientSecret || process.env.YF_CLIENT_SECRET;
+  if (clientId && clientSecret) return { clientId, clientSecret };
+  return null;
 }
 
 /**
@@ -63,14 +75,11 @@ export async function saveConfig(config: Config): Promise<void> {
 }
 
 /**
- * Merge a partial update into the existing config and persist it. Used to store
- * a rotated refresh token returned by Yahoo during a refresh.
+ * Merge a partial update into the existing config (or an empty one) and persist
+ * it. Used during incremental setup and to store a rotated refresh token.
  */
 export async function updateConfig(patch: Partial<Config>): Promise<Config> {
-  const current = await loadConfig();
-  if (!current) {
-    throw new Error("No config to update. Run the `auth` command first.");
-  }
+  const current = (await loadConfig()) ?? {};
   const next = { ...current, ...patch };
   await saveConfig(next);
   return next;

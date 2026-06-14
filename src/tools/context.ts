@@ -1,38 +1,25 @@
-import type { Config } from "../config.js";
-import { YahooClient } from "../yahooClient.js";
+import type { Session } from "../session.js";
+import type { YahooClient } from "../yahooClient.js";
 
 /**
- * Shared state handed to every tool: the API client plus the configured default
- * league/team so that "manage my team" works without the caller passing keys.
+ * Thin adapter the read/write tools use. Delegates to the live Session so that
+ * a tool called before setup gets a friendly "say fantasy start" error, and so
+ * default league/team resolution always reflects the current config.
  */
 export class ToolContext {
-  constructor(
-    public readonly client: YahooClient,
-    private readonly config: Config,
-  ) {}
+  constructor(private readonly session: Session) {}
 
-  /** Use the provided league key, else the configured default, else error. */
-  resolveLeagueKey(leagueKey?: string): string {
-    const key = leagueKey || this.config.defaultLeagueKey;
-    if (!key) {
-      throw new Error(
-        "No leagueKey provided and no default league configured. " +
-          "Pass leagueKey or re-run `auth` to set a default.",
-      );
-    }
-    return key;
+  /** The Yahoo client, throwing a setup hint if not yet configured. */
+  get client(): YahooClient {
+    return this.session.requireClient();
   }
 
-  /** Use the provided team key, else the configured default, else error. */
+  resolveLeagueKey(leagueKey?: string): string {
+    return this.session.resolveLeagueKey(leagueKey);
+  }
+
   resolveTeamKey(teamKey?: string): string {
-    const key = teamKey || this.config.defaultTeamKey;
-    if (!key) {
-      throw new Error(
-        "No teamKey provided and no default team configured. " +
-          "Pass teamKey or re-run `auth` to set a default.",
-      );
-    }
-    return key;
+    return this.session.resolveTeamKey(teamKey);
   }
 }
 
@@ -43,7 +30,7 @@ export function jsonResult(data: unknown) {
   };
 }
 
-/** Standard MCP text result for human-readable summaries (write tools). */
+/** Standard MCP text result for human-readable summaries (write/onboarding tools). */
 export function textResult(text: string) {
   return { content: [{ type: "text" as const, text }] };
 }
