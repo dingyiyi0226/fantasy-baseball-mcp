@@ -1,0 +1,177 @@
+import { z } from "zod";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { Session, LeagueChoice } from "../session.js";
+import { textResult } from "./context.js";
+
+const YAHOO_APP_TUTORIAL = `To let Claude manage your team, you need your own free Yahoo "app"
+(this is how Yahoo gives you permission keys). One-time, ~3 minutes:
+
+1. Go to  https://developer.yahoo.com/apps/create/
+   (sign in with the same Yahoo account that has your fantasy team).
+2. Fill in the form:
+   • Application Name: anything, e.g. "My Fantasy Helper"
+   • Application Type: choose **Installed Application**
+   • Redirect URI(s): type  oob
+   • API Permissions: tick **Fantasy Sports**, and choose **Read/Write**
+3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
+   **Client Secret (Consumer Secret)**.
+4. Put those two values into this extension's settings
+   (Claude → Settings → Extensions → Yahoo Fantasy Baseball),
+   OR just paste them to me here and I'll save them securely.`;
+
+function authorizeSteps(url: string): string {
+  return `Your Yahoo credentials are saved. Final step to connect:
+
+1. Open this link and click **Agree** to allow access:
+   ${url}
+2. Yahoo will show you a short **verification code**.
+3. Paste that code back to me here and I'll finish the setup.`;
+}
+
+function listLeagues(choices: LeagueChoice[]): string {
+  return choices
+    .map((c, i) => {
+      const team = c.teamName ? ` — your team: ${c.teamName}` : "";
+      return `  ${i + 1}. ${c.leagueName} (${c.season})${team}\n     leagueKey=${c.leagueKey}${
+        c.teamKey ? `  teamKey=${c.teamKey}` : ""
+      }`;
+    })
+    .join("\n");
+}
+
+/**
+ * Register the in-chat onboarding tools. These let a non-technical user complete
+ * Yahoo's OAuth entirely inside Claude — no terminal required.
+ */
+export function registerOnboardingTools(server: McpServer, session: Session): void {
+  server.registerTool(
+    "fantasy_status",
+    {
+      title: "Check setup status",
+      description:
+        "Report whether Yahoo Fantasy is set up and what the next step is. Use " +
+        "this for 'fantasy status'.",
+      inputSchema: {},
+      annotations: { readOnlyHint: true },
+    },
+    async () => {
+      if (session.isConfigured()) {
+        const league = session.defaultLeagueKey ?? "(none)";
+        const team = session.defaultTeamKey ?? "(none set — say 'fantasy choose team')";
+        return textResult(
+          `✅ Set up and connected to Yahoo.\n` +
+            `  default league: ${league}\n  default team:   ${team}\n\n` +
+            `Try: "fantasy show roster", "fantasy my matchup", or "fantasy who should I add".`,
+        );
+      }
+      if (session.hasCredentials()) {
+        return textResult(
+          "⚙️ Credentials saved but not authorized yet.\n\n" +
+            authorizeSteps(session.authorizeUrl()),
+        );
+      }
+      return textResult("🚦 Not set up yet.\n\n" + YAHOO_APP_TUTORIAL);
+    },
+  );
+
+  server.registerTool(
+    "fantasy_setup",
+    {
+      title: "Start setup",
+      description:
+        "Begin or resume setup ('fantasy start'). Shows how to create a Yahoo app " +
+        "if needed, and returns the authorization link once credentials are known. " +
+        "Optionally pass clientId/clientSecret to save them.",
+      inputSchema: {
+        clientId: z.string().optional().describe("Yahoo Client ID (Consumer Key)"),
+        clientSecret: z.string().optional().describe("Yahoo Client Secret (Consumer Secret)"),
+      },
+      annotations: { readOnlyHint: false },
+    },
+    async ({ clientId, clientSecret }) => {
+      if (clientId && clientSecret) {
+        await session.setCredentials(clientId.trim(), clientSecret.trim());
+      }
+      if (session.isConfigured()) {
+        return textResult(
+          "You're already set up! Say \"fantasy show roster\" to begin, or " +
+            '"fantasy status" to see your defaults. (To reconnect a different ' +
+            'account, give me new Yahoo credentials.)',
+        );
+      }
+      if (!session.hasCredentials()) {
+        return textResult(YAHOO_APP_TUTORIAL);
+      }
+      return textResult(authorizeSteps(session.authorizeUrl()));
+    },
+  );
+
+  server.registerTool(
+    "fantasy_authorize",
+    {
+      title: "Finish authorization with a code",
+      description:
+        "Complete setup using the verification code Yahoo displayed after the user " +
+        "approved access. Optionally also accepts clientId/clientSecret. On success " +
+        "it lists the user's leagues and sets a default automatically when there is " +
+        "only one.",
+      inputSchema: {
+        code: z.string().describe("The verification code Yahoo showed the user"),
+        clientId: z.string().optional().describe("Yahoo Client ID, if not already saved"),
+        clientSecret: z.string().optional().describe("Yahoo Client Secret, if not already saved"),
+      },
+      annotations: { readOnlyHint: false },
+    },
+    async ({ code, clientId, clientSecret }) => {
+      if (clientId && clientSecret) {
+        await session.setCredentials(clientId.trim(), clientSecret.trim());
+      }
+      const choices = await session.completeAuthorization(code.trim());
+
+      if (choices.length === 0) {
+        return textResult(
+          "Authorized successfully, but no baseball leagues were found on this " +
+            "account. If you expected some, double-check you signed in with the " +
+            "right Yahoo account.",
+        );
+      }
+      if (choices.length === 1) {
+        const only = choices[0];
+        await session.setDefaults(only.leagueKey, only.teamKey);
+        return textResult(
+          `🎉 All set! Connected to "${only.leagueName}"` +
+            (only.teamName ? ` and your team "${only.teamName}".` : ".") +
+            `\n\nTry: "fantasy show roster".`,
+        );
+      }
+      return textResult(
+        "🎉 Authorized! You're in multiple leagues — which should be the default?\n\n" +
+          listLeagues(choices) +
+          '\n\nTell me the number (or league name) and I\'ll set it.',
+      );
+    },
+  );
+
+  server.registerTool(
+    "fantasy_select_team",
+    {
+      title: "Set default league/team",
+      description:
+        "Set the default league (and your team in it) used when later commands " +
+        "omit keys. Use for 'fantasy choose team'.",
+      inputSchema: {
+        leagueKey: z.string().describe("League key, e.g. 431.l.12345"),
+        teamKey: z.string().optional().describe("Your team key, e.g. 431.l.12345.t.2"),
+      },
+      annotations: { readOnlyHint: false },
+    },
+    async ({ leagueKey, teamKey }) => {
+      await session.setDefaults(leagueKey.trim(), teamKey?.trim());
+      return textResult(
+        `Default set:\n  league: ${leagueKey}` +
+          (teamKey ? `\n  team:   ${teamKey}` : "") +
+          `\n\nTry: "fantasy show roster".`,
+      );
+    },
+  );
+}
