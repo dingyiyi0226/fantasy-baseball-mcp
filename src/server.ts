@@ -57,7 +57,7 @@ export async function runServer(): Promise<void> {
 
   const ctx = new ToolContext(session);
   const server = new McpServer(
-    { name: "yahoo-fantasy-baseball", version: "0.2.0" },
+    { name: "yahoo-fantasy-baseball", version: "0.2.1" },
     { instructions: INSTRUCTIONS },
   );
 
