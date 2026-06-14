@@ -31,6 +31,27 @@ uploaded to anyone, and you don't need to be technical to set it up.
 > You can leave the **Client ID / Client Secret** boxes empty for now. We'll fill them in
 > during the next part, and Claude will tell you exactly what to paste where.
 
+### Allow network access
+
+Claude Desktop runs extensions in a sandbox that blocks outbound network by default, so
+you have to explicitly allow the sites this extension talks to. Open **Settings →
+Capabilities** (on a Team/Enterprise plan it's **Organization settings → Capabilities**),
+find the network-access / **Additional allowed domains** control, and add these domains:
+
+| Domain | Used for |
+| --- | --- |
+| `statsapi.mlb.com` | MLB Stats API (for `analyze …`) |
+| `baseballsavant.mlb.com` | Statcast / expected stats (for `analyze …`) |
+| `www.fangraphs.com` | FanGraphs WAR/wRC+ (for `analyze …`) |
+
+The Yahoo domains (`api.login.yahoo.com`, `fantasysports.yahooapis.com`) are usually
+already reachable by default, so you typically don't need to add them — only add them if
+Yahoo sign-in fails with a connection error.
+
+The same allowlist applies whether you use the extension in a normal chat or in **Cowork**.
+Choosing **All domains** also works, but the list above is the minimum. Without it, the
+`analyze …` lookups will fail with connection errors.
+
 ## Part 2 · Connect your Yahoo team (about 3 minutes)
 
 You only do this once. In a chat with Claude, type:

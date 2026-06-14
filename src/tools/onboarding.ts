@@ -3,7 +3,21 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Session, LeagueChoice } from "../session.js";
 import { textResult } from "./context.js";
 
-const YAHOO_APP_TUTORIAL = `To let Claude manage your team, you need your own free Yahoo "app"
+const NETWORK_ALLOWLIST = `Heads up (Claude Desktop): Claude runs this extension in a sandbox
+that blocks outbound network by default, so you must allow the sites it uses. Go to
+**Settings → Capabilities** (Team/Enterprise: **Organization settings → Capabilities**),
+find the network-access / **Additional allowed domains** list, and add:
+  • statsapi.mlb.com           (MLB Stats API — for "analyze ...")
+  • baseballsavant.mlb.com      (Statcast / expected stats — for "analyze ...")
+  • www.fangraphs.com          (FanGraphs WAR/wRC+ — for "analyze ...")
+The Yahoo domains (api.login.yahoo.com, fantasysports.yahooapis.com) are usually already
+allowed by default — only add them if Yahoo sign-in fails to connect. The same allowlist
+applies whether you use this in a normal chat or in Cowork. (Picking **All domains** also
+works, but the list above is the minimum.)`;
+
+const YAHOO_APP_TUTORIAL = `${NETWORK_ALLOWLIST}
+
+To let Claude manage your team, you need your own free Yahoo "app"
 (this is how Yahoo gives you permission keys). One-time, ~3 minutes:
 
 1. Go to  https://developer.yahoo.com/apps/create/
