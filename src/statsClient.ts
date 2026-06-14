@@ -55,6 +55,13 @@ export interface PlayerIdentity {
   /** e.g. "shohei-ohtani-660271" — used in savant / mlb.com URLs */
   nameSlug: string;
   fullName: string;
+  /** MLB Stats API primaryPosition.code, e.g. "1" for pitcher, "10" for DH */
+  primaryPositionCode: string;
+}
+
+/** Map a MLB position code to a fantasy-relevant role. */
+export function playerRole(positionCode: string): "pitcher" | "batter" {
+  return positionCode === "1" ? "pitcher" : "batter";
 }
 
 /**
@@ -72,24 +79,34 @@ export async function resolvePlayer(name: string): Promise<PlayerIdentity | null
     mlbamId: Number(p.id),
     nameSlug: String(p.nameSlug),
     fullName: String(p.fullName),
+    primaryPositionCode: String(p.primaryPosition?.code ?? ""),
   };
 }
 
 // ---------------------------------------------------------------------------
 // MLB Stats API — standard season stats
 // ---------------------------------------------------------------------------
-export async function fetchMlbStats(mlbamId: number, season: number): Promise<Record<string, unknown> | null> {
+export async function fetchMlbStats(
+  mlbamId: number,
+  season: number,
+  group: "hitting" | "pitching" = "hitting",
+): Promise<Record<string, unknown> | null> {
   const res = await axios.get(`${MLB_API}/people/${mlbamId}/stats`, {
-    params: { stats: "season", season, sportId: 1, group: "hitting" },
+    params: { stats: "season", season, sportId: 1, group },
   });
   return res.data?.stats?.[0]?.splits?.[0]?.stat ?? null;
 }
 
 // ---------------------------------------------------------------------------
-// Baseball Savant CSV leaderboards — cached per endpoint per season
+// Baseball Savant CSV leaderboards — cached per endpoint+type per season
 // ---------------------------------------------------------------------------
-async function savantLeaderboard(endpoint: string, params: Record<string, string | number>, season: number): Promise<Record<string, string>[]> {
-  return cached(`savant:${endpoint}:${season}`, async () => {
+async function savantLeaderboard(
+  endpoint: string,
+  params: Record<string, string | number>,
+  season: number,
+): Promise<Record<string, string>[]> {
+  const type = params["type"] ?? "all";
+  return cached(`savant:${endpoint}:${type}:${season}`, async () => {
     const res = await axios.get(`${SAVANT}/leaderboard/${endpoint}`, {
       params: { ...params, csv: "true" },
       responseType: "text",
@@ -99,20 +116,28 @@ async function savantLeaderboard(endpoint: string, params: Record<string, string
 }
 
 /** xBA, xSLG, xwOBA from the expected statistics leaderboard */
-export async function fetchSavantExpected(mlbamId: number, season: number): Promise<Record<string, string> | null> {
+export async function fetchSavantExpected(
+  mlbamId: number,
+  season: number,
+  type: "batter" | "pitcher" = "batter",
+): Promise<Record<string, string> | null> {
   const rows = await savantLeaderboard(
     "expected_statistics",
-    { type: "batter", year: season, position: "", team: "", min: 1 },
+    { type, year: season, position: "", team: "", min: 1 },
     season,
   );
   return rows.find(r => r["player_id"] === String(mlbamId)) ?? null;
 }
 
 /** Barrel %, exit velocity, hard-hit % from the Statcast leaderboard */
-export async function fetchSavantStatcast(mlbamId: number, season: number): Promise<Record<string, string> | null> {
+export async function fetchSavantStatcast(
+  mlbamId: number,
+  season: number,
+  type: "batter" | "pitcher" = "batter",
+): Promise<Record<string, string> | null> {
   const rows = await savantLeaderboard(
     "statcast",
-    { type: "batter", year: season, position: "", team: "", min: 1 },
+    { type, year: season, position: "", team: "", min: 1 },
     season,
   );
   return rows.find(r => r["player_id"] === String(mlbamId)) ?? null;
@@ -133,17 +158,17 @@ export async function fetchSavantSprintSpeed(mlbamId: number, season: number): P
 // The response includes both `playerid` (FG-specific) and `xMLBAMID` (MLBAM),
 // which is how we cross-reference from our MLBAM ID to a FanGraphs player ID.
 // ---------------------------------------------------------------------------
-async function fgBattingLeaderboard(season: number): Promise<Record<string, unknown>[]> {
-  return cached(`fg:bat:${season}`, async () => {
+async function fgLeaderboard(stats: "bat" | "pit", season: number): Promise<Record<string, unknown>[]> {
+  return cached(`fg:${stats}:${season}`, async () => {
     const res = await axios.get(`${FANGRAPHS}/api/leaders/major-league/data`, {
       params: {
         pos: "all",
-        stats: "bat",
+        stats,
         lg: "all",
-        qual: 0,          // no minimum — include all batters
+        qual: 0,
         season,
         season1: season,
-        pageitems: 3000,  // all batters in a season
+        pageitems: 3000,
         pagenum: 1,
         team: 0,
         type: 8,          // dashboard (standard + advanced + Statcast)
@@ -154,9 +179,13 @@ async function fgBattingLeaderboard(season: number): Promise<Record<string, unkn
   });
 }
 
-/** WAR, wRC+, K%, BB%, and more from FanGraphs. Returns the raw row. */
-export async function fetchFanGraphs(mlbamId: number, season: number): Promise<Record<string, unknown> | null> {
-  const rows = await fgBattingLeaderboard(season);
+/** WAR, wRC+/ERA, K%, BB%, and more from FanGraphs. Returns the raw row. */
+export async function fetchFanGraphs(
+  mlbamId: number,
+  season: number,
+  role: "batter" | "pitcher" = "batter",
+): Promise<Record<string, unknown> | null> {
+  const rows = await fgLeaderboard(role === "pitcher" ? "pit" : "bat", season);
   return (rows.find(r => Number(r["xMLBAMID"]) === mlbamId) as Record<string, unknown>) ?? null;
 }
 

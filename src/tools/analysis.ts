@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   resolvePlayer,
+  playerRole,
   fetchMlbStats,
   fetchSavantExpected,
   fetchSavantStatcast,
@@ -29,14 +30,17 @@ async function collectPlayerStats(playerName: string, season: number) {
   const identity = await resolvePlayer(playerName);
   if (!identity) return { error: `Player not found: "${playerName}". Try the full name.` };
 
-  const { mlbamId, nameSlug, fullName } = identity;
+  const { mlbamId, nameSlug, fullName, primaryPositionCode } = identity;
+  const role = playerRole(primaryPositionCode);
+  const isPitcher = role === "pitcher";
+  const savantType = isPitcher ? "pitcher" : "batter";
 
   const [mlbResult, xResult, scResult, spdResult, fgResult] = await Promise.allSettled([
-    fetchMlbStats(mlbamId, season),
-    fetchSavantExpected(mlbamId, season),
-    fetchSavantStatcast(mlbamId, season),
+    fetchMlbStats(mlbamId, season, isPitcher ? "pitching" : "hitting"),
+    fetchSavantExpected(mlbamId, season, savantType),
+    fetchSavantStatcast(mlbamId, season, savantType),
     fetchSavantSprintSpeed(mlbamId, season),
-    fetchFanGraphs(mlbamId, season),
+    fetchFanGraphs(mlbamId, season, role),
   ]);
 
   const mlb = val(mlbResult);
@@ -49,77 +53,153 @@ async function collectPlayerStats(playerName: string, season: number) {
   const fgId = fg?.["playerid"];
   const fgSlug = fullName.toLowerCase().replace(/[^a-z ]/g, "").replace(/ /g, "-");
 
+  const noStatsFound = !mlb && !xStats && !sc && !fg;
+
+  const standard = mlb
+    ? isPitcher
+      ? {
+          games: mlb["gamesPlayed"],
+          gamesStarted: mlb["gamesStarted"],
+          inningsPitched: mlb["inningsPitched"],
+          wins: mlb["wins"],
+          losses: mlb["losses"],
+          saves: mlb["saves"],
+          holds: mlb["holds"],
+          saveOpportunities: mlb["saveOpportunities"],
+          blownSaves: mlb["blownSaves"],
+          era: mlb["era"],
+          whip: mlb["whip"],
+          strikeouts: mlb["strikeOuts"],
+          walks: mlb["baseOnBalls"],
+          homeRunsAllowed: mlb["homeRuns"],
+          strikeoutsPer9: mlb["strikeoutsPer9Inn"],
+          walksPer9: mlb["walksPer9Inn"],
+        }
+      : {
+          games: mlb["gamesPlayed"],
+          plateAppearances: mlb["plateAppearances"],
+          atBats: mlb["atBats"],
+          hits: mlb["hits"],
+          doubles: mlb["doubles"],
+          triples: mlb["triples"],
+          homeRuns: mlb["homeRuns"],
+          rbi: mlb["rbi"],
+          runs: mlb["runs"],
+          stolenBases: mlb["stolenBases"],
+          caughtStealing: mlb["caughtStealing"],
+          walks: mlb["baseOnBalls"],
+          strikeouts: mlb["strikeOuts"],
+          avg: mlb["avg"],
+          obp: mlb["obp"],
+          slg: mlb["slg"],
+          ops: mlb["ops"],
+          babip: mlb["babip"],
+        }
+    : null;
+
+  const expectedStats = xStats
+    ? isPitcher
+      ? {
+          xBAAgainst: xStats["est_ba"],
+          xSLGAgainst: xStats["est_slg"],
+          xwOBAAgainst: xStats["est_woba"],
+          xBAminusBAAgainst: xStats["est_ba_minus_ba_diff"],
+          xwOBAminuswOBAAgainst: xStats["est_woba_minus_woba_diff"],
+        }
+      : {
+          xBA: xStats["est_ba"],
+          xSLG: xStats["est_slg"],
+          xwOBA: xStats["est_woba"],
+          xBAminusBA: xStats["est_ba_minus_ba_diff"],
+          xSLGminusSLG: xStats["est_slg_minus_slg_diff"],
+          xwOBAminuswOBA: xStats["est_woba_minus_woba_diff"],
+        }
+    : null;
+
+  const statcast = sc
+    ? isPitcher
+      ? {
+          avgExitVelocityAgainst: sc["avg_hit_speed"],
+          maxExitVelocityAgainst: sc["max_hit_speed"],
+          hardHitPctAgainst: sc["ev95percent"],
+          barrelPctAgainst: sc["brl_percent"],
+          avgLaunchAngleAgainst: sc["avg_hit_angle"],
+        }
+      : {
+          avgExitVelocity: sc["avg_hit_speed"],
+          maxExitVelocity: sc["max_hit_speed"],
+          ev50: sc["ev50"],
+          hardHitPct: sc["ev95percent"],
+          barrelPct: sc["brl_percent"],
+          barrelPerPA: sc["brl_pa"],
+          avgLaunchAngle: sc["avg_hit_angle"],
+          sweetSpotPct: sc["anglesweetspotpercent"],
+          maxDistance: sc["max_distance"],
+          avgDistance: sc["avg_distance"],
+        }
+    : null;
+
+  const fangraphs = fg
+    ? isPitcher
+      ? {
+          fanGraphsId: fgId,
+          war: fg["WAR"],
+          era: fg["ERA"],
+          fip: fg["FIP"],
+          xfip: fg["xFIP"],
+          whip: fg["WHIP"],
+          kPct: fg["K%"],
+          bbPct: fg["BB%"],
+          gbPct: fg["GB%"],
+          fbPct: fg["FB%"],
+          hrPerFb: fg["HR/FB"],
+          babip: fg["BABIP"],
+          lobPct: fg["LOB%"],
+          swStrPct: fg["SwStr%"],
+        }
+      : {
+          fanGraphsId: fgId,
+          war: fg["WAR"],
+          wRCplus: fg["wRC+"],
+          wOBA: fg["wOBA"],
+          iso: fg["ISO"],
+          babip: fg["BABIP"],
+          kPct: fg["K%"],
+          bbPct: fg["BB%"],
+          swStrPct: fg["SwStr%"],
+          avgExitVelo: fg["EV"],
+          barrelPct: fg["Barrel%"],
+          hardHitPct: fg["HardHit%"],
+          gbPct: fg["GB%"],
+          fbPct: fg["FB%"],
+          hrPerFb: fg["HR/FB"],
+          ldPct: fg["LD%"],
+        }
+    : null;
+
+  const savantView = isPitcher ? "statcast-r-pitching-mlb" : "statcast-r-hitting-mlb";
+  const fgTab = isPitcher ? "pitching" : "batting";
+
   return {
-    player: { name: fullName, mlbamId, season },
-    standard: mlb ? {
-      games: mlb["gamesPlayed"],
-      plateAppearances: mlb["plateAppearances"],
-      atBats: mlb["atBats"],
-      hits: mlb["hits"],
-      doubles: mlb["doubles"],
-      triples: mlb["triples"],
-      homeRuns: mlb["homeRuns"],
-      rbi: mlb["rbi"],
-      runs: mlb["runs"],
-      stolenBases: mlb["stolenBases"],
-      caughtStealing: mlb["caughtStealing"],
-      walks: mlb["baseOnBalls"],
-      strikeouts: mlb["strikeOuts"],
-      avg: mlb["avg"],
-      obp: mlb["obp"],
-      slg: mlb["slg"],
-      ops: mlb["ops"],
-      babip: mlb["babip"],
-    } : null,
-    expectedStats: xStats ? {
-      xBA: xStats["est_ba"],
-      xSLG: xStats["est_slg"],
-      xwOBA: xStats["est_woba"],
-      xBAminusBA: xStats["est_ba_minus_ba_diff"],
-      xSLGminusSLG: xStats["est_slg_minus_slg_diff"],
-      xwOBAminuswOBA: xStats["est_woba_minus_woba_diff"],
-    } : null,
-    statcast: sc ? {
-      avgExitVelocity: sc["avg_hit_speed"],
-      maxExitVelocity: sc["max_hit_speed"],
-      ev50: sc["ev50"],
-      hardHitPct: sc["ev95percent"],
-      barrelPct: sc["brl_percent"],
-      barrelPerPA: sc["brl_pa"],
-      avgLaunchAngle: sc["avg_hit_angle"],
-      sweetSpotPct: sc["anglesweetspotpercent"],
-      maxDistance: sc["max_distance"],
-      avgDistance: sc["avg_distance"],
-    } : null,
+    player: { name: fullName, mlbamId, season, playerType: role },
+    ...(noStatsFound && {
+      warning: `No ${season} stats found for ${fullName}. The player may be inactive, on the injured list, or not yet in the majors this season. Do not make roster decisions based on this result.`,
+    }),
+    standard,
+    expectedStats,
+    statcast,
     sprintSpeed: spd ? {
       sprintSpeed: spd["sprint_speed"],
       bolts: spd["bolts"],
       hp_to_1b: spd["hp_to_1b"],
     } : null,
-    fangraphs: fg ? {
-      fanGraphsId: fgId,
-      war: fg["WAR"],
-      wRCplus: fg["wRC+"],
-      wOBA: fg["wOBA"],
-      iso: fg["ISO"],
-      babip: fg["BABIP"],
-      kPct: fg["K%"],
-      bbPct: fg["BB%"],
-      swStrPct: fg["SwStr%"],
-      avgExitVelo: fg["EV"],
-      barrelPct: fg["Barrel%"],
-      hardHitPct: fg["HardHit%"],
-      gbPct: fg["GB%"],
-      fbPct: fg["FB%"],
-      hrPerFb: fg["HR/FB"],
-      ldPct: fg["LD%"],
-    } : null,
+    fangraphs,
     sourceUrls: {
       mlbOfficialPage: `https://www.mlb.com/player/${nameSlug}`,
-      baseballSavant: `https://baseballsavant.mlb.com/savant-player/${nameSlug}?stats=statcast-r-hitting-mlb`,
+      baseballSavant: `https://baseballsavant.mlb.com/savant-player/${nameSlug}?stats=${savantView}`,
       baseballReference: `https://www.baseball-reference.com/players/${brefId[0]}/${brefId}.shtml`,
       fanGraphs: fgId
-        ? `https://www.fangraphs.com/players/${fgSlug}/${fgId}/stats/batting`
+        ? `https://www.fangraphs.com/players/${fgSlug}/${fgId}/stats/${fgTab}`
         : null,
     },
   };
