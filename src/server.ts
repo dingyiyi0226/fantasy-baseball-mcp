@@ -18,13 +18,18 @@ It uses a simple "fantasy ..." command convention. Interpret the user's plain
 language and call the matching tool:
 
 Setup (do this first, once):
-- "fantasy start" / "fantasy setup" -> call fantasy_setup to show the guide and
-  the authorization link. If the user gives a Yahoo Client ID/Secret, pass them.
+- "fantasy login" / "fantasy start" / "fantasy setup" -> call fantasy_login to
+  show the guide and the authorization link. If the user gives a Yahoo Client
+  ID/Secret, pass them.
 - After the user pastes the verification code from Yahoo, call fantasy_authorize.
 - "fantasy choose team" -> call fantasy_select_team to set the default team.
 - "fantasy status" -> call fantasy_status.
 - "fantasy logout" / "fantasy disconnect" -> call fantasy_logout to remove saved
   credentials and start over.
+
+IMPORTANT: When fantasy_login, fantasy_status, or fantasy_logout returns setup
+instructions or an authorization link, always reproduce the full returned text
+in your reply — do not paraphrase or summarize it.
 
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" -> get_team_roster

@@ -75,13 +75,13 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
   );
 
   server.registerTool(
-    "fantasy_setup",
+    "fantasy_login",
     {
-      title: "Start setup",
+      title: "Log in / start setup",
       description:
-        "Begin or resume setup ('fantasy start'). Shows how to create a Yahoo app " +
-        "if needed, and returns the authorization link once credentials are known. " +
-        "Optionally pass clientId/clientSecret to save them.",
+        "Begin or resume setup ('fantasy login' / 'fantasy start'). Shows how to " +
+        "create a Yahoo app if needed, and returns the authorization link once " +
+        "credentials are known. Optionally pass clientId/clientSecret to save them.",
       inputSchema: {
         clientId: z.string().optional().describe("Yahoo Client ID (Consumer Key)"),
         clientSecret: z.string().optional().describe("Yahoo Client Secret (Consumer Secret)"),
