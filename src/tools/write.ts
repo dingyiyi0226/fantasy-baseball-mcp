@@ -8,6 +8,11 @@ import { ToolContext, textResult } from "./context.js";
 // clients (Claude Desktop / Claude Code) will prompt the user to confirm.
 const DESTRUCTIVE = { readOnlyHint: false, destructiveHint: true } as const;
 
+const WRITE_NOT_SUPPORTED =
+  "Yahoo write actions are not supported yet — this app only has read access " +
+  "to the Yahoo Fantasy API. Please make this change directly on Yahoo Fantasy.\n\n" +
+  "If you'd like to try anyway, ask me to force it.";
+
 /** Escape XML special characters in interpolated values. */
 function esc(value: string): string {
   return value
@@ -45,10 +50,17 @@ export function registerWriteTools(server: McpServer, ctx: ToolContext): void {
           .optional()
           .describe("Player key to DROP from your roster"),
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
+        force: z
+          .boolean()
+          .optional()
+          .describe("Set to true to attempt the action even though write access is not officially supported"),
       },
       annotations: DESTRUCTIVE,
     },
-    async ({ addPlayerKey, dropPlayerKey, teamKey }) => {
+    async ({ addPlayerKey, dropPlayerKey, teamKey, force }) => {
+      if (!force) {
+        return textResult(WRITE_NOT_SUPPORTED);
+      }
       if (!addPlayerKey && !dropPlayerKey) {
         throw new Error("Provide addPlayerKey, dropPlayerKey, or both.");
       }
@@ -144,10 +156,17 @@ ${dropBlock}
           .describe("Player-to-position assignments"),
         date: z.string().optional().describe("Date as YYYY-MM-DD; defaults to today"),
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
+        force: z
+          .boolean()
+          .optional()
+          .describe("Set to true to attempt the action even though write access is not officially supported"),
       },
       annotations: DESTRUCTIVE,
     },
-    async ({ assignments, date, teamKey }) => {
+    async ({ assignments, date, teamKey, force }) => {
+      if (!force) {
+        return textResult(WRITE_NOT_SUPPORTED);
+      }
       const tk = ctx.resolveTeamKey(teamKey);
       const d = date || today();
 
