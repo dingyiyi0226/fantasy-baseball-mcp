@@ -160,16 +160,6 @@ export async function fetchSavantStatcast(
   return rows.find(r => r["player_id"] === String(mlbamId)) ?? null;
 }
 
-/** Sprint speed from the sprint speed leaderboard */
-export async function fetchSavantSprintSpeed(mlbamId: number, season: number): Promise<Record<string, string> | null> {
-  const rows = await savantLeaderboard(
-    "sprint_speed",
-    { year: season, position: "", team: "", min: 1 },
-    season,
-  );
-  return rows.find(r => r["player_id"] === String(mlbamId)) ?? null;
-}
-
 // ---------------------------------------------------------------------------
 // FanGraphs leaderboard — cached per season
 // The response includes both `playerid` (FG-specific) and `xMLBAMID` (MLBAM),

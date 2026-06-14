@@ -7,7 +7,6 @@ import {
   fetchMlbRecentStats,
   fetchSavantExpected,
   fetchSavantStatcast,
-  fetchSavantSprintSpeed,
   fetchFanGraphs,
   guessBrefId,
 } from "../statsClient.js";
@@ -49,6 +48,7 @@ function mapBatterMlbStat(mlb: Record<string, unknown>) {
     slg: mlb["slg"],
     ops: mlb["ops"],
     babip: mlb["babip"],
+    totalBases: mlb["totalBases"],
   };
 }
 
@@ -70,6 +70,7 @@ function mapPitcherMlbStat(mlb: Record<string, unknown>) {
     homeRunsAllowed: mlb["homeRuns"],
     strikeoutsPer9: mlb["strikeoutsPer9Inn"],
     walksPer9: mlb["walksPer9Inn"],
+    qualityStarts: mlb["qualityStarts"],
   };
 }
 
@@ -84,12 +85,11 @@ async function collectPlayerStats(playerName: string, season: number) {
   const savantType = isPitcher ? "pitcher" : "batter";
   const mlbGroup = isPitcher ? "pitching" : "hitting";
 
-  const [mlbResult, xResult, scResult, spdResult, fgResult, r14Result, r30Result] =
+  const [mlbResult, xResult, scResult, fgResult, r14Result, r30Result] =
     await Promise.allSettled([
       fetchMlbStats(mlbamId, season, mlbGroup),
       fetchSavantExpected(mlbamId, season, savantType),
       fetchSavantStatcast(mlbamId, season, savantType),
-      fetchSavantSprintSpeed(mlbamId, season),
       fetchFanGraphs(mlbamId, season, role),
       fetchMlbRecentStats(mlbamId, 14, mlbGroup),
       fetchMlbRecentStats(mlbamId, 30, mlbGroup),
@@ -98,7 +98,6 @@ async function collectPlayerStats(playerName: string, season: number) {
   const mlb = val(mlbResult);
   const xStats = val(xResult);
   const sc = val(scResult);
-  const spd = val(spdResult);
   const fg = val(fgResult);
   const r14 = val(r14Result);
   const r30 = val(r30Result);
@@ -201,15 +200,10 @@ async function collectPlayerStats(playerName: string, season: number) {
       warning: `No ${season} stats found for ${fullName}. The player may be inactive, on the injured list, or not yet in the majors this season. Do not make roster decisions based on this result.`,
     }),
     standard,
-    recent14d: r14 ? mapStat(r14) : null,
-    recent30d: r30 ? mapStat(r30) : null,
+    ...(r14 && { recent14d: mapStat(r14) }),
+    ...(r30 && { recent30d: mapStat(r30) }),
     expectedStats,
     statcast,
-    sprintSpeed: spd ? {
-      sprintSpeed: spd["sprint_speed"],
-      bolts: spd["bolts"],
-      hp_to_1b: spd["hp_to_1b"],
-    } : null,
     fangraphs,
     sourceUrls: {
       mlbOfficialPage: `https://www.mlb.com/player/${nameSlug}`,
@@ -233,7 +227,7 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
       description:
         "Fetch and aggregate advanced statistics for a single player from multiple " +
         "authoritative sources: MLB Stats API (standard stats), Baseball Savant " +
-        "(Statcast exit velocity / barrel rate / expected stats / sprint speed), " +
+        "(Statcast exit velocity / barrel rate / expected stats), " +
         "and FanGraphs (WAR, wRC+, K%, BB%, plate discipline). " +
         "The response includes the league's scoring categories so advice can focus " +
         "on stats that actually count. Use this before making roster add/drop decisions.",
@@ -273,9 +267,10 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
     {
       title: "Analyze advanced stats for entire roster",
       description:
-        "Fetch advanced stats (Statcast, expected stats, FanGraphs) for every " +
-        "player currently on the team's roster. Great for daily lineup decisions " +
-        "and identifying underperformers vs. their xStats. " +
+        "Fetch advanced stats (Statcast, expected stats, FanGraphs) for a batch of rostered " +
+        "players. Accepts at most 10 players per call via playerKeys — callers should first use " +
+        "get_team_roster to retrieve all player keys, split them into batches of up to 10, and " +
+        "call this tool once per batch (calls can run in parallel). " +
         "The response includes the league's scoring categories so advice targets " +
         "stats that actually matter in this league (e.g. SB if stolen bases count, " +
         "HLD if holds count). Combine with get_team_roster to see who is starting or benched.",
@@ -293,35 +288,44 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
           .int()
           .optional()
           .describe("Season year for stat lookup. Defaults to current season."),
+        playerKeys: z
+          .array(z.string())
+          .max(10)
+          .optional()
+          .describe("Subset of roster to fetch, by Yahoo player key or full player name. Max 10."),
       },
       annotations: READ_ONLY,
     },
-    async ({ teamKey, date, season }) => {
+    async ({ teamKey, date, season, playerKeys }) => {
       const yr = season ?? currentSeason();
       const tk = ctx.resolveTeamKey(teamKey);
       const d = date ?? new Date().toISOString().slice(0, 10);
 
-      // Fetch roster and scoring categories concurrently
       const [rosterData, categories] = await Promise.all([
         ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`),
         ctx.getLeagueScoringCategories(),
       ]);
 
-      // Extract player names from Yahoo's XML-derived structure
-      const players = asArray(
+      const allPlayers = asArray(
         rosterData?.team?.roster?.players?.player ??
         rosterData?.roster?.players?.player,
       );
 
-      if (players.length === 0) {
+      if (allPlayers.length === 0) {
         return jsonResult({ error: "Could not read roster. Make sure you are set up (say 'fantasy start')." });
       }
 
-      // Fetch advanced stats for each player concurrently
+      const players = playerKeys && playerKeys.length > 0
+        ? allPlayers.filter((p: any) => {
+            const pKey = String(p?.player_key ?? p?.playerKey ?? "");
+            const name = String(p?.name?.full ?? p?.full_name ?? p?.name ?? "").toLowerCase();
+            return playerKeys.some((k: string) => k === pKey || name === k.toLowerCase());
+          })
+        : allPlayers;
+
       const results = await Promise.all(
         players.map(async (p: any) => {
-          const name: string =
-            p?.name?.full ?? p?.full_name ?? p?.name ?? String(p);
+          const name: string = p?.name?.full ?? p?.full_name ?? p?.name ?? String(p);
           try {
             return await collectPlayerStats(name, yr);
           } catch {
@@ -337,7 +341,7 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
           }
         : undefined;
 
-      return jsonResult({ season: yr, rosterDate: d, leagueScoringCategories, players: results });
+      return jsonResult({ season: yr, rosterDate: d, ...(leagueScoringCategories && { leagueScoringCategories }), players: results });
     },
   );
 }
