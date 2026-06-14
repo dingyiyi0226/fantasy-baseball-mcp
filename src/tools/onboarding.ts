@@ -141,6 +141,7 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
         return textResult(
           `🎉 All set! Connected to "${only.leagueName}"` +
             (only.teamName ? ` and your team "${only.teamName}".` : ".") +
+            `\n\nIf you have multiple teams in this league, just ask me to change the default team.` +
             `\n\nTry: "fantasy show roster".`,
         );
       }
@@ -190,6 +191,7 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
       return textResult(
         `Default set:\n  league: ${leagueKey}` +
           (teamKey ? `\n  team:   ${teamKey}` : "") +
+          `\n\nIf you have multiple teams in this league, just ask me to change the default team.` +
           `\n\nTry: "fantasy show roster".`,
       );
     },
