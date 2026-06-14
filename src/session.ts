@@ -6,6 +6,7 @@ import {
   type Credentials,
 } from "./config.js";
 import { exchangeAuthCode, buildAuthUrl, TokenManager } from "./tokenManager.js";
+import { startCallbackServer } from "./callbackServer.js";
 import { YahooClient } from "./yahooClient.js";
 import { asArray, str } from "./util.js";
 
@@ -29,6 +30,7 @@ const NOT_SET_UP =
 export class Session {
   private config: Config | null = null;
   private client: YahooClient | null = null;
+  private pendingCode: Promise<string> | null = null;
 
   /** Load config from disk and (re)build the client. Call once at startup. */
   async init(): Promise<void> {
@@ -114,7 +116,8 @@ export class Session {
     this.rebuild();
   }
 
-  /** The browser authorization URL for the configured/env client id. */
+  /** The browser authorization URL for the configured/env client id. Also starts
+   *  the local callback server so Yahoo's redirect is captured automatically. */
   authorizeUrl(): string {
     const creds = resolveCredentials(this.config);
     if (!creds) {
@@ -123,22 +126,40 @@ export class Session {
           "or `fantasy setup`).",
       );
     }
+    if (!this.pendingCode) {
+      this.pendingCode = startCallbackServer().catch((err) => {
+        this.pendingCode = null;
+        throw err;
+      });
+    }
     return buildAuthUrl(creds.clientId);
   }
 
   /**
-   * Exchange a pasted authorization code for tokens, persist the refresh token,
+   * Exchange an authorization code for tokens, persist the refresh token,
    * rebuild the client, and return the discovered leagues so the caller can pick
-   * a default.
+   * a default. If no code is provided, waits for the local callback server to
+   * capture it from Yahoo's redirect.
    */
-  async completeAuthorization(code: string): Promise<LeagueChoice[]> {
+  async completeAuthorization(code?: string): Promise<LeagueChoice[]> {
     const creds = resolveCredentials(this.config);
     if (!creds) {
       throw new Error(
         "Missing Yahoo Client ID/Secret. Provide them before authorizing.",
       );
     }
-    const tokens = await exchangeAuthCode(creds.clientId, creds.clientSecret, code);
+    let authCode: string;
+    if (code) {
+      authCode = code;
+    } else if (this.pendingCode) {
+      authCode = await this.pendingCode;
+      this.pendingCode = null;
+    } else {
+      throw new Error(
+        "No authorization code. Click the authorization link first, then say `fantasy authorize`.",
+      );
+    }
+    const tokens = await exchangeAuthCode(creds.clientId, creds.clientSecret, authCode);
     if (!tokens.refresh_token) {
       throw new Error(
         "Yahoo did not return a refresh token. Make sure your app has the " +

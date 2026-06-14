@@ -1,5 +1,6 @@
 import axios, { isAxiosError } from "axios";
 import type { Credentials } from "./config.js";
+import { REDIRECT_URI } from "./callbackServer.js";
 
 const TOKEN_ENDPOINT = "https://api.login.yahoo.com/oauth2/get_token";
 export const AUTH_BASE = "https://api.login.yahoo.com/oauth2/request_auth";
@@ -12,11 +13,11 @@ interface YahooTokenResponse {
   token_type: string;
 }
 
-/** Build the out-of-band authorization URL the user opens in their browser. */
+/** Build the authorization URL the user opens in their browser. */
 export function buildAuthUrl(clientId: string): string {
   const params = new URLSearchParams({
     client_id: clientId,
-    redirect_uri: "oob",
+    redirect_uri: REDIRECT_URI,
     response_type: "code",
   });
   return `${AUTH_BASE}?${params.toString()}`;
@@ -64,7 +65,7 @@ export function exchangeAuthCode(
 ): Promise<YahooTokenResponse> {
   return postToken(clientId, clientSecret, {
     grant_type: "authorization_code",
-    redirect_uri: "oob",
+    redirect_uri: REDIRECT_URI,
     code,
   });
 }
@@ -77,7 +78,7 @@ export function refreshTokens(
 ): Promise<YahooTokenResponse> {
   return postToken(clientId, clientSecret, {
     grant_type: "refresh_token",
-    redirect_uri: "oob",
+    redirect_uri: REDIRECT_URI,
     refresh_token: refreshToken,
   });
 }

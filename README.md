@@ -49,8 +49,8 @@ This is just how Yahoo hands you a personal key. Claude will point you to
 **[developer.yahoo.com/apps/create](https://developer.yahoo.com/apps/create/)**, where you:
 
 - **Application Name:** anything (e.g. "My Fantasy Helper")
-- **Application Type:** **Installed Application**
-- **Redirect URI(s):** type `oob`
+- **Homepage URL:** `http://localhost:8488` (placeholder)
+- **Redirect URI(s):** `http://localhost:8488/callback`
 - **API Permissions:** check **Fantasy Sports**, then pick **Read/Write**
 - Click **Create App**
 
@@ -64,9 +64,10 @@ enter them in **Settings → Extensions → Yahoo Fantasy Baseball**. Then say
 
 ### c) Authorize and finish
 
-Claude gives you a link. Open it, click **Agree**, and Yahoo shows a short
-**verification code**. Paste that code back to Claude. It will find your leagues, set your
-team as the default, and you're ready. 🎉
+Claude gives you a link. Open it and click **Agree**. Yahoo will redirect your browser to
+a local page — once you see **"Authorization complete!"**, go back to Claude and say
+`fantasy authorize`. Claude will find your leagues, set your team as the default, and
+you're ready. 🎉
 
 > Stuck? Just type **`fantasy status`** and Claude will tell you what's left to do.
 

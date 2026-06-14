@@ -11,8 +11,9 @@ export interface AuthFlags {
 /**
  * One-time interactive terminal setup. The same flow is also available entirely
  * inside Claude via the `fantasy_*` tools; this command exists for users who
- * prefer the shell (e.g. Claude Code). Walks through Yahoo's out-of-band OAuth,
- * discovers the account's baseball leagues, and saves a default league/team.
+ * prefer the shell (e.g. Claude Code). Opens a local callback server on
+ * localhost:8488, prints the Yahoo authorization URL, then waits for the browser
+ * redirect to capture the code automatically.
  */
 export async function runAuth(flags: AuthFlags): Promise<void> {
   const rl = readline.createInterface({ input: stdin, output: stdout });
@@ -37,12 +38,9 @@ export async function runAuth(flags: AuthFlags): Promise<void> {
     console.log("\n── Step 1: Authorize ──────────────────────────────────────");
     console.log("Open this URL in your browser, sign in, and allow access:\n");
     console.log(`  ${session.authorizeUrl()}\n`);
-    console.log("Yahoo will then display a short verification code.");
-    const code = (await rl.question("\nPaste the verification code here: ")).trim();
-    if (!code) throw new Error("No verification code entered.");
+    console.log("Waiting for Yahoo to redirect to localhost… (up to 5 minutes)");
 
-    console.log("\nExchanging code for tokens and finding your leagues…");
-    const choices = await session.completeAuthorization(code);
+    const choices = await session.completeAuthorization();
 
     if (choices.length === 0) {
       console.log(

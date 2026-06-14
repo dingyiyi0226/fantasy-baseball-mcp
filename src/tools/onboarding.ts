@@ -10,8 +10,8 @@ const YAHOO_APP_TUTORIAL = `To let Claude manage your team, you need your own fr
    (sign in with the same Yahoo account that has your fantasy team).
 2. Fill in the form:
    • Application Name: anything, e.g. "My Fantasy Helper"
-   • Application Type: choose **Installed Application**
-   • Redirect URI(s): type  oob
+   • Homepage URL:     http://localhost:8488  (placeholder)
+   • Redirect URI(s):  http://localhost:8488/callback
    • API Permissions: tick **Fantasy Sports**, and choose **Read/Write**
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
@@ -24,8 +24,8 @@ function authorizeSteps(url: string): string {
 
 1. Open this link and click **Agree** to allow access:
    ${url}
-2. Yahoo will show you a short **verification code**.
-3. Paste that code back to me here and I'll finish the setup.`;
+2. Yahoo will redirect your browser to a local page — once you see **"Authorization complete!"**, come back here.
+3. Say **"fantasy authorize"** and I'll finish the setup.`;
 }
 
 function listLeagues(choices: LeagueChoice[]): string {
@@ -116,7 +116,7 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
         "it lists the user's leagues and sets a default automatically when there is " +
         "only one.",
       inputSchema: {
-        code: z.string().describe("The verification code Yahoo showed the user"),
+        code: z.string().optional().describe("The verification code from Yahoo — leave blank if you clicked the authorization link (the code is captured automatically)"),
         clientId: z.string().optional().describe("Yahoo Client ID, if not already saved"),
         clientSecret: z.string().optional().describe("Yahoo Client Secret, if not already saved"),
       },
@@ -126,7 +126,7 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
       if (clientId && clientSecret) {
         await session.setCredentials(clientId.trim(), clientSecret.trim());
       }
-      const choices = await session.completeAuthorization(code.trim());
+      const choices = await session.completeAuthorization(code?.trim());
 
       if (choices.length === 0) {
         return textResult(
