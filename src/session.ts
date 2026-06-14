@@ -144,6 +144,7 @@ export class Session {
       refreshToken: undefined,
       defaultLeagueKey: undefined,
       defaultTeamKey: undefined,
+      scoringCategories: undefined,
     });
     this.rebuild();
   }
