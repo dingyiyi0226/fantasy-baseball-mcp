@@ -52,7 +52,7 @@ Everyday use (these default to the user's configured league/team):
 Advanced player / roster analysis (no Yahoo auth required for these):
 - "analyze [player name]" / "how is [player] doing" -> analyze_player_stats
   Fetches Statcast (exit velo, barrel %, hard-hit %), expected stats (xBA, xSLG,
-  xwOBA), sprint speed, and FanGraphs (WAR, wRC+, K%, BB%) for any MLB player.
+  xwOBA), recent 14-/30-day splits, and FanGraphs (WAR, wRC+, K%, BB%) for any MLB player.
 - "analyze my roster" / "roster report" / "who should start tomorrow" -> analyze_roster_stats
   Runs analyze_player_stats for every player on the team's current roster.
 

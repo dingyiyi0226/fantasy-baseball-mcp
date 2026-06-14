@@ -106,8 +106,8 @@ After setup, use plain language. A few examples:
 | `fantasy who should I add` | Find the best available free agents |
 | `fantasy my stats this week` | Show your team's weekly totals |
 | `fantasy recent moves` | List recent adds, drops, and trades |
-| `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+ for one player |
-| `analyze my roster` | Run the above for every player on your roster at once |
+| `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+, and recent 14-/30-day splits for one player |
+| `analyze my roster` | Run the above for every player on your roster (batched automatically) |
 
 You can also just ask naturally, e.g. *"Who on my bench should I start tonight?"* or
 *"Is there a better closer available than the one I have?"* or
@@ -119,17 +119,23 @@ When you ask Claude to analyze a player it fetches live data from:
 
 | Source | Stats |
 | --- | --- |
-| **MLB Stats API** | G, PA, HR, RBI, R, SB, BA, OBP, SLG, OPS, BABIP |
-| **Baseball Savant — Expected Stats** | xBA, xSLG, xwOBA vs. actual (luck indicator) |
-| **Baseball Savant — Statcast** | Avg / max exit velocity, EV50, hard-hit %, barrel %, launch angle |
-| **Baseball Savant — Sprint Speed** | Sprint speed (ft/s), "bolts" count |
-| **FanGraphs** | WAR, wRC+, K%, BB%, SwStr%, GB/FB/LD%, HR/FB |
+| **MLB Stats API — Season** | Batters: G, PA, AB, H, 2B, 3B, HR, RBI, R, SB, CS, BB, K, AVG, OBP, SLG, OPS, BABIP, TB. Pitchers: G, GS, IP, W, L, SV, HLD, SVO, BS, ERA, WHIP, K, BB, HR, K/9, BB/9, QS |
+| **MLB Stats API — Recent 14-day & 30-day splits** | Same stat shape as season stats, covering the last 14 and last 30 calendar days — useful for spotting hot/cold streaks |
+| **Baseball Savant — Expected Stats** | xBA, xSLG, xwOBA vs. actual (luck indicator: positive diff = outperforming, negative = due for regression) |
+| **Baseball Savant — Statcast** | Avg / max exit velocity, EV50, hard-hit %, barrel %, barrel/PA, sweet-spot %, launch angle, avg/max distance (batters); exit velocity, hard-hit %, barrel % against (pitchers) |
+| **FanGraphs** | Batters: WAR, wRC+, wOBA, ISO, BABIP, K%, BB%, SwStr%, EV, Barrel%, HardHit%, GB%, FB%, LD%, HR/FB. Pitchers: WAR, ERA, FIP, xFIP, WHIP, K%, BB%, SwStr%, GB%, FB%, HR/FB, BABIP, LOB% |
 
 Results also include direct links to each player's page on Baseball Savant, MLB.com,
 Baseball Reference, and FanGraphs.
 
-Leaderboard downloads are cached for one hour, so analyzing your full roster costs only
-one network round-trip per source.
+Both `analyze_player_stats` and `analyze_roster_stats` automatically include your **league's
+scoring categories** (e.g. R, HR, RBI, SB, AVG for batting; W, SV, ERA, WHIP, K for
+pitching) so Claude's advice targets only the stats that count in your league. These
+categories are fetched from Yahoo once and cached on disk — no extra round-trip after the
+first call.
+
+Leaderboard downloads (Baseball Savant, FanGraphs) are cached for one hour per source, so
+analyzing your full roster costs only one network round-trip per source.
 
 ### Want it to run on a schedule?
 
@@ -196,12 +202,16 @@ Onboarding: `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_log
 
 Read: `list_leagues`, `get_league`, `get_teams`, `get_team_roster`,
 `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`,
-`get_player_stats`, `rank_players`, `get_transactions`.
+`get_player_stats`, `rank_players`, `get_league_scoring_categories`, `get_transactions`.
 
 Analysis (no Yahoo auth needed — fetches from public APIs):
 `analyze_player_stats`, `analyze_roster_stats`.
+`analyze_roster_stats` accepts an optional `playerKeys` array (max 10) to fetch a subset
+of the roster; call it in batches of up to 10 for large rosters.
 
-Write (destructive — clients prompt to confirm): `add_drop_player`, `set_lineup`.
+Write (destructive — require `force: true` since Yahoo has officially deprecated write
+access): `add_drop_player`, `set_lineup`. These tools return an informational message by
+default; pass `force: true` to attempt the API call anyway.
 *Note: Yahoo has officially deprecated the write-scope Fantasy Sports API ([yfpy#79](https://github.com/uberfastman/yfpy/issues/79)) — these tools may stop working at any time.*
 
 Credentials resolve from the saved config or the `YF_CLIENT_ID` / `YF_CLIENT_SECRET`
