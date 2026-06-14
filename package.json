@@ -1,6 +1,6 @@
 {
   "name": "yahoo-fantasy-baseball-mcp",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Bring-your-own-credentials local MCP server for managing a Yahoo Fantasy Baseball team via Claude.",
   "type": "module",
   "license": "MIT",
