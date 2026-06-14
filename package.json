@@ -4,12 +4,22 @@
   "description": "Bring-your-own-credentials local MCP server for managing a Yahoo Fantasy Baseball team via Claude.",
   "type": "module",
   "license": "MIT",
+  "author": "dingyiyi0226",
+  "homepage": "https://github.com/dingyiyi0226/fantasy-baseball-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dingyiyi0226/fantasy-baseball-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dingyiyi0226/fantasy-baseball-mcp/issues"
+  },
   "bin": {
     "yahoo-fantasy-mcp": "dist/cli.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=18"
