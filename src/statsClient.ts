@@ -104,8 +104,12 @@ export async function fetchMlbRecentStats(
   lastNDays: number,
   group: "hitting" | "pitching" = "hitting",
 ): Promise<Record<string, unknown> | null> {
+  const endDate = new Date();
+  const startDate = new Date(endDate);
+  startDate.setDate(startDate.getDate() - lastNDays);
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
   const res = await axios.get(`${MLB_API}/people/${mlbamId}/stats`, {
-    params: { stats: "lastXDays", lastXDays: lastNDays, sportId: 1, group },
+    params: { stats: "byDateRange", startDate: fmt(startDate), endDate: fmt(endDate), sportId: 1, group },
   });
   return res.data?.stats?.[0]?.splits?.[0]?.stat ?? null;
 }
