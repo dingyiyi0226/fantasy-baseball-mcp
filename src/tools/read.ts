@@ -254,7 +254,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_league_scoring_settings",
+    "get_league_scoring_categories",
     {
       title: "Get league scoring categories",
       description:
