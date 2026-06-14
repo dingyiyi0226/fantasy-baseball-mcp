@@ -23,6 +23,8 @@ Setup (do this first, once):
 - After the user pastes the verification code from Yahoo, call fantasy_authorize.
 - "fantasy choose team" -> call fantasy_select_team to set the default team.
 - "fantasy status" -> call fantasy_status.
+- "fantasy logout" / "fantasy disconnect" -> call fantasy_logout to remove saved
+  credentials and start over.
 
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" -> get_team_roster

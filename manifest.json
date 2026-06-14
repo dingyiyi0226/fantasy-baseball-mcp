@@ -35,6 +35,7 @@
     { "name": "fantasy_setup", "description": "Start setup: Yahoo app guide and authorization link." },
     { "name": "fantasy_authorize", "description": "Finish setup with the verification code from Yahoo." },
     { "name": "fantasy_select_team", "description": "Set your default league and team." },
+    { "name": "fantasy_logout", "description": "Remove saved Yahoo credentials and disconnect." },
     { "name": "list_leagues", "description": "List your leagues, game weeks, and stat categories." },
     { "name": "get_league", "description": "League teams, settings, and standings." },
     { "name": "get_teams", "description": "Stats, standings, and matchups for league teams." },

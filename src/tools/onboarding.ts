@@ -153,12 +153,13 @@ export function registerOnboardingTools(server: McpServer, session: Session): vo
   );
 
   server.registerTool(
-    "fantasy_remove_credentials",
+    "fantasy_logout",
     {
-      title: "Remove credentials",
+      title: "Log out / disconnect Yahoo",
       description:
         "Delete the saved Yahoo Client ID, Client Secret, and refresh token, then " +
-        "show the setup instructions again. Use this to reset and start over.",
+        "show the setup instructions again. Use this for 'fantasy logout' / " +
+        "'fantasy disconnect' to reset and start over.",
       inputSchema: {},
       annotations: { readOnlyHint: false },
     },
