@@ -32,7 +32,7 @@
   },
   "tools": [
     { "name": "fantasy_status", "description": "Check whether setup is complete and what to do next." },
-    { "name": "fantasy_setup", "description": "Start setup: Yahoo app guide and authorization link." },
+    { "name": "fantasy_login", "description": "Start setup: Yahoo app guide and authorization link." },
     { "name": "fantasy_authorize", "description": "Finish setup with the verification code from Yahoo." },
     { "name": "fantasy_select_team", "description": "Set your default league and team." },
     { "name": "fantasy_logout", "description": "Remove saved Yahoo credentials and disconnect." },
