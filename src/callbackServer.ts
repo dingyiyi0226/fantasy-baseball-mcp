@@ -1,8 +1,26 @@
-import * as http from "node:http";
+import * as https from "node:https";
+import { generate as generateCert } from "selfsigned";
 
 const PORT = 8488;
-export const REDIRECT_URI = `http://localhost:${PORT}/callback`;
+export const REDIRECT_URI = `https://localhost:${PORT}/callback`;
 const TIMEOUT_MS = 5 * 60 * 1000;
+
+// Generated once per process; kept in memory only.
+let tlsCreds: { key: string; cert: string } | null = null;
+
+async function getTlsCreds(): Promise<{ key: string; cert: string }> {
+  if (!tlsCreds) {
+    const result = await generateCert(
+      [{ name: "commonName", value: "localhost" }],
+      {
+        algorithm: "sha256",
+        notAfterDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    );
+    tlsCreds = { key: result.private, cert: result.cert };
+  }
+  return tlsCreds;
+}
 
 const SUCCESS_HTML = `<!DOCTYPE html>
 <html>
@@ -33,16 +51,21 @@ h2{color:#d1242f}p{color:#444;line-height:1.6}code{background:#f4f4f4;padding:2p
 }
 
 /**
- * Starts a temporary HTTP server on localhost that captures Yahoo's OAuth redirect.
+ * Starts a temporary HTTPS server on localhost that captures Yahoo's OAuth redirect.
  * Resolves with the authorization code, or rejects on error or 5-minute timeout.
  * The server shuts itself down as soon as it receives the callback.
+ *
+ * Uses a self-signed TLS certificate. The browser will show a security warning —
+ * the user must click "Advanced" → "Proceed to localhost" to continue.
  */
-export function startCallbackServer(): Promise<string> {
+export async function startCallbackServer(): Promise<string> {
+  const tls = await getTlsCreds();
+
   return new Promise((resolve, reject) => {
-    const server = http.createServer((req, res) => {
+    const server = https.createServer(tls, (req, res) => {
       let url: URL;
       try {
-        url = new URL(req.url ?? "/", `http://localhost:${PORT}`);
+        url = new URL(req.url ?? "/", `https://localhost:${PORT}`);
       } catch {
         res.writeHead(400);
         res.end("Bad request");

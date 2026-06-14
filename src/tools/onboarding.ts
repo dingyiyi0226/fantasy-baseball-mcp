@@ -10,8 +10,8 @@ const YAHOO_APP_TUTORIAL = `To let Claude manage your team, you need your own fr
    (sign in with the same Yahoo account that has your fantasy team).
 2. Fill in the form:
    • Application Name: anything, e.g. "My Fantasy Helper"
-   • Homepage URL:     http://localhost:8488  (placeholder)
-   • Redirect URI(s):  http://localhost:8488/callback
+   • Homepage URL:     https://localhost:8488  (placeholder)
+   • Redirect URI(s):  https://localhost:8488/callback
    • API Permissions: tick **Fantasy Sports**, and choose **Read/Write**
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
@@ -24,8 +24,8 @@ function authorizeSteps(url: string): string {
 
 1. Open this link and click **Agree** to allow access:
    ${url}
-2. Yahoo will redirect your browser to a local page — once you see **"Authorization complete!"**, come back here.
-3. Say **"fantasy authorize"** and I'll finish the setup.`;
+2. Your browser will warn about a self-signed certificate — click **Advanced → Proceed to localhost** to continue.
+3. Once you see **"Authorization complete!"**, come back here and say **"fantasy authorize"**.`;
 }
 
 function listLeagues(choices: LeagueChoice[]): string {
