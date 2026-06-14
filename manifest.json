@@ -47,7 +47,9 @@
     { "name": "rank_players", "description": "Rank/search players and free agents." },
     { "name": "get_transactions", "description": "Recent league adds, drops, and trades." },
     { "name": "add_drop_player", "description": "Add and/or drop a player (changes your roster)." },
-    { "name": "set_lineup", "description": "Set your daily lineup (changes your roster)." }
+    { "name": "set_lineup", "description": "Set your daily lineup (changes your roster)." },
+    { "name": "analyze_player_stats", "description": "Fetch Statcast, expected stats, sprint speed, and FanGraphs metrics for any MLB player." },
+    { "name": "analyze_roster_stats", "description": "Run advanced stats analysis for every player on the team's current roster." }
   ],
   "user_config": {
     "client_id": {

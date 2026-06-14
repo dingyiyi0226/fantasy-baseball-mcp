@@ -1,4 +1,4 @@
-# 🐾 Fantasy Baseball for Claude
+# Fantasy Baseball for Claude
 
 Let **Claude** look after your **Yahoo Fantasy Baseball** team. Ask it to check your
 roster, scout free agents, review your matchup, and — when you say so — add/drop players
@@ -10,6 +10,11 @@ uploaded to anyone, and you don't need to be technical to set it up.
 > 💬 Once installed, just talk to Claude with **"fantasy …"** commands:
 > **`fantasy start`** to set up, then **`fantasy show roster`**, **`fantasy my matchup`**,
 > **`fantasy who should I add`**, and more.
+
+**New in v0.2:** Claude can now pull advanced stats directly from Baseball Savant,
+FanGraphs, and the MLB Stats API — Statcast exit velocity, barrel rate, expected stats
+(xBA / xSLG / xwOBA), WAR, wRC+, sprint speed, and more — for any player or your entire
+roster at once.
 
 ---
 
@@ -81,9 +86,30 @@ After setup, use plain language. A few examples:
 | `fantasy recent moves` | List recent adds, drops, and trades |
 | `fantasy drop Smith and add Jones` | Propose the move and ask you to confirm |
 | `fantasy bench Smith, start Jones today` | Propose lineup changes and confirm |
+| `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+ for one player |
+| `analyze my roster` | Run the above for every player on your roster at once |
 
 You can also just ask naturally, e.g. *"Who on my bench should I start tonight?"* or
-*"Is there a better closer available than the one I have?"*
+*"Is there a better closer available than the one I have?"* or
+*"Which of my outfielders has the best hard-hit rate?"*
+
+### What "analyze" pulls together
+
+When you ask Claude to analyze a player it fetches live data from:
+
+| Source | Stats |
+| --- | --- |
+| **MLB Stats API** | G, PA, HR, RBI, R, SB, BA, OBP, SLG, OPS, BABIP |
+| **Baseball Savant — Expected Stats** | xBA, xSLG, xwOBA vs. actual (luck indicator) |
+| **Baseball Savant — Statcast** | Avg / max exit velocity, EV50, hard-hit %, barrel %, launch angle |
+| **Baseball Savant — Sprint Speed** | Sprint speed (ft/s), "bolts" count |
+| **FanGraphs** | WAR, wRC+, K%, BB%, SwStr%, GB/FB/LD%, HR/FB |
+
+Results also include direct links to each player's page on Baseball Savant, MLB.com,
+Baseball Reference, and FanGraphs.
+
+Leaderboard downloads are cached for one hour, so analyzing your full roster costs only
+one network round-trip per source.
 
 > ⚠️ **Roster changes always ask first.** Adding/dropping players and setting your lineup
 > change your **real** Yahoo team, so Claude shows you exactly what it's about to do and
@@ -155,6 +181,9 @@ Onboarding: `fantasy_status`, `fantasy_setup`, `fantasy_authorize`, `fantasy_sel
 Read: `list_leagues`, `get_league`, `get_teams`, `get_team_roster`,
 `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`,
 `get_player_stats`, `rank_players`, `get_transactions`.
+
+Analysis (no Yahoo auth needed — fetches from public APIs):
+`analyze_player_stats`, `analyze_roster_stats`.
 
 Write (destructive — clients prompt to confirm): `add_drop_player`, `set_lineup`.
 *Trade proposals/accepts are planned for a future version.*

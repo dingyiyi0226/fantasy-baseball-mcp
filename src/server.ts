@@ -5,6 +5,7 @@ import { ToolContext } from "./tools/context.js";
 import { registerReadTools } from "./tools/read.js";
 import { registerWriteTools } from "./tools/write.js";
 import { registerOnboardingTools } from "./tools/onboarding.js";
+import { registerAnalysisTools } from "./tools/analysis.js";
 
 /**
  * Server-level instructions. Clients (Claude Desktop / Claude Code) load this so
@@ -34,6 +35,13 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy add X" / "fantasy drop Y" / "fantasy swap X for Y" -> add_drop_player
 - "fantasy set lineup ..." / "fantasy bench X, start Y" -> set_lineup
 
+Advanced player / roster analysis (no Yahoo auth required for these):
+- "analyze [player name]" / "how is [player] doing" -> analyze_player_stats
+  Fetches Statcast (exit velo, barrel %, hard-hit %), expected stats (xBA, xSLG,
+  xwOBA), sprint speed, and FanGraphs (WAR, wRC+, K%, BB%) for any MLB player.
+- "analyze my roster" / "roster report" / "who should start tomorrow" -> analyze_roster_stats
+  Runs analyze_player_stats for every player on the team's current roster.
+
 add_drop_player and set_lineup change the user's real roster. Always confirm the
 exact players (and positions) with the user before calling them. If any tool says
 setup is incomplete, guide the user back to "fantasy start".`;
@@ -56,6 +64,7 @@ export async function runServer(): Promise<void> {
   registerOnboardingTools(server, session);
   registerReadTools(server, ctx);
   registerWriteTools(server, ctx);
+  registerAnalysisTools(server, ctx);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
