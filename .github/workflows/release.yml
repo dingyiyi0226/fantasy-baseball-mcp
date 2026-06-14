@@ -31,11 +31,13 @@ jobs:
         run: npm prune --omit=dev
 
       - name: Pack .mcpb bundle
-        run: npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball.mcpb
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball-v${VERSION}.mcpb
 
       - name: Upload bundle to the GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: yahoo-fantasy-baseball.mcpb
+          files: yahoo-fantasy-baseball-v*.mcpb
           generate_release_notes: true
           fail_on_unmatched_files: true
