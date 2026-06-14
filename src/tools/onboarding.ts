@@ -12,7 +12,8 @@ const YAHOO_APP_TUTORIAL = `To let Claude manage your team, you need your own fr
    • Application Name: anything, e.g. "My Fantasy Helper"
    • Homepage URL:     https://localhost:8488  (placeholder)
    • Redirect URI(s):  https://localhost:8488/callback
-   • API Permissions: tick **Fantasy Sports**, and choose **Read/Write**
+   • OAuth Client Type: choose **Confidential Client**
+   • API Permissions: tick **Fantasy Sports**, and choose **Read**
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
 4. Put those two values into this extension's settings

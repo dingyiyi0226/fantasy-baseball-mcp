@@ -1,8 +1,11 @@
 # Fantasy Baseball for Claude
 
 Let **Claude** look after your **Yahoo Fantasy Baseball** team. Ask it to check your
-roster, scout free agents, review your matchup, and — when you say so — add/drop players
-or set your lineup.
+roster, scout free agents, and review your matchup.
+
+> **Note:** Adding/dropping players and setting your lineup are not supported — Yahoo has
+> officially deprecated the write-scope Fantasy Sports API. See
+> [yfpy#79](https://github.com/uberfastman/yfpy/issues/79) for details.
 
 Everything runs **on your own computer** with **your own** Yahoo access. Nothing is
 uploaded to anyone, and you don't need to be technical to set it up.
@@ -11,18 +14,13 @@ uploaded to anyone, and you don't need to be technical to set it up.
 > **`fantasy start`** to set up, then **`fantasy show roster`**, **`fantasy my matchup`**,
 > **`fantasy who should I add`**, and more.
 
-**New in v0.2:** Claude can now pull advanced stats directly from Baseball Savant,
-FanGraphs, and the MLB Stats API — Statcast exit velocity, barrel rate, expected stats
-(xBA / xSLG / xwOBA), WAR, wRC+, sprint speed, and more — for any player or your entire
-roster at once.
-
 ---
 
 ## Part 1 · Install the extension (about 2 minutes)
 
 1. **Download the extension.** Go to the
    **[Releases page](../../releases/latest)** and download the file ending in
-   **`.mcpb`** (it's named `yahoo-fantasy-baseball.mcpb`).
+   **`.mcpb`** (it's named `yahoo-fantasy-baseball-vX.X.X.mcpb`).
 2. **Open Claude Desktop.** If you don't have it yet, get it from
    [claude.ai/download](https://claude.ai/download).
 3. Go to **Settings → Extensions**.
@@ -51,7 +49,8 @@ This is just how Yahoo hands you a personal key. Claude will point you to
 - **Application Name:** anything (e.g. "My Fantasy Helper")
 - **Homepage URL:** `https://localhost:8488` (placeholder)
 - **Redirect URI(s):** `https://localhost:8488/callback`
-- **API Permissions:** check **Fantasy Sports**, then pick **Read/Write**
+- **OAuth Client Type:** choose **Confidential Client**
+- **API Permissions:** check **Fantasy Sports**, then pick **Read** (write access is deprecated by Yahoo)
 - Click **Create App**
 
 Yahoo shows you two values: a **Client ID** and a **Client Secret**.
@@ -86,8 +85,6 @@ After setup, use plain language. A few examples:
 | `fantasy who should I add` | Find the best available free agents |
 | `fantasy my stats this week` | Show your team's weekly totals |
 | `fantasy recent moves` | List recent adds, drops, and trades |
-| `fantasy drop Smith and add Jones` | Propose the move and ask you to confirm |
-| `fantasy bench Smith, start Jones today` | Propose lineup changes and confirm |
 | `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+ for one player |
 | `analyze my roster` | Run the above for every player on your roster at once |
 
@@ -112,10 +109,6 @@ Baseball Reference, and FanGraphs.
 
 Leaderboard downloads are cached for one hour, so analyzing your full roster costs only
 one network round-trip per source.
-
-> ⚠️ **Roster changes always ask first.** Adding/dropping players and setting your lineup
-> change your **real** Yahoo team, so Claude shows you exactly what it's about to do and
-> waits for your **confirmation** before making the change.
 
 ### Want it to run on a schedule?
 
@@ -178,7 +171,7 @@ Or add it to a Claude Desktop `claude_desktop_config.json` manually:
 
 ### Tools
 
-Onboarding: `fantasy_status`, `fantasy_setup`, `fantasy_authorize`, `fantasy_select_team`.
+Onboarding: `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`.
 
 Read: `list_leagues`, `get_league`, `get_teams`, `get_team_roster`,
 `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`,
@@ -188,7 +181,7 @@ Analysis (no Yahoo auth needed — fetches from public APIs):
 `analyze_player_stats`, `analyze_roster_stats`.
 
 Write (destructive — clients prompt to confirm): `add_drop_player`, `set_lineup`.
-*Trade proposals/accepts are planned for a future version.*
+*Note: Yahoo has officially deprecated the write-scope Fantasy Sports API ([yfpy#79](https://github.com/uberfastman/yfpy/issues/79)) — these tools may stop working at any time.*
 
 Credentials resolve from the saved config or the `YF_CLIENT_ID` / `YF_CLIENT_SECRET`
 environment variables (the latter is how the desktop extension passes the settings-form
