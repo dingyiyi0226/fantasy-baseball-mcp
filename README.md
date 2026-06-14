@@ -1,172 +1,167 @@
-# Yahoo Fantasy Baseball MCP
+# 🐾 Fantasy Baseball for Claude
 
-A **bring-your-own-credentials**, run-it-yourself [MCP](https://modelcontextprotocol.io)
-server that lets Claude read and manage your **Yahoo Fantasy Baseball** team through
-Yahoo's official OAuth 2.0 Fantasy Sports API.
+Let **Claude** look after your **Yahoo Fantasy Baseball** team. Ask it to check your
+roster, scout free agents, review your matchup, and — when you say so — add/drop players
+or set your lineup.
 
-- **Nothing is hosted.** You run the server locally on your own machine.
-- **No secrets are shared.** You register your own Yahoo app and supply your own
-  credentials. They live only in `~/.yahoo-fantasy-mcp/config.json` (locked to `0600`).
-- Once connected, you can ask Claude to analyze your roster and matchups, scout free
-  agents, and — with your confirmation — **add/drop players** and **set your lineup**.
+Everything runs **on your own computer** with **your own** Yahoo access. Nothing is
+uploaded to anyone, and you don't need to be technical to set it up.
 
-> ⚠️ The add/drop and set-lineup tools change your **real** Yahoo roster. They are
-> marked *destructive*, so MCP clients prompt you to confirm before each write.
+> 💬 Once installed, just talk to Claude with **"fantasy …"** commands:
+> **`fantasy start`** to set up, then **`fantasy show roster`**, **`fantasy my matchup`**,
+> **`fantasy who should I add`**, and more.
 
 ---
 
-## 1. Prerequisites
+## Part 1 · Install the extension (about 2 minutes)
 
-- **Node.js 18+**
-- A Yahoo account with at least one Fantasy Baseball league.
+1. **Download the extension.** Go to the
+   **[Releases page](../../releases/latest)** and download the file ending in
+   **`.mcpb`** (it's named `yahoo-fantasy-baseball.mcpb`).
+2. **Open Claude Desktop.** If you don't have it yet, get it from
+   [claude.ai/download](https://claude.ai/download).
+3. Go to **Settings → Extensions**.
+4. **Drag the `.mcpb` file** into the Extensions window (or click **Install
+   Extension** and pick the file).
+5. Click **Install**. Done — Claude now has the fantasy tools.
 
-## 2. Register a Yahoo app
+> You can leave the **Client ID / Client Secret** boxes empty for now. We'll fill them in
+> during the next part, and Claude will tell you exactly what to paste where.
 
-1. Go to the **[Yahoo Developer App dashboard](https://developer.yahoo.com/apps/)** and
-   click **Create an App**.
-2. Fill in:
-   - **Application Name**: anything, e.g. `My Fantasy MCP`.
-   - **Application Type**: **Installed Application** (this enables the out-of-band flow).
-   - **Redirect URI(s)**: set to `oob` (out-of-band). *Required.*
-   - **API Permissions**: enable **Fantasy Sports** and select **Read/Write**
-     (read-only is not enough for add/drop and lineup changes).
-3. Create the app. Yahoo gives you a **Client ID (Consumer Key)** and
-   **Client Secret (Consumer Secret)** — you'll paste these in the next step.
+## Part 2 · Connect your Yahoo team (about 3 minutes)
 
-## 3. One-time authorization
+You only do this once. In a chat with Claude, type:
 
-Run the interactive `auth` command. It prints a URL, you authorize in your browser,
-and paste back the code Yahoo shows you:
+```
+fantasy start
+```
+
+Claude will walk you through it. Here's what to expect:
+
+### a) Create your free Yahoo "app"
+
+This is just how Yahoo hands you a personal key. Claude will point you to
+**[developer.yahoo.com/apps/create](https://developer.yahoo.com/apps/create/)**, where you:
+
+- **Application Name:** anything (e.g. "My Fantasy Helper")
+- **Application Type:** **Installed Application**
+- **Redirect URI(s):** type `oob`
+- **API Permissions:** check **Fantasy Sports**, then pick **Read/Write**
+- Click **Create App**
+
+Yahoo shows you two values: a **Client ID** and a **Client Secret**.
+
+### b) Give those two values to Claude
+
+Either paste them into the chat (Claude will save them securely on your computer), or
+enter them in **Settings → Extensions → Yahoo Fantasy Baseball**. Then say
+`fantasy start` again.
+
+### c) Authorize and finish
+
+Claude gives you a link. Open it, click **Agree**, and Yahoo shows a short
+**verification code**. Paste that code back to Claude. It will find your leagues, set your
+team as the default, and you're ready. 🎉
+
+> Stuck? Just type **`fantasy status`** and Claude will tell you what's left to do.
+
+---
+
+## Part 3 · Talk to your team
+
+After setup, use plain language. A few examples:
+
+| Say this… | …and Claude will |
+| --- | --- |
+| `fantasy show roster` | Show your current roster and how players are doing |
+| `fantasy my matchup` | Summarize this week's head-to-head matchup |
+| `fantasy standings` | Show the league standings |
+| `fantasy who should I add` | Find the best available free agents |
+| `fantasy my stats this week` | Show your team's weekly totals |
+| `fantasy recent moves` | List recent adds, drops, and trades |
+| `fantasy drop Smith and add Jones` | Propose the move and ask you to confirm |
+| `fantasy bench Smith, start Jones today` | Propose lineup changes and confirm |
+
+You can also just ask naturally, e.g. *"Who on my bench should I start tonight?"* or
+*"Is there a better closer available than the one I have?"*
+
+> ⚠️ **Roster changes always ask first.** Adding/dropping players and setting your lineup
+> change your **real** Yahoo team, so Claude shows you exactly what it's about to do and
+> waits for your **confirmation** before making the change.
+
+### Want it to run on a schedule?
+
+You can ask Claude Desktop to do this regularly — for example, *"every morning, check my
+roster for injured or benched starters and suggest fixes."* Use Claude's built-in
+scheduling/tasks; the extension just provides the fantasy tools.
+
+---
+
+## Frequently asked
+
+**Is my data safe?** Yes. Your Yahoo keys and login are stored only on your computer
+(in `~/.yahoo-fantasy-mcp/config.json`, readable only by you) and in your OS keychain.
+Nothing is sent to any server but Yahoo's own API. Tokens are never logged.
+
+**Why do I need my own Yahoo app?** Yahoo requires each person to use their own keys.
+It keeps everything under your control and means no shared secrets.
+
+**It says "rate limit" or "wait an hour."** Yahoo limits very heavy use. Take a break and
+try again later.
+
+**Does this cost anything?** No. The Yahoo app and this extension are free.
+
+---
+
+## For developers
+
+This is a local **MCP server** (Node.js + TypeScript, stdio transport) for the Yahoo
+Fantasy Sports v2 API.
 
 ```bash
-npx yahoo-fantasy-baseball-mcp auth
+npm install
+npm run build          # compile TypeScript to dist/
+node dist/cli.js auth  # optional terminal setup (instead of in-chat)
+node dist/cli.js serve # run the MCP server over stdio
+npm run pack           # build the .mcpb desktop-extension bundle
 ```
 
-You can also pass credentials up front (or via the `YF_CLIENT_ID` / `YF_CLIENT_SECRET`
-environment variables) to skip the prompts:
+### Use it with Claude Code (or any MCP client) from source
 
 ```bash
-npx yahoo-fantasy-baseball-mcp auth --client-id <KEY> --client-secret <SECRET>
+claude mcp add yahoo-fantasy-baseball \
+  -e YF_CLIENT_ID=your_id -e YF_CLIENT_SECRET=your_secret \
+  -- node /absolute/path/to/dist/cli.js serve
 ```
 
-The command will:
-
-1. Print the Yahoo authorization URL — open it, sign in, and **Allow** access.
-2. Ask you to paste the verification code Yahoo displays.
-3. Exchange it for tokens, then list your baseball leagues and the team you own in each.
-4. Let you pick a **default league** and **team**, saved to
-   `~/.yahoo-fantasy-mcp/config.json`.
-
-After this, most tools work with no arguments — they fall back to your configured
-defaults, so "manage my team" just works.
-
-## 4. Connect it to Claude
-
-The server speaks MCP over **stdio**. Add it to your client's `mcpServers` config.
-
-### Claude Desktop
-
-Edit `claude_desktop_config.json`
-(macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`,
-Windows: `%APPDATA%\Claude\claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "yahoo-fantasy-baseball": {
-      "command": "npx",
-      "args": ["-y", "yahoo-fantasy-baseball-mcp", "serve"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop. The Yahoo Fantasy tools will appear in the tools menu.
-
-### Claude Code
-
-```bash
-claude mcp add yahoo-fantasy-baseball -- npx -y yahoo-fantasy-baseball-mcp serve
-```
-
-### Running from a local build
-
-If you cloned this repo instead of using the published package, build it and point the
-client at the compiled entry:
-
-```bash
-npm install && npm run build
-```
+Or add it to a Claude Desktop `claude_desktop_config.json` manually:
 
 ```json
 {
   "mcpServers": {
     "yahoo-fantasy-baseball": {
       "command": "node",
-      "args": ["/absolute/path/to/fantasy-baseball-mcp/dist/cli.js", "serve"]
+      "args": ["/absolute/path/to/dist/cli.js", "serve"],
+      "env": { "YF_CLIENT_ID": "your_id", "YF_CLIENT_SECRET": "your_secret" }
     }
   }
 }
 ```
 
----
+### Tools
 
-## Tools
+Onboarding: `fantasy_status`, `fantasy_setup`, `fantasy_authorize`, `fantasy_select_team`.
 
-All read tools accept optional `leagueKey` / `teamKey` and fall back to your configured
-defaults. Key formats: league `{game_id}.l.{league_id}` (e.g. `431.l.12345`), team
-`{league_key}.t.{n}`, player `{game_id}.p.{player_id}`.
+Read: `list_leagues`, `get_league`, `get_teams`, `get_team_roster`,
+`get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`,
+`get_player_stats`, `rank_players`, `get_transactions`.
 
-### Read
+Write (destructive — clients prompt to confirm): `add_drop_player`, `set_lineup`.
+*Trade proposals/accepts are planned for a future version.*
 
-| Tool | What it does |
-| --- | --- |
-| `list_leagues` | All leagues, game weeks, and stat categories for your account |
-| `get_league` | A league's teams, settings, and standings |
-| `get_teams` | Stats, standings, and matchups for every (or specific) team |
-| `get_team_roster` | A team's roster with player stats for a date |
-| `get_team_stats_week` | A team's stats for a scoring week |
-| `get_team_stats_season` | A team's season stats |
-| `get_matchups` | League scoreboard (optionally for a given week) |
-| `get_team_matchups` | One team's matchups, all weeks or a subset |
-| `get_player_stats` | Stats for one or more players on a date |
-| `rank_players` | Rank/search players (incl. free agents) by AR/OR/PTS or a stat id |
-| `get_transactions` | Recent league transactions (adds, drops, trades) |
-
-### Write (destructive — Claude will ask you to confirm)
-
-| Tool | What it does |
-| --- | --- |
-| `add_drop_player` | Add a free agent, drop a player, or both at once |
-| `set_lineup` | Set daily roster positions (`1B`, `OF`, `SP`, `Util`, `BN`, …) |
-
-*Trade proposals/accepts are not yet implemented (planned for a future version).*
-
-## Automating it on a schedule
-
-Because everything runs through Claude, you can have Claude do this on a cadence — for
-example, ask **Claude Desktop** to run a scheduled task each morning that checks your
-roster for injured/benched starters and proposes lineup changes, or use **Claude Code**'s
-scheduling. The MCP server itself is stateless; it just exposes the tools.
-
-## Security & limits
-
-- Your Yahoo credentials and refresh token are stored only in
-  `~/.yahoo-fantasy-mcp/config.json` (`chmod 600`). Nothing is uploaded anywhere.
-- Tokens are **never logged**. The short-lived (~1h) access token is kept in memory and
-  refreshed automatically; a rotated refresh token is saved transparently.
-- Yahoo rate-limits aggressive use. If you hit it you'll see an
-  *"HTTP 999 — wait ~1 hour"* error; pause and try again later.
-
-## Development
-
-```bash
-npm install
-npm run build      # compile TypeScript to dist/
-npm run watch      # recompile on change
-node dist/cli.js auth
-node dist/cli.js serve
-```
+Credentials resolve from the saved config or the `YF_CLIENT_ID` / `YF_CLIENT_SECRET`
+environment variables (the latter is how the desktop extension passes the settings-form
+values). Releases are built and published automatically by GitHub Actions on a `v*` tag.
 
 ## License
 
