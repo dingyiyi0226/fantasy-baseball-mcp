@@ -1,3 +1,4 @@
+import { writeSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { Session } from "./session.js";
@@ -6,6 +7,9 @@ import { registerReadTools } from "./tools/read.js";
 import { registerWriteTools } from "./tools/write.js";
 import { registerOnboardingTools } from "./tools/onboarding.js";
 import { registerAnalysisTools } from "./tools/analysis.js";
+
+/** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
+export const VERSION = "0.2.2";
 
 /**
  * Server-level instructions. Clients (Claude Desktop / Claude Code) load this so
@@ -59,12 +63,20 @@ setup is incomplete, guide the user back to "fantasy start".`;
  * transport owns stdout, so all diagnostics go to stderr.
  */
 export async function runServer(): Promise<void> {
+  // Log version/runtime up front (synchronously, so it survives even if startup
+  // later crashes) — this is how we confirm exactly which build is running,
+  // especially when diagnosing platform-specific issues.
+  writeSync(
+    2,
+    `[yahoo-fantasy-mcp] starting v${VERSION} (node ${process.version}, ${process.platform} ${process.arch})\n`,
+  );
+
   const session = new Session();
   await session.init();
 
   const ctx = new ToolContext(session);
   const server = new McpServer(
-    { name: "yahoo-fantasy-baseball", version: "0.2.2" },
+    { name: "yahoo-fantasy-baseball", version: VERSION },
     { instructions: INSTRUCTIONS },
   );
 

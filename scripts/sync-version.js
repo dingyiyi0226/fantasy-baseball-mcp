@@ -23,7 +23,7 @@ console.log(`manifest.json → ${version}`);
 // --- src/server.ts ---
 const serverPath = resolve(root, "src/server.ts");
 const server = readFileSync(serverPath, "utf8");
-const serverRe = /(name:\s*"yahoo-fantasy-baseball",\s*version:\s*")[^"]+(")/;
+const serverRe = /(export const VERSION = ")[^"]+(")/;
 if (!serverRe.test(server)) {
   console.error("src/server.ts: version string not found — update manually.");
   process.exit(1);
