@@ -57,10 +57,22 @@ export async function loadConfig(): Promise<Config | null> {
  * the shell). Returns null when either half is missing.
  */
 export function resolveCredentials(config: Config | null): Credentials | null {
-  const clientId = config?.clientId || process.env.YF_CLIENT_ID;
-  const clientSecret = config?.clientSecret || process.env.YF_CLIENT_SECRET;
+  const clientId = clean(config?.clientId) ?? clean(process.env.YF_CLIENT_ID);
+  const clientSecret = clean(config?.clientSecret) ?? clean(process.env.YF_CLIENT_SECRET);
   if (clientId && clientSecret) return { clientId, clientSecret };
   return null;
+}
+
+/**
+ * Treat blank or unsubstituted-template values as missing. When the desktop
+ * extension is installed without filling the settings form, the client may pass
+ * the literal "${user_config.client_id}" as the env value.
+ */
+function clean(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.includes("${")) return undefined;
+  return trimmed;
 }
 
 /**
