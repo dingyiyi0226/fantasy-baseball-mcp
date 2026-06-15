@@ -5,21 +5,7 @@ import { textResult } from "./context.js";
 
 const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
 
-const NETWORK_ALLOWLIST = `Heads up (Claude Desktop): Claude runs this extension in a sandbox
-that blocks outbound network by default, so you must allow the sites it uses. Go to
-**Settings → Capabilities** (Team/Enterprise: **Organization settings → Capabilities**),
-find the network-access / **Additional allowed domains** list, and add:
-  • statsapi.mlb.com           (MLB Stats API — for "analyze ...")
-  • baseballsavant.mlb.com      (Statcast / expected stats — for "analyze ...")
-  • www.fangraphs.com          (FanGraphs WAR/wRC+ — for "analyze ...")
-The Yahoo domains (api.login.yahoo.com, fantasysports.yahooapis.com) are usually already
-allowed by default — only add them if Yahoo sign-in fails to connect. The same allowlist
-applies whether you use this in a normal chat or in Cowork. (Picking **All domains** also
-works, but the list above is the minimum.)`;
-
-const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}${NETWORK_ALLOWLIST}
-
-To let Claude manage your team, you need your own free Yahoo "app"
+const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}To let Claude manage your team, you need your own free Yahoo "app"
 (this is how Yahoo gives you permission keys). One-time, ~3 minutes:
 
 1. Go to  https://developer.yahoo.com/apps/create/
@@ -33,7 +19,7 @@ To let Claude manage your team, you need your own free Yahoo "app"
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
 4. Put those two values into this extension's settings
-   (Claude → Settings → Extensions → Yahoo Fantasy Baseball),
+   (Settings → Extensions → Yahoo Fantasy Baseball),
    OR just paste them to me here and I'll save them securely.`;
 
 function authorizeSteps(url: string): string {
