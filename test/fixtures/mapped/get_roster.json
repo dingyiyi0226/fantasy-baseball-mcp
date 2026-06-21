@@ -1,0 +1,68 @@
+{
+  "team": {
+    "team_key": "469.l.12345.t.2",
+    "team_id": 2,
+    "name": "Team 2",
+    "is_owned_by_current_login": 1
+  },
+  "roster_date": "2026-06-20",
+  "players": [
+    {
+      "player_key": "469.p.11732",
+      "player_id": 11732,
+      "name": "Adley Rutschman",
+      "editorial_team_abbr": "BAL",
+      "editorial_team_full_name": "Baltimore Orioles",
+      "display_position": "C",
+      "position_type": "B",
+      "primary_position": "C",
+      "eligible_positions": [
+        "C",
+        "Util",
+        "IL"
+      ],
+      "status": "IL7",
+      "status_full": "7-Day Injured List",
+      "injury_note": "Concussion",
+      "on_disabled_list": 1,
+      "is_undroppable": 0,
+      "selected_position": "C",
+      "is_starting": 0
+    },
+    {
+      "player_key": "469.p.10235",
+      "player_id": 10235,
+      "name": "Rafael Devers",
+      "editorial_team_abbr": "SF",
+      "editorial_team_full_name": "San Francisco Giants",
+      "display_position": "1B",
+      "position_type": "B",
+      "primary_position": "1B",
+      "eligible_positions": [
+        "1B",
+        "Util"
+      ],
+      "is_undroppable": 0,
+      "selected_position": "1B",
+      "is_starting": 1
+    },
+    {
+      "player_key": "469.p.12100",
+      "player_id": 12100,
+      "name": "Otto Lopez",
+      "editorial_team_abbr": "MIA",
+      "editorial_team_full_name": "Miami Marlins",
+      "display_position": "2B,SS",
+      "position_type": "B",
+      "primary_position": "2B",
+      "eligible_positions": [
+        "2B",
+        "SS",
+        "Util"
+      ],
+      "is_undroppable": 0,
+      "selected_position": "2B",
+      "is_starting": 1
+    }
+  ]
+}

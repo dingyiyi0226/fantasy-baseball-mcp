@@ -131,7 +131,9 @@ Or add to `claude_desktop_config.json`:
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
 
-**Read:** `list_leagues`, `get_league`, `get_teams`, `get_team_roster`, `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `rank_players`, `get_league_scoring_categories`, `get_transactions`
+**Read:** `list_leagues`, `get_league`, `get_standings`, `get_teams`, `get_roster`, `get_roster_stats`, `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `list_players`, `rank_players`, `get_league_scoring_categories`, `get_transactions`
+
+Several tools come in a light/detailed pair — prefer the lighter one unless stats are needed: `get_standings` vs `get_teams` (+matchups), `get_roster` vs `get_roster_stats` (+stats), `list_players` vs `rank_players` (+stats).
 
 **Analysis** (no Yahoo auth — public APIs): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call)
 

@@ -39,12 +39,14 @@ section, the numbered steps, the URL, or any field names. The user depends on
 the exact instructions; rewriting them breaks the setup flow.
 
 Everyday use (these default to the user's configured league/team):
-- "fantasy show roster" -> get_team_roster
+- "fantasy show roster" / "who is starting" -> get_roster (slots/status, no stats);
+  use get_roster_stats when the user wants per-player Yahoo stats.
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchups or get_matchups
-- "fantasy standings" / "fantasy league" -> get_league
+- "fantasy standings" -> get_standings; "fantasy league" (settings + teams) -> get_league
 - "fantasy my stats this week" -> get_team_stats_week
 - "fantasy season stats" -> get_team_stats_season
-- "fantasy who should I add" / "fantasy free agents" -> rank_players
+- "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);
+  "fantasy who should I add" (needs stats to compare) -> rank_players
 - "fantasy recent moves" / "fantasy transactions" -> get_transactions
 - "fantasy add X" / "fantasy drop Y" / "fantasy swap X for Y" -> add_drop_player
 - "fantasy set lineup ..." / "fantasy bench X, start Y" -> set_lineup

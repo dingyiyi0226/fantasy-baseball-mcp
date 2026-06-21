@@ -226,8 +226,8 @@ export function mapTeams(data: any) {
   };
 }
 
-/** get_team_roster */
-export function mapTeamRoster(data: any) {
+/** get_roster_stats */
+export function mapRosterStats(data: any) {
   const team = data?.team;
   if (!team) return data;
   const roster = team.roster;
@@ -360,6 +360,71 @@ export function mapTransactions(data: any) {
         position_type: p.position_type,
         transaction_data: p.transaction_data,
       })),
+    })),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Light variants — smaller projections of endpoints whose full mapper above
+// carries heavy nested data (matchups / per-player stat blocks). These power
+// the get_standings / get_roster / list_players tools.
+// ---------------------------------------------------------------------------
+
+/** get_standings — standings table + season category stats, no matchups. */
+export function mapStandings(data: any) {
+  return {
+    teams: asArray(data?.teams?.team).map((t: any) => ({
+      team_key: t.team_key,
+      team_id: t.team_id,
+      name: t.name,
+      ...(t.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
+      team_standings: t.team_standings,
+      team_stats: t.team_stats,
+    })),
+  };
+}
+
+/** get_roster — roster slots and availability only, no player stats. */
+export function mapRoster(data: any) {
+  const team = data?.team;
+  if (!team) return data;
+  const roster = team.roster;
+  return {
+    team: {
+      team_key: team.team_key,
+      team_id: team.team_id,
+      name: team.name,
+      ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
+    },
+    roster_date: roster?.date,
+    players: asArray(roster?.players?.player).map((p: any) => ({
+      ...mapPlayerCore(p),
+      selected_position: p.selected_position?.position,
+      is_flex: p.selected_position?.is_flex || undefined,
+      is_starting: p.starting_status?.is_starting,
+    })),
+  };
+}
+
+/** list_players — ranked players with ownership, no stat blocks. */
+export function mapPlayerList(data: any) {
+  const league = data?.league;
+  if (!league) return data;
+  return {
+    league: mapLeagueHeader(league),
+    players: asArray(league.players?.player).map((p: any) => ({
+      ...mapPlayerCore(p),
+      ownership: p.ownership
+        ? {
+            ownership_type: p.ownership.ownership_type,
+            ...(p.ownership.owner_team_key
+              ? { owner_team_key: p.ownership.owner_team_key }
+              : {}),
+            ...(p.ownership.owner_team_name
+              ? { owner_team_name: p.ownership.owner_team_name }
+              : {}),
+          }
+        : undefined,
     })),
   };
 }

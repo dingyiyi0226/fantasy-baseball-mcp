@@ -7,12 +7,15 @@ import {
   mapLeague,
   mapListLeagues,
   mapTeams,
-  mapTeamRoster,
+  mapStandings,
+  mapRosterStats,
+  mapRoster,
   mapTeamStats,
   mapMatchups,
   mapTeamMatchups,
   mapPlayerStats,
   mapRankPlayers,
+  mapPlayerList,
   mapTransactions,
 } from "./mappers.js";
 
@@ -97,12 +100,78 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_team_roster",
+    "get_standings",
+    {
+      title: "Get league standings",
+      description:
+        "Get the league standings table — each team's rank, win/loss record, " +
+        "games back, playoff seed, and season category totals. This is the light " +
+        "way to see how teams stack up; use get_teams when you also need every " +
+        "team's full matchup history.",
+      inputSchema: {
+        leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
+        teamKeys: z
+          .array(z.string())
+          .optional()
+          .describe("Specific team keys; defaults to all teams in the league"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ leagueKey, teamKeys }) => {
+      let keys = teamKeys ?? [];
+      if (keys.length === 0) {
+        const lk = ctx.resolveLeagueKey(leagueKey);
+        const league = await ctx.client.get(`/league/${lk}`);
+        const numTeams = Number(str(league?.league?.num_teams)) || 0;
+        if (numTeams === 0) {
+          throw new Error(`Could not determine number of teams for league ${lk}.`);
+        }
+        keys = teamKeysForLeague(lk, numTeams);
+      }
+      const data = await ctx.client.get(
+        `/teams;team_keys=${keys.join(",")};out=stats,standings`,
+      );
+      return jsonResult(mapStandings(data));
+    },
+  );
+
+  server.registerTool(
+    "get_roster",
     {
       title: "Get team roster",
       description:
-        "Get a team's roster with player stats for a given date. Defaults to the " +
-        "configured team and today's date.",
+        "Get a team's roster for a date — each player's roster slot (starting " +
+        "position or BN/IL bench), starting status, injury status, and eligible " +
+        "positions, without any stats. Use this to see who is on the team and who " +
+        "is starting or benched. For per-date Yahoo stats use get_roster_stats; " +
+        "for advanced stats use analyze_roster_stats. Defaults to the configured " +
+        "team and today's date.",
+      inputSchema: {
+        teamKey: z.string().optional().describe("Team key, e.g. 431.l.12345.t.2"),
+        date: z
+          .string()
+          .optional()
+          .describe("Date as YYYY-MM-DD; defaults to today"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ teamKey, date }) => {
+      const tk = ctx.resolveTeamKey(teamKey);
+      const d = date || today();
+      const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players`);
+      return jsonResult(mapRoster(data));
+    },
+  );
+
+  server.registerTool(
+    "get_roster_stats",
+    {
+      title: "Get team roster with stats",
+      description:
+        "Get a team's roster with each player's Yahoo stats for a given date. Like " +
+        "get_roster but heavier — use get_roster when you only need slots/status, " +
+        "or analyze_roster_stats for advanced (Statcast/FanGraphs) stats. Defaults " +
+        "to the configured team and today's date.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key, e.g. 431.l.12345.t.2"),
         date: z
@@ -116,7 +185,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const tk = ctx.resolveTeamKey(teamKey);
       const d = date || today();
       const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`);
-      return jsonResult(mapTeamRoster(data));
+      return jsonResult(mapRosterStats(data));
     },
   );
 
@@ -262,6 +331,45 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
         `/league/${lk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${n};out=ownership,stats`,
       );
       return jsonResult(mapRankPlayers(data));
+    },
+  );
+
+  server.registerTool(
+    "list_players",
+    {
+      title: "List / browse players",
+      description:
+        "List league players (including free agents) in ranked order with their " +
+        "name, position, eligible positions, status, and ownership (free agent or " +
+        "owning team) — but no stats. This is the light way to scan waiver/free-agent " +
+        "targets; once you have candidates, use analyze_player_stats or rank_players " +
+        "for their stats. `sort` is a stat id or AR / OR / PTS. Returns up to 25 " +
+        "players per call; page with `start`.",
+      inputSchema: {
+        leagueKey: z.string().optional().describe("League key; defaults to configured league"),
+        sort: z.string().default("AR").describe("Stat id, or AR / OR / PTS"),
+        sortType: z
+          .enum(["season", "lastweek", "lastmonth", "date"])
+          .default("season")
+          .describe("Ranking window"),
+        start: z.number().int().min(0).default(0).describe("Pagination offset"),
+        count: z
+          .number()
+          .int()
+          .min(1)
+          .max(25)
+          .default(25)
+          .describe("Number of players to return (max 25)"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ leagueKey, sort, sortType, start, count }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const n = Math.min(count, 25);
+      const data = await ctx.client.get(
+        `/league/${lk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${n};out=ownership`,
+      );
+      return jsonResult(mapPlayerList(data));
     },
   );
 
