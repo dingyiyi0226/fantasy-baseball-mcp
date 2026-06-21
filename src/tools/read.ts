@@ -374,6 +374,59 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
+    "search_players",
+    {
+      title: "Search players by name",
+      description:
+        "Find players by name (full or partial) and resolve them to player keys. " +
+        "This is the way to turn a name the user typed into the `player_key` that " +
+        "get_player_stats, analyze_player_stats, add_drop_player, and set_lineup need. " +
+        "Returns name, position, eligible positions, injury status, and ownership " +
+        "(free agent or owning team) — no stats. Optionally narrow by `status` " +
+        "(e.g. FA to only see free agents) or `position` (e.g. SP, OF, 2B). Returns " +
+        "up to 25 matches per call; page with `start`.",
+      inputSchema: {
+        name: z.string().min(1).describe("Player name to search for; full or partial"),
+        leagueKey: z.string().optional().describe("League key; defaults to configured league"),
+        status: z
+          .enum(["A", "FA", "W", "T"])
+          .optional()
+          .describe(
+            "Availability filter: A=available (free agents + waivers), FA=free agents, " +
+              "W=on waivers, T=taken (rostered). Omit to search all players.",
+          ),
+        position: z.string().optional().describe("Position filter, e.g. SP, RP, C, 1B, OF, Util"),
+        start: z.number().int().min(0).default(0).describe("Pagination offset"),
+        count: z
+          .number()
+          .int()
+          .min(1)
+          .max(25)
+          .default(25)
+          .describe("Number of players to return (max 25)"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ name, leagueKey, status, position, start, count }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const n = Math.min(count, 25);
+      const filters = [
+        // Encode only the name value (it may contain spaces); the semicolon
+        // sub-resource separators must stay literal — see YahooClient docs.
+        `search=${encodeURIComponent(name)}`,
+        status ? `status=${status}` : null,
+        position ? `position=${position}` : null,
+        `start=${start}`,
+        `count=${n}`,
+      ]
+        .filter(Boolean)
+        .join(";");
+      const data = await ctx.client.get(`/league/${lk}/players;${filters};out=ownership`);
+      return jsonResult(mapPlayerList(data));
+    },
+  );
+
+  server.registerTool(
     "get_league_scoring_categories",
     {
       title: "Get league scoring categories",

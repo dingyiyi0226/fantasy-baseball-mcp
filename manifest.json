@@ -49,6 +49,7 @@
     { "name": "get_player_stats", "description": "Get stats for one or more players on a specific date." },
     { "name": "list_players", "description": "List/browse ranked players (incl. free agents) with ownership but no stats." },
     { "name": "rank_players", "description": "Rank league players and free agents by a stat or overall rank, with stats (heavier than list_players)." },
+    { "name": "search_players", "description": "Search players by name to resolve a player_key; optionally filter by availability status or position." },
     { "name": "get_league_scoring_categories", "description": "Get the stat categories used for scoring in this league (e.g. R, HR, ERA, WHIP)." },
     { "name": "get_transactions", "description": "Get recent transactions (adds, drops, trades) in a league." },
     { "name": "add_drop_player", "description": "Add and/or drop a player (changes your roster)." },

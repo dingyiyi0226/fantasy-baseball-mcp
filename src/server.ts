@@ -47,6 +47,8 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy season stats" -> get_team_stats_season
 - "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);
   "fantasy who should I add" (needs stats to compare) -> rank_players
+- "fantasy find <player name>" / "is <name> available" / need a player_key from a name
+  -> search_players (resolves a name to a player_key; filter status=FA for free agents)
 - "fantasy recent moves" / "fantasy transactions" -> get_transactions
 - "fantasy add X" / "fantasy drop Y" / "fantasy swap X for Y" -> add_drop_player
 - "fantasy set lineup ..." / "fantasy bench X, start Y" -> set_lineup
