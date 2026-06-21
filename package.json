@@ -27,6 +27,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
+    "test": "npm run build && node test/run.mjs",
     "auth": "node dist/cli.js auth",
     "serve": "node dist/cli.js serve",
     "pack": "npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball-v$(node -p \"require('./package.json').version\").mcpb",

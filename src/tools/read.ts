@@ -3,6 +3,18 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { teamKeysForLeague } from "../yahooClient.js";
 import { today, str } from "../util.js";
 import { ToolContext, jsonResult } from "./context.js";
+import {
+  mapLeague,
+  mapListLeagues,
+  mapTeams,
+  mapTeamRoster,
+  mapTeamStats,
+  mapMatchups,
+  mapTeamMatchups,
+  mapPlayerStats,
+  mapRankPlayers,
+  mapTransactions,
+} from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -27,7 +39,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const data = await ctx.client.get(
         "/users;use_login=1/games;out=game_weeks,stat_categories,leagues",
       );
-      return jsonResult(data);
+      return jsonResult(mapListLeagues(data));
     },
   );
 
@@ -46,7 +58,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
     async ({ leagueKey }) => {
       const lk = ctx.resolveLeagueKey(leagueKey);
       const data = await ctx.client.get(`/league/${lk};out=teams,settings,standings`);
-      return jsonResult(data);
+      return jsonResult(mapLeague(data));
     },
   );
 
@@ -80,7 +92,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const data = await ctx.client.get(
         `/teams;team_keys=${keys.join(",")};out=stats,standings,matchups`,
       );
-      return jsonResult(data);
+      return jsonResult(mapTeams(data));
     },
   );
 
@@ -104,7 +116,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const tk = ctx.resolveTeamKey(teamKey);
       const d = date || today();
       const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`);
-      return jsonResult(data);
+      return jsonResult(mapTeamRoster(data));
     },
   );
 
@@ -122,7 +134,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
     async ({ week, teamKey }) => {
       const tk = ctx.resolveTeamKey(teamKey);
       const data = await ctx.client.get(`/team/${tk}/stats;type=week;week=${week}`);
-      return jsonResult(data);
+      return jsonResult(mapTeamStats(data));
     },
   );
 
@@ -139,7 +151,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
     async ({ teamKey }) => {
       const tk = ctx.resolveTeamKey(teamKey);
       const data = await ctx.client.get(`/team/${tk}/stats;type=season`);
-      return jsonResult(data);
+      return jsonResult(mapTeamStats(data));
     },
   );
 
@@ -163,7 +175,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
           ? `/league/${lk}/scoreboard`
           : `/league/${lk}/scoreboard;week=${week}`;
       const data = await ctx.client.get(resource);
-      return jsonResult(data);
+      return jsonResult(mapMatchups(data));
     },
   );
 
@@ -190,7 +202,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
           ? `/team/${tk}/matchups;weeks=${weeks.join(",")}`
           : `/team/${tk}/matchups`;
       const data = await ctx.client.get(resource);
-      return jsonResult(data);
+      return jsonResult(mapTeamMatchups(data));
     },
   );
 
@@ -212,7 +224,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const data = await ctx.client.get(
         `/players;player_keys=${playerKeys.join(",")}/stats;type=date;date=${d}`,
       );
-      return jsonResult(data);
+      return jsonResult(mapPlayerStats(data));
     },
   );
 
@@ -249,7 +261,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const data = await ctx.client.get(
         `/league/${lk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${n};out=ownership,stats`,
       );
-      return jsonResult(data);
+      return jsonResult(mapRankPlayers(data));
     },
   );
 
@@ -296,7 +308,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
         ? `/league/${lk}/transactions;team_key=${teamKey}`
         : `/league/${lk}/transactions`;
       const data = await ctx.client.get(resource);
-      return jsonResult(data);
+      return jsonResult(mapTransactions(data));
     },
   );
 }

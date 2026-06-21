@@ -1,0 +1,558 @@
+{
+  "league": {
+    "league_key": "469.l.12345",
+    "league_id": 12345,
+    "name": "Demo League",
+    "draft_status": "postdraft",
+    "num_teams": 10,
+    "weekly_deadline": "intraday",
+    "roster_type": "date",
+    "scoring_type": "headone",
+    "scoring_label": "H2H Cat One",
+    "league_type": "private",
+    "matchup_week": 13,
+    "current_week": 13,
+    "start_week": 1,
+    "end_week": 26,
+    "start_date": "2026-03-25",
+    "end_date": "2026-09-27",
+    "current_date": "2026-06-21",
+    "season": 2026,
+    "game_code": "mlb",
+    "allow_add_to_dl_extra_pos": 0,
+    "is_pro_league": 0,
+    "is_cash_league": 0,
+    "is_plus_league": 0,
+    "teams": [
+      {
+        "team_key": "469.l.12345.t.1",
+        "team_id": 1,
+        "name": "Team 1",
+        "number_of_moves": 33,
+        "number_of_trades": 3,
+        "roster_adds_this_week": 3,
+        "draft_position": 3,
+        "managers": {
+          "manager_id": 1,
+          "nickname": "Manager 1",
+          "is_commissioner": 1,
+          "felo_score": 625,
+          "felo_tier": "silver"
+        }
+      },
+      {
+        "team_key": "469.l.12345.t.2",
+        "team_id": 2,
+        "name": "Team 2",
+        "is_owned_by_current_login": 1,
+        "number_of_moves": 18,
+        "number_of_trades": 0,
+        "roster_adds_this_week": 2,
+        "draft_position": 8,
+        "managers": {
+          "manager_id": 2,
+          "nickname": "Manager 2",
+          "is_current_login": 1,
+          "felo_score": 594,
+          "felo_tier": "bronze"
+        }
+      },
+      {
+        "team_key": "469.l.12345.t.3",
+        "team_id": 3,
+        "name": "Team 3",
+        "number_of_moves": 4,
+        "number_of_trades": 0,
+        "roster_adds_this_week": 0,
+        "draft_position": 5,
+        "managers": {
+          "manager_id": 3,
+          "nickname": "Manager 3",
+          "felo_score": 594,
+          "felo_tier": "bronze"
+        }
+      }
+    ],
+    "settings": {
+      "draft_type": "live",
+      "is_auction_draft": 0,
+      "scoring_type": "headone",
+      "uses_playoff": 1,
+      "playoff_start_week": 25,
+      "num_playoff_teams": 4,
+      "uses_playoff_reseeding": 0,
+      "uses_lock_eliminated_teams": 0,
+      "num_playoff_consolation_teams": 4,
+      "has_multiweek_championship": 0,
+      "waiver_type": "R",
+      "waiver_rule": "all",
+      "uses_faab": 0,
+      "waiver_time": 0,
+      "max_weekly_adds": 7,
+      "trade_end_date": "",
+      "trade_ratify_type": "vote",
+      "trade_reject_time": 1,
+      "player_pool": "ALL",
+      "cant_cut_list": "none",
+      "uses_median_score": "",
+      "season_type": "full",
+      "min_innings_pitched": 40,
+      "post_draft_players": "W",
+      "roster_positions": [
+        {
+          "position": "C",
+          "position_type": "B",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "1B",
+          "position_type": "B",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "2B",
+          "position_type": "B",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "3B",
+          "position_type": "B",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "SS",
+          "position_type": "B",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "OF",
+          "position_type": "B",
+          "count": 3,
+          "is_starting_position": 1
+        },
+        {
+          "position": "Util",
+          "position_type": "B",
+          "count": 2,
+          "is_starting_position": 1
+        },
+        {
+          "position": "SP",
+          "position_type": "P",
+          "count": 3,
+          "is_starting_position": 1
+        },
+        {
+          "position": "RP",
+          "position_type": "P",
+          "count": 2,
+          "is_starting_position": 1
+        },
+        {
+          "position": "P",
+          "position_type": "P",
+          "count": 1,
+          "is_starting_position": 1
+        },
+        {
+          "position": "BN",
+          "count": 10,
+          "is_starting_position": 0
+        },
+        {
+          "position": "IL",
+          "count": 5,
+          "is_starting_position": 0
+        },
+        {
+          "position": "NA",
+          "count": 3,
+          "is_starting_position": 0
+        }
+      ],
+      "stat_categories": [
+        {
+          "stat_id": 60,
+          "display_name": "H/AB",
+          "position_type": "B",
+          "sort_order": 1,
+          "is_only_display_stat": 1
+        },
+        {
+          "stat_id": 7,
+          "display_name": "R",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 12,
+          "display_name": "HR",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 13,
+          "display_name": "RBI",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 16,
+          "display_name": "SB",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 20,
+          "display_name": "HBP",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 23,
+          "display_name": "TB",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 4,
+          "display_name": "OBP",
+          "position_type": "B",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 50,
+          "display_name": "IP",
+          "position_type": "P",
+          "sort_order": 1,
+          "is_only_display_stat": 1
+        },
+        {
+          "stat_id": 28,
+          "display_name": "W",
+          "position_type": "P",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 32,
+          "display_name": "SV",
+          "position_type": "P",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 26,
+          "display_name": "ERA",
+          "position_type": "P",
+          "sort_order": 0
+        },
+        {
+          "stat_id": 27,
+          "display_name": "WHIP",
+          "position_type": "P",
+          "sort_order": 0
+        },
+        {
+          "stat_id": 56,
+          "display_name": "K/BB",
+          "position_type": "P",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 83,
+          "display_name": "QS",
+          "position_type": "P",
+          "sort_order": 1
+        },
+        {
+          "stat_id": 84,
+          "display_name": "BSV",
+          "position_type": "P",
+          "sort_order": 0
+        }
+      ]
+    },
+    "standings": [
+      {
+        "team_key": "469.l.12345.t.4",
+        "name": "Team 4",
+        "team_stats": {
+          "coverage_type": "season",
+          "season": 2026,
+          "stats": {
+            "stat": [
+              {
+                "stat_id": 60,
+                "value": ""
+              },
+              {
+                "stat_id": 7,
+                "value": 470
+              },
+              {
+                "stat_id": 12,
+                "value": 155
+              },
+              {
+                "stat_id": 13,
+                "value": 470
+              },
+              {
+                "stat_id": 16,
+                "value": 48
+              },
+              {
+                "stat_id": 20,
+                "value": 36
+              },
+              {
+                "stat_id": 23,
+                "value": 1429
+              },
+              {
+                "stat_id": 4,
+                "value": 0.364
+              },
+              {
+                "stat_id": 50,
+                "value": 753.2
+              },
+              {
+                "stat_id": 28,
+                "value": 57
+              },
+              {
+                "stat_id": 32,
+                "value": 39
+              },
+              {
+                "stat_id": 26,
+                "value": 4.22
+              },
+              {
+                "stat_id": 27,
+                "value": 1.26
+              },
+              {
+                "stat_id": 56,
+                "value": 2.36
+              },
+              {
+                "stat_id": 83,
+                "value": 48
+              },
+              {
+                "stat_id": 84,
+                "value": 11
+              }
+            ]
+          }
+        },
+        "team_points": {
+          "coverage_type": "season",
+          "season": 2026,
+          "total": 0
+        },
+        "team_standings": {
+          "rank": 1,
+          "playoff_seed": 1,
+          "outcome_totals": {
+            "wins": 10,
+            "losses": 2,
+            "ties": 0,
+            "percentage": 0.833
+          },
+          "games_back": "-"
+        }
+      },
+      {
+        "team_key": "469.l.12345.t.10",
+        "name": "Team 10",
+        "team_stats": {
+          "coverage_type": "season",
+          "season": 2026,
+          "stats": {
+            "stat": [
+              {
+                "stat_id": 60,
+                "value": ""
+              },
+              {
+                "stat_id": 7,
+                "value": 403
+              },
+              {
+                "stat_id": 12,
+                "value": 102
+              },
+              {
+                "stat_id": 13,
+                "value": 368
+              },
+              {
+                "stat_id": 16,
+                "value": 79
+              },
+              {
+                "stat_id": 20,
+                "value": 40
+              },
+              {
+                "stat_id": 23,
+                "value": 1155
+              },
+              {
+                "stat_id": 4,
+                "value": 0.33
+              },
+              {
+                "stat_id": 50,
+                "value": 910.2
+              },
+              {
+                "stat_id": 28,
+                "value": 60
+              },
+              {
+                "stat_id": 32,
+                "value": 28
+              },
+              {
+                "stat_id": 26,
+                "value": 3.52
+              },
+              {
+                "stat_id": 27,
+                "value": 1.22
+              },
+              {
+                "stat_id": 56,
+                "value": 3.19
+              },
+              {
+                "stat_id": 83,
+                "value": 69
+              },
+              {
+                "stat_id": 84,
+                "value": 5
+              }
+            ]
+          }
+        },
+        "team_points": {
+          "coverage_type": "season",
+          "season": 2026,
+          "total": 0
+        },
+        "team_standings": {
+          "rank": 2,
+          "playoff_seed": 2,
+          "outcome_totals": {
+            "wins": 9,
+            "losses": 3,
+            "ties": 0,
+            "percentage": 0.75
+          },
+          "games_back": 1
+        }
+      },
+      {
+        "team_key": "469.l.12345.t.7",
+        "name": "Team 7",
+        "team_stats": {
+          "coverage_type": "season",
+          "season": 2026,
+          "stats": {
+            "stat": [
+              {
+                "stat_id": 60,
+                "value": ""
+              },
+              {
+                "stat_id": 7,
+                "value": 452
+              },
+              {
+                "stat_id": 12,
+                "value": 122
+              },
+              {
+                "stat_id": 13,
+                "value": 393
+              },
+              {
+                "stat_id": 16,
+                "value": 50
+              },
+              {
+                "stat_id": 20,
+                "value": 54
+              },
+              {
+                "stat_id": 23,
+                "value": 1226
+              },
+              {
+                "stat_id": 4,
+                "value": 0.338
+              },
+              {
+                "stat_id": 50,
+                "value": 764.2
+              },
+              {
+                "stat_id": 28,
+                "value": 46
+              },
+              {
+                "stat_id": 32,
+                "value": 43
+              },
+              {
+                "stat_id": 26,
+                "value": 3.94
+              },
+              {
+                "stat_id": 27,
+                "value": 1.29
+              },
+              {
+                "stat_id": 56,
+                "value": 2.88
+              },
+              {
+                "stat_id": 83,
+                "value": 49
+              },
+              {
+                "stat_id": 84,
+                "value": 7
+              }
+            ]
+          }
+        },
+        "team_points": {
+          "coverage_type": "season",
+          "season": 2026,
+          "total": 0
+        },
+        "team_standings": {
+          "rank": 3,
+          "playoff_seed": 3,
+          "outcome_totals": {
+            "wins": 8,
+            "losses": 4,
+            "ties": 0,
+            "percentage": 0.667
+          },
+          "games_back": 2
+        }
+      }
+    ]
+  }
+}
