@@ -9,7 +9,7 @@ import { registerOnboardingTools } from "./tools/onboarding.js";
 import { registerAnalysisTools } from "./tools/analysis.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
-export const VERSION = "0.3.2";
+export const VERSION = "0.4.0";
 
 /**
  * Server-level instructions. Clients (Claude Desktop / Claude Code) load this so
