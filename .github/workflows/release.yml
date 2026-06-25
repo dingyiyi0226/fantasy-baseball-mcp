@@ -1,7 +1,10 @@
 name: Release
 
-# Publish a downloadable .mcpb desktop-extension bundle whenever a version tag
-# is pushed (e.g. `git tag v0.1.0 && git push origin v0.1.0`).
+# On a version tag (e.g. `git tag v0.1.0 && git push origin v0.1.0`):
+#   - `release`     uploads the .mcpb desktop-extension bundle to the GitHub Release
+#   - `publish-npm` publishes to npm via OIDC trusted publishing — no token (so
+#                   `npx yahoo-fantasy-baseball-mcp` works for any MCP client)
+# The two jobs are independent; a hiccup in one does not block the other.
 on:
   push:
     tags: ["v*"]
@@ -43,3 +46,32 @@ jobs:
           files: yahoo-fantasy-baseball-v*.mcpb
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+  publish-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # lets npm mint a short-lived publish credential via OIDC
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+
+      # Trusted publishing (OIDC) needs npm >= 11.5.1.
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      # No token: npm exchanges GitHub's OIDC id-token for a short-lived
+      # credential via the trusted publisher configured on npmjs.com, and
+      # attaches build provenance automatically. `prepublishOnly` builds dist/
+      # first; fails loudly if this version is already on npm — which lines up
+      # with the dedicated version-bump commit convention.
+      - name: Publish to npm
+        run: npm publish
