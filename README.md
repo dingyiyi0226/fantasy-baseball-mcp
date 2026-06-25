@@ -1,14 +1,16 @@
-# Fantasy Baseball for Claude
+# Yahoo Fantasy Baseball MCP Server
 
 A **Claude Desktop Extension** — drag the `.mcpb` file into Claude and you're done. No npm, no terminal, no config files.
 
-Let **Claude** look after your **Yahoo Fantasy Baseball** team: check your roster, scout free agents, review your matchup, and more. Everything runs on your own computer with your own Yahoo access.
+Let your **AI assistant** look after your **Yahoo Fantasy Baseball** team: check your roster, scout free agents, review your matchup, and more. Everything runs on your own computer with your own Yahoo access.
 
 > **Note:** Adding/dropping players and setting lineups are not supported — Yahoo has deprecated the write-scope Fantasy Sports API ([yfpy#79](https://github.com/uberfastman/yfpy/issues/79)).
 
 ---
 
 ## Part 1 · Install
+
+> **Using OpenAI Codex instead of Claude?** Skip this section — follow [Use with OpenAI Codex](#use-with-openai-codex) to register the server, then continue from **Part 2** to connect your Yahoo team.
 
 1. **Download** `yahoo-fantasy-baseball-vX.X.X.mcpb` from the **[Releases page](../../releases/latest)**.
 2. **Open Claude Desktop** — get it at [claude.ai/download](https://claude.ai/download) if needed.
@@ -19,7 +21,7 @@ Let **Claude** look after your **Yahoo Fantasy Baseball** team: check your roste
 
 ## Part 2 · Connect your Yahoo team
 
-You only do this once. In a chat with Claude, type `fantasy start` and follow the prompts.
+You only do this once. In a chat, type `fantasy start` and follow the prompts.
 
 ### a) Create your free Yahoo app
 
@@ -34,21 +36,21 @@ Go to **[developer.yahoo.com/apps/create](https://developer.yahoo.com/apps/creat
 
 Yahoo gives you a **Client ID** and **Client Secret**.
 
-### b) Give those values to Claude
+### b) Enter those values
 
-Paste them into the chat, or enter them in **Settings → Extensions → Yahoo Fantasy Baseball**, then say `fantasy start` again.
+Paste them into the chat (or, on Claude Desktop, enter them in **Settings → Extensions → Yahoo Fantasy Baseball**), then say `fantasy start` again.
 
 ### c) Authorize and finish
 
-Click the link Claude gives you, then click **Agree**. If your browser warns about a self-signed certificate, click **Advanced → Proceed to localhost**. Once you see **"Authorization complete!"**, say `fantasy authorize`. Claude will find your leagues, set your team as default, and you're ready. 🎉
+Click the authorization link, then click **Agree**. If your browser warns about a self-signed certificate, click **Advanced → Proceed to localhost**. Once you see **"Authorization complete!"**, say `fantasy authorize`. The AI will find your leagues, set your team as default, and you're ready. 🎉
 
-> Stuck? Type `fantasy status` and Claude will tell you what's left.
+> Stuck? Type `fantasy status` to see what's left.
 
 ---
 
 ## Part 3 · Talk to your team
 
-| Say this… | …and Claude will |
+| Say this… | …to |
 | --- | --- |
 | `fantasy show roster` | Show your current roster |
 | `fantasy my matchup` | Summarize this week's matchup |
@@ -73,37 +75,9 @@ Analysis automatically targets your **league's scoring categories**. Results inc
 
 ---
 
-## FAQ
+## Use with Claude Code, Codex & other MCP clients
 
-**Is my data safe?** Your Yahoo keys are stored only on your computer (`~/.yahoo-fantasy-mcp/config.json`) and in your OS keychain. Nothing is sent anywhere but Yahoo's API.
-
-**Why do I need my own Yahoo app?** Yahoo requires each person to use their own keys — no shared secrets.
-
-**Rate limit errors?** Yahoo limits heavy use. Wait an hour and try again.
-
-**Does this cost anything?** No. Both the Yahoo app and this extension are free.
-
-**`analyze` commands fail with a connection error?** Claude may need explicit permission to reach the stats APIs. Go to **Settings → Capabilities** (Team/Enterprise: **Organization settings → Capabilities**) and add these under **Additional allowed domains**:
-
-| Domain | Used for |
-| --- | --- |
-| `statsapi.mlb.com` | MLB Stats API |
-| `baseballsavant.mlb.com` | Statcast / expected stats |
-| `www.fangraphs.com` | FanGraphs WAR/wRC+ |
-
----
-
-## For developers
-
-Local MCP server (Node.js + TypeScript, stdio transport) for the Yahoo Fantasy Sports v2 API.
-
-```bash
-npm install
-npm run build          # compile TypeScript → dist/
-node dist/cli.js auth  # optional terminal auth
-node dist/cli.js serve # run MCP server over stdio
-npm run pack           # build .mcpb bundle
-```
+The one-click `.mcpb` bundle in **Part 1** is for Claude Desktop only. Every other MCP client — Claude Code, OpenAI Codex, and the rest — runs the same server over stdio. Register it once with the steps below, then connect your Yahoo team exactly as in **Part 2** (`fantasy start`).
 
 ### Use with Claude Code or any MCP client
 
@@ -160,6 +134,42 @@ YF_CLIENT_SECRET = "your_secret"
 > **From a local checkout** instead of npm: run `npm install && npm run build`, then use `node` as the command with `/absolute/path/to/dist/cli.js serve` as the arguments.
 
 A copy-paste version lives in [`codex.config.example.toml`](codex.config.example.toml).
+
+---
+
+## FAQ
+
+**Is my data safe?** Your Yahoo keys are stored only on your computer (`~/.yahoo-fantasy-mcp/config.json`) and in your OS keychain. Nothing is sent anywhere but Yahoo's API.
+
+**Why do I need my own Yahoo app?** Yahoo requires each person to use their own keys — no shared secrets.
+
+**Rate limit errors?** Yahoo limits heavy use. Wait an hour and try again.
+
+**Does this cost anything?** No. Both the Yahoo app and this extension are free.
+
+**`analyze` commands fail with a connection error?** Your AI client may need explicit permission to reach the stats APIs. On **Claude Desktop / Claude.ai**, go to **Settings → Capabilities** (Team/Enterprise: **Organization settings → Capabilities**) and add these under **Additional allowed domains**:
+
+| Domain | Used for |
+| --- | --- |
+| `statsapi.mlb.com` | MLB Stats API |
+| `baseballsavant.mlb.com` | Statcast / expected stats |
+| `www.fangraphs.com` | FanGraphs WAR/wRC+ |
+
+On **Codex** or other clients, check your client's network/domain allowlist settings.
+
+---
+
+## For developers
+
+Local MCP server (Node.js + TypeScript, stdio transport) for the Yahoo Fantasy Sports v2 API.
+
+```bash
+npm install
+npm run build          # compile TypeScript → dist/
+node dist/cli.js auth  # optional terminal auth
+node dist/cli.js serve # run MCP server over stdio
+npm run pack           # build .mcpb bundle
+```
 
 ### Tools
 

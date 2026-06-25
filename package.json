@@ -1,7 +1,7 @@
 {
   "name": "yahoo-fantasy-baseball-mcp",
   "version": "0.4.1",
-  "description": "Bring-your-own-credentials local MCP server for managing a Yahoo Fantasy Baseball team via Claude.",
+  "description": "MCP server for Yahoo Fantasy Baseball — AI-powered roster management, Statcast analytics, and free-agent scouting via natural language.",
   "type": "module",
   "license": "MIT",
   "author": "dingyiyi0226",

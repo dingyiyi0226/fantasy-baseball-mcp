@@ -12,9 +12,8 @@ import { registerAnalysisTools } from "./tools/analysis.js";
 export const VERSION = "0.4.1";
 
 /**
- * Server-level instructions. Clients (Claude Desktop / Claude Code) load this so
- * Claude understands the `fantasy …` command convention and maps plain language
- * to the right tools.
+ * Server-level instructions sent to the AI client so it understands the
+ * `fantasy …` command convention and maps plain language to the right tools.
  */
 const INSTRUCTIONS = `This server manages the user's Yahoo Fantasy Baseball team.
 
