@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "yahoo-fantasy-baseball",
   "display_name": "Yahoo Fantasy Baseball",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Read and manage your Yahoo Fantasy Baseball team from Claude.",
   "long_description": "A bring-your-own-credentials extension that lets Claude read your Yahoo Fantasy Baseball roster, matchups, stats, and free agents — and, with your confirmation, add/drop players and set your lineup. You create your own free Yahoo app and complete a one-time authorization right inside Claude (just say \"fantasy start\"). Nothing is hosted; everything runs locally and your credentials stay on your machine.",
   "author": {
