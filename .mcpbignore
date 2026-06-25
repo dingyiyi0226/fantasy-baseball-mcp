@@ -11,6 +11,7 @@
 /.gitignore
 /.mcpbignore
 /README.md
+/codex.config.example.toml
 /*.mcpb
 
 # Drop our build's sourcemaps and type declarations (not needed at runtime).

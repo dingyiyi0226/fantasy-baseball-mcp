@@ -1,0 +1,33 @@
+# Example Codex MCP configuration for Yahoo Fantasy Baseball.
+#
+# For the CLI / IDE extension, copy this block into your Codex config:
+#   - Global:  ~/.codex/config.toml
+#   - Project: .codex/config.toml   (trusted projects only)
+#
+# The desktop app uses a form instead (Settings -> MCP -> Connect to a custom
+# MCP -> STDIO): Command to launch = "npx"; Arguments = -y,
+# yahoo-fantasy-baseball-mcp, serve (one per entry); add the YF_* env vars.
+#
+# Or add it from the terminal:
+#   codex mcp add yahoo-fantasy-baseball \
+#     --env YF_CLIENT_ID=your_id --env YF_CLIENT_SECRET=your_secret \
+#     -- npx -y yahoo-fantasy-baseball-mcp serve
+#
+# Then run `fantasy start` in a Codex session to authorize. Use `/mcp` in the
+# Codex TUI to confirm the server connected.
+
+[mcp_servers.yahoo-fantasy-baseball]
+command = "npx"
+args = ["-y", "yahoo-fantasy-baseball-mcp", "serve"]
+
+# Running from a local checkout instead of npm? Build first (npm install &&
+# npm run build), then use the built entry point with an absolute path:
+# command = "node"
+# args = ["/absolute/path/to/fantasy-baseball-mcp/dist/cli.js", "serve"]
+
+# Credentials are optional here — you can also supply them in-chat via
+# `fantasy start`. They're saved to ~/.yahoo-fantasy-mcp/config.json after the
+# first authorization, so this block only needs them for a fully headless setup.
+[mcp_servers.yahoo-fantasy-baseball.env]
+YF_CLIENT_ID = "your_yahoo_client_id"
+YF_CLIENT_SECRET = "your_yahoo_client_secret"

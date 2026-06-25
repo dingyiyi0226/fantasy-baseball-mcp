@@ -127,6 +127,40 @@ Or add to `claude_desktop_config.json`:
 }
 ```
 
+### Use with OpenAI Codex
+
+Codex has no one-click bundle like Claude's `.mcpb`. The server is the same; only how you register it differs. No clone or build needed — `npx` fetches the published package. After registering, restart Codex and run `fantasy start` to connect your Yahoo team.
+
+> **Requires Node.js 18+** (it provides `npx`). Install it from [nodejs.org/download](https://nodejs.org/en/download) — or on macOS just run `brew install node`. Unlike Claude Desktop, which bundles a Node runtime, Codex launches the command in your own environment, so Node must be installed.
+
+**Desktop app** — Settings → MCP → **Connect to a custom MCP**, choose **STDIO**, and fill in:
+
+| Field | Value |
+| --- | --- |
+| **Name** | `yahoo-fantasy-baseball` |
+| **Command to launch** | `npx` |
+| **Arguments** | `-y`, then `yahoo-fantasy-baseball-mcp`, then `serve` — one per "Add argument" |
+| **Environment variables** | `YF_CLIENT_ID` / `YF_CLIENT_SECRET` (optional — or authorize in-chat) |
+| **Working directory** | leave blank |
+
+> **"Command not found"?** GUI apps don't always inherit your shell `PATH`. Run `which npx` in a terminal and paste that absolute path into "Command to launch."
+
+**CLI / IDE extension** — add to `~/.codex/config.toml` (`/mcp` confirms the connection):
+
+```toml
+[mcp_servers.yahoo-fantasy-baseball]
+command = "npx"
+args = ["-y", "yahoo-fantasy-baseball-mcp", "serve"]
+
+[mcp_servers.yahoo-fantasy-baseball.env]
+YF_CLIENT_ID = "your_id"
+YF_CLIENT_SECRET = "your_secret"
+```
+
+> **From a local checkout** instead of npm: run `npm install && npm run build`, then use `node` as the command with `/absolute/path/to/dist/cli.js serve` as the arguments.
+
+A copy-paste version lives in [`codex.config.example.toml`](codex.config.example.toml).
+
 ### Tools
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
