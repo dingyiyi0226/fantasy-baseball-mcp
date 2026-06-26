@@ -1,6 +1,10 @@
 # Yahoo Fantasy Baseball MCP Server
 
-A **Claude Desktop Extension** — drag the `.mcpb` file into Claude and you're done. No npm, no terminal, no config files.
+[![npm](https://img.shields.io/npm/v/yahoo-fantasy-baseball-mcp)](https://www.npmjs.com/package/yahoo-fantasy-baseball-mcp)
+
+A **Yahoo Fantasy Baseball MCP server** for **Claude** and **Codex**.
+
+For **Claude Desktop**, just drag the `.mcpb` file into Claude and you're done. No npm, no terminal, no config files. Codex is also supported through standard MCP configuration.
 
 Let your **AI assistant** look after your **Yahoo Fantasy Baseball** team: check your roster, scout free agents, review your matchup, and more. Everything runs on your own computer with your own Yahoo access.
 
