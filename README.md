@@ -117,7 +117,7 @@ Codex has no one-click bundle like Claude's `.mcpb`. The server is the same; onl
 | --- | --- |
 | **Name** | `yahoo-fantasy-baseball` |
 | **Command to launch** | `npx` |
-| **Arguments** | `-y`, then `yahoo-fantasy-baseball-mcp`, then `serve` — one per "Add argument" |
+| **Arguments** | `-y`, then `yahoo-fantasy-baseball-mcp@latest`, then `serve` — one per "Add argument" |
 | **Environment variables** | `YF_CLIENT_ID` / `YF_CLIENT_SECRET` (optional — or authorize in-chat) |
 | **Working directory** | leave blank |
 
@@ -128,7 +128,7 @@ Codex has no one-click bundle like Claude's `.mcpb`. The server is the same; onl
 ```toml
 [mcp_servers.yahoo-fantasy-baseball]
 command = "npx"
-args = ["-y", "yahoo-fantasy-baseball-mcp", "serve"]
+args = ["-y", "yahoo-fantasy-baseball-mcp@latest", "serve"]
 
 [mcp_servers.yahoo-fantasy-baseball.env]
 YF_CLIENT_ID = "your_id"
