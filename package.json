@@ -32,6 +32,7 @@
     "serve": "node dist/cli.js serve",
     "pack": "npx -y @anthropic-ai/mcpb pack . yahoo-fantasy-baseball-v$(node -p \"require('./package.json').version\").mcpb",
     "pack:safe": "npm run pack && MCPB=yahoo-fantasy-baseball-v$(node -p \"require('./package.json').version\").mcpb && TMPDIR=$(mktemp -d) && unzip -q \"$MCPB\" -d \"$TMPDIR\" && rm \"$MCPB\" && (cd \"$TMPDIR\" && zip -0 -r - .) > \"$MCPB\" && rm -rf \"$TMPDIR\"",
+    "pack:skill": "rm -f fantasy-roster-review-skill.zip && (cd skills && zip -r ../fantasy-roster-review-skill.zip fantasy-roster-review -x '*.DS_Store')",
     "version": "node scripts/sync-version.js && git add manifest.json src/server.ts",
     "prepublishOnly": "npm run build"
   },

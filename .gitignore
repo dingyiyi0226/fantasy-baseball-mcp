@@ -2,6 +2,7 @@ node_modules/
 dist/
 *.log
 *.mcpb
+*-skill.zip
 .DS_Store
 
 # Never commit user credentials. The real config lives in ~/.yahoo-fantasy-mcp/

@@ -40,10 +40,18 @@ jobs:
       - name: Pack .mcpb bundle
         run: npm run pack:safe
 
-      - name: Upload bundle to the GitHub Release
+      # The Fantasy Roster Review skill ships as a ZIP so Claude Desktop users
+      # can upload it via Customize → Skills (the .mcpb cannot carry skills, and
+      # `npx skills add` only targets CLI agents like Claude Code / Codex).
+      - name: Pack roster review skill
+        run: npm run pack:skill
+
+      - name: Upload bundle and skill to the GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: yahoo-fantasy-baseball-v*.mcpb
+          files: |
+            yahoo-fantasy-baseball-v*.mcpb
+            fantasy-roster-review-skill.zip
           generate_release_notes: true
           fail_on_unmatched_files: true
 
