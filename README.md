@@ -79,6 +79,38 @@ Analysis automatically targets your **league's scoring categories**. Results inc
 
 ---
 
+## Install the roster review skill
+
+We provide a **Fantasy Roster Review** skill for a more structured roster review
+workflow. The skill only drives the Yahoo tools from this MCP server, so it's a
+**separate install from the server** — register the server first (Part 1 or the
+[MCP client steps](#use-with-claude-code-codex--other-mcp-clients)), then add the
+skill for your client below. Once both are in place, ask for `fantasy roster review`.
+
+### Claude Desktop
+
+The `.mcpb` extension carries the tools but **not** the skill, and the command
+above doesn't target the desktop app — upload the skill manually:
+
+1. **Download** `fantasy-roster-review-skill.zip` from the **[Releases page](../../releases/latest)**.
+2. In Claude Desktop, turn on **code execution** under **Settings → Capabilities** (skills require it).
+3. Go to **Customize → Skills**, click **+ → Create skill → Upload a skill**, and select the ZIP.
+
+The skill then appears in your list, ready to toggle on.
+
+### Claude Code, Codex & other CLI agents
+
+Install the skill with one command — it detects your installed agents and drops
+the skill into each one's skills folder:
+
+```bash
+npx skills add dingyiyi0226/fantasy-baseball-mcp
+```
+
+Then restart your client.
+
+---
+
 ## Use with Claude Code, Codex & other MCP clients
 
 The one-click `.mcpb` bundle in **Part 1** is for Claude Desktop only. Every other MCP client — Claude Code, OpenAI Codex, and the rest — runs the same server over stdio. Register it once with the steps below, then connect your Yahoo team exactly as in **Part 2** (`fantasy start`).
