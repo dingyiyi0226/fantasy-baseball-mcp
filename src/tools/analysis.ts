@@ -269,11 +269,11 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
       description:
         "Fetch advanced stats (Statcast, expected stats, FanGraphs) for a batch of rostered " +
         "players. Accepts at most 10 players per call via playerKeys — callers should first use " +
-        "get_team_roster to retrieve all player keys, split them into batches of up to 10, and " +
+        "get_roster to retrieve all player keys, split them into batches of up to 10, and " +
         "call this tool once per batch (calls can run in parallel). " +
         "The response includes the league's scoring categories so advice targets " +
         "stats that actually matter in this league (e.g. SB if stolen bases count, " +
-        "HLD if holds count). Combine with get_team_roster to see who is starting or benched.",
+        "HLD if holds count). Combine with get_roster to see who is starting or benched.",
       inputSchema: {
         teamKey: z
           .string()
