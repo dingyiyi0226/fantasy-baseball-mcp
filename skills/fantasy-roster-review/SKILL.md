@@ -99,10 +99,13 @@ Call `get_matchups` (and `get_team_stats_week` if matchup data is sparse).
 Produce a compact category table: your totals vs. opponent totals for IP, W, SV, ERA, WHIP, K/BB, QS, BSV.
 
 ### B — Your Roster & Availability
+Call `list_probable_starters` with `date=lineupDate` and `fantasyContext=true` once, then
+reuse that probable-starter board throughout this team's review.
+
 Call `get_roster` with `date=today`. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
-- Identify pitchers with a start today; do a quick web search for confirmed lineup/probables for borderline starters.
+- Identify pitchers with a start today from the `list_probable_starters` result.
 - Output: a start/sit candidate list with slot positions and "playing today? y/n".
 
 ### C — Opponent Roster Pressure
@@ -114,7 +117,8 @@ For the opponent:
 - List active hitters with `is_starting=1`, benched hitters with `is_starting=1`, and active
   hitters with `is_starting=0`.
 - List active pitchers, probable/confirmed starting pitchers, relievers with save paths, and any
-  bench pitchers who appear likely to start today.
+  bench pitchers who appear likely to start today, using the `list_probable_starters` board for
+  probable SPs.
 - Estimate opponent pressure on flippable categories: especially W, QS, SV, K/BB, SB, HR, RBI,
   OBP, and TB.
 - Compare your planned moves against that pressure. Explicitly state whether the plan is
@@ -134,6 +138,9 @@ Split into **batches of ≤10 keys**. Call `analyze_roster_stats` once per batch
   - **Pitchers**: ERA/xERA, WHIP, K/BB, K%, BB%, QS; `recent14d`/`recent30d` when present.
 
 ### E — FA Scout
+Use the `list_probable_starters` board first to identify free-agent or waiver SP streamers who
+are actually probable to start on `lineupDate`.
+
 Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from offset ~75
 until ≥8 free agents are found in the returned `ownership.ownership_type` values.
 - Rank by the team's weakest categories.
@@ -174,14 +181,15 @@ Carry this strategy into every verdict below: a move only earns ✅ if it serves
 From Phase 1, select:
 - All non-trivial start/sit candidates (skip locked-in everyday starters with no injury flags)
 - All add/drop candidates
-- Every SP scheduled to start today (always evaluate context)
+- Every SP scheduled to start today from the Phase 1 probable-starter board (always evaluate context)
 - Any RP flagged as a saves source (closer role validation needed)
 - Any batter whose Phase 1 recent data was absent or sparse
 
 ### C — Platoon & Handedness (batters)
 
 For each batter target:
-1. **Opposing SP handedness**: web-search "[team] starting pitcher today [date]" to confirm today's starter and hand (L/R).
+1. **Opposing SP handedness**: use the Phase 1 probable-starter board to identify today's starter,
+   then web-search or check a trusted stats source for that starter's hand (L/R).
 2. **Platoon splits**: call `analyze_player_stats` or web-search "[player] vs LHP vs RHP 2025 splits" (Baseball Reference / FanGraphs).
 3. Flag a **platoon mismatch** if the batter's wRC+ or OBP against the starter's hand is significantly weaker (>20 wRC+ gap, or OBP drops >0.030 vs that hand).
 

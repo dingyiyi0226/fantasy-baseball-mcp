@@ -9,7 +9,7 @@ For **Claude Desktop**, just drag the `.mcpb` file into Claude and you're done. 
 Let your **AI assistant** look after your **Yahoo Fantasy Baseball** team: check your roster, scout free agents, review your matchup, and more. Everything runs on your own computer with your own Yahoo access.
 
 > **Note:** Adding/dropping players and setting lineups are not supported — Yahoo has deprecated the write-scope Fantasy Sports API ([yfpy#79](https://github.com/uberfastman/yfpy/issues/79)).
-
+ 
 ---
 
 ## Part 1 · Install
@@ -62,6 +62,7 @@ Click the authorization link, then click **Agree**. If your browser warns about 
 | `fantasy who should I add` | Find the best free agents |
 | `fantasy my stats this week` | Show your team's weekly totals |
 | `fantasy recent moves` | List recent adds, drops, and trades |
+| `who's pitching tomorrow` | List probable starting pitchers for a date (add "and who's a free agent" for ownership) |
 | `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+, and recent splits |
 | `analyze my roster` | Run the above for every player on your roster |
 
@@ -215,7 +216,7 @@ npm run pack           # build .mcpb bundle
 
 Several tools come in a light/detailed pair — prefer the lighter one unless stats are needed: `get_standings` vs `get_teams` (+matchups), `get_roster` vs `get_roster_stats` (+stats), `list_players` vs `rank_players` (+stats).
 
-**Analysis** (no Yahoo auth — public APIs): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call)
+**Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` labels each by ownership)
 
 **Write** (deprecated by Yahoo — require `force: true`): `add_drop_player`, `set_lineup`
 

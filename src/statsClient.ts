@@ -84,6 +84,67 @@ export async function resolvePlayer(name: string): Promise<PlayerIdentity | null
 }
 
 // ---------------------------------------------------------------------------
+// MLB Stats API — probable starting pitchers for a date
+// ---------------------------------------------------------------------------
+export interface ProbableStarter {
+  /** MLBAM player id (not a Yahoo key). */
+  mlbamId: number;
+  name: string;
+  team: string;
+  teamAbbr: string;
+  opponent: string;
+  opponentAbbr: string;
+  homeAway: "home" | "away";
+  /** Game start time as an ISO-8601 UTC timestamp. */
+  gameTimeUtc: string;
+  gamePk: number;
+  /** MLB doubleheader flag: "N" none, "Y" traditional, "S" split. */
+  doubleHeader: string;
+}
+
+/**
+ * Every named probable starting pitcher across the MLB slate for one date.
+ *
+ * Returns one entry per pitcher (so a normal game yields two), flattened across
+ * games and sorted by start time. MLB only posts probables for roughly today
+ * through ~2-3 days out, so a future date legitimately returns fewer (or zero)
+ * entries — that is "not announced yet", not an error.
+ */
+export async function fetchProbableStarters(date: string): Promise<ProbableStarter[]> {
+  const res = await axios.get(`${MLB_API}/schedule`, {
+    params: { sportId: 1, date, hydrate: "probablePitcher,team" },
+  });
+  const games = res.data?.dates?.[0]?.games ?? [];
+  const out: ProbableStarter[] = [];
+  for (const g of games) {
+    const home = g?.teams?.home;
+    const away = g?.teams?.away;
+    if (!home || !away) continue;
+    const sides: Array<["home" | "away", any, any]> = [
+      ["away", away, home],
+      ["home", home, away],
+    ];
+    for (const [homeAway, side, other] of sides) {
+      const pp = side?.probablePitcher;
+      if (!pp?.id) continue;
+      out.push({
+        mlbamId: Number(pp.id),
+        name: String(pp.fullName ?? ""),
+        team: String(side.team?.name ?? ""),
+        teamAbbr: String(side.team?.abbreviation ?? ""),
+        opponent: String(other.team?.name ?? ""),
+        opponentAbbr: String(other.team?.abbreviation ?? ""),
+        homeAway,
+        gameTimeUtc: String(g.gameDate ?? ""),
+        gamePk: Number(g.gamePk),
+        doubleHeader: String(g.doubleHeader ?? "N"),
+      });
+    }
+  }
+  return out.sort((a, b) => a.gameTimeUtc.localeCompare(b.gameTimeUtc));
+}
+
+// ---------------------------------------------------------------------------
 // MLB Stats API — standard season stats
 // ---------------------------------------------------------------------------
 export async function fetchMlbStats(

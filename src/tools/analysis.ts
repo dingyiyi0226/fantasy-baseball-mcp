@@ -8,7 +8,9 @@ import {
   fetchSavantExpected,
   fetchSavantStatcast,
   fetchFanGraphs,
+  fetchProbableStarters,
   guessBrefId,
+  type ProbableStarter,
 } from "../statsClient.js";
 import { jsonResult } from "./context.js";
 import type { ToolContext } from "./context.js";
@@ -23,6 +25,53 @@ function currentSeason(): number {
 /** Unwrap a Promise.allSettled result, returning null on rejection. */
 function val<T>(r: PromiseSettledResult<T>): T | null {
   return r.status === "fulfilled" ? r.value : null;
+}
+
+/** Where a probable starter sits in the league: on your team, a rival's, or available. */
+type FantasyOwnership = {
+  fantasyStatus: "yourTeam" | "otherTeam" | "freeAgent" | "waivers" | "unknown";
+  ownerTeamName?: string;
+};
+
+/**
+ * Resolve a probable starter (known only by name from the MLB feed) to its Yahoo
+ * ownership in the configured league. Yahoo has no MLBAM cross-walk, so we match
+ * by name and — since two-way players like Ohtani return both a batter and a
+ * pitcher row — prefer the pitcher entry. Best-effort: any miss is "unknown".
+ */
+async function lookupOwnership(
+  ctx: ToolContext,
+  leagueKey: string,
+  myTeamKey: string | undefined,
+  name: string,
+): Promise<FantasyOwnership> {
+  try {
+    const data = await ctx.client.get(
+      `/league/${leagueKey}/players;search=${encodeURIComponent(name)};out=ownership;count=5`,
+    );
+    const players = asArray(data?.league?.players?.player);
+    if (players.length === 0) return { fantasyStatus: "unknown" };
+    const pitcher =
+      players.find(
+        (p: any) =>
+          p?.position_type === "P" || /\b(SP|RP|P)\b/.test(String(p?.display_position ?? "")),
+      ) ?? players[0];
+    const o = pitcher?.ownership ?? {};
+    switch (o.ownership_type) {
+      case "team":
+        return myTeamKey && o.owner_team_key === myTeamKey
+          ? { fantasyStatus: "yourTeam" }
+          : { fantasyStatus: "otherTeam", ownerTeamName: o.owner_team_name };
+      case "freeagents":
+        return { fantasyStatus: "freeAgent" };
+      case "waivers":
+        return { fantasyStatus: "waivers" };
+      default:
+        return { fantasyStatus: "unknown" };
+    }
+  } catch {
+    return { fantasyStatus: "unknown" };
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -342,6 +391,87 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
         : undefined;
 
       return jsonResult({ season: yr, rosterDate: d, ...(leagueScoringCategories && { leagueScoringCategories }), players: results });
+    },
+  );
+
+  // -------------------------------------------------------------------
+  // Probable starting pitchers for a date (MLB Stats API), optionally
+  // annotated with Yahoo ownership for the configured league.
+  // -------------------------------------------------------------------
+  server.registerTool(
+    "list_probable_starters",
+    {
+      title: "List probable starting pitchers for a date",
+      description:
+        "List every probable starting pitcher across MLB for a date, with each one's " +
+        "opponent, home/away, and game start time (UTC). Sourced from the MLB Stats API " +
+        "(no Yahoo auth needed). MLB only posts probables for roughly today through ~2-3 " +
+        "days out, so 'tomorrow' returns a full board, the day after is usually partial, " +
+        "and dates further out return few or none (not yet announced — not an error). " +
+        "Set fantasyContext=true to also label each starter as yourTeam / otherTeam (with " +
+        "the owning manager) / freeAgent — useful for spotting streamable free-agent " +
+        "starters. Enrichment issues about one Yahoo request per starter (~10-26), so " +
+        "leave it off unless you need ownership.",
+      inputSchema: {
+        date: z
+          .string()
+          .optional()
+          .describe("Date as YYYY-MM-DD; defaults to today. Use tomorrow/day-after for planning."),
+        fantasyContext: z
+          .boolean()
+          .optional()
+          .default(false)
+          .describe("When true, annotate each starter with Yahoo ownership in the configured league."),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ date, fantasyContext }) => {
+      const d = date ?? new Date().toISOString().slice(0, 10);
+      const starters = await fetchProbableStarters(d);
+
+      if (starters.length === 0) {
+        return jsonResult({
+          date: d,
+          count: 0,
+          starters: [],
+          note:
+            "No probable starters are posted for this date yet. MLB typically announces " +
+            "probables only for today through ~2-3 days out.",
+        });
+      }
+
+      if (!fantasyContext) {
+        return jsonResult({ date: d, count: starters.length, starters });
+      }
+
+      // Enrich with Yahoo ownership; degrade to the plain list if Yahoo isn't set up.
+      let leagueKey: string;
+      try {
+        leagueKey = ctx.resolveLeagueKey();
+      } catch {
+        return jsonResult({
+          date: d,
+          count: starters.length,
+          starters,
+          note:
+            "Yahoo is not set up, so ownership could not be added. Say `fantasy start` to " +
+            "connect a league, or omit fantasyContext.",
+        });
+      }
+      let myTeamKey: string | undefined;
+      try {
+        myTeamKey = ctx.resolveTeamKey();
+      } catch {
+        myTeamKey = undefined; // no default team — 'yourTeam' just won't be flagged
+      }
+
+      const enriched = await Promise.all(
+        starters.map(async (s: ProbableStarter) => ({
+          ...s,
+          ...(await lookupOwnership(ctx, leagueKey, myTeamKey, s.name)),
+        })),
+      );
+      return jsonResult({ date: d, count: enriched.length, leagueKey, starters: enriched });
     },
   );
 }

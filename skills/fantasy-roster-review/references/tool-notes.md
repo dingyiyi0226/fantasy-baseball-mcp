@@ -22,6 +22,15 @@
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
 
+### `list_probable_starters`
+- Use `date=lineupDate` and `fantasyContext=true` during roster reviews so each probable SP is
+  labeled `yourTeam`, `otherTeam`, `freeAgent`, `waivers`, or `unknown`.
+- Use this as the first source for "is this SP actually probable to start?" and for free-agent
+  streamer discovery. Filter locally for `fantasyStatus` of `freeAgent` or `waivers`, then use
+  `analyze_player_stats` / matchup context before recommending an add.
+- MLB usually posts probables only for today through roughly 2-3 days out. A low or zero count
+  for a later date means probables may not be announced yet.
+
 ### `list_leagues` / team discovery
 - Known limitation: some Yahoo league-discovery calls may return only one team per league per season,
   even when the user owns multiple teams. If the user expects multiple teams, prefer the configured

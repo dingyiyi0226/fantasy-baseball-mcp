@@ -55,7 +55,8 @@
     { "name": "add_drop_player", "description": "Add and/or drop a player (changes your roster)." },
     { "name": "set_lineup", "description": "Set your daily lineup (changes your roster)." },
     { "name": "analyze_player_stats", "description": "Fetch advanced stats (Statcast, FanGraphs) for a player — use before add/drop decisions." },
-    { "name": "analyze_roster_stats", "description": "Fetch advanced stats for every player on a roster — use for lineup and waiver decisions." }
+    { "name": "analyze_roster_stats", "description": "Fetch advanced stats for every player on a roster — use for lineup and waiver decisions." },
+    { "name": "list_probable_starters", "description": "List probable starting pitchers across MLB for a date (opponent, home/away, time); optionally label each by Yahoo ownership." }
   ],
   "user_config": {
     "client_id": {
