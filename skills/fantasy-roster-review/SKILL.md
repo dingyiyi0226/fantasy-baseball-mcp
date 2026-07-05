@@ -49,14 +49,15 @@ Apply this lens throughout, especially in Phase 2:
   streams; protect cornerstones.
 
 - **Read the clock.** The day type (from Phase 0) changes the math: early-week moves bank value
-  and can be speculative; final-day moves should only chase *flippable* close cats and must avoid
-  risking categories already being won.
+  and can be speculative; the last three days switch to margin-building. Do not merely preserve
+  the current score; widen any category the opponent can still flip, including categories currently
+  being won by a slim margin.
 
-- **Be aggressive late.** On the final day, and usually the final two days, the default posture is
-  to secure the weekly win rather than preserve optional depth. If a move meaningfully improves a
-  flippable category and the drop is replaceable, recommend it. Do not stop at "probably enough"
-  until the opponent's active/probable roster has been checked and the remaining category paths are
-  clear.
+- **Be aggressive late.** In the final three days, the default posture is to win by as many
+  categories, and by as much category margin, as practical. If a replaceable move can add buffer in
+  a vulnerable winning category, flip a tied/losing category, or block an opponent's realistic path,
+  recommend it. Do not stop at "probably enough" until the opponent's active/probable roster has
+  been checked and the plan is enough even if the opponent fixes obvious lineup mistakes.
 
 ## Inputs
 
@@ -80,13 +81,16 @@ Call `fantasy_status` to confirm auth. Then call `get_league_scoring_categories`
 `get_league` (standings, current week, `week_start`, `week_end`).
 
 Determine **day type** by comparing today to `week_end`:
-- **Final day** → secure the matchup aggressively: protect winning categories, chase every close
-  flippable losing/tied cat, and accept damage to already-lost categories when it improves the win
-  path. Avoid pitching adds that risk a ratio category only when that ratio is still winnable or
-  currently being protected.
-- **Final two days** → lean aggressive: use replaceable roster spots for streams/lineup upgrades
-  that can lock or flip categories before the opponent can catch up.
-- **Mid-week / first day** → optimize the full week; prioritize adds that bank value.
+- **Final day** -> maximize the win aggressively: build margin in every category the opponent can
+  still flip, chase every close/tied/flippable losing cat, and assume the opponent may activate all
+  confirmed starters and obvious bench upgrades. Accept damage to already-lost categories when it
+  improves the path to more category wins. Avoid pitching adds that risk a ratio category only when
+  that ratio is still winnable or currently being protected.
+- **Final three days (days 5-7)** -> shift from "try to win" to "win by as much as possible." Use
+  replaceable roster spots for streams/lineup upgrades that widen vulnerable winning cats, convert
+  ties, or remove opponent comeback paths. Prefer extra margin over preserving optional depth when
+  the drop is replaceable and the move targets live categories.
+- **Mid-week / first day** -> optimize the full week; prioritize adds that bank value.
 
 ---
 
@@ -161,18 +165,21 @@ Before evaluating individual players, set the week's strategy using the **Guidin
 (win the matchup, not the roster). From the Phase 1 scoreboard, opponent roster pressure, and the
 Phase 0 day type, classify every category:
 
-- **Winning safely** → protect; don't make moves that risk it.
-- **Close / flippable** → this is where to spend roster slots and adds.
-- **Lost (wide margin, not flippable this week)** → **punt it.** Stop optimizing for it; its
+- **Winning safely** -> protect; don't make moves that risk it.
+- **Winning but vulnerable** -> build margin; in the final three days, treat slim leads as attack
+  targets, not as "done."
+- **Close / flippable** -> this is where to spend roster slots and adds.
+- **Lost (wide margin, not flippable this week)** -> **punt it.** Stop optimizing for it; its
   resources are freed for flippable cats.
 
 Then write a one-line strategy per team, e.g.:
 > *Strategy (day 6/7): WHIP & ERA already lost — punt. W is +1 winnable and QS is tied —
 > stream 2 SP for innings even though it hurts WHIP. SV is safe, don't add relievers (BSV risk).*
 
-On the final day or final two days, also write one sentence answering:
-> *Is this enough? Opponent has 1 confirmed SP and 2 active non-starting SP; our 2 confirmed SP are
-> barely enough for W but not enough for QS, so add 1 more confirmed SP if a replaceable drop exists.*
+On any of the final three days, also write one sentence answering:
+> *Is this enough to prevent a flip? Opponent has 1 confirmed SP, 2 active non-starting SP, and 1
+> obvious bench bat upgrade; our 2 confirmed SP are barely enough for W but not enough for QS, so add
+> 1 more confirmed SP if a replaceable drop exists.*
 
 Carry this strategy into every verdict below: a move only earns ✅ if it serves the strategy.
 
