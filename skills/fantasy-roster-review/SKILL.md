@@ -11,6 +11,10 @@ description: >
   resembling "check my fantasy teams." Trigger on phrases like "check my teams", "fantasy review",
   "how are my teams doing", "who should I start", "any add/drops", "daily fantasy", or
   "run the roster review".
+
+  Also covers weekly management post-mortems and in-week comeback assessments. Trigger on phrases
+  like "weekly review", "how did I manage this week", "grade my week", "review my moves this week",
+  or "can I still win this week".
 ---
 
 # Fantasy Roster Review
@@ -35,6 +39,21 @@ Use this tool for the current day-to-day roster review flow:
 When the user asks for fantasy roster review, daily fantasy review, start/sit help, lineup moves,
 waiver targets, or general team-status advice, load `references/daily-roster-review.md` and follow
 that workflow.
+
+### `weekly-review`
+
+Use this tool for a management post-mortem on the current or a just-finished scoring week:
+- category outcome vs. opponent, including in-progress weeks
+- move-by-move timeline of adds/drops/lineup calls, graded on process vs. result
+- opponent management comparison (lineup cleanliness, streamer usage, add/drop efficiency)
+- missed opportunities (IL/NA misuse, unused streams, missed saves chases)
+- for an in-progress week that is currently being lost: whether a realistic comeback is still
+  possible with the best plausible management from here, not hindsight luck
+- a scorecard grading category strategy, adds/drops, daily lineup handling, and IL/NA management
+
+When the user asks for a weekly review, a post-mortem on roster moves, "how did I manage this
+week", "grade my week", or whether they can still win a losing week, load
+`references/weekly-review.md` and follow that workflow.
 
 ## Operating Rules
 
