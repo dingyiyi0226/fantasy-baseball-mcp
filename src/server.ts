@@ -9,7 +9,7 @@ import { registerOnboardingTools } from "./tools/onboarding.js";
 import { registerAnalysisTools } from "./tools/analysis.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
-export const VERSION = "0.5.2";
+export const VERSION = "0.5.3";
 
 /**
  * Server-level instructions sent to the AI client so it understands the
