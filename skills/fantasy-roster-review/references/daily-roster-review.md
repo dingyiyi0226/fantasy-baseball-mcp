@@ -46,7 +46,8 @@ Apply this lens throughout, especially in Phase 2:
 ```text
 teams:       discover from Yahoo auth/status, or use team keys explicitly provided by the user
 league:      discover from the selected team/matchup, or use a league key explicitly provided by the user
-autoExecute: false   # default - checklist only; set true only if user explicitly asks to make moves
+autoStartBench: true  # default - execute lineup start/bench moves via `roster-start-bench` unless explicitly disabled
+autoAddDrop:   false # default - keep add/drop as a checklist unless explicitly enabled
 lineupDate:  today
 ```
 
@@ -219,9 +220,13 @@ Rules:
 
 ## Phase 4 — Execute or Checklist
 
-If `autoExecute=false`, output a numbered manual checklist in execution order.
+If `autoStartBench=false` and `autoAddDrop=false`, output a numbered manual checklist in execution order.
 
-If `autoExecute=true` and the user explicitly asked to make moves, call `set_lineup` and
-`add_drop_player` with `force=true`, then re-read the roster to confirm. If Yahoo write access is
-unavailable, fall back to the manual checklist. Never auto-drop on the final day without a clear
-win reason.
+If `autoStartBench=true`, hand the approved start/bench moves to the dedicated `roster-start-bench`
+workflow and follow that skill's surface-specific execution steps. Re-read the roster after the
+move sequence to confirm the saved state. If browser-driven write execution is unavailable, fall
+back to the manual checklist.
+
+If `autoAddDrop=true`, call `add_drop_player` with `force=true` for the approved transactions, then
+re-read the roster to confirm. If Yahoo write access is unavailable, fall back to the manual
+checklist. Never auto-drop on the final day without a clear win reason.

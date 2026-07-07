@@ -3,7 +3,8 @@ name: fantasy-roster-review
 description: >
   Fantasy baseball roster review for Yahoo fantasy baseball teams. Produces an actionable report:
   category scoreboard vs. opponent, start/sit lineup moves (with slot positions), and add/drop
-  targets. Does NOT auto-execute roster changes unless explicitly asked.
+  targets. By default, the daily review may auto-run start/bench lineup moves, but add/drop
+  transactions stay recommendation-only unless explicitly enabled.
 
   Use this skill whenever the user asks for: fantasy roster review, daily fantasy review,
   roster review, fantasy check,
@@ -34,7 +35,7 @@ Use this tool for the current day-to-day roster review flow:
 - opponent pressure check
 - start/sit recommendations with exact slot changes
 - add/drop targets and streamer ideas
-- manual checklist by default; only execute moves when the user explicitly asks
+- start/bench execution delegated to `roster-start-bench` by default; add/drop stays manual by default
 
 When the user asks for fantasy roster review, daily fantasy review, start/sit help, lineup moves,
 waiver targets, or general team-status advice, load `references/daily-roster-review.md` and follow
@@ -70,7 +71,8 @@ and follow the section that matches the active surface.
 
 ## Operating Rules
 
-- Default to recommendation-only mode unless the user explicitly asks to execute lineup or roster changes.
+- In `daily-roster-review`, default to `autoStartBench=true` and `autoAddDrop=false` unless the
+  caller explicitly overrides them.
 - For real Yahoo UI lineup changes, prefer the dedicated roster start/bench tool instead of improvising a
   browser procedure inside the review workflows.
 - Run multiple user teams sequentially to avoid rate-limiting external baseball data sources.

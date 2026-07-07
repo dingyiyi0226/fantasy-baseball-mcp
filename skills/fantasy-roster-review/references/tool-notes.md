@@ -42,7 +42,7 @@
   a team key is known.
 
 ### `add_drop_player`
-- Destructive — only call when `autoExecute=true` AND the user has explicitly requested roster changes.
+- Destructive — only call `add_drop_player` when `autoAddDrop=true` or the user has explicitly requested add/drop roster changes.
 - Yahoo write actions are unsupported by default in this MCP server. `add_drop_player` and
   `set_lineup` require `force=true`; without it they return instructions to make the change
   manually on Yahoo Fantasy.
