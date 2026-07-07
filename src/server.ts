@@ -10,6 +10,7 @@ import { registerAnalysisTools } from "./tools/analysis.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
 export const VERSION = "0.5.3";
+const ENABLE_YAHOO_WRITE_API = process.env.ENABLE_YAHOO_WRITE_API === "true";
 
 /**
  * Server-level instructions sent to the AI client so it understands the
@@ -52,8 +53,6 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy find <player name>" / "is <name> available" / need a player_key from a name
   -> search_players (resolves a name to a player_key; filter status=FA for free agents)
 - "fantasy recent moves" / "fantasy transactions" -> get_transactions
-- "fantasy add X" / "fantasy drop Y" / "fantasy swap X for Y" -> add_drop_player
-- "fantasy set lineup ..." / "fantasy bench X, start Y" -> set_lineup
 
 Advanced player / roster analysis (no Yahoo auth required for these):
 - "analyze [player name]" / "how is [player] doing" -> analyze_player_stats
@@ -62,9 +61,11 @@ Advanced player / roster analysis (no Yahoo auth required for these):
 - "analyze my roster" / "roster report" / "who should start tomorrow" -> analyze_roster_stats
   Runs analyze_player_stats for every player on the team's current roster.
 
-add_drop_player and set_lineup change the user's real roster. Always confirm the
-exact players (and positions) with the user before calling them. If any tool says
-setup is incomplete, guide the user back to "fantasy start".`;
+Do not use the legacy Yahoo write API path for roster changes in normal use.
+For lineup changes like bench/start requests, use the browser-based roster
+management flow. For add/drop decisions, recommend the move and have the user
+make it directly on Yahoo Fantasy. If any tool says setup is incomplete, guide
+the user back to "fantasy start".`;
 
 /**
  * Boot the MCP server over stdio. The server always starts — even with no
@@ -91,7 +92,9 @@ export async function runServer(): Promise<void> {
 
   registerOnboardingTools(server, session);
   registerReadTools(server, ctx);
-  registerWriteTools(server, ctx);
+  if (ENABLE_YAHOO_WRITE_API) {
+    registerWriteTools(server, ctx);
+  }
   registerAnalysisTools(server, ctx);
 
   const transport = new StdioServerTransport();

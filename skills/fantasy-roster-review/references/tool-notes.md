@@ -42,13 +42,13 @@
   a team key is known.
 
 ### `add_drop_player`
-- Destructive — only call `add_drop_player` when `autoAddDrop=true` or the user has explicitly requested add/drop roster changes.
-- Yahoo write actions are unsupported by default in this MCP server. `add_drop_player` and
-  `set_lineup` require `force=true`; without it they return instructions to make the change
-  manually on Yahoo Fantasy.
+- Legacy-only Yahoo API path retained for future compatibility testing; do not use it in
+  normal roster-review flows.
+- Add/drop recommendations should stay manual even when the user approves the move.
 - Never auto-drop on the final matchup day without a clearly stated win reason.
 
 ### Browser roster start/bench management
+- Daily lineup changes should use this browser path, not the legacy `set_lineup` API tool.
 - Keep the Yahoo roster semantics shared across execution surfaces; only the automation mechanics should vary by section.
 - Team page URL pattern is `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>` after discovering `league_id` and `team_id` from Yahoo tools.
 - In Yahoo's roster table, start a swap by clicking a player's position pill. The selected source pill becomes highlighted, and legal destination pills turn green.

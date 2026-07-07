@@ -52,8 +52,6 @@
     { "name": "search_players", "description": "Search players by name to resolve a player_key; optionally filter by availability status or position." },
     { "name": "get_league_scoring_categories", "description": "Get the stat categories used for scoring in this league (e.g. R, HR, ERA, WHIP)." },
     { "name": "get_transactions", "description": "Get recent transactions (adds, drops, trades) in a league." },
-    { "name": "add_drop_player", "description": "Add and/or drop a player (changes your roster)." },
-    { "name": "set_lineup", "description": "Set your daily lineup (changes your roster)." },
     { "name": "analyze_player_stats", "description": "Fetch advanced stats (Statcast, FanGraphs) for a player — use before add/drop decisions." },
     { "name": "analyze_roster_stats", "description": "Fetch advanced stats for every player on a roster — use for lineup and waiver decisions." },
     { "name": "list_probable_starters", "description": "List probable starting pitchers across MLB for a date (opponent, home/away, time); optionally label each by Yahoo ownership." }

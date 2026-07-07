@@ -380,7 +380,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       description:
         "Find players by name (full or partial) and resolve them to player keys. " +
         "This is the way to turn a name the user typed into the `player_key` that " +
-        "get_player_stats, analyze_player_stats, add_drop_player, and set_lineup need. " +
+        "get_player_stats, analyze_player_stats, and any legacy Yahoo write tools need. " +
         "Returns name, position, eligible positions, injury status, and ownership " +
         "(free agent or owning team) — no stats. Optionally narrow by `status` " +
         "(e.g. FA to only see free agents) or `position` (e.g. SP, OF, 2B). Returns " +

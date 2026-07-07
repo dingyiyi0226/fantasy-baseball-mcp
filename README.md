@@ -218,9 +218,18 @@ Several tools come in a light/detailed pair — prefer the lighter one unless st
 
 **Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` labels each by ownership)
 
-**Write** (deprecated by Yahoo — require `force: true`): `add_drop_player`, `set_lineup`
+Yahoo's write-scoped fantasy API is deprecated, so this server does not expose
+write tools as part of the supported workflow.
+
+Daily lineup start/bench management is handled through the browser-based roster
+review/start-bench skill flow. Add/drop decisions are recommendation-only; make
+the approved transaction directly on Yahoo Fantasy.
 
 Credentials resolve from the saved config or `YF_CLIENT_ID` / `YF_CLIENT_SECRET` env vars. Releases are published automatically by GitHub Actions on a `v*` tag.
+
+Legacy Yahoo write-tool code remains in the repo for compatibility testing, but
+it is not registered by default. To expose that path intentionally, start the
+server with `ENABLE_YAHOO_WRITE_API=true`.
 
 ## License
 

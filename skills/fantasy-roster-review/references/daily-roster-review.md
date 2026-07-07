@@ -227,6 +227,6 @@ workflow and follow that skill's surface-specific execution steps. Re-read the r
 move sequence to confirm the saved state. If browser-driven write execution is unavailable, fall
 back to the manual checklist.
 
-If `autoAddDrop=true`, call `add_drop_player` with `force=true` for the approved transactions, then
-re-read the roster to confirm. If Yahoo write access is unavailable, fall back to the manual
-checklist. Never auto-drop on the final day without a clear win reason.
+If `autoAddDrop=true`, keep the add/drop plan as a manual checklist. The Yahoo write API path is
+legacy-only and should not be used in normal execution. Never auto-drop on the final day without a
+clear win reason.
