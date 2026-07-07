@@ -63,6 +63,13 @@
 - This path is **Codex Chrome only**; do not write instructions that assume the in-app browser or a different browser automation surface.
 - For Codex monitoring, do not report success from a stale pre-refresh visual state after an error.
 
+#### Claude
+- This path is **Claude-in-Chrome only**, driven through the `claude-in-chrome` MCP tools (`mcp__claude-in-chrome__*`); do not assume the in-app browser or another automation surface.
+- If more than one Chrome browser is connected, ask the user which one to use before any browser action; never pick one yourself.
+- Read swap-mode pill color (green legal / greyed illegal) from a `computer` screenshot, not the accessibility tree; the table is long and entering swap mode can auto-scroll, so re-screenshot before each click.
+- `Escape` cancels swap mode cleanly and leaves the roster unchanged — use it to inspect a swap without committing.
+- Do not report success from a stale pre-reload screenshot after an error; reload the team URL and re-screenshot first.
+
 ## League Info
 
 Discover league-specific details from `fantasy_status`, `get_league`, and league scoring/category

@@ -1,9 +1,11 @@
 # `roster-start-bench`
 
-Use this tool when the user explicitly wants Codex to manage players between active Yahoo lineup
+Use this tool when the user explicitly wants an agent to manage players between active Yahoo lineup
 slots and `BN` in the live Yahoo Fantasy Baseball website.
 
-This tool contains execution-surface-specific sections. Keep the Yahoo roster rules shared, and put surface-specific automation guidance under the right section.
+This tool contains execution-surface-specific sections (`Codex` and `Claude`), both of which drive
+the user's real Chrome. Keep the Yahoo roster rules shared, and put surface-specific automation
+guidance under the right section.
 
 Read `references/tool-notes.md` before using this tool.
 
@@ -47,6 +49,52 @@ This section is **Codex Chrome only**:
 - assume Yahoo is already logged in inside Chrome unless the user says otherwise
 - do not substitute the in-app browser or a different browser automation surface
 - do not claim the move succeeded until the Chrome page shows the saved state
+
+## Claude
+
+Use this section when the execution surface is **Claude driving the user's Chrome** through the
+`claude-in-chrome` MCP tools (`mcp__claude-in-chrome__*`).
+
+This section is **Claude-in-Chrome only**:
+- it drives real Chrome through the `claude-in-chrome` tools, not the in-app browser or any other
+  automation surface
+- assume Yahoo is already logged in inside the selected Chrome unless the user says otherwise
+- do not claim a move succeeded until a fresh screenshot shows the saved state
+
+### Browser selection (do this first)
+
+1. Call `list_connected_browsers`. If more than one browser is connected you **must** ask the user
+   which one to use (list every browser with its `deviceId`) before any browser action — never pick
+   one yourself.
+2. `select_browser` with the chosen `deviceId`.
+3. `tabs_context_mcp{createIfEmpty:true}` to get or create a working tab, and note its `tabId`.
+
+### Tool mapping for the workflow phases
+
+Run the shared `Roster Move Workflow` below with these tools:
+- **Open the team page**: `navigate` to the team URL on the working `tabId`.
+- **Read roster state (Phase 1)**: take a `computer` `screenshot`. The swap-mode signal is
+  *visual* (green vs. greyed pills), so a screenshot is the reliable read — prefer it over
+  `read_page`/`get_page_text` for confirming legal destinations. Use `find` or `read_page` only to
+  locate a player row by name when a screenshot alone is ambiguous.
+- **Enter swap mode (Phase 2)**: `computer` `left_click` on the source player's position pill, then
+  screenshot to confirm the pill highlighted (its row also tints) and which destinations turned green.
+- **Complete the move (Phase 3)**: `left_click` the green destination pill, then screenshot to
+  confirm `Saving...` → `All changes saved` and the changed slots.
+- **Abort / cancel swap mode**: press `Escape` (`computer` `key`). Verified to clear the green
+  highlights and leave the roster unchanged — use it to back out after inspecting a swap without
+  committing.
+- **Recover from desync (Phase 3 error path)**: `navigate` to the same team URL again to reload,
+  then re-screenshot and re-read from the refreshed page.
+
+### Claude-in-Chrome specifics
+
+- The roster table is long and only a few rows of pills are on screen at once. Scrolling changes
+  pill coordinates, and *entering swap mode can auto-scroll the page* — always take a fresh
+  screenshot immediately before each click and click from those fresh coordinates.
+- Read pill color from a screenshot, not from the accessibility tree.
+- Do not report success from a stale pre-reload screenshot after an error; re-screenshot the
+  refreshed page first.
 
 ## Roster Move Workflow
 
