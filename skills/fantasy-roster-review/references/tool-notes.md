@@ -48,6 +48,21 @@
   manually on Yahoo Fantasy.
 - Never auto-drop on the final matchup day without a clearly stated win reason.
 
+### Browser roster start/bench management
+- Keep the Yahoo roster semantics shared across execution surfaces; only the automation mechanics should vary by section.
+- Team page URL pattern is `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>` after discovering `league_id` and `team_id` from Yahoo tools.
+- In Yahoo's roster table, start a swap by clicking a player's position pill. The selected source pill becomes highlighted, and legal destination pills turn green.
+- Complete the move by clicking one green destination pill. A successful save shows `Saving...` followed by `All changes saved` and often a green success toast.
+- If Yahoo rejects a move or the page gets visually out of sync, refresh before trusting the visible roster state.
+- IL activation can fail when the active/bench roster is full. Free a legal roster slot first, then retry after refresh.
+- `SP` bench pitchers can swap into `SP` and `P`, but not `RP`.
+- `RP` bench pitchers can swap into `RP` and `P`, but not `SP`.
+- Multi-eligible hitters can light multiple infield or outfield pills plus `Util`.
+
+#### Codex
+- This path is **Codex Chrome only**; do not write instructions that assume the in-app browser or a different browser automation surface.
+- For Codex monitoring, do not report success from a stale pre-refresh visual state after an error.
+
 ## League Info
 
 Discover league-specific details from `fantasy_status`, `get_league`, and league scoring/category

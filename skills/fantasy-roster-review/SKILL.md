@@ -55,9 +55,24 @@ When the user asks for a weekly review, a post-mortem on roster moves, "how did 
 week", "grade my week", or whether they can still win a losing week, load
 `references/weekly-review.md` and follow that workflow.
 
+### `roster-start-bench`
+
+Use this tool when the user explicitly wants browser-driven Yahoo lineup slot management:
+- move a player between active lineup slots and `BN`
+- activate or bench pitchers and hitters with exact slot swaps
+- inspect the current Yahoo page state before or after a manual click sequence
+- produce a manual browser checklist when write execution should stay user-driven
+
+This is a shared tool with surface-specific sections. Right now only the `Codex` section is
+implemented, and it is **Codex Chrome only**. Do not use it for the in-app browser, generic browser
+automation, or API-only roster advice. When triggered, load `references/roster-start-bench.md`
+and follow the section that matches the active surface.
+
 ## Operating Rules
 
 - Default to recommendation-only mode unless the user explicitly asks to execute lineup or roster changes.
+- For real Yahoo UI lineup changes, prefer the dedicated roster start/bench tool instead of improvising a
+  browser procedure inside the review workflows.
 - Run multiple user teams sequentially to avoid rate-limiting external baseball data sources.
 - Keep reports scannable: strategy first, then scoreboard, then moves, then add/drop targets.
 - Every non-trivial recommendation needs a brief `Why` plus a compact `Evidence` table.
