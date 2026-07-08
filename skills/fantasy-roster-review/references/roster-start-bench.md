@@ -16,7 +16,8 @@ Use this tool for the shared Yahoo roster-management behavior:
 - benching an active player into `BN`
 - swapping two players by clicking Yahoo position pills
 - watching the page while the user performs a move manually, then reporting what happened
-- recovering from Yahoo UI desync by refreshing and re-reading the visible roster state
+- recovering from any unexpected error or Yahoo UI desync by refreshing the page and confirming the
+  authoritative roster state with the `get_roster` tool
 
 Do not use this tool for:
 - add/drop transactions
@@ -48,7 +49,8 @@ This section is **Codex Chrome only**:
 - use it only when the Chrome plugin or Chrome-control path is available
 - assume Yahoo is already logged in inside Chrome unless the user says otherwise
 - do not substitute the in-app browser or a different browser automation surface
-- do not claim the move succeeded until the Chrome page shows the saved state
+- do not claim the move succeeded until it is confirmed; on any unexpected error, refresh and treat
+  the `get_roster` tool as the source of truth (see the shared Phase 3 error path)
 
 ## Claude
 
@@ -59,7 +61,8 @@ This section is **Claude-in-Chrome only**:
 - it drives real Chrome through the `claude-in-chrome` tools, not the in-app browser or any other
   automation surface
 - assume Yahoo is already logged in inside the selected Chrome unless the user says otherwise
-- do not claim a move succeeded until a fresh screenshot shows the saved state
+- do not claim a move succeeded until it is confirmed; on any unexpected error, refresh and treat
+  the `get_roster` tool as the source of truth (see the shared Phase 3 error path)
 
 ### Browser selection (do this first)
 
@@ -84,8 +87,9 @@ Run the shared `Roster Move Workflow` below with these tools:
 - **Abort / cancel swap mode**: press `Escape` (`computer` `key`). Verified to clear the green
   highlights and leave the roster unchanged — use it to back out after inspecting a swap without
   committing.
-- **Recover from desync (Phase 3 error path)**: `navigate` to the same team URL again to reload,
-  then re-screenshot and re-read from the refreshed page.
+- **Recover from any error / desync (Phase 3 error path)**: `navigate` to the same team URL again to
+  reload, then call the `get_roster` tool to read the authoritative saved state. Trust `get_roster`
+  over the screenshot when they disagree.
 
 ### Claude-in-Chrome specifics
 
@@ -93,8 +97,8 @@ Run the shared `Roster Move Workflow` below with these tools:
   pill coordinates, and *entering swap mode can auto-scroll the page* — always take a fresh
   screenshot immediately before each click and click from those fresh coordinates.
 - Read pill color from a screenshot, not from the accessibility tree.
-- Do not report success from a stale pre-reload screenshot after an error; re-screenshot the
-  refreshed page first.
+- Do not report success from a stale pre-reload screenshot after an error; follow the shared Phase 3
+  error path (refresh, then confirm with `get_roster`) before reporting.
 
 ## Roster Move Workflow
 
@@ -128,11 +132,13 @@ If the intended destination pill is green:
 3. Confirm `Saving...` appears, then `All changes saved`.
 4. Re-read the roster row(s) to verify the players changed slots.
 
-If Yahoo shows an error or the page becomes inconsistent:
+On **any** unexpected error, or if the page becomes inconsistent:
 1. Treat the move as unconfirmed.
 2. Refresh the page.
-3. Re-read the roster from the refreshed page.
-4. Report the refreshed state instead of the stale visual state.
+3. Call the `get_roster` tool to fetch the authoritative saved state (the backend API is more
+   accurate than the visible page, which can lag or misrepresent what Yahoo actually saved).
+4. Report the state from `get_roster`, not the stale visual state. If `get_roster` and the refreshed
+   page disagree, trust `get_roster`.
 
 ## Observed Yahoo Behaviors
 
@@ -149,5 +155,6 @@ Use these behaviors as hard-earned constraints, not guesses:
 - output a short Chrome management checklist with the exact source player, source slot, and intended destination slot
 - mention any observed roster constraint that might block the move
 - when monitoring a live move, narrate only the meaningful state changes: page verified, source pill selected, destination became green, save confirmed, or refresh required
-- if a move fails, say it failed and give the refreshed post-failure state
-- never report success from the pre-refresh visual state alone after an error
+- if a move fails, say it failed and give the post-failure state confirmed via `get_roster`
+- never report success from the pre-refresh visual state alone after an error; on any unexpected
+  error, refresh and confirm the final roster with `get_roster` before reporting
