@@ -226,12 +226,10 @@ If `autoStartBench=true`, hand the approved start/bench moves to the dedicated `
 workflow and follow that skill's surface-specific execution steps. If browser-driven write execution
 is unavailable, fall back to the manual checklist.
 
-**Whenever any roster change is executed, finish by calling `get_roster` (with `date=lineupDate`) as
-the last step to verify the saved state.** The browser page can lag or misrepresent what Yahoo
-actually saved, so `get_roster` is the source of truth. Diff the result against the intended moves
-and report each slot as confirmed or, if it diverges, call out the mismatch explicitly instead of
-reporting success.
-
 If `autoAddDrop=true`, keep the add/drop plan as a manual checklist. The Yahoo write API path is
 legacy-only and should not be used in normal execution. Never auto-drop on the final day without a
 clear win reason.
+
+After executing any roster change, finish by calling `get_roster` (`date=lineupDate`) to verify the
+saved state — the browser page can misrepresent what Yahoo saved, so treat `get_roster` as the
+source of truth and report any mismatch.
