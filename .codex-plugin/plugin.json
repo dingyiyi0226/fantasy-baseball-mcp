@@ -1,6 +1,6 @@
 {
   "name": "yahoo-fantasy-baseball",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "AI-powered Yahoo Fantasy Baseball — roster management, Statcast analytics, and free-agent scouting via natural language.",
   "author": {
     "name": "dingyiyi0226"
