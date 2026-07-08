@@ -52,6 +52,37 @@ This section is **Codex Chrome only**:
 - do not claim the move succeeded until it is confirmed; on any unexpected error, refresh and treat
   the `get_roster` tool as the source of truth (see the shared Phase 3 error path)
 
+### Profile and backend selection (do this first)
+
+When the user asks to use the Codex Chrome tool, do **not** assume the default Chrome profile is
+correct.
+
+Tool split:
+- use the Chrome plugin for Chrome profile selection, launch, and extension backend setup
+- shell commands (e.g. `functions.exec_command`) may be used only for read-only diagnostics; do not
+  launch Chrome through CLI/`open`/`osascript` unless the user explicitly asks for that fallback
+- use `mcp__node_repl__js` for live Chrome backend checks and all actual Chrome actions
+
+Workflow:
+1. Before launching, inspect Chrome profiles and select a profile where the Codex Chrome Extension is
+   installed and enabled. Do not use the default or last-used Chrome profile unless it is also a
+   valid extension-enabled profile.
+2. If multiple profiles have the extension installed and enabled, prefer the last-used profile among
+   those valid profiles. If only one profile has the extension, launch that profile explicitly.
+3. When Chrome is not running, launch it through the Chrome plugin's own browser setup flow, not via
+   shell commands such as `open`, `osascript`, or direct CLI browser launches.
+4. Use the Chrome plugin/browser-client documented launch path, then retry
+   `agent.browsers.get("extension")`. Only fall back to reporting failure after the plugin launch
+   path has been tried.
+5. Only continue if a live Chrome backend of `type: "extension"` is available.
+6. Do all real Chrome work through `mcp__node_repl__js`, not Computer Use and not the in-app
+   browser.
+
+Rules:
+- prefer "profile with extension installed and enabled" over "last-used profile"
+- do not proceed with a profile that lacks the Codex Chrome Extension
+- if the live extension backend is unavailable, stop and report it instead of silently falling back
+
 ## Claude
 
 Use this section when the execution surface is **Claude driving the user's Chrome** through the

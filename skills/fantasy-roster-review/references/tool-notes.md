@@ -61,6 +61,15 @@
 
 #### Codex
 - This path is **Codex Chrome only**; do not write instructions that assume the in-app browser or a different browser automation surface.
+- When the user asks to use the Codex Chrome tool, first select a Chrome profile where the Codex
+  Chrome Extension is installed and enabled, prefer that over the default or last-used profile, and
+  only use last-used as a tiebreaker among valid extension-enabled profiles.
+- Use the Chrome plugin for Chrome profile selection, launch, and extension backend setup. Shell
+  commands may be used only for read-only diagnostics; do not launch Chrome through CLI/`open` unless
+  the user explicitly asks for that fallback. Then use `mcp__node_repl__js` to confirm a live
+  `extension` backend in this thread before doing any real browser work.
+- If the live extension backend is unavailable, stop and report it; do not silently fall back to
+  the in-app browser, Computer Use, or a profile without the extension.
 - For Codex monitoring, do not report success from a stale pre-refresh visual state after an error.
 
 #### Claude
