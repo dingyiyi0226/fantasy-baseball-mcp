@@ -13,7 +13,7 @@
 If `analyze` commands fail with a connection error, your AI client may need
 explicit permission to reach the stats APIs.
 
-On **Claude Desktop / Claude.ai**, go to **Settings → Capabilities**
+On **Claude Desktop**, go to **Settings → Capabilities**
 (Team/Enterprise: **Organization settings → Capabilities**) and add these under
 **Additional allowed domains**:
 
@@ -23,5 +23,4 @@ On **Claude Desktop / Claude.ai**, go to **Settings → Capabilities**
 | `baseballsavant.mlb.com` | Statcast / expected stats |
 | `www.fangraphs.com` | FanGraphs WAR/wRC+ |
 
-On **Codex** or other clients, check your client's network or domain allowlist
-settings.
+In the **Codex desktop app**, check its network or domain allowlist settings.

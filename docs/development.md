@@ -29,7 +29,15 @@ Daily lineup start/bench management is handled through the browser-based roster
 review/start-bench skill flow. Add/drop decisions are recommendation-only; make
 the approved transaction directly on Yahoo Fantasy.
 
-Credentials resolve from saved config or from the `YF_CLIENT_ID` / `YF_CLIENT_SECRET` env vars. Releases are published automatically by GitHub Actions on a `v*` tag.
+Credentials resolve from saved config or from the `YF_CLIENT_ID` / `YF_CLIENT_SECRET` env vars.
+
+## Distribution
+
+The server reaches users through three channels, all built/published by GitHub Actions on a `v*` tag:
+
+- **Claude Desktop** — the `.mcpb` bundle (`npm run pack:safe`) plus the roster-review skill ZIP (`npm run pack:skill`), both attached to the GitHub Release.
+- **Codex desktop app** — a Codex plugin defined in-repo (`.codex-plugin/plugin.json`, `.mcp.json`, and `.agents/plugins/marketplace.json`) that bundles the same `skills/` folder and launches the server via `npx`. It's served straight from the repo, so there's no separate build artifact — users add the marketplace from the app UI.
+- **npm** — `yahoo-fantasy-baseball-mcp`, which the Codex plugin's `.mcp.json` runs via `npx`.
 
 Legacy Yahoo write-tool code remains in the repo for compatibility testing, but
 it is not registered by default. To expose that path intentionally, start the
