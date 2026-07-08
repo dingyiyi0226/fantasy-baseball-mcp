@@ -9,7 +9,7 @@ import { registerOnboardingTools } from "./tools/onboarding.js";
 import { registerAnalysisTools } from "./tools/analysis.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
-export const VERSION = "0.5.3";
+export const VERSION = "0.5.4";
 const ENABLE_YAHOO_WRITE_API = process.env.ENABLE_YAHOO_WRITE_API === "true";
 
 /**
