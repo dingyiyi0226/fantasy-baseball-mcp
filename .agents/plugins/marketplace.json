@@ -1,0 +1,20 @@
+{
+  "name": "yahoo-fantasy-baseball",
+  "interface": {
+    "displayName": "Yahoo Fantasy Baseball"
+  },
+  "plugins": [
+    {
+      "name": "yahoo-fantasy-baseball",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Sports"
+    }
+  ]
+}

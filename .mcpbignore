@@ -11,8 +11,12 @@
 /.gitignore
 /.mcpbignore
 /README.md
-/codex.config.example.toml
 /*.mcpb
+
+# Codex plugin packaging — not part of the Claude Desktop bundle.
+/.codex-plugin/
+/.mcp.json
+/.agents/
 
 # Drop our build's sourcemaps and type declarations (not needed at runtime).
 /dist/**/*.map

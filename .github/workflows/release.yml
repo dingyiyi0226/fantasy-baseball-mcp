@@ -41,8 +41,9 @@ jobs:
         run: npm run pack:safe
 
       # The Fantasy Roster Review skill ships as a ZIP so Claude Desktop users
-      # can upload it via Customize → Skills (the .mcpb cannot carry skills, and
-      # `npx skills add` only targets CLI agents like Claude Code / Codex).
+      # can upload it via Customize → Skills (the .mcpb cannot carry skills).
+      # Codex users get the same skill bundled inside the Codex plugin, which is
+      # served straight from the repo — no build artifact needed.
       - name: Pack roster review skill
         run: npm run pack:skill
 

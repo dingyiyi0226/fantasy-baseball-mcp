@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "yahoo-fantasy-baseball": {
+      "title": "Yahoo Fantasy Baseball",
+      "description": "Yahoo Fantasy Baseball roster, matchups, stats, and player analytics.",
+      "command": "npx",
+      "args": ["-y", "yahoo-fantasy-baseball-mcp@latest", "serve"]
+    }
+  }
+}
