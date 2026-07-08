@@ -52,7 +52,7 @@ jobs:
         with:
           files: |
             yahoo-fantasy-baseball-v*.mcpb
-            fantasy-roster-review-skill.zip
+            fantasy-roster-review-skill-v*.zip
           generate_release_notes: true
           fail_on_unmatched_files: true
 

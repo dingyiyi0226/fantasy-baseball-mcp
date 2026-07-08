@@ -43,7 +43,7 @@ Pick the app you use — you only need one. Then continue to
 
 **2. Add the roster review skill** (guided start/sit and roster-review workflow)
 
-1. Download `fantasy-roster-review-skill.zip` from the **[Releases page](../../releases/latest)**.
+1. Download `fantasy-roster-review-skill-vX.X.X.zip` from the **[Releases page](../../releases/latest)**.
 2. Go to **Settings → Capabilities** and turn on **code execution**.
 3. Go to **Customize → Skills**, click **+ → Create skill → Upload a skill**, and choose the ZIP.
 
