@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "fantasy-baseball",
   "display_name": "Fantasy Baseball",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "description": "AI-powered fantasy baseball roster management, Statcast analytics, and free-agent scouting via natural language.",
   "long_description": "A bring-your-own-credentials extension for fantasy baseball. Read your Yahoo Fantasy Baseball roster, matchups, stats, and free agents — and analyze players with Statcast and FanGraphs data. You create your own free Yahoo app and complete a one-time authorization right inside the chat (just say \"fantasy start\"). Nothing is hosted; everything runs locally and your credentials stay on your machine.",
   "author": {
