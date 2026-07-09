@@ -1,4 +1,4 @@
-# Yahoo Fantasy Baseball Tool Notes
+# Fantasy Baseball Tool Notes
 
 ## Tool Constraints & Known Behaviors
 

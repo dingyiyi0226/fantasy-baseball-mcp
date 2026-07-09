@@ -30,7 +30,7 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-const HELP = `yahoo-fantasy-baseball-mcp — local MCP server for Yahoo Fantasy Baseball
+const HELP = `fantasy-baseball-mcp — local MCP server for Yahoo Fantasy Baseball
 
 Usage:
   yahoo-fantasy-mcp auth [--client-id <id>] [--client-secret <secret>]

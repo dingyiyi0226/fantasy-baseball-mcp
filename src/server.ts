@@ -86,7 +86,7 @@ export async function runServer(): Promise<void> {
 
   const ctx = new ToolContext(session);
   const server = new McpServer(
-    { name: "yahoo-fantasy-baseball", version: VERSION },
+    { name: "fantasy-baseball", version: VERSION },
     { instructions: INSTRUCTIONS },
   );
 
@@ -101,7 +101,7 @@ export async function runServer(): Promise<void> {
   await server.connect(transport);
   console.error(
     session.isConfigured()
-      ? "Yahoo Fantasy Baseball MCP server running (configured)."
-      : "Yahoo Fantasy Baseball MCP server running (not set up — say 'fantasy start').",
+      ? "Fantasy Baseball MCP server running (configured)."
+      : "Fantasy Baseball MCP server running (not set up — say 'fantasy start').",
   );
 }

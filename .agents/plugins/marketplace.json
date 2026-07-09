@@ -1,11 +1,11 @@
 {
-  "name": "yahoo-fantasy-baseball",
+  "name": "fantasy-baseball",
   "interface": {
-    "displayName": "Yahoo Fantasy Baseball"
+    "displayName": "Fantasy Baseball"
   },
   "plugins": [
     {
-      "name": "yahoo-fantasy-baseball",
+      "name": "fantasy-baseball",
       "source": {
         "source": "local",
         "path": "."

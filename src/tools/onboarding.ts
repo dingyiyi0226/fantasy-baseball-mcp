@@ -19,7 +19,7 @@ const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}To let Claude manage your team, yo
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
 4. Put those two values into this extension's settings
-   (Settings → Extensions → Yahoo Fantasy Baseball),
+   (Settings → Extensions → Fantasy Baseball),
    OR just paste them to me here and I'll save them securely.`;
 
 function authorizeSteps(url: string): string {

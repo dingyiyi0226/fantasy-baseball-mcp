@@ -3,7 +3,7 @@ name: Release
 # On a version tag (e.g. `git tag v0.1.0 && git push origin v0.1.0`):
 #   - `release`     uploads the .mcpb desktop-extension bundle to the GitHub Release
 #   - `publish-npm` publishes to npm via OIDC trusted publishing — no token (so
-#                   `npx yahoo-fantasy-baseball-mcp` works for any MCP client)
+#                   `npx fantasy-baseball-mcp` works for any MCP client)
 # The two jobs are independent; a hiccup in one does not block the other.
 on:
   push:
@@ -40,19 +40,19 @@ jobs:
       - name: Pack .mcpb bundle
         run: npm run pack:safe
 
-      # The Fantasy Roster Review skill ships as a ZIP so Claude Desktop users
+      # The Fantasy Baseball skill ships as a ZIP so Claude Desktop users
       # can upload it via Customize → Skills (the .mcpb cannot carry skills).
       # Codex users get the same skill bundled inside the Codex plugin, which is
       # served straight from the repo — no build artifact needed.
-      - name: Pack roster review skill
+      - name: Pack Fantasy Baseball skill
         run: npm run pack:skill
 
       - name: Upload bundle and skill to the GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            yahoo-fantasy-baseball-v*.mcpb
-            fantasy-roster-review-skill-v*.zip
+            fantasy-baseball-v*.mcpb
+            fantasy-baseball-skill-v*.zip
           generate_release_notes: true
           fail_on_unmatched_files: true
 

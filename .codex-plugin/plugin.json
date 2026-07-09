@@ -1,7 +1,7 @@
 {
-  "name": "yahoo-fantasy-baseball",
+  "name": "fantasy-baseball",
   "version": "0.5.7",
-  "description": "AI-powered Yahoo Fantasy Baseball — roster management, Statcast analytics, and free-agent scouting via natural language.",
+  "description": "AI-powered fantasy baseball roster management, Statcast analytics, and free-agent scouting via natural language.",
   "author": {
     "name": "dingyiyi0226"
   },
@@ -12,8 +12,8 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Yahoo Fantasy Baseball",
-    "shortDescription": "Manage your Yahoo Fantasy Baseball team by chat",
+    "displayName": "Fantasy Baseball",
+    "shortDescription": "Manage your fantasy baseball team by chat",
     "longDescription": "Let Codex help manage your Yahoo Fantasy Baseball team: check your roster, scout free agents, review your matchup, and analyze players with Statcast and FanGraphs data. You bring your own free Yahoo app credentials and complete a one-time authorization right inside the chat (just say \"fantasy start\"). Nothing is hosted — everything runs locally and your credentials stay on your machine.",
     "developerName": "dingyiyi0226",
     "category": "Sports",

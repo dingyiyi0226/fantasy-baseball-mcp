@@ -1,8 +1,8 @@
-# Yahoo Fantasy Baseball for Claude & Codex
+# Fantasy Baseball for Claude & Codex
 
-[![npm](https://img.shields.io/npm/v/yahoo-fantasy-baseball-mcp)](https://www.npmjs.com/package/yahoo-fantasy-baseball-mcp)
+[![npm](https://img.shields.io/npm/v/fantasy-baseball-mcp)](https://www.npmjs.com/package/fantasy-baseball-mcp)
 
-Manage your **Yahoo Fantasy Baseball** team by chatting with your AI assistant: check your
+Manage your **fantasy baseball** team by chatting with your AI assistant: check your
 roster, scout free agents, review your matchup, and analyze players with Statcast and
 FanGraphs data. Works in **Claude Desktop** and the **Codex desktop app**. Everything runs
 locally with your own Yahoo login — nothing is hosted, and your credentials stay on your
@@ -34,30 +34,30 @@ Pick the app you use — you only need one. Then continue to
 
 **1. Add the extension**
 
-1. Download `yahoo-fantasy-baseball-vX.X.X.mcpb` from the **[Releases page](../../releases/latest)**.
+1. Download `fantasy-baseball-vX.X.X.mcpb` from the **[Releases page](../../releases/latest)**.
 2. In Claude Desktop, go to **Settings → Extensions**.
 3. Drag the file into the Extensions window and click **Install**.
 
 > Leave the **Client ID / Client Secret** boxes empty for now — you'll fill them in during
 > [Connect your Yahoo team](#connect-your-yahoo-team).
 
-**2. Add the roster review skill** (guided start/sit and roster-review workflow)
+**2. Add the Fantasy Baseball skill** (guided start/sit and roster-review workflow)
 
-1. Download `fantasy-roster-review-skill-vX.X.X.zip` from the **[Releases page](../../releases/latest)**.
+1. Download `fantasy-baseball-skill-vX.X.X.zip` from the **[Releases page](../../releases/latest)**.
 2. Go to **Settings → Capabilities** and turn on **code execution**.
 3. Go to **Customize → Skills**, click **+ → Create skill → Upload a skill**, and choose the ZIP.
 
 ### Codex desktop app
 
 Requires **Node.js** ([nodejs.org/download](https://nodejs.org/en/download) — install the LTS
-build). The plugin bundles the Yahoo tools *and* the roster review skill in one step.
+build). The plugin bundles the Yahoo tools *and* the Fantasy Baseball skill in one step.
 
 1. In the Codex app, go to **Settings → Plugins → Add plugin marketplace**.
 2. Add from a GitHub repo:
    - **Source:** `dingyiyi0226/fantasy-baseball-mcp`
    - **Git ref:** `master`
    - **Sparse paths:** *(leave blank)*
-3. Open the **Yahoo Fantasy Baseball** marketplace and install the **Yahoo Fantasy Baseball** plugin.
+3. Open the **Fantasy Baseball** marketplace and install the **Fantasy Baseball** plugin.
 4. Sign in to Yahoo in Codex's in-app browser (one time, for lineup moves).
 
    The Yahoo authorization below lets the plugin read your roster. Browser-driven start/bench moves
@@ -95,8 +95,8 @@ Yahoo then gives you a **Client ID** and a **Client Secret**.
 ### b) Enter those keys
 
 Paste the **Client ID** and **Client Secret** into the chat when asked, then say `fantasy start`
-again. (In Claude Desktop you can instead enter them under **Settings → Extensions → Yahoo
-Fantasy Baseball**.)
+again. (In Claude Desktop you can instead enter them under **Settings → Extensions → Fantasy
+Baseball**.)
 
 ### c) Authorize and finish
 

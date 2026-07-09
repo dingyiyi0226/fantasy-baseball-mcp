@@ -1,5 +1,5 @@
 ---
-name: fantasy-roster-review
+name: fantasy-baseball
 description: >
   Fantasy baseball roster review for Yahoo fantasy baseball teams. Produces an actionable report:
   category scoreboard vs. opponent, start/sit lineup moves (with slot positions), and add/drop
@@ -18,7 +18,7 @@ description: >
   or "can I still win this week".
 ---
 
-# Fantasy Roster Review
+# Fantasy Baseball
 
 This skill is the top-level router for the repo's Yahoo fantasy baseball review workflows.
 Keep the public trigger surface stable here, and move the detailed procedure for each workflow
