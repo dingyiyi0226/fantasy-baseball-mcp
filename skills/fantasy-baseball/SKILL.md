@@ -1,21 +1,10 @@
 ---
 name: fantasy-baseball
 description: >
-  Fantasy baseball roster review for Yahoo fantasy baseball teams. Produces an actionable report:
-  category scoreboard vs. opponent, start/sit lineup moves (with slot positions), and add/drop
-  targets. By default, the daily review may auto-run start/bench lineup moves, but add/drop
-  transactions stay recommendation-only unless explicitly enabled.
-
-  Use this skill whenever the user asks for: fantasy roster review, daily fantasy review,
-  roster review, fantasy check,
-  start/sit advice, lineup moves, waiver wire targets, fantasy baseball status, or anything
-  resembling "check my fantasy teams." Trigger on phrases like "check my teams", "fantasy review",
-  "how are my teams doing", "who should I start", "any add/drops", "daily fantasy", or
-  "run the roster review".
-
-  Also covers weekly management post-mortems and in-week comeback assessments. Trigger on phrases
-  like "weekly review", "how did I manage this week", "grade my week", "review my moves this week",
-  or "can I still win this week".
+  Top-level Yahoo fantasy baseball tool for roster reviews, lineup moves, waiver advice,
+  team status, weekly post-mortems, and comeback checks. Use for prompts like "check my
+  teams", "fantasy review", "who should I start", "any add/drops", "weekly review",
+  "grade my week", or "can I still win this week".
 ---
 
 # Fantasy Baseball
