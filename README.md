@@ -8,9 +8,9 @@ FanGraphs data. Works in **Claude Desktop** and the **Codex desktop app**. Every
 locally with your own Yahoo login — nothing is hosted, and your credentials stay on your
 machine.
 
-> **Note:** Yahoo's write-scope Fantasy API is deprecated, so the assistant reads and advises
-> but can't change your lineup automatically. Lineup start/bench moves are driven through your
-> browser; you make add/drop moves yourself on Yahoo.
+> **Note:** Yahoo's write-scope Fantasy API is deprecated, so start/bench moves use a
+> browser-based workaround instead of direct lineup writes. Add/drop automation is currently
+> under development, so those moves are still done manually on Yahoo.
 
 ## Contents
 
