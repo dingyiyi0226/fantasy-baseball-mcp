@@ -49,6 +49,8 @@
 
 ### Browser roster start/bench management
 - Daily lineup changes should use this browser path, not the legacy `set_lineup` API tool.
+- Do not call add/drop tools or legacy Yahoo write APIs from this workflow; `get_roster` is allowed
+  only for read-only verification.
 - Keep the Yahoo roster semantics shared across execution surfaces; only the automation mechanics should vary by section.
 - Team page URL pattern is `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>` after discovering `league_id` and `team_id` from Yahoo tools.
 - In Yahoo's roster table, start a swap by clicking a player's position pill. The selected source pill becomes highlighted, and legal destination pills turn green.
@@ -60,16 +62,25 @@
 - Multi-eligible hitters can light multiple infield or outfield pills plus `Util`.
 
 #### Codex
-- This path is **Codex Chrome only**; do not write instructions that assume the in-app browser or a different browser automation surface.
-- When the user asks to use the Codex Chrome tool, first select a Chrome profile where the Codex
-  Chrome Extension is installed and enabled, prefer that over the default or last-used profile, and
-  only use last-used as a tiebreaker among valid extension-enabled profiles.
-- Use the Chrome plugin for Chrome profile selection, launch, and extension backend setup. Shell
-  commands may be used only for read-only diagnostics; do not launch Chrome through CLI/`open` unless
-  the user explicitly asks for that fallback. Then use `mcp__node_repl__js` to confirm a live
-  `extension` backend in this thread before doing any real browser work.
-- If the live extension backend is unavailable, stop and report it; do not silently fall back to
-  the in-app browser, Computer Use, or a profile without the extension.
+- This path is **Codex in-app browser only** through the Browser plugin skill
+  `browser:control-in-app-browser`; do not write instructions that assume Chrome, Computer Use, API
+  writes, shell browser launches, or another browser automation surface.
+- Read `control-in-app-browser` before browser actions. Use `mcp__node_repl__js` to import the
+  Browser plugin's `scripts/browser-client.mjs` by absolute path, call
+  `setupBrowserRuntime({ globals: globalThis })`, select `agent.browsers.get("iab")`, and
+  immediately read `await browser.documentation()` in full.
+- Use the selected `browser` and `tab` for all Yahoo actions. If the Browser plugin or in-app browser
+  is unavailable, stop and report it; do not silently fall back to Chrome, Computer Use, API writes,
+  shell browser launches, or another browser surface.
+- If opening or refreshing the selected in-app browser tab shows that Yahoo is not logged in, stop and
+  report it as a browser-login error; do not try to sign in or continue the move.
+- For Codex monitoring, prefer targeted `tab.playwright.evaluate(...)` row reads and screenshots over
+  broad page scraping. If Yahoo fails `domSnapshot()` with
+  `TypeError: o.incrementalAriaSnapshot is not a function`, use targeted `evaluate`,
+  `dom_cua.get_visible_dom()`, and screenshots instead of treating browser control as unavailable.
+- Use screenshots to verify green vs. grey legal destination pills. When possible, click stable exact
+  pill locators like `span.pos-label[aria-label="Click here to edit BN Nathan Eovaldi"]`, but only
+  after verifying the locator count is exactly 1.
 - For Codex monitoring, do not report success from a stale pre-refresh visual state after an error.
 
 #### Claude

@@ -3,9 +3,10 @@
 Use this tool when the user explicitly wants an agent to manage players between active Yahoo lineup
 slots and `BN` in the live Yahoo Fantasy Baseball website.
 
-This tool contains execution-surface-specific sections (`Codex` and `Claude`), both of which drive
-the user's real Chrome. Keep the Yahoo roster rules shared, and put surface-specific automation
-guidance under the right section.
+This tool contains execution-surface-specific sections (`Codex` and `Claude`). Codex uses the
+Codex Browser plugin's in-app browser, while Claude drives the user's real Chrome through
+`claude-in-chrome`. Keep the Yahoo roster rules shared, and put surface-specific automation guidance
+under the right section.
 
 Read `references/tool-notes.md` before using this tool.
 
@@ -20,9 +21,13 @@ Use this tool for the shared Yahoo roster-management behavior:
   authoritative roster state with the `get_roster` tool
 
 Do not use this tool for:
-- add/drop transactions
+- add/drop transactions or add/drop tools
 - waiver claims
+- legacy Yahoo write APIs
 - API-only lineup advice with no browser interaction
+
+`get_roster` is allowed only for read-only verification, especially after refreshes, errors, or any
+visual mismatch.
 
 ## Inputs
 
@@ -35,53 +40,75 @@ targetSlot:    required when the user already knows the destination slot (`BN`, 
 
 ## URL & Team Discovery
 
-When Chrome is not already on the correct Yahoo team page:
+When the selected browser tab is not already on the correct Yahoo team page:
 1. Discover the user's league and team ids from Yahoo tools such as `get_league`, `fantasy_status`, or other team-discovery output.
 2. Build the team URL as:
    `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>`
-3. Open that URL in **Chrome** and verify the front tab title and URL before making any roster clicks.
+3. For Codex, open that URL in the selected Codex in-app browser tab and verify the tab title
+   and URL before making any roster clicks. For Claude, open that URL in the selected Chrome tab.
 
 ## Codex
 
-Use this section when the execution surface is Codex controlling the user's Chrome session.
+Use this section when the execution surface is Codex controlling the Browser plugin's in-app browser.
 
-This section is **Codex Chrome only**:
-- use it only when the Chrome plugin or Chrome-control path is available
-- assume Yahoo is already logged in inside Chrome unless the user says otherwise
-- do not substitute the in-app browser or a different browser automation surface
+This section is **Codex in-app browser only**:
+- use it only when the Browser plugin skill `browser:control-in-app-browser` and the Codex in-app
+  browser are available
+- expect Yahoo to already be logged in inside the in-app browser before execution
+- if the selected tab opens to a Yahoo sign-in page, sign-in prompt, or otherwise shows the user is
+  not logged in, stop and report that as a browser-login error; do not continue the move
+- do not substitute Chrome, Computer Use, API writes, shell browser launches, or any other browser
+  automation surface unless the user explicitly asks for that fallback
 - do not claim the move succeeded until it is confirmed; on any unexpected error, refresh and treat
   the `get_roster` tool as the source of truth (see the shared Phase 3 error path)
 
-### Profile and backend selection (do this first)
-
-When the user asks to use the Codex Chrome tool, do **not** assume the default Chrome profile is
-correct.
+### In-app browser setup (do this first)
 
 Tool split:
-- use the Chrome plugin for Chrome profile selection, launch, and extension backend setup
-- shell commands (e.g. `functions.exec_command`) may be used only for read-only diagnostics; do not
-  launch Chrome through CLI/`open`/`osascript` unless the user explicitly asks for that fallback
-- use `mcp__node_repl__js` for live Chrome backend checks and all actual Chrome actions
+- read the `control-in-app-browser` skill provided by the Browser plugin before any browser actions
+- use `mcp__node_repl__js` with the Browser plugin runtime for setup and all actual Yahoo browser
+  actions
+- shell commands may be used only for read-only diagnostics; do not launch browsers through
+  CLI/`open`/`osascript`
 
 Workflow:
-1. Before launching, inspect Chrome profiles and select a profile where the Codex Chrome Extension is
-   installed and enabled. Do not use the default or last-used Chrome profile unless it is also a
-   valid extension-enabled profile.
-2. If multiple profiles have the extension installed and enabled, prefer the last-used profile among
-   those valid profiles. If only one profile has the extension, launch that profile explicitly.
-3. When Chrome is not running, launch it through the Chrome plugin's own browser setup flow, not via
-   shell commands such as `open`, `osascript`, or direct CLI browser launches.
-4. Use the Chrome plugin/browser-client documented launch path, then retry
-   `agent.browsers.get("extension")`. Only fall back to reporting failure after the plugin launch
-   path has been tried.
-5. Only continue if a live Chrome backend of `type: "extension"` is available.
-6. Do all real Chrome work through `mcp__node_repl__js`, not Computer Use and not the in-app
-   browser.
+1. Read the Browser plugin skill `browser:control-in-app-browser` before making browser-control tool
+   calls.
+2. In `mcp__node_repl__js`, import the Browser plugin's `scripts/browser-client.mjs` by absolute
+   path.
+3. Call `setupBrowserRuntime({ globals: globalThis })`.
+4. Select the Codex in-app browser with `agent.browsers.get("iab")`.
+5. Immediately read `await browser.documentation()` in full.
+6. Use the selected `browser` and `tab` for all Yahoo actions.
+7. If the Browser plugin or in-app browser is unavailable, stop and report that. Do not silently fall
+   back to Chrome, Computer Use, API writes, shell browser launches, or another browser surface.
+8. If opening or refreshing the team page shows that Yahoo is not logged in, stop and report it as a
+   browser-login error instead of trying to sign in or continuing with the move.
 
-Rules:
-- prefer "profile with extension installed and enabled" over "last-used profile"
-- do not proceed with a profile that lacks the Codex Chrome Extension
-- if the live extension backend is unavailable, stop and report it instead of silently falling back
+Example setup shape:
+
+```js
+const { setupBrowserRuntime } = await import("/absolute/path/to/browser-plugin/scripts/browser-client.mjs");
+await setupBrowserRuntime({ globals: globalThis });
+const browser = await agent.browsers.get("iab");
+nodeRepl.write(await browser.documentation());
+const tab = await browser.tabs.getFocusedOrFirst();
+```
+
+### Codex in-app browser implementation notes
+
+- Open the team URL in the selected Codex in-app browser tab and verify the tab title and URL before
+  making any roster clicks. If the page is not already logged in to Yahoo Fantasy, stop and report a
+  browser-login error.
+- Prefer targeted `tab.playwright.evaluate(...)` row reads and screenshots over broad page scraping.
+- Yahoo may fail `domSnapshot()` with `TypeError: o.incrementalAriaSnapshot is not a function`; if
+  so, use targeted `evaluate`, `dom_cua.get_visible_dom()`, and screenshots instead of treating
+  browser control as unavailable.
+- Use screenshots to verify green vs. grey legal destination pills because color is the reliable
+  swap-mode signal.
+- When possible, click stable exact pill locators like
+  `span.pos-label[aria-label="Click here to edit BN Nathan Eovaldi"]`, but only after verifying the
+  locator count is exactly 1.
 
 ## Claude
 
@@ -136,11 +163,13 @@ Run the shared `Roster Move Workflow` below with these tools:
 ### Phase 1 - Inspect
 
 Before any click:
-1. Confirm the correct team page is open in Chrome.
-2. Read the visible roster state from the Yahoo table.
-3. Find the source player's current slot pill.
-4. Identify the desired destination slot or the destination player the user wants to swap with.
-5. If the page already looks inconsistent after a failed move, refresh first.
+1. Confirm the correct team page is open in the selected browser tab.
+2. Confirm Yahoo is showing the correct lineup date for the requested move.
+3. Read the visible roster state from the Yahoo table.
+4. Find the source player on `BN` or in an active slot, and identify the source player's current
+   position pill.
+5. Identify the desired destination slot or the destination player the user wants to swap with.
+6. If the page already looks inconsistent after a failed move, refresh first.
 
 ### Phase 2 - Enter Swap Mode
 
@@ -158,10 +187,10 @@ Interpretation rules:
 ### Phase 3 - Complete Or Abort
 
 If the intended destination pill is green:
-1. Click that destination pill once.
+1. Click only the intended green destination pill once.
 2. Wait for Yahoo to save.
 3. Confirm `Saving...` appears, then `All changes saved`.
-4. Re-read the roster row(s) to verify the players changed slots.
+4. Re-read the affected roster row(s) to verify the players changed slots.
 
 On **any** unexpected error, or if the page becomes inconsistent:
 1. Treat the move as unconfirmed.
@@ -183,7 +212,7 @@ Use these behaviors as hard-earned constraints, not guesses:
 
 ## Reporting Rules
 
-- output a short Chrome management checklist with the exact source player, source slot, and intended destination slot
+- output a short browser management checklist with the exact source player, source slot, and intended destination slot
 - mention any observed roster constraint that might block the move
 - when monitoring a live move, narrate only the meaningful state changes: page verified, source pill selected, destination became green, save confirmed, or refresh required
 - if a move fails, say it failed and give the post-failure state confirmed via `get_roster`

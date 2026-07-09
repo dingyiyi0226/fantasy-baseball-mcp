@@ -64,11 +64,11 @@ Use this tool when the user explicitly wants browser-driven Yahoo lineup slot ma
 - inspect the current Yahoo page state before or after a manual click sequence
 - produce a manual browser checklist when write execution should stay user-driven
 
-This is a shared tool with surface-specific sections. The `Codex` and `Claude` sections are both
-implemented; each drives the user's real Chrome (Codex via its Chrome path, Claude via the
-`claude-in-chrome` MCP tools). Do not use it for the in-app browser, generic browser automation, or
-API-only roster advice. When triggered, load `references/roster-start-bench.md` and follow the
-section that matches the active surface.
+This is a shared tool with surface-specific sections. The `Codex` section uses the Codex Browser
+plugin's in-app browser, while the `Claude` section drives the user's real Chrome through the
+`claude-in-chrome` MCP tools. Do not use it for generic browser automation or API-only roster
+advice. When triggered, load `references/roster-start-bench.md` and follow the section that matches
+the active surface.
 
 ## Operating Rules
 

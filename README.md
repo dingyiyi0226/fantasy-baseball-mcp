@@ -58,6 +58,18 @@ build). The plugin bundles the Yahoo tools *and* the roster review skill in one 
    - **Git ref:** `master`
    - **Sparse paths:** *(leave blank)*
 3. Open the **Yahoo Fantasy Baseball** marketplace and install the **Yahoo Fantasy Baseball** plugin.
+4. Sign in to Yahoo in Codex's in-app browser (one time, for lineup moves).
+
+   The Yahoo authorization below lets the plugin read your roster. Browser-driven start/bench moves
+   also need Yahoo Fantasy to be logged in inside Codex's in-app browser. In a Codex chat, ask:
+
+   ```text
+   Open https://baseball.fantasysports.yahoo.com in the in-app browser so I can sign in.
+   ```
+
+   When the in-app browser tab opens, sign in to Yahoo there. After that, roster start/bench workflows
+   can use the same in-app browser session. If the workflow opens Yahoo and finds that the tab is not
+   logged in, it will stop and report the login state as an error instead of trying another browser.
 
 ---
 
