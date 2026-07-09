@@ -1,6 +1,6 @@
 {
   "name": "fantasy-baseball",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "AI-powered fantasy baseball roster management, Statcast analytics, and free-agent scouting via natural language.",
   "author": {
     "name": "dingyiyi0226"
