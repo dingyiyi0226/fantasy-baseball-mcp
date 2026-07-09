@@ -16,6 +16,7 @@
     "shortDescription": "Manage your fantasy baseball team by chat",
     "longDescription": "Let Codex help manage your Yahoo Fantasy Baseball team: check your roster, scout free agents, review your matchup, and analyze players with Statcast and FanGraphs data. You bring your own free Yahoo app credentials and complete a one-time authorization right inside the chat (just say \"fantasy start\"). Nothing is hosted — everything runs locally and your credentials stay on your machine.",
     "developerName": "dingyiyi0226",
+    "websiteURL": "https://github.com/dingyiyi0226/fantasy-baseball-mcp",
     "category": "Sports",
     "capabilities": ["Interactive", "Read"],
     "defaultPrompt": [
