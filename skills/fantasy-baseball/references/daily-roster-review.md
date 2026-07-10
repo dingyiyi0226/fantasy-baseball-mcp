@@ -46,7 +46,7 @@ Apply this lens throughout, especially in Phase 2:
 ```text
 teams:       discover from Yahoo auth/status, or use team keys explicitly provided by the user
 league:      discover from the selected team/matchup, or use a league key explicitly provided by the user
-autoStartBench: true  # default - execute lineup start/bench moves via `roster-start-bench` unless explicitly disabled
+autoStartBench: true  # default - execute lineup adjustments via `adjust-lineup` unless explicitly disabled
 autoAddDrop:   false # default - keep add/drop as a checklist unless explicitly enabled
 lineupDate:  user-provided date; defaults to the current date
 ```
@@ -228,7 +228,7 @@ Rules:
 
 If `autoStartBench=false` and `autoAddDrop=false`, output a numbered manual checklist in execution order.
 
-If `autoStartBench=true`, hand the approved start/bench moves to the dedicated `roster-start-bench`
+If `autoStartBench=true`, hand the approved lineup adjustments to the dedicated `adjust-lineup`
 workflow and follow that skill's surface-specific execution steps. If browser-driven write execution
 is unavailable, fall back to the manual checklist.
 

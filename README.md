@@ -8,7 +8,7 @@ FanGraphs data. Works in **Claude Desktop** and the **Codex desktop app**. Every
 locally with your own Yahoo login — nothing is hosted, and your credentials stay on your
 machine.
 
-> **Note:** Yahoo's write-scope Fantasy API is deprecated, so start/bench moves use a
+> **Note:** Yahoo's write-scope Fantasy API is deprecated, so lineup adjustments use a
 > browser-based workaround instead of direct lineup writes. Add/drop automation is currently
 > under development, so those moves are still done manually on Yahoo.
 
@@ -60,14 +60,14 @@ build). The plugin bundles the Yahoo tools *and* the Fantasy Baseball skill in o
 3. Open the **Fantasy Baseball** marketplace and install the **Fantasy Baseball** plugin.
 4. Sign in to Yahoo in Codex's in-app browser (one time, for lineup moves).
 
-   The Yahoo authorization below lets the plugin read your roster. Browser-driven start/bench moves
+   The Yahoo authorization below lets the plugin read your roster. Browser-driven lineup adjustments
    also need Yahoo Fantasy to be logged in inside Codex's in-app browser. In a Codex chat, ask:
 
    ```text
    Open https://baseball.fantasysports.yahoo.com in the in-app browser so I can sign in.
    ```
 
-   When the in-app browser tab opens, sign in to Yahoo there. After that, roster start/bench workflows
+   When the in-app browser tab opens, sign in to Yahoo there. After that, `adjust-lineup` workflows
    can use the same in-app browser session. If the workflow opens Yahoo and finds that the tab is not
    logged in, it will stop and report the login state as an error instead of trying another browser.
 

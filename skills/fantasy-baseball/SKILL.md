@@ -24,7 +24,7 @@ Use this tool for the current day-to-day roster review flow:
 - opponent pressure check
 - start/sit recommendations with exact slot changes
 - add/drop targets and streamer ideas
-- start/bench execution delegated to `roster-start-bench` by default; add/drop stays manual by default
+- lineup adjustments delegated to `adjust-lineup` by default; add/drop stays manual by default
 
 When the user asks for fantasy roster review, daily fantasy review, start/sit help, lineup moves,
 waiver targets, or general team-status advice, load `references/daily-roster-review.md` and follow
@@ -45,7 +45,7 @@ When the user asks for a weekly review, a post-mortem on roster moves, "how did 
 week", "grade my week", or whether they can still win a losing week, load
 `references/weekly-review.md` and follow that workflow.
 
-### `roster-start-bench`
+### `adjust-lineup`
 
 Use this tool when the user explicitly wants browser-driven Yahoo lineup slot management:
 - move a player between active lineup slots and `BN`
@@ -56,14 +56,14 @@ Use this tool when the user explicitly wants browser-driven Yahoo lineup slot ma
 This is a shared tool with surface-specific sections. The `Codex` section uses the Browser plugin
 and follows its current browser-selection guidance, while the `Claude` section drives the user's real
 Chrome through the `claude-in-chrome` MCP tools. Do not use it for generic browser automation or
-API-only roster advice. When triggered, load `references/roster-start-bench.md` and follow the
+API-only roster advice. When triggered, load `references/adjust-lineup.md` and follow the
 section that matches the active surface.
 
 ## Operating Rules
 
 - In `daily-roster-review`, default to `autoStartBench=true` and `autoAddDrop=false` unless the
   caller explicitly overrides them.
-- For real Yahoo UI lineup changes, prefer the dedicated roster start/bench tool instead of improvising a
+- For real Yahoo UI lineup changes, prefer the dedicated `adjust-lineup` tool instead of improvising a
   browser procedure inside the review workflows.
 - Run multiple user teams sequentially to avoid rate-limiting external baseball data sources.
 - Keep reports scannable: strategy first, then scoreboard, then moves, then add/drop targets.

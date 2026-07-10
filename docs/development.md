@@ -30,7 +30,7 @@ with its six-field compact default, `full=true` (standard roster details), or
 Yahoo's write-scoped fantasy API is deprecated, so this server does not expose
 write tools as part of the supported workflow.
 
-Daily lineup start/bench management is handled through the browser-based roster
+Daily lineup adjustments are handled through the browser-based `adjust-lineup`
 Fantasy Baseball skill flow. Add/drop decisions are recommendation-only; make
 the approved transaction directly on Yahoo Fantasy.
 

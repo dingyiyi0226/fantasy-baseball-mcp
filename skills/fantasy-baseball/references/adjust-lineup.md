@@ -1,4 +1,4 @@
-# `roster-start-bench`
+# `adjust-lineup`
 
 Use this tool when the user explicitly wants an agent to manage players between active Yahoo lineup
 slots and `BN` in the live Yahoo Fantasy Baseball website.
