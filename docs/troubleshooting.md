@@ -2,7 +2,11 @@
 
 ## FAQ
 
-**Is my data safe?** Your Yahoo keys are stored only on your computer (`~/.fantasy-baseball-mcp/config.json`) and in your OS keychain. Nothing is sent anywhere but Yahoo's API.
+**Is my data safe?** Your Yahoo credentials are stored locally in
+`~/.fantasy-baseball-mcp/config.json`, with permissions restricted to your user
+(`0600`); they are not stored in your OS keychain. Yahoo requests go to Yahoo's
+API. `analyze` requests also use the public MLB Stats API, Baseball Savant, and
+FanGraphs for baseball statistics.
 
 **Why do I need my own Yahoo app?** Yahoo requires each person to use their own keys — no shared secrets.
 
