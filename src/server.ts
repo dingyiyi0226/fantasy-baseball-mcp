@@ -72,9 +72,11 @@ Roster analysis (requires Yahoo setup):
 
 Do not use the legacy Yahoo write API path for roster changes in normal use.
 For lineup changes like bench/start requests, use the browser-based roster
-management flow. For add/drop decisions, recommend the move and have the user
-make it directly on Yahoo Fantasy. If any tool says setup is incomplete, guide
-the user back to "fantasy start".`;
+management flow. Keep add/drop recommendations non-executing by default. When
+the add-drop-player browser workflow is available and the user explicitly
+approves an exact transaction, use it; otherwise have the user make the move
+directly on Yahoo Fantasy. If any tool says setup is incomplete, guide the user
+back to "fantasy start".`;
 
 /** Register the tools available without enabling the legacy Yahoo write API. */
 export function registerDefaultTools(

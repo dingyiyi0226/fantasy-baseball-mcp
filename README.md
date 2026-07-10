@@ -2,15 +2,14 @@
 
 [![npm](https://img.shields.io/npm/v/fantasy-baseball-mcp)](https://www.npmjs.com/package/fantasy-baseball-mcp)
 
-Manage your **fantasy baseball** team by chatting with your AI assistant: check your
+Manage your **fantasy baseball** team by chatting with **Claude** or **Codex**: check your
 roster, scout free agents, review your matchup, and analyze players with Statcast and
-FanGraphs data. Works in **Claude Desktop** and the **Codex desktop app**. Everything runs
-locally with your own Yahoo login — nothing is hosted, and your credentials stay on your
-machine.
+FanGraphs data. Everything runs locally with your own Yahoo login — nothing is hosted, and
+your credentials stay on your machine.
 
-> **Note:** Yahoo's write-scope Fantasy API is deprecated, so lineup adjustments use a
-> browser-based workaround instead of direct lineup writes. Add/drop automation is currently
-> under development, so those moves are still done manually on Yahoo.
+We support a broad range of operations (league, team, roster, matchup, and player stats) via Yahoo's Fantasy Sports API.
+Lineup adjustments and add/drop actions go through browser-based workflows (Claude in Chrome or the Codex browser plugin),
+as Yahoo's write-scope API is deprecated. The add/drop browser flow for Claude is still under development.
 
 ## Contents
 
@@ -58,18 +57,19 @@ build). The plugin bundles the Yahoo tools *and* the Fantasy Baseball skill in o
    - **Git ref:** `master`
    - **Sparse paths:** *(leave blank)*
 3. Open the **Fantasy Baseball** marketplace and install the **Fantasy Baseball** plugin.
-4. Sign in to Yahoo in Codex's in-app browser (one time, for lineup moves).
+4. Sign in to Yahoo in Codex's in-app browser (one time, for lineup and add/drop moves).
 
-   The Yahoo authorization below lets the plugin read your roster. Browser-driven lineup adjustments
-   also need Yahoo Fantasy to be logged in inside Codex's in-app browser. In a Codex chat, ask:
+   The Yahoo authorization below lets the plugin read your roster. Browser-driven lineup and add/drop
+   moves also need Yahoo Fantasy to be logged in inside Codex's in-app browser. In a Codex chat, ask:
 
    ```text
    Open https://baseball.fantasysports.yahoo.com in the in-app browser so I can sign in.
    ```
 
-   When the in-app browser tab opens, sign in to Yahoo there. After that, `adjust-lineup` workflows
-   can use the same in-app browser session. If the workflow opens Yahoo and finds that the tab is not
-   logged in, it will stop and report the login state as an error instead of trying another browser.
+   When the in-app browser tab opens, sign in to Yahoo there. After that, `adjust-lineup` and
+   `add-drop-player` workflows can use the same in-app browser session. If a workflow opens Yahoo and
+   finds that the tab is not logged in, it will stop and report the login state as an error instead
+   of trying another browser.
 
 ---
 
