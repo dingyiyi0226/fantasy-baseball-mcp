@@ -201,6 +201,7 @@ const tk = config.defaultTeamKey;
 
 const endpoints = [
   { tool: "get_game", mapper: "mapGame", path: "/game/" + realLeagueKey.split(".l.")[0] },
+  { tool: "list_games", mapper: "mapListGames", path: "/users;use_login=1/games;out=leagues,teams" },
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
   { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },

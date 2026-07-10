@@ -36,6 +36,7 @@
     { "name": "fantasy_authorize", "description": "Finish setup using the verification code from Yahoo." },
     { "name": "fantasy_select_team", "description": "Set your default league and team." },
     { "name": "fantasy_logout", "description": "Remove saved Yahoo credentials and disconnect." },
+    { "name": "list_games", "description": "Discover your baseball leagues and the team you own in each." },
     { "name": "get_game", "description": "Get a fantasy game's details." },
     { "name": "list_leagues", "description": "List your leagues, game weeks, and stat categories." },
     { "name": "get_league", "description": "Get a league's teams, settings, and current standings." },

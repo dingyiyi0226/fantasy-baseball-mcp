@@ -1,0 +1,38 @@
+{
+  "users": {
+    "user": {
+      "games": {
+        "game": [
+          {
+            "game_key": 431,
+            "name": "Baseball",
+            "code": "mlb",
+            "season": 2026,
+            "leagues": {
+              "league": [
+                {
+                  "league_key": "431.l.12345",
+                  "name": "Demo League"
+                }
+              ]
+            },
+            "teams": {
+              "team": [
+                {
+                  "team_key": "431.l.12345.t.1",
+                  "name": "Team 1"
+                }
+              ]
+            }
+          },
+          {
+            "game_key": 999,
+            "name": "Football",
+            "code": "nfl",
+            "season": 2026
+          }
+        ]
+      }
+    }
+  }
+}

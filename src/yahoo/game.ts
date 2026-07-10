@@ -16,11 +16,17 @@ export interface LeagueChoice {
 }
 
 /**
- * Find the user's baseball leagues and their team in each league. Yahoo returns
+ * List the user's baseball leagues and their team in each league. Yahoo returns
  * the login user's own teams when the games resource includes `out=teams`.
  */
-export async function discoverLeagues(client: YahooClient): Promise<LeagueChoice[]> {
+export async function listGames(client: YahooClient): Promise<LeagueChoice[]> {
   const content = await client.get("/users;use_login=1/games;out=leagues,teams");
+  return mapListGames(content).leagues;
+}
+
+/** Map the list_games response to baseball leagues and their owned teams. */
+export function mapListGames(data: any): { leagues: LeagueChoice[] } {
+  const content = data;
   const games = asArray(content?.users?.user?.games?.game);
 
   const choices: LeagueChoice[] = [];
@@ -44,7 +50,7 @@ export async function discoverLeagues(client: YahooClient): Promise<LeagueChoice
       });
     }
   }
-  return choices;
+  return { leagues: choices };
 }
 
 /** Map the complete get_game response. This endpoint is intentionally compact. */
@@ -56,6 +62,20 @@ export function mapGame(data: any) {
 }
 
 export function registerGameTools(server: McpServer, ctx: McpContext): void {
+  // GET /users;use_login=1/games;out=leagues,teams
+  server.registerTool(
+    "list_games",
+    {
+      title: "List my baseball games",
+      description:
+        "Discover the logged-in user's baseball leagues and the team they own in each. " +
+        "Use this to choose a default league or team.",
+      inputSchema: {},
+      annotations: READ_ONLY,
+    },
+    async () => jsonResult({ leagues: await listGames(ctx.yahoo) }),
+  );
+
   // GET /game/{gameKey}
   server.registerTool(
     "get_game",
