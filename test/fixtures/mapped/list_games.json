@@ -1,10 +1,10 @@
 {
   "leagues": [
     {
-      "leagueKey": "431.l.12345",
+      "leagueKey": "123.l.12345",
       "leagueName": "Demo League",
       "season": "2026",
-      "teamKey": "431.l.12345.t.1",
+      "teamKey": "123.l.12345.t.1",
       "teamName": "Team 1"
     }
   ]

@@ -1,6 +1,6 @@
 {
   "team": {
-    "team_key": "469.l.12345.t.2",
+    "team_key": "123.l.12345.t.2",
     "team_id": 2,
     "name": "Team 2",
     "is_owned_by_current_login": 1
@@ -8,7 +8,7 @@
   "roster_date": "2026-06-20",
   "players": [
     {
-      "player_key": "469.p.11732",
+      "player_key": "123.p.11732",
       "name": "Adley Rutschman",
       "editorial_team_abbr": "BAL",
       "display_position": "C",
@@ -16,7 +16,7 @@
       "status": null
     },
     {
-      "player_key": "469.p.10235",
+      "player_key": "123.p.10235",
       "name": "Rafael Devers",
       "editorial_team_abbr": "SF",
       "display_position": "1B",
@@ -24,7 +24,7 @@
       "status": null
     },
     {
-      "player_key": "469.p.12100",
+      "player_key": "123.p.12100",
       "name": "Otto Lopez",
       "editorial_team_abbr": "MIA",
       "display_position": "2B,SS",

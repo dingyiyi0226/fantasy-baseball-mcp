@@ -1,6 +1,6 @@
 {
   "league": {
-    "league_key": "469.l.12345",
+    "league_key": "123.l.12345",
     "league_id": 12345,
     "name": "Demo League",
     "draft_status": "postdraft",
@@ -25,7 +25,7 @@
     "is_plus_league": 0,
     "teams": [
       {
-        "team_key": "469.l.12345.t.1",
+        "team_key": "123.l.12345.t.1",
         "team_id": 1,
         "name": "Team 1",
         "number_of_moves": 33,
@@ -41,7 +41,7 @@
         }
       },
       {
-        "team_key": "469.l.12345.t.2",
+        "team_key": "123.l.12345.t.2",
         "team_id": 2,
         "name": "Team 2",
         "is_owned_by_current_login": 1,
@@ -58,7 +58,7 @@
         }
       },
       {
-        "team_key": "469.l.12345.t.3",
+        "team_key": "123.l.12345.t.3",
         "team_id": 3,
         "name": "Team 3",
         "number_of_moves": 4,
@@ -278,7 +278,7 @@
     },
     "standings": [
       {
-        "team_key": "469.l.12345.t.4",
+        "team_key": "123.l.12345.t.4",
         "name": "Team 4",
         "team_stats": {
           "coverage_type": "season",
@@ -370,7 +370,7 @@
         }
       },
       {
-        "team_key": "469.l.12345.t.10",
+        "team_key": "123.l.12345.t.10",
         "name": "Team 10",
         "team_stats": {
           "coverage_type": "season",
@@ -462,7 +462,7 @@
         }
       },
       {
-        "team_key": "469.l.12345.t.7",
+        "team_key": "123.l.12345.t.7",
         "name": "Team 7",
         "team_stats": {
           "coverage_type": "season",

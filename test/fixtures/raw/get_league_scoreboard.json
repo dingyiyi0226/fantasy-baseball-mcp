@@ -1,6 +1,6 @@
 {
   "league": {
-    "league_key": "469.l.12345",
+    "league_key": "123.l.12345",
     "league_id": 12345,
     "name": "Demo League",
     "url": "https://example.com/url",
@@ -15,7 +15,7 @@
     "scoring_type": "headone",
     "scoring_label": "H2H Cat One",
     "league_type": "private",
-    "renew": "458_98039",
+    "renew": "123_12345",
     "renewed": "",
     "felo_tier": "silver",
     "is_highscore": "",
@@ -49,55 +49,55 @@
               "stat_winner": [
                 {
                   "stat_id": 7,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 12,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 13,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 16,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 20,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 23,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 4,
-                  "winner_team_key": "469.l.12345.t.1"
+                  "winner_team_key": "123.l.12345.t.1"
                 },
                 {
                   "stat_id": 28,
-                  "winner_team_key": "469.l.12345.t.1"
+                  "winner_team_key": "123.l.12345.t.1"
                 },
                 {
                   "stat_id": 32,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 26,
-                  "winner_team_key": "469.l.12345.t.2"
+                  "winner_team_key": "123.l.12345.t.2"
                 },
                 {
                   "stat_id": 27,
-                  "winner_team_key": "469.l.12345.t.1"
+                  "winner_team_key": "123.l.12345.t.1"
                 },
                 {
                   "stat_id": 56,
-                  "winner_team_key": "469.l.12345.t.1"
+                  "winner_team_key": "123.l.12345.t.1"
                 },
                 {
                   "stat_id": 83,
-                  "winner_team_key": "469.l.12345.t.1"
+                  "winner_team_key": "123.l.12345.t.1"
                 },
                 {
                   "stat_id": 84,
@@ -108,7 +108,7 @@
             "teams": {
               "team": [
                 {
-                  "team_key": "469.l.12345.t.1",
+                  "team_key": "123.l.12345.t.1",
                   "team_id": 1,
                   "name": "Team 1",
                   "url": "https://example.com/url",
@@ -228,7 +228,7 @@
                   }
                 },
                 {
-                  "team_key": "469.l.12345.t.2",
+                  "team_key": "123.l.12345.t.2",
                   "team_id": 2,
                   "name": "Team 2",
                   "is_owned_by_current_login": 1,
@@ -363,7 +363,7 @@
               "stat_winner": [
                 {
                   "stat_id": 7,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 12,
@@ -371,47 +371,47 @@
                 },
                 {
                   "stat_id": 13,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 16,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 20,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 23,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 4,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 28,
-                  "winner_team_key": "469.l.12345.t.6"
+                  "winner_team_key": "123.l.12345.t.6"
                 },
                 {
                   "stat_id": 32,
-                  "winner_team_key": "469.l.12345.t.3"
+                  "winner_team_key": "123.l.12345.t.3"
                 },
                 {
                   "stat_id": 26,
-                  "winner_team_key": "469.l.12345.t.6"
+                  "winner_team_key": "123.l.12345.t.6"
                 },
                 {
                   "stat_id": 27,
-                  "winner_team_key": "469.l.12345.t.6"
+                  "winner_team_key": "123.l.12345.t.6"
                 },
                 {
                   "stat_id": 56,
-                  "winner_team_key": "469.l.12345.t.6"
+                  "winner_team_key": "123.l.12345.t.6"
                 },
                 {
                   "stat_id": 83,
-                  "winner_team_key": "469.l.12345.t.6"
+                  "winner_team_key": "123.l.12345.t.6"
                 },
                 {
                   "stat_id": 84,
@@ -422,7 +422,7 @@
             "teams": {
               "team": [
                 {
-                  "team_key": "469.l.12345.t.3",
+                  "team_key": "123.l.12345.t.3",
                   "team_id": 3,
                   "name": "Team 3",
                   "url": "https://example.com/url",
@@ -541,7 +541,7 @@
                   }
                 },
                 {
-                  "team_key": "469.l.12345.t.6",
+                  "team_key": "123.l.12345.t.6",
                   "team_id": 6,
                   "name": "Team 6",
                   "url": "https://example.com/url",

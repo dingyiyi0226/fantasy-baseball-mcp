@@ -1,7 +1,7 @@
 {
   "teams": [
     {
-      "team_key": "469.l.12345.t.1",
+      "team_key": "123.l.12345.t.1",
       "team_id": 1,
       "name": "Team 1",
       "team_standings": {
@@ -89,7 +89,7 @@
       }
     },
     {
-      "team_key": "469.l.12345.t.2",
+      "team_key": "123.l.12345.t.2",
       "team_id": 2,
       "name": "Team 2",
       "is_owned_by_current_login": 1,
@@ -178,7 +178,7 @@
       }
     },
     {
-      "team_key": "469.l.12345.t.3",
+      "team_key": "123.l.12345.t.3",
       "team_id": 3,
       "name": "Team 3",
       "team_standings": {

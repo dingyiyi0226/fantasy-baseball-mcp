@@ -3,8 +3,9 @@
  *
  * For each read endpoint it:
  *   1. fetches the live Yahoo response (refreshing the OAuth token as needed),
- *   2. sanitizes all personal data (league/team/manager names + ids, image URLs,
- *      chat ids, guids) so the fixtures are safe to commit to a public repo,
+ *   2. sanitizes account-specific identifiers and personal data (game/league,
+ *      team/manager names, image URLs, chat ids, guids) so the fixtures are
+ *      safe to commit to a public repo,
  *   3. trims long lists down to a few representative items for readability,
  *   4. writes the cleaned raw response to test/fixtures/raw/<tool>.json, and
  *   5. runs the real mapper on that cleaned raw response and writes the result
@@ -92,9 +93,8 @@ async function fetchResource(resource) {
 }
 
 // --- sanitization ---------------------------------------------------------
-// The real league id is read from config so the script works for any account.
 const realLeagueKey = config.defaultLeagueKey; // e.g. "469.l.78350"
-const realLeagueId = realLeagueKey.split(".l.")[1]; // e.g. "78350"
+const FAKE_GAME_KEY = "123";
 const FAKE_LEAGUE_ID = "12345";
 
 const SCRUB_KEYS = new Set([
@@ -163,9 +163,17 @@ function sanitize(node) {
   }
 }
 
-/** Replace the real league id everywhere it is embedded in keys/strings. */
-function scrubLeagueId(data) {
-  const json = JSON.stringify(data).split(realLeagueId).join(FAKE_LEAGUE_ID);
+/** Replace all Yahoo game and league identifiers, including historical leagues. */
+function scrubAccountIds(data) {
+  const json = JSON.stringify(data)
+    .replace(
+      /("(?:game_key|game_id)":)("?)\d+\2(?=[,}])/g,
+      `$1$2${FAKE_GAME_KEY}$2`,
+    )
+    .replace(/\b\d+\.l\.\d+/g, `${FAKE_GAME_KEY}.l.${FAKE_LEAGUE_ID}`)
+    .replace(/\b\d+\.p\./g, `${FAKE_GAME_KEY}.p.`)
+    .replace(/("league_id":)("?)\d+\2(?=[,}])/g, `$1$2${FAKE_LEAGUE_ID}$2`)
+    .replace(/("(?:renew|renewed)":")\d+_\d+"/g, `$1${FAKE_GAME_KEY}_${FAKE_LEAGUE_ID}"`);
   return JSON.parse(json);
 }
 
@@ -189,7 +197,7 @@ function trim(node) {
 }
 
 function clean(data) {
-  const copy = scrubLeagueId(data);
+  const copy = scrubAccountIds(data);
   sanitize(copy);
   trim(copy);
   return copy;

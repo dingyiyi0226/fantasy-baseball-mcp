@@ -4,14 +4,14 @@
       "games": {
         "game": [
           {
-            "game_key": 431,
+            "game_key": 123,
             "name": "Baseball",
             "code": "mlb",
             "season": 2026,
             "leagues": {
               "league": [
                 {
-                  "league_key": "431.l.12345",
+                  "league_key": "123.l.12345",
                   "name": "Demo League"
                 }
               ]
@@ -19,14 +19,14 @@
             "teams": {
               "team": [
                 {
-                  "team_key": "431.l.12345.t.1",
+                  "team_key": "123.l.12345.t.1",
                   "name": "Team 1"
                 }
               ]
             }
           },
           {
-            "game_key": 999,
+            "game_key": 123,
             "name": "Football",
             "code": "nfl",
             "season": 2026

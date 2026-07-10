@@ -1,6 +1,6 @@
 {
   "team": {
-    "team_key": "469.l.12345.t.2",
+    "team_key": "123.l.12345.t.2",
     "team_id": 2,
     "name": "Team 2",
     "is_owned_by_current_login": 1
@@ -8,7 +8,7 @@
   "roster_date": "2026-06-20",
   "players": [
     {
-      "player_key": "469.p.11732",
+      "player_key": "123.p.11732",
       "player_id": 11732,
       "name": "Adley Rutschman",
       "editorial_team_abbr": "BAL",
@@ -16,13 +16,16 @@
       "display_position": "C",
       "position_type": "B",
       "primary_position": "C",
-      "eligible_positions": ["C", "Util"],
+      "eligible_positions": [
+        "C",
+        "Util"
+      ],
       "is_undroppable": 0,
       "selected_position": "C",
       "is_starting": 0
     },
     {
-      "player_key": "469.p.10235",
+      "player_key": "123.p.10235",
       "player_id": 10235,
       "name": "Rafael Devers",
       "editorial_team_abbr": "SF",
@@ -30,13 +33,16 @@
       "display_position": "1B",
       "position_type": "B",
       "primary_position": "1B",
-      "eligible_positions": ["1B", "Util"],
+      "eligible_positions": [
+        "1B",
+        "Util"
+      ],
       "is_undroppable": 0,
       "selected_position": "1B",
       "is_starting": 1
     },
     {
-      "player_key": "469.p.12100",
+      "player_key": "123.p.12100",
       "player_id": 12100,
       "name": "Otto Lopez",
       "editorial_team_abbr": "MIA",
@@ -44,7 +50,11 @@
       "display_position": "2B,SS",
       "position_type": "B",
       "primary_position": "2B",
-      "eligible_positions": ["2B", "SS", "Util"],
+      "eligible_positions": [
+        "2B",
+        "SS",
+        "Util"
+      ],
       "is_undroppable": 0,
       "selected_position": "2B",
       "is_starting": 1

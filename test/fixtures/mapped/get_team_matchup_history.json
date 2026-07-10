@@ -1,6 +1,6 @@
 {
   "team": {
-    "team_key": "469.l.12345.t.2",
+    "team_key": "123.l.12345.t.2",
     "name": "Team 2",
     "team_stats": {
       "coverage_type": "season",
@@ -84,24 +84,24 @@
       "is_playoffs": 0,
       "is_consolation": 0,
       "is_tied": 0,
-      "winner_team_key": "469.l.12345.t.10",
+      "winner_team_key": "123.l.12345.t.10",
       "stat_winners": {
         "stat_winner": [
           {
             "stat_id": 7,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 12,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 13,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 16,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 20,
@@ -109,35 +109,35 @@
           },
           {
             "stat_id": 23,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 4,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 28,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 32,
-            "winner_team_key": "469.l.12345.t.2"
+            "winner_team_key": "123.l.12345.t.2"
           },
           {
             "stat_id": 26,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 27,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 56,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 83,
-            "winner_team_key": "469.l.12345.t.10"
+            "winner_team_key": "123.l.12345.t.10"
           },
           {
             "stat_id": 84,
@@ -147,7 +147,7 @@
       },
       "teams": [
         {
-          "team_key": "469.l.12345.t.2",
+          "team_key": "123.l.12345.t.2",
           "name": "Team 2",
           "team_stats": {
             "coverage_type": "week",
@@ -223,7 +223,7 @@
           }
         },
         {
-          "team_key": "469.l.12345.t.10",
+          "team_key": "123.l.12345.t.10",
           "name": "Team 10",
           "team_stats": {
             "coverage_type": "week",
@@ -308,36 +308,36 @@
       "is_playoffs": 0,
       "is_consolation": 0,
       "is_tied": 0,
-      "winner_team_key": "469.l.12345.t.8",
+      "winner_team_key": "123.l.12345.t.8",
       "stat_winners": {
         "stat_winner": [
           {
             "stat_id": 7,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 12,
-            "winner_team_key": "469.l.12345.t.2"
+            "winner_team_key": "123.l.12345.t.2"
           },
           {
             "stat_id": 13,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 16,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 20,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 23,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 4,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 28,
@@ -349,15 +349,15 @@
           },
           {
             "stat_id": 26,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 27,
-            "winner_team_key": "469.l.12345.t.8"
+            "winner_team_key": "123.l.12345.t.8"
           },
           {
             "stat_id": 56,
-            "winner_team_key": "469.l.12345.t.2"
+            "winner_team_key": "123.l.12345.t.2"
           },
           {
             "stat_id": 83,
@@ -371,7 +371,7 @@
       },
       "teams": [
         {
-          "team_key": "469.l.12345.t.2",
+          "team_key": "123.l.12345.t.2",
           "name": "Team 2",
           "team_stats": {
             "coverage_type": "week",
@@ -447,7 +447,7 @@
           }
         },
         {
-          "team_key": "469.l.12345.t.8",
+          "team_key": "123.l.12345.t.8",
           "name": "Team 8",
           "team_stats": {
             "coverage_type": "week",

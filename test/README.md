@@ -17,7 +17,7 @@ test/
 The fixtures are committed to a public repo, so `fetch-fixtures.mjs` **sanitizes
 all personal data** before writing:
 
-- league name → `Demo League`, league id → `12345`
+- game key/id → `123`, league name → `Demo League`, league id → `12345`
 - team names → `Team <id>`, manager nicknames → `Manager <id>`
 - image / logo / profile URLs, chat ids, and guids → placeholders
 

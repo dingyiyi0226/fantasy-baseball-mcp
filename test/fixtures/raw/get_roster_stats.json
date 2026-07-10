@@ -1,6 +1,6 @@
 {
   "team": {
-    "team_key": "469.l.12345.t.2",
+    "team_key": "123.l.12345.t.2",
     "team_id": 2,
     "name": "Team 2",
     "is_owned_by_current_login": 1,
@@ -41,7 +41,7 @@
       "players": {
         "player": [
           {
-            "player_key": "469.p.11732",
+            "player_key": "123.p.11732",
             "player_id": 11732,
             "name": {
               "full": "Adley Rutschman",
@@ -134,7 +134,7 @@
             }
           },
           {
-            "player_key": "469.p.10235",
+            "player_key": "123.p.10235",
             "player_id": 10235,
             "name": {
               "full": "Rafael Devers",
@@ -230,7 +230,7 @@
             }
           },
           {
-            "player_key": "469.p.12100",
+            "player_key": "123.p.12100",
             "player_id": 12100,
             "name": {
               "full": "Otto Lopez",

@@ -1,8 +1,8 @@
 {
   "games": [
     {
-      "game_key": 398,
-      "game_id": 398,
+      "game_key": 123,
+      "game_id": 123,
       "name": "Baseball",
       "code": "mlb",
       "season": 2020,
@@ -10,14 +10,14 @@
       "is_offseason": 1,
       "leagues": [
         {
-          "league_key": "398.l.73904",
+          "league_key": "123.l.12345",
           "name": "Demo League"
         }
       ]
     },
     {
-      "game_key": 404,
-      "game_id": 404,
+      "game_key": 123,
+      "game_id": 123,
       "name": "Baseball",
       "code": "mlb",
       "season": 2021,
@@ -25,7 +25,7 @@
       "is_offseason": 1,
       "leagues": [
         {
-          "league_key": "404.l.59085",
+          "league_key": "123.l.12345",
           "name": "Demo League"
         }
       ]

@@ -1,6 +1,6 @@
 {
   "league": {
-    "league_key": "469.l.12345",
+    "league_key": "123.l.12345",
     "league_id": 12345,
     "name": "Demo League",
     "url": "https://example.com/url",
@@ -15,7 +15,7 @@
     "scoring_type": "headone",
     "scoring_label": "H2H Cat One",
     "league_type": "private",
-    "renew": "458_98039",
+    "renew": "123_12345",
     "renewed": "",
     "felo_tier": "silver",
     "is_highscore": "",
@@ -36,7 +36,7 @@
     "teams": {
       "team": [
         {
-          "team_key": "469.l.12345.t.1",
+          "team_key": "123.l.12345.t.1",
           "team_id": 1,
           "name": "Team 1",
           "url": "https://example.com/url",
@@ -70,7 +70,7 @@
           }
         },
         {
-          "team_key": "469.l.12345.t.2",
+          "team_key": "123.l.12345.t.2",
           "team_id": 2,
           "name": "Team 2",
           "is_owned_by_current_login": 1,
@@ -105,7 +105,7 @@
           }
         },
         {
-          "team_key": "469.l.12345.t.3",
+          "team_key": "123.l.12345.t.3",
           "team_id": 3,
           "name": "Team 3",
           "url": "https://example.com/url",
@@ -554,7 +554,7 @@
       "teams": {
         "team": [
           {
-            "team_key": "469.l.12345.t.4",
+            "team_key": "123.l.12345.t.4",
             "team_id": 4,
             "name": "Team 4",
             "url": "https://example.com/url",
@@ -675,7 +675,7 @@
             }
           },
           {
-            "team_key": "469.l.12345.t.10",
+            "team_key": "123.l.12345.t.10",
             "team_id": 10,
             "name": "Team 10",
             "url": "https://example.com/url",
@@ -797,7 +797,7 @@
             }
           },
           {
-            "team_key": "469.l.12345.t.7",
+            "team_key": "123.l.12345.t.7",
             "team_id": 7,
             "name": "Team 7",
             "url": "https://example.com/url",
