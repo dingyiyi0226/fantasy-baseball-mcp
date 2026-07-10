@@ -61,6 +61,8 @@ Savant/FanGraphs/MLB stat endpoints. Within each team, batch tool calls where po
 Call `fantasy_status` to confirm auth. Then call `get_league_scoring_categories` and
 `get_league` (standings, current week, `week_start`, `week_end`).
 
+Set `currentWeek` from the league's current week.
+
 Determine **day type** by comparing today to `week_end`:
 - **Final day** -> maximize the win aggressively: build margin in every category the opponent can
   still flip, chase every close/tied/flippable losing cat, and assume the opponent may activate all
@@ -79,9 +81,10 @@ Run steps A-E for the current team before moving to the next.
 
 ### A — Matchup
 
-Call `get_team_matchup_history` for the active week (and `get_team_stats` with `period: "week"`
-if matchup data is sparse). Use `get_league_scoreboard` only when the full league's pairings are
-also needed.
+Call `get_team_matchup_history` with `weeks: [currentWeek]` for the active week (and
+`get_team_stats` with `period: "week", week: currentWeek` if matchup data is sparse). Use
+`get_league_scoreboard` with `week: currentWeek` only when the full league's pairings are also
+needed.
 Produce a compact category table: your totals vs. opponent totals for IP, W, SV, ERA, WHIP, K/BB, QS, BSV.
 
 ### B — Your Roster & Availability

@@ -54,14 +54,16 @@ Resolve the scoring week to review:
 - If the week is still in progress, label the report as an **in-progress weekly review**
 - If the user asks about the finished week, use that explicit week
 
+Store the resolved value as `reviewWeek` and use it for every week-scoped tool call below.
+
 ## Phase 1 — Gather the Week's Record
 
 ### A — Matchup Arc
 
 Call:
-- `get_league_scoreboard`
-- `get_team_stats` with `period: "week"`
-- `get_team_matchup_history` if detailed weekly team stats are needed
+- `get_league_scoreboard` with `week: reviewWeek`
+- `get_team_stats` with `period: "week", week: reviewWeek`
+- `get_team_matchup_history` with `weeks: [reviewWeek]` if detailed weekly team stats are needed
 
 Capture:
 - final or current category score
