@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import type { Credentials } from "./config.js";
+import type { Credentials } from "../app/config.js";
 import { REDIRECT_URI } from "./callbackServer.js";
 
 const TOKEN_ENDPOINT = "https://api.login.yahoo.com/oauth2/get_token";

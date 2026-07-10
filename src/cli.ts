@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { writeSync } from "node:fs";
-import { runAuth } from "./yahoo/auth.js";
+import { runAuth } from "./commands/auth.js";
 import { runServer } from "./server.js";
 
 /**

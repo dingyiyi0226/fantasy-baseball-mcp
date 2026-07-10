@@ -6,9 +6,9 @@ import {
   type Credentials,
   type ScoringCategory,
 } from "./config.js";
-import { exchangeAuthCode, buildAuthUrl, TokenManager } from "./oauth.js";
-import { startCallbackServer } from "./callbackServer.js";
-import { YahooClient } from "./client.js";
+import { exchangeAuthCode, buildAuthUrl, TokenManager } from "../yahoo/oauth.js";
+import { startCallbackServer } from "../yahoo/callbackServer.js";
+import { YahooClient } from "../yahoo/client.js";
 import { asArray, str } from "../util.js";
 
 /** A baseball league plus the team the user owns in it (if any). */

@@ -2,13 +2,13 @@ import { writeSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerAnalysisTools } from "./analysis/index.js";
-import { McpContext } from "./mcp/context.js";
+import { Session } from "./app/session.js";
+import { McpContext } from "./mcp.js";
 import {
   registerYahooReadTools,
   registerYahooWriteTools,
 } from "./yahoo/index.js";
 import { registerYahooOnboardingTools } from "./yahoo/onboarding.js";
-import { Session } from "./yahoo/session.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
 export const VERSION = "0.6.1";

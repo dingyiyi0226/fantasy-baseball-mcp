@@ -17,3 +17,12 @@ export function teamKeysForLeague(leagueKey: string, numTeams: number): string[]
 export function leagueKeyFromTeamKey(teamKey: string): string {
   return teamKey.replace(/\.t\.\d+$/, "");
 }
+
+/** Escape XML special characters in interpolated Yahoo request values. */
+export function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}

@@ -1,5 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { McpContext } from "../mcp/context.js";
+import type { McpContext } from "../mcp.js";
 import { registerLeagueTools } from "./league.js";
 import { registerMatchupTools } from "./matchup.js";
 import { registerPlayerTools } from "./player.js";

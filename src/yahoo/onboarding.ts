@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Session, LeagueChoice } from "./session.js";
-import { textResult } from "../mcp/results.js";
+import type { Session, LeagueChoice } from "../app/session.js";
+import { textResult } from "../mcp.js";
 
 const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
 

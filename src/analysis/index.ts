@@ -12,8 +12,7 @@ import {
   guessBrefId,
   type ProbableStarter,
 } from "./statsClient.js";
-import type { McpContext } from "../mcp/context.js";
-import { jsonResult } from "../mcp/results.js";
+import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray } from "../util.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;

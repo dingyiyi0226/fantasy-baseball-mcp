@@ -28,7 +28,7 @@ import { dirname, join } from "node:path";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const dist = (m) => join(HERE, "..", "dist", m);
 
-const { loadConfig, resolveCredentials } = await import(dist("yahoo/config.js"));
+const { loadConfig, resolveCredentials } = await import(dist("app/config.js"));
 const { TokenManager } = await import(dist("yahoo/oauth.js"));
 const { YahooClient } = await import(dist("yahoo/client.js"));
 const { fetchProbableStarters } = await import(dist("analysis/statsClient.js"));

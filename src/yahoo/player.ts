@@ -1,7 +1,6 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { McpContext } from "../mcp/context.js";
-import { jsonResult } from "../mcp/results.js";
+import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
 import { mapLeagueHeader, mapPlayerProfile } from "./mappers.js";
 

@@ -1,7 +1,7 @@
 import readline from "node:readline/promises";
 import { stdin, stdout } from "node:process";
-import { CONFIG_PATH } from "./config.js";
-import { Session, type LeagueChoice } from "./session.js";
+import { CONFIG_PATH } from "../app/config.js";
+import { Session, type LeagueChoice } from "../app/session.js";
 
 export interface AuthFlags {
   clientId?: string;

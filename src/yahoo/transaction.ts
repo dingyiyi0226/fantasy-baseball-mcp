@@ -1,12 +1,10 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { McpContext } from "../mcp/context.js";
-import { jsonResult, textResult } from "../mcp/results.js";
+import { jsonResult, textResult, type McpContext } from "../mcp.js";
 import { asArray, str } from "../util.js";
-import { leagueKeyFromTeamKey } from "./keys.js";
+import { leagueKeyFromTeamKey, escapeXml } from "./utils.js";
 import { mapLeagueHeader } from "./mappers.js";
 import { DESTRUCTIVE, WRITE_NOT_SUPPORTED } from "./writeSupport.js";
-import { escapeXml } from "./xml.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
