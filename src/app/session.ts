@@ -179,7 +179,7 @@ export class Session {
     if (!tokens.refresh_token) {
       throw new Error(
         "Yahoo did not return a refresh token. Make sure your app has the " +
-          "Fantasy Sports read/write permission, then try again.",
+          "Fantasy Sports Read permission, then try again.",
       );
     }
     this.config = await updateConfig({ refreshToken: tokens.refresh_token });

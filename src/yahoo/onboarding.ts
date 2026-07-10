@@ -4,9 +4,9 @@ import type { Session } from "../app/session.js";
 import { textResult } from "../mcp.js";
 import { listGames, type LeagueChoice } from "./game.js";
 
-const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
+const VERBATIM_PREFIX = `[Claude/Codex: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
 
-const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}To let Claude manage your team, you need your own free Yahoo "app"
+const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}To let Claude/Codex manage your team, you need your own free Yahoo "app"
 (this is how Yahoo gives you permission keys). One-time, ~3 minutes:
 
 1. Go to  https://developer.yahoo.com/apps/create/
@@ -19,9 +19,8 @@ const YAHOO_APP_TUTORIAL = `${VERBATIM_PREFIX}To let Claude manage your team, yo
    • API Permissions: tick **Fantasy Sports**, and choose **Read**
 3. Click **Create App**. Yahoo shows you a **Client ID (Consumer Key)** and a
    **Client Secret (Consumer Secret)**.
-4. Put those two values into this extension's settings
-   (Settings → Extensions → Fantasy Baseball),
-   OR just paste them to me here and I'll save them securely.`;
+4. Put those two values into your Claude/Codex app's settings,
+   OR just paste them here and Claude/Codex will save them securely.`;
 
 function authorizeSteps(url: string): string {
   return `${VERBATIM_PREFIX}Your Yahoo credentials are saved. Final step to connect:
@@ -45,7 +44,7 @@ function listLeagues(choices: LeagueChoice[]): string {
 
 /**
  * Register the in-chat onboarding tools. These let a non-technical user complete
- * Yahoo's OAuth entirely inside Claude — no terminal required.
+ * Yahoo's OAuth entirely through Claude/Codex — no terminal required.
  */
 export function registerYahooOnboardingTools(server: McpServer, session: Session): void {
   server.registerTool(

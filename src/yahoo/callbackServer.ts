@@ -31,7 +31,7 @@ h2{color:#1a7f37}p{color:#444;line-height:1.6}code{background:#f4f4f4;padding:2p
 <body>
 <h2>Authorization complete!</h2>
 <p>Yahoo has connected your account.</p>
-<p>Go back to Claude and say <code>fantasy authorize</code> to finish setup.</p>
+<p>Go back to Claude/Codex and say <code>fantasy authorize</code> to finish setup.</p>
 </body>
 </html>`;
 
@@ -45,7 +45,7 @@ h2{color:#d1242f}p{color:#444;line-height:1.6}code{background:#f4f4f4;padding:2p
 <body>
 <h2>Authorization failed</h2>
 <p>${detail}</p>
-<p>Go back to Claude and say <code>fantasy start</code> to try again.</p>
+<p>Go back to Claude/Codex and say <code>fantasy start</code> to try again.</p>
 </body>
 </html>`;
 }

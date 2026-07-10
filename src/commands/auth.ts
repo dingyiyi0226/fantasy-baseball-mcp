@@ -11,8 +11,8 @@ export interface AuthFlags {
 
 /**
  * One-time interactive terminal setup. The same flow is also available entirely
- * inside Claude via the `fantasy_*` tools; this command exists for users who
- * prefer the shell (e.g. Claude Code). Opens a local callback server on
+ * inside Claude/Codex via the `fantasy_*` tools; this command exists for users who
+ * prefer the shell. Opens a local callback server on
  * localhost:8488, prints the Yahoo authorization URL, then waits for the browser
  * redirect to capture the code automatically.
  */
@@ -66,7 +66,7 @@ export async function runAuth(flags: AuthFlags): Promise<void> {
     } else {
       console.log("  (no owned team detected in this league)");
     }
-    console.log("\nYou can now run the MCP server (`serve`) and connect it to Claude.");
+    console.log("\nYou can now run the MCP server (`serve`) and connect it to Claude/Codex.");
   } finally {
     rl.close();
   }
