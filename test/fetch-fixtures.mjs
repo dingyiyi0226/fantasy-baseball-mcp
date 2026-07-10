@@ -186,7 +186,8 @@ const tk = config.defaultTeamKey;
 const endpoints = [
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=game_weeks,stat_categories,leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
-  { tool: "get_league_teams", mapper: "mapTeams", path: `/teams;team_keys=${lk}.t.1,${lk}.t.2,${lk}.t.3;out=stats,standings` },
+  { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },
+  { tool: "get_team", mapper: "mapTeam", path: `/team/${tk};out=stats,standings` },
   { tool: "get_standings", mapper: "mapStandings", path: `/teams;team_keys=${lk}.t.1,${lk}.t.2,${lk}.t.3;out=stats,standings` },
   { tool: "get_roster", mapper: "mapRosterCompact", path: `/team/${tk}/roster;date=2026-06-20/players` },
   { tool: "get_roster_full", mapper: "mapRosterFull", path: `/team/${tk}/roster;date=2026-06-20/players` },

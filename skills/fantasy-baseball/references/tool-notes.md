@@ -38,9 +38,10 @@
   default team, explicit user-provided team keys, or the teams surfaced by `fantasy_status`.
 - Never publish or hardcode a user's personal league key, team key, or team name in this skill.
 
-### `get_league_teams`
-- Returns team metadata, season stats, and standings—but never matchups. It may still be large in
-  large leagues; use it only when a league-wide team comparison is needed.
+### `list_teams` / `get_team`
+- `list_teams` is the lightweight league-wide discovery tool; it returns only team keys and names.
+- `get_team` returns one team's metadata, season stats, points, and standings—but never roster or
+  matchups. Use the more focused stats or matchup tools when those are the only data needed.
 
 ### `get_league_scoreboard` / `get_team_matchup_history`
 - Use `get_league_scoreboard` for every pairing in one scoring week; it deliberately omits team

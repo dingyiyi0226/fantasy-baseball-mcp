@@ -6,7 +6,8 @@ import { ToolContext, jsonResult } from "./context.js";
 import {
   mapLeague,
   mapListLeagues,
-  mapTeams,
+  mapListTeams,
+  mapTeam,
   mapStandings,
   mapRosterCompactWithStats,
   mapRosterFull,
@@ -67,37 +68,41 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_league_teams",
+    "list_teams",
     {
-      title: "Get league teams",
+      title: "List league teams",
       description:
-        "Get team metadata, season stats, and standings for one or more teams in a " +
-        "league. This excludes matchup history; use get_league_scoreboard for one " +
-        "league week or get_team_matchup_history for one team's detailed schedule.",
+        "List the teams in a league with only team_key and name. Use get_team for " +
+        "detailed information about one selected team.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
-        teamKeys: z
-          .array(z.string())
-          .optional()
-          .describe("Specific team keys; defaults to all teams in the league"),
       },
       annotations: READ_ONLY,
     },
-    async ({ leagueKey, teamKeys }) => {
-      let keys = teamKeys ?? [];
-      if (keys.length === 0) {
-        const lk = ctx.resolveLeagueKey(leagueKey);
-        const league = await ctx.client.get(`/league/${lk}`);
-        const numTeams = Number(str(league?.league?.num_teams)) || 0;
-        if (numTeams === 0) {
-          throw new Error(`Could not determine number of teams for league ${lk}.`);
-        }
-        keys = teamKeysForLeague(lk, numTeams);
-      }
-      const data = await ctx.client.get(
-        `/teams;team_keys=${keys.join(",")};out=stats,standings`,
-      );
-      return jsonResult(mapTeams(data));
+    async ({ leagueKey }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const data = await ctx.client.get(`/league/${lk}/teams`);
+      return jsonResult(mapListTeams(data));
+    },
+  );
+
+  server.registerTool(
+    "get_team",
+    {
+      title: "Get one team's details",
+      description:
+        "Get detailed metadata, season stats, points, and standings for one team. " +
+        "This excludes roster and matchup history; use get_roster, get_team_stats, " +
+        "or get_team_matchup_history when those are needed.",
+      inputSchema: {
+        teamKey: z.string().optional().describe("Team key; defaults to configured team"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ teamKey }) => {
+      const tk = ctx.resolveTeamKey(teamKey);
+      const data = await ctx.client.get(`/team/${tk};out=stats,standings`);
+      return jsonResult(mapTeam(data));
     },
   );
 
@@ -108,7 +113,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       description:
         "Get the league standings table — each team's rank, win/loss record, " +
         "games back, playoff seed, and season category totals. This is the light " +
-        "way to see how teams stack up; use get_league_teams only when you also " +
+        "way to see how teams stack up; use get_team only when you also " +
         "need team metadata or season totals.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),

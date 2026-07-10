@@ -229,15 +229,27 @@ export function mapListLeagues(data: any) {
   };
 }
 
-/** get_league_teams */
-export function mapTeams(data: any) {
+/** list_teams */
+export function mapListTeams(data: any) {
   return {
-    teams: asArray(data?.teams?.team).map((t: any) => ({
-      ...mapTeamSummary(t),
-      team_stats: t.team_stats,
-      team_points: t.team_points,
-      team_standings: t.team_standings,
+    teams: asArray(data?.league?.teams?.team ?? data?.teams?.team).map((t: any) => ({
+      team_key: t.team_key,
+      name: t.name,
     })),
+  };
+}
+
+/** get_team */
+export function mapTeam(data: any) {
+  const team = data?.team;
+  if (!team) return data;
+  return {
+    team: {
+      ...mapTeamSummary(team),
+      team_stats: team.team_stats,
+      team_points: team.team_points,
+      team_standings: team.team_standings,
+    },
   };
 }
 

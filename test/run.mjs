@@ -23,7 +23,8 @@ const read = (sub, tool) =>
 const CASES = [
   ["list_leagues", "mapListLeagues"],
   ["get_league", "mapLeague"],
-  ["get_league_teams", "mapTeams"],
+  ["list_teams", "mapListTeams"],
+  ["get_team", "mapTeam"],
   ["get_standings", "mapStandings"],
   ["get_roster", "mapRosterCompact"],
   ["get_roster_full", "mapRosterFull", "get_roster"],

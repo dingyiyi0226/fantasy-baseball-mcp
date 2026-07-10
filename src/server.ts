@@ -44,6 +44,7 @@ Everyday use (these default to the user's configured league/team):
   includeStats=true when per-player Yahoo stats are needed).
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchup_history
 - "fantasy league scoreboard" -> get_league_scoreboard
+- "fantasy list teams" -> list_teams; "fantasy show my team" -> get_team
 - "fantasy standings" -> get_standings; "fantasy league" (settings + teams) -> get_league
 - "fantasy my stats this week" -> get_team_stats with period=week and the requested week
 - "fantasy season stats" -> get_team_stats with period=season
