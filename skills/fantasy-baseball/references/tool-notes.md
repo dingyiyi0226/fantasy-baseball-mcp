@@ -33,6 +33,7 @@
   for a later date means probables may not be announced yet.
 
 ### `list_leagues` / team discovery
+- Returns only each league's `league_key` and `name`; call `get_league` for all league details.
 - Known limitation: some Yahoo league-discovery calls may return only one team per league per season,
   even when the user owns multiple teams. If the user expects multiple teams, prefer the configured
   default team, explicit user-provided team keys, or the teams surfaced by `fantasy_status`.

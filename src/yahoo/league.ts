@@ -78,11 +78,9 @@ export function mapListLeagues(data: any) {
   const games = asArray(data?.users?.user?.games?.game);
   return {
     games: games.map((game: any) => {
-      const leagues = asArray(game.leagues?.league).map(mapLeagueHeader);
-      const gameWeeks = asArray(game.game_weeks?.game_week).map((week: any) => ({
-        week: week.week,
-        start: week.start,
-        end: week.end,
+      const leagues = asArray(game.leagues?.league).map((league: any) => ({
+        league_key: league.league_key,
+        name: league.name,
       }));
       return {
         game_key: game.game_key,
@@ -92,7 +90,6 @@ export function mapListLeagues(data: any) {
         season: game.season,
         is_game_over: game.is_game_over,
         is_offseason: game.is_offseason,
-        game_weeks: gameWeeks.length ? gameWeeks : undefined,
         leagues: leagues.length ? leagues : undefined,
       };
     }),
@@ -100,20 +97,20 @@ export function mapListLeagues(data: any) {
 }
 
 export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
-  // GET /users;use_login=1/games;out=game_weeks,stat_categories,leagues
+  // GET /users;use_login=1/games;out=leagues
   server.registerTool(
     "list_leagues",
     {
       title: "List my leagues",
       description:
-        "List all fantasy leagues (and game weeks / stat categories) for the " +
-        "logged-in Yahoo account. Use this to discover league_key and team_key values.",
+        "List the league key and name for each fantasy league in the logged-in " +
+        "Yahoo account. Call get_league for league details.",
       inputSchema: {},
       annotations: READ_ONLY,
     },
     async () => {
       const data = await ctx.yahoo.get(
-        "/users;use_login=1/games;out=game_weeks,stat_categories,leagues",
+        "/users;use_login=1/games;out=leagues",
       );
       return jsonResult(mapListLeagues(data));
     },

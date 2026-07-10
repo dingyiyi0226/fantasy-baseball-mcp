@@ -198,7 +198,7 @@ const lk = realLeagueKey;
 const tk = config.defaultTeamKey;
 
 const endpoints = [
-  { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=game_weeks,stat_categories,leagues" },
+  { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
   { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },
   { tool: "get_team", mapper: "mapTeam", path: `/team/${tk};out=stats,standings` },
