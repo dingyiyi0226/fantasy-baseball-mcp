@@ -184,16 +184,17 @@ Before any click:
 
 ### Phase 2 - Enter Swap Mode
 
-To start a move:
-1. Click the source player's current position pill.
-2. Wait for Yahoo to enter swap mode.
-3. Confirm the source pill becomes highlighted.
-4. Confirm legal destination pills turn green.
+1. Click the source player's current position pill and wait for Yahoo to enter swap mode.
+2. Confirm that source pill is highlighted and identify the green destination pills; Yahoo permits
+   only those destinations.
+3. If the green pills are not clear from the current page state, take a screenshot and inspect it
+   before choosing a destination.
+4. Click only the green pill for the approved destination.
 
 Interpretation rules:
-- green means Yahoo currently allows that destination
-- no green destination means the move is not legal in the current roster state
-- if the expected destination does not turn green, do not guess; refresh or reassess the roster constraint
+- No green destination means the move is not legal in the current roster state.
+- If the approved destination is not green after inspection, do not guess or force the move; refresh
+  or reassess the roster constraint.
 
 ### Phase 3 - Complete Or Abort
 
