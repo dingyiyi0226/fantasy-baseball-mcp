@@ -53,7 +53,8 @@
 ### `add_drop_player`
 - Legacy-only Yahoo API path retained for future compatibility testing; do not use it in
   normal roster-review flows.
-- Add/drop recommendations should stay manual even when the user approves the move.
+- Keep add/drop recommendations non-executing by default. When the user explicitly approves an
+  exact browser transaction, use the `add-drop-player` workflow instead of this legacy API tool.
 - Never auto-drop on the final matchup day without a clearly stated win reason.
 
 ## League Info

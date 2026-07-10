@@ -59,12 +59,25 @@ Chrome through the `claude-in-chrome` MCP tools. Do not use it for generic brows
 API-only roster advice. When triggered, load `references/adjust-lineup.md` and follow the
 section that matches the active surface.
 
+### `add-drop-player`
+
+Use this tool when the user explicitly authorizes a browser-driven Yahoo roster transaction:
+- add a specific free agent into an empty roster spot
+- add a specific free agent and drop one exact, user-approved rostered player
+
+The `Codex` section uses the Browser plugin and verified Yahoo add/drop page behavior. The `Claude`
+section is intentionally TODO until that browser flow is tested. Do not use the legacy Yahoo write
+API. When triggered, load `references/add-drop-player.md` and follow its confirmation and
+post-transaction verification rules.
+
 ## Operating Rules
 
 - In `daily-roster-review`, default to `autoStartBench=true` and `autoAddDrop=false` unless the
   caller explicitly overrides them.
 - For real Yahoo UI lineup changes, prefer the dedicated `adjust-lineup` tool instead of improvising a
   browser procedure inside the review workflows.
+- For an explicitly approved Yahoo add/drop transaction, use `add-drop-player`; keep add/drop advice
+  recommendation-only when execution was not explicitly authorized.
 - Run multiple user teams sequentially to avoid rate-limiting external baseball data sources.
 - Keep reports scannable: strategy first, then scoreboard, then moves, then add/drop targets.
 - Every non-trivial recommendation needs a brief `Why` plus a compact `Evidence` table.
