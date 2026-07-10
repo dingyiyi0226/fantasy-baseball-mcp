@@ -59,9 +59,9 @@ Resolve the scoring week to review:
 ### A — Matchup Arc
 
 Call:
-- `get_matchups`
+- `get_league_scoreboard`
 - `get_team_stats` with `period: "week"`
-- `get_team_matchups` if needed for extra context
+- `get_team_matchup_history` if detailed weekly team stats are needed
 
 Capture:
 - final or current category score

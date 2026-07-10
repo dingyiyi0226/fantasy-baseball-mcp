@@ -79,7 +79,9 @@ Run steps A-E for the current team before moving to the next.
 
 ### A — Matchup
 
-Call `get_matchups` (and `get_team_stats` with `period: "week"` if matchup data is sparse).
+Call `get_team_matchup_history` for the active week (and `get_team_stats` with `period: "week"`
+if matchup data is sparse). Use `get_league_scoreboard` only when the full league's pairings are
+also needed.
 Produce a compact category table: your totals vs. opponent totals for IP, W, SV, ERA, WHIP, K/BB, QS, BSV.
 
 ### B — Your Roster & Availability

@@ -67,12 +67,13 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_teams",
+    "get_league_teams",
     {
-      title: "Get all teams in a league",
+      title: "Get league teams",
       description:
-        "Get stats, standings, and matchups for every team in a league. Pass " +
-        "explicit teamKeys to limit the set, otherwise all teams in the league are fetched.",
+        "Get team metadata, season stats, and standings for one or more teams in a " +
+        "league. This excludes matchup history; use get_league_scoreboard for one " +
+        "league week or get_team_matchup_history for one team's detailed schedule.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
         teamKeys: z
@@ -94,7 +95,7 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
         keys = teamKeysForLeague(lk, numTeams);
       }
       const data = await ctx.client.get(
-        `/teams;team_keys=${keys.join(",")};out=stats,standings,matchups`,
+        `/teams;team_keys=${keys.join(",")};out=stats,standings`,
       );
       return jsonResult(mapTeams(data));
     },
@@ -107,8 +108,8 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       description:
         "Get the league standings table — each team's rank, win/loss record, " +
         "games back, playoff seed, and season category totals. This is the light " +
-        "way to see how teams stack up; use get_teams when you also need every " +
-        "team's full matchup history.",
+        "way to see how teams stack up; use get_league_teams only when you also " +
+        "need team metadata or season totals.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
         teamKeys: z
@@ -223,15 +224,22 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_matchups",
+    "get_league_scoreboard",
     {
-      title: "Get league scoreboard",
+      title: "Get one league scoreboard week",
       description:
-        "Get the league scoreboard (all head-to-head matchups). Pass a week to " +
-        "view a specific week, otherwise the current week is returned.",
+        "Get every head-to-head pairing in the league for exactly one scoring week. " +
+        "It returns the schedule, score status, category winners, and team keys/names " +
+        "only—no per-team matchup stats. Defaults to the current week. Use " +
+        "get_team_matchup_history for detailed stats for one team's matchup.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key; defaults to configured league"),
-        week: z.number().int().positive().optional().describe("Week number"),
+        week: z
+          .number()
+          .int()
+          .positive()
+          .optional()
+          .describe("One scoring week; defaults to the current week"),
       },
       annotations: READ_ONLY,
     },
@@ -247,12 +255,14 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_team_matchups",
+    "get_team_matchup_history",
     {
-      title: "Get a team's matchups",
+      title: "Get one team's detailed matchup history",
       description:
-        "Get a team's matchups across the season, or only the listed weeks when " +
-        "`weeks` is provided.",
+        "Get one team's season stats plus its matchup schedule and the weekly stats for " +
+        "both teams in each pairing. Fetches all scoring weeks by default, or only " +
+        "`weeks` when supplied. Use get_league_scoreboard instead to inspect every " +
+        "pairing in one league week.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
         weeks: z
@@ -266,8 +276,8 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       const tk = ctx.resolveTeamKey(teamKey);
       const resource =
         weeks && weeks.length > 0
-          ? `/team/${tk}/matchups;weeks=${weeks.join(",")}`
-          : `/team/${tk}/matchups`;
+          ? `/team/${tk};out=stats,matchups;weeks=${weeks.join(",")}`
+          : `/team/${tk};out=stats,matchups`;
       const data = await ctx.client.get(resource);
       return jsonResult(mapTeamMatchups(data));
     },

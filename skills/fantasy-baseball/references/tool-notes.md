@@ -38,9 +38,13 @@
   default team, explicit user-provided team keys, or the teams surfaced by `fantasy_status`.
 - Never publish or hardcode a user's personal league key, team key, or team name in this skill.
 
-### `get_teams`
-- May fail with response size errors on large leagues. Prefer direct team roster/matchup calls once
-  a team key is known.
+### `get_league_teams`
+- Returns team metadata, season stats, and standings—but never matchups. It may still be large in
+  large leagues; use it only when a league-wide team comparison is needed.
+
+### `get_league_scoreboard` / `get_team_matchup_history`
+- Use `get_league_scoreboard` for every pairing in one scoring week; it deliberately omits team
+  matchup stats. Use `get_team_matchup_history` for one team's detailed weekly matchup stats.
 
 ### `add_drop_player`
 - Legacy-only Yahoo API path retained for future compatibility testing; do not use it in

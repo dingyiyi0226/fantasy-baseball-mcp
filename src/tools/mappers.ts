@@ -20,7 +20,7 @@ function mapManagers(managers: any) {
   return mgrs.length === 1 ? mgrs[0] : mgrs;
 }
 
-/** Fields present on every league envelope (get_league, get_matchups, rank_players, etc.) */
+/** Fields present on every league envelope (get_league, get_league_scoreboard, rank_players, etc.) */
 function mapLeagueHeader(league: any) {
   return {
     league_key: league.league_key,
@@ -229,7 +229,7 @@ export function mapListLeagues(data: any) {
   };
 }
 
-/** get_teams */
+/** get_league_teams */
 export function mapTeams(data: any) {
   return {
     teams: asArray(data?.teams?.team).map((t: any) => ({
@@ -274,7 +274,7 @@ export function mapTeamStats(data: any) {
   };
 }
 
-/** get_matchups (league-wide scoreboard) */
+/** get_league_scoreboard */
 export function mapMatchups(data: any) {
   const league = data?.league;
   if (!league) return data;
@@ -291,7 +291,7 @@ export function mapMatchups(data: any) {
   };
 }
 
-/** get_team_matchups */
+/** get_team_matchup_history */
 export function mapTeamMatchups(data: any) {
   const team = data?.team;
   if (!team) return data;

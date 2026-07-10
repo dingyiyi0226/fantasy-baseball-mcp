@@ -42,7 +42,8 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact six-field
   player view by default; pass full=true for standard roster details or
   includeStats=true when per-player Yahoo stats are needed).
-- "fantasy show my matchup" / "fantasy matchup" -> get_team_matchups or get_matchups
+- "fantasy show my matchup" / "fantasy matchup" -> get_team_matchup_history
+- "fantasy league scoreboard" -> get_league_scoreboard
 - "fantasy standings" -> get_standings; "fantasy league" (settings + teams) -> get_league
 - "fantasy my stats this week" -> get_team_stats with period=week and the requested week
 - "fantasy season stats" -> get_team_stats with period=season
