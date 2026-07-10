@@ -98,21 +98,25 @@ function mapCompactRosterPlayer(p: any) {
   };
 }
 
-/** Slim team entry inside a matchup — just identity + stats. */
-function mapMatchupTeam(t: any) {
+/** Team identity for a league-wide scoreboard. */
+function mapScoreboardTeam(t: any) {
   return {
     team_key: t.team_key,
-    team_id: t.team_id,
     name: t.name,
-    ...(t.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
+  };
+}
+
+/** Team details for one team's matchup history. */
+function mapTeamMatchupTeam(t: any) {
+  return {
+    team_key: t.team_key,
+    name: t.name,
     team_stats: t.team_stats,
-    team_points: t.team_points,
-    team_remaining_games: t.team_remaining_games,
   };
 }
 
 /** Strip noise from a single matchup entry. */
-function mapMatchup(m: any) {
+function mapMatchup(m: any, mapTeam: (team: any) => any) {
   return {
     week: m.week,
     week_start: m.week_start,
@@ -124,7 +128,7 @@ function mapMatchup(m: any) {
     ...(m.winner_team_key ? { winner_team_key: m.winner_team_key } : {}),
     ...(m.is_matchup_of_the_week ? { is_matchup_of_the_week: m.is_matchup_of_the_week } : {}),
     stat_winners: m.stat_winners,
-    teams: asArray(m.teams?.team).map(mapMatchupTeam),
+    teams: asArray(m.teams?.team).map(mapTeam),
   };
 }
 
@@ -233,7 +237,6 @@ export function mapTeams(data: any) {
       team_stats: t.team_stats,
       team_points: t.team_points,
       team_standings: t.team_standings,
-      matchups: asArray(t.matchups?.matchup).map(mapMatchup),
     })),
   };
 }
@@ -271,16 +274,19 @@ export function mapTeamStats(data: any) {
   };
 }
 
-/** get_matchups (scoreboard) */
+/** get_matchups (league-wide scoreboard) */
 export function mapMatchups(data: any) {
   const league = data?.league;
   if (!league) return data;
   const sb = league.scoreboard;
   return {
-    league: mapLeagueHeader(league),
+    league: {
+      league_key: league.league_key,
+      name: league.name,
+    },
     scoreboard: {
       week: sb?.week,
-      matchups: asArray(sb?.matchups?.matchup).map(mapMatchup),
+      matchups: asArray(sb?.matchups?.matchup).map((m) => mapMatchup(m, mapScoreboardTeam)),
     },
   };
 }
@@ -292,11 +298,10 @@ export function mapTeamMatchups(data: any) {
   return {
     team: {
       team_key: team.team_key,
-      team_id: team.team_id,
       name: team.name,
-      ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
+      team_stats: team.team_stats,
     },
-    matchups: asArray(team.matchups?.matchup).map(mapMatchup),
+    matchups: asArray(team.matchups?.matchup).map((m) => mapMatchup(m, mapTeamMatchupTeam)),
   };
 }
 

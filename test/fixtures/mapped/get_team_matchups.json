@@ -1,9 +1,7 @@
 {
   "team": {
     "team_key": "469.l.12345.t.2",
-    "team_id": 2,
-    "name": "Team 2",
-    "is_owned_by_current_login": 1
+    "name": "Team 2"
   },
   "matchups": [
     {
@@ -78,9 +76,7 @@
       "teams": [
         {
           "team_key": "469.l.12345.t.2",
-          "team_id": 2,
           "name": "Team 2",
-          "is_owned_by_current_login": 1,
           "team_stats": {
             "coverage_type": "week",
             "week": 1,
@@ -152,25 +148,10 @@
                 }
               ]
             }
-          },
-          "team_points": {
-            "coverage_type": "week",
-            "week": 1,
-            "total": 1
-          },
-          "team_remaining_games": {
-            "coverage_type": "week",
-            "week": 1,
-            "total": {
-              "remaining_games": 0,
-              "live_games": 0,
-              "completed_games": 56
-            }
           }
         },
         {
           "team_key": "469.l.12345.t.10",
-          "team_id": 10,
           "name": "Team 10",
           "team_stats": {
             "coverage_type": "week",
@@ -242,20 +223,6 @@
                   "value": 1
                 }
               ]
-            }
-          },
-          "team_points": {
-            "coverage_type": "week",
-            "week": 1,
-            "total": 11
-          },
-          "team_remaining_games": {
-            "coverage_type": "week",
-            "week": 1,
-            "total": {
-              "remaining_games": 0,
-              "live_games": 0,
-              "completed_games": 55
             }
           }
         }
@@ -333,9 +300,7 @@
       "teams": [
         {
           "team_key": "469.l.12345.t.2",
-          "team_id": 2,
           "name": "Team 2",
-          "is_owned_by_current_login": 1,
           "team_stats": {
             "coverage_type": "week",
             "week": 2,
@@ -407,25 +372,10 @@
                 }
               ]
             }
-          },
-          "team_points": {
-            "coverage_type": "week",
-            "week": 2,
-            "total": 1
-          },
-          "team_remaining_games": {
-            "coverage_type": "week",
-            "week": 2,
-            "total": {
-              "remaining_games": 0,
-              "live_games": 0,
-              "completed_games": 98
-            }
           }
         },
         {
           "team_key": "469.l.12345.t.8",
-          "team_id": 8,
           "name": "Team 8",
           "team_stats": {
             "coverage_type": "week",
@@ -497,20 +447,6 @@
                   "value": 0
                 }
               ]
-            }
-          },
-          "team_points": {
-            "coverage_type": "week",
-            "week": 2,
-            "total": 6
-          },
-          "team_remaining_games": {
-            "coverage_type": "week",
-            "week": 2,
-            "total": {
-              "remaining_games": 0,
-              "live_games": 0,
-              "completed_games": 103
             }
           }
         }
