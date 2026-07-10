@@ -3,7 +3,6 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, textResult, type McpContext } from "../mcp.js";
 import { asArray, str } from "../util.js";
 import { leagueKeyFromTeamKey, escapeXml } from "./utils.js";
-import { mapLeagueHeader } from "./mappers.js";
 import { DESTRUCTIVE, WRITE_NOT_SUPPORTED } from "./writeSupport.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
@@ -12,7 +11,10 @@ export function mapTransactions(data: any) {
   const league = data?.league;
   if (!league) return data;
   return {
-    league: mapLeagueHeader(league),
+    league: {
+      league_key: league.league_key,
+      name: league.name,
+    },
     transactions: asArray(league.transactions?.transaction).map((transaction: any) => ({
       transaction_key: transaction.transaction_key,
       transaction_id: transaction.transaction_id,
