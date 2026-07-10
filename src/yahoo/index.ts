@@ -1,5 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { McpContext } from "../mcp.js";
+import { registerGameTools } from "./game.js";
 import { registerLeagueTools } from "./league.js";
 import { registerMatchupTools } from "./matchup.js";
 import { registerPlayerTools } from "./player.js";
@@ -11,6 +12,7 @@ import {
 } from "./transaction.js";
 
 export function registerYahooReadTools(server: McpServer, ctx: McpContext): void {
+  registerGameTools(server, ctx);
   registerLeagueTools(server, ctx);
   registerTeamTools(server, ctx);
   registerRosterReadTools(server, ctx);

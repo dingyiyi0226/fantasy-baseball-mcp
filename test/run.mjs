@@ -15,6 +15,7 @@ import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import * as leagueMappers from "../dist/yahoo/league.js";
+import * as gameMappers from "../dist/yahoo/game.js";
 import * as matchupMappers from "../dist/yahoo/matchup.js";
 import * as playerMappers from "../dist/yahoo/player.js";
 import * as rosterMappers from "../dist/yahoo/roster.js";
@@ -22,6 +23,7 @@ import * as teamMappers from "../dist/yahoo/team.js";
 import * as transactionMappers from "../dist/yahoo/transaction.js";
 
 const mappers = {
+  ...gameMappers,
   ...leagueMappers,
   ...matchupMappers,
   ...playerMappers,
@@ -35,6 +37,7 @@ const read = (sub, tool) =>
   JSON.parse(readFileSync(join(HERE, "fixtures", sub, `${tool}.json`), "utf8"));
 
 const CASES = [
+  ["get_game", "mapGame"],
   ["list_leagues", "mapListLeagues"],
   ["get_league", "mapLeague"],
   ["list_teams", "mapListTeams"],

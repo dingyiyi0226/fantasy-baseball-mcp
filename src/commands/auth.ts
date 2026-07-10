@@ -1,7 +1,8 @@
 import readline from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import { CONFIG_PATH } from "../app/config.js";
-import { Session, type LeagueChoice } from "../app/session.js";
+import { Session } from "../app/session.js";
+import { discoverLeagues, type LeagueChoice } from "../yahoo/game.js";
 
 export interface AuthFlags {
   clientId?: string;
@@ -40,7 +41,8 @@ export async function runAuth(flags: AuthFlags): Promise<void> {
     console.log(`  ${session.authorizeUrl()}\n`);
     console.log("Waiting for Yahoo to redirect to localhost… (up to 5 minutes)");
 
-    const choices = await session.completeAuthorization();
+    await session.completeAuthorization();
+    const choices = await discoverLeagues(session.requireClient());
 
     if (choices.length === 0) {
       console.log(

@@ -1,0 +1,10 @@
+{
+  "game": {
+    "game_key": 431,
+    "game_id": 431,
+    "name": "Baseball",
+    "code": "mlb",
+    "season": 2026,
+    "is_game_over": 0
+  }
+}

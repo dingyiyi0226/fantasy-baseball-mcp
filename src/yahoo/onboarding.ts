@@ -1,7 +1,8 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Session, LeagueChoice } from "../app/session.js";
+import type { Session } from "../app/session.js";
 import { textResult } from "../mcp.js";
+import { discoverLeagues, type LeagueChoice } from "./game.js";
 
 const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
 
@@ -129,7 +130,8 @@ export function registerYahooOnboardingTools(server: McpServer, session: Session
       if (clientId && clientSecret) {
         await session.setCredentials(clientId.trim(), clientSecret.trim());
       }
-      const choices = await session.completeAuthorization(code?.trim());
+      await session.completeAuthorization(code?.trim());
+      const choices = await discoverLeagues(session.requireClient());
 
       if (choices.length === 0) {
         return textResult(

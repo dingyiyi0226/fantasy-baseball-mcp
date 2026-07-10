@@ -9,16 +9,6 @@ import {
 import { exchangeAuthCode, buildAuthUrl, TokenManager } from "../yahoo/oauth.js";
 import { startCallbackServer } from "../yahoo/callbackServer.js";
 import { YahooClient } from "../yahoo/client.js";
-import { asArray, str } from "../util.js";
-
-/** A baseball league plus the team the user owns in it (if any). */
-export interface LeagueChoice {
-  leagueKey: string;
-  leagueName: string;
-  season: string;
-  teamKey?: string;
-  teamName?: string;
-}
 
 const NOT_SET_UP =
   "Yahoo Fantasy isn't set up yet. Say `fantasy start` to begin setup.";
@@ -105,33 +95,21 @@ export class Session {
 
   // ---- league scoring categories -------------------------------------------
 
-  /**
-   * Return the scored stat categories for a league. Checks the persisted config
-   * cache first; fetches from Yahoo and caches on miss. Categories rarely change
-   * after a league is created, so a single disk write is the normal cost.
-   */
-  async getLeagueScoringCategories(leagueKey: string): Promise<ScoringCategory[]> {
+  /** Return cached scoring categories, if they have previously been fetched. */
+  getCachedLeagueScoringCategories(leagueKey: string): ScoringCategory[] | undefined {
     const cached = this.config?.scoringCategories?.[leagueKey];
-    if (cached && cached.length > 0) return cached;
+    return cached && cached.length > 0 ? cached : undefined;
+  }
 
-    const data = await this.requireClient().get(`/league/${leagueKey}/settings`);
-    const statList = asArray(data?.league?.settings?.stat_categories?.stats?.stat);
-
-    const categories: ScoringCategory[] = statList
-      .filter((s: any) => str(s?.enabled) === "1")
-      .map((s: any) => ({
-        statId: str(s?.stat_id),
-        displayName: str(s?.display_name),
-        positionType: str(s?.position_type),
-      }))
-      .filter((c: ScoringCategory) => c.statId && c.displayName);
-
+  /** Persist scoring categories fetched by the Yahoo league API. */
+  async cacheLeagueScoringCategories(
+    leagueKey: string,
+    categories: ScoringCategory[],
+  ): Promise<void> {
     const existing = this.config?.scoringCategories ?? {};
     this.config = await updateConfig({
       scoringCategories: { ...existing, [leagueKey]: categories },
     });
-
-    return categories;
   }
 
   // ---- onboarding mutations -------------------------------------------------
@@ -176,11 +154,10 @@ export class Session {
 
   /**
    * Exchange an authorization code for tokens, persist the refresh token,
-   * rebuild the client, and return the discovered leagues so the caller can pick
-   * a default. If no code is provided, waits for the local callback server to
-   * capture it from Yahoo's redirect.
+   * rebuild the client. If no code is provided, waits for the local callback
+   * server to capture it from Yahoo's redirect.
    */
-  async completeAuthorization(code?: string): Promise<LeagueChoice[]> {
+  async completeAuthorization(code?: string): Promise<void> {
     const creds = resolveCredentials(this.config);
     if (!creds) {
       throw new Error(
@@ -207,7 +184,6 @@ export class Session {
     }
     this.config = await updateConfig({ refreshToken: tokens.refresh_token });
     this.rebuild();
-    return this.discoverLeagues();
   }
 
   /** Persist the chosen default league/team. */
@@ -217,39 +193,5 @@ export class Session {
       defaultTeamKey: teamKey,
     });
     this.rebuild();
-  }
-
-  /**
-   * Fetch the user's baseball leagues and the team they own in each. Yahoo
-   * returns the login user's own teams under `;out=teams`, so a team whose key
-   * is prefixed by a league key is that user's team in that league.
-   */
-  async discoverLeagues(): Promise<LeagueChoice[]> {
-    const client = this.requireClient();
-    const content = await client.get("/users;use_login=1/games;out=leagues,teams");
-    const games = asArray(content?.users?.user?.games?.game);
-
-    const choices: LeagueChoice[] = [];
-    for (const game of games) {
-      if (str(game?.code) !== "mlb") continue;
-      const season = str(game?.season);
-      const ownedTeams = asArray(game?.teams?.team).map((t: any) => ({
-        teamKey: str(t?.team_key),
-        teamName: str(t?.name),
-      }));
-      for (const league of asArray(game?.leagues?.league)) {
-        const leagueKey = str(league?.league_key);
-        if (!leagueKey) continue;
-        const owned = ownedTeams.find((t) => t.teamKey.startsWith(`${leagueKey}.t.`));
-        choices.push({
-          leagueKey,
-          leagueName: str(league?.name) || leagueKey,
-          season,
-          teamKey: owned?.teamKey,
-          teamName: owned?.teamName,
-        });
-      }
-    }
-    return choices;
   }
 }

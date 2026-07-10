@@ -1,10 +1,30 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
-import { asArray } from "../util.js";
+import type { ScoringCategory } from "../app/config.js";
+import type { YahooClient } from "./client.js";
+import { asArray, str } from "../util.js";
 import { mapLeagueHeader, mapTeamSummary } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
+
+/** Fetch and normalize the scored stat categories for a league. */
+export async function fetchLeagueScoringCategories(
+  client: YahooClient,
+  leagueKey: string,
+): Promise<ScoringCategory[]> {
+  const data = await client.get(`/league/${leagueKey}/settings`);
+  const statList = asArray(data?.league?.settings?.stat_categories?.stats?.stat);
+
+  return statList
+    .filter((stat: any) => str(stat?.enabled) === "1")
+    .map((stat: any) => ({
+      statId: str(stat?.stat_id),
+      displayName: str(stat?.display_name),
+      positionType: str(stat?.position_type),
+    }))
+    .filter((category: ScoringCategory) => category.statId && category.displayName);
+}
 
 /** Map the get_league response. */
 export function mapLeague(data: any) {

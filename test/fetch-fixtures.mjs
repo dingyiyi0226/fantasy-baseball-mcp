@@ -25,6 +25,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 import * as leagueMappers from "../dist/yahoo/league.js";
+import * as gameMappers from "../dist/yahoo/game.js";
 import * as matchupMappers from "../dist/yahoo/matchup.js";
 import * as playerMappers from "../dist/yahoo/player.js";
 import * as rosterMappers from "../dist/yahoo/roster.js";
@@ -32,6 +33,7 @@ import * as teamMappers from "../dist/yahoo/team.js";
 import * as transactionMappers from "../dist/yahoo/transaction.js";
 
 const mappers = {
+  ...gameMappers,
   ...leagueMappers,
   ...matchupMappers,
   ...playerMappers,
@@ -198,6 +200,7 @@ const lk = realLeagueKey;
 const tk = config.defaultTeamKey;
 
 const endpoints = [
+  { tool: "get_game", mapper: "mapGame", path: "/game/" + realLeagueKey.split(".l.")[0] },
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
   { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },

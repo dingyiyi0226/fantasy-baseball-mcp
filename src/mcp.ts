@@ -1,6 +1,7 @@
 import type { Session } from "./app/session.js";
 import type { ScoringCategory } from "./app/config.js";
 import type { YahooClient } from "./yahoo/client.js";
+import { fetchLeagueScoringCategories } from "./yahoo/league.js";
 
 export type { ScoringCategory };
 
@@ -29,7 +30,12 @@ export class McpContext {
   async getLeagueScoringCategories(leagueKey?: string): Promise<ScoringCategory[]> {
     try {
       const lk = this.session.resolveLeagueKey(leagueKey);
-      return await this.session.getLeagueScoringCategories(lk);
+      const cached = this.session.getCachedLeagueScoringCategories(lk);
+      if (cached) return cached;
+
+      const categories = await fetchLeagueScoringCategories(this.yahoo, lk);
+      await this.session.cacheLeagueScoringCategories(lk, categories);
+      return categories;
     } catch {
       return [];
     }
