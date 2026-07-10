@@ -76,6 +76,17 @@ management flow. For add/drop decisions, recommend the move and have the user
 make it directly on Yahoo Fantasy. If any tool says setup is incomplete, guide
 the user back to "fantasy start".`;
 
+/** Register the tools available without enabling the legacy Yahoo write API. */
+export function registerDefaultTools(
+  server: McpServer,
+  session: Session,
+  ctx: McpContext,
+): void {
+  registerYahooOnboardingTools(server, session);
+  registerYahooReadTools(server, ctx);
+  registerAnalysisTools(server, ctx);
+}
+
 /**
  * Boot the MCP server over stdio. The server always starts — even with no
  * credentials — so the in-chat "fantasy start" onboarding can run. stdio
@@ -99,12 +110,10 @@ export async function runServer(): Promise<void> {
     { instructions: INSTRUCTIONS },
   );
 
-  registerYahooOnboardingTools(server, session);
-  registerYahooReadTools(server, ctx);
+  registerDefaultTools(server, session, ctx);
   if (ENABLE_YAHOO_WRITE_API) {
     registerYahooWriteTools(server, ctx);
   }
-  registerAnalysisTools(server, ctx);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

@@ -15,7 +15,7 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci
-      - name: Type-check and build
-        run: npm run build
+      - name: Run tests
+        run: npm test
       - name: Validate extension manifest
         run: npx -y @anthropic-ai/mcpb validate manifest.json
