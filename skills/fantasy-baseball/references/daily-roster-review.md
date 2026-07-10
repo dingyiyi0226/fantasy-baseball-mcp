@@ -48,7 +48,7 @@ teams:       discover from Yahoo auth/status, or use team keys explicitly provid
 league:      discover from the selected team/matchup, or use a league key explicitly provided by the user
 autoStartBench: true  # default - execute lineup start/bench moves via `roster-start-bench` unless explicitly disabled
 autoAddDrop:   false # default - keep add/drop as a checklist unless explicitly enabled
-lineupDate:  today
+lineupDate:  user-provided date; defaults to the current date
 ```
 
 ## Execution Order
@@ -63,7 +63,7 @@ Call `fantasy_status` to confirm auth. Then call `get_league_scoring_categories`
 
 Set `currentWeek` from the league's current week.
 
-Determine **day type** by comparing today to `week_end`:
+Determine **day type** by comparing `lineupDate` to `week_end`:
 - **Final day** -> maximize the win aggressively: build margin in every category the opponent can
   still flip, chase every close/tied/flippable losing cat, and assume the opponent may activate all
   confirmed starters and obvious bench upgrades. Accept damage to already-lost categories when it
@@ -92,24 +92,25 @@ Produce a compact category table: your totals vs. opponent totals for IP, W, SV,
 Call `list_probable_starters` with `date=lineupDate` and `fantasyContext=true` once, then reuse
 that probable-starter board throughout this team's review.
 
-Call `get_roster` with `date=today`. For each player:
+Call `get_roster` with `date=lineupDate`. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
-- Identify pitchers with a start today from the `list_probable_starters` result.
-- Output: a start/sit candidate list with slot positions and "playing today? y/n".
+- Identify pitchers with a start on `lineupDate` from the `list_probable_starters` result.
+- Output: a start/sit candidate list with slot positions and "playing on lineupDate? y/n".
 
 ### C — Opponent Roster Pressure
 
-Call `get_roster` for the opponent with `date=today` before deciding whether your planned
-management is enough. If the opponent roster appears unmanaged or has stale bench choices, infer
-the expected best active roster from today's Yahoo start flags and obvious active/bench conflicts.
+Call `get_roster` for the opponent with `date=lineupDate, full=true` before deciding whether your
+planned management is enough. If the opponent roster appears unmanaged or has stale bench choices,
+infer the expected best active roster from the lineup date's Yahoo start flags and obvious
+active/bench conflicts.
 
 For the opponent:
 - List active hitters with `is_starting=1`, benched hitters with `is_starting=1`, and active
   hitters with `is_starting=0`.
 - List active pitchers, probable/confirmed starting pitchers, relievers with save paths, and any
-  bench pitchers who appear likely to start today, using the `list_probable_starters` board for
-  probable SPs.
+  bench pitchers who appear likely to start on `lineupDate`, using the
+  `list_probable_starters` board for probable SPs.
 - Estimate opponent pressure on flippable categories: especially W, QS, SV, K/BB, SB, HR, RBI,
   OBP, and TB.
 - Compare your planned moves against that pressure. Explicitly state whether the plan is
@@ -160,14 +161,14 @@ is enough to prevent a flip after considering the opponent's best plausible acti
 From Phase 1, select:
 - All non-trivial start/sit candidates
 - All add/drop candidates
-- Every SP scheduled to start today from the probable-starter board
+- Every SP scheduled to start on `lineupDate` from the probable-starter board
 - Any RP flagged as a saves source
 - Any batter whose Phase 1 recent data was absent or sparse
 
 ### C — Platoon & Handedness
 
 For each batter target:
-1. Use the probable-starter board to identify today's opposing SP hand.
+1. Use the probable-starter board to identify the `lineupDate` opposing SP hand.
 2. Call `analyze_player_stats` or web-search for handedness splits.
 3. Flag a mismatch if the batter is materially weaker against that hand.
 
@@ -180,7 +181,7 @@ For each batter target:
 
 ### E — SP Context
 
-For each SP starting today:
+For each SP starting on `lineupDate`:
 1. Check opposing lineup quality.
 2. Check park factor.
 3. Check weather for outdoor games.
@@ -202,7 +203,7 @@ Produce one compact table per team:
 ```markdown
 | Player       | Type   | Initial Call     | Key Finding                              | Final Call            |
 |--------------|--------|------------------|------------------------------------------|-----------------------|
-| J. Turner    | Batter | Start (SS)       | vLHP wRC+ 74; today's SP is LH           | ⚠️ Start w/ caveat    |
+| J. Turner    | Batter | Start (SS)       | vLHP wRC+ 74; lineupDate SP is LH        | ⚠️ Start w/ caveat    |
 | C. Bellinger | Add    | High priority    | Closer role confirmed, 4 SV last 14d     | ✅ Confirmed          |
 | K. Hendricks | SP     | Stream           | Coors Field, HR/F 1.42, weak K-BB%       | ❌ Reversed -> Sit    |
 ```
