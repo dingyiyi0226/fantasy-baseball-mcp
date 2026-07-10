@@ -11,9 +11,9 @@ import {
   fetchProbableStarters,
   guessBrefId,
   type ProbableStarter,
-} from "../statsClient.js";
-import { jsonResult } from "./context.js";
-import type { ToolContext } from "./context.js";
+} from "./statsClient.js";
+import type { McpContext } from "../mcp/context.js";
+import { jsonResult } from "../mcp/results.js";
 import { asArray } from "../util.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
@@ -40,13 +40,13 @@ type FantasyOwnership = {
  * pitcher row — prefer the pitcher entry. Best-effort: any miss is "unknown".
  */
 async function lookupOwnership(
-  ctx: ToolContext,
+  ctx: McpContext,
   leagueKey: string,
   myTeamKey: string | undefined,
   name: string,
 ): Promise<FantasyOwnership> {
   try {
-    const data = await ctx.client.get(
+    const data = await ctx.yahoo.get(
       `/league/${leagueKey}/players;search=${encodeURIComponent(name)};out=ownership;count=5`,
     );
     const players = asArray(data?.league?.players?.player);
@@ -265,7 +265,7 @@ async function collectPlayerStats(playerName: string, season: number) {
   };
 }
 
-export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void {
+export function registerAnalysisTools(server: McpServer, ctx: McpContext): void {
   // -------------------------------------------------------------------
   // Single player analysis
   // -------------------------------------------------------------------
@@ -351,7 +351,7 @@ export function registerAnalysisTools(server: McpServer, ctx: ToolContext): void
       const d = date ?? new Date().toISOString().slice(0, 10);
 
       const [rosterData, categories] = await Promise.all([
-        ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`),
+        ctx.yahoo.get(`/team/${tk}/roster;date=${d}/players;out=stats`),
         ctx.getLeagueScoringCategories(),
       ]);
 

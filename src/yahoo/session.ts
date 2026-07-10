@@ -6,10 +6,10 @@ import {
   type Credentials,
   type ScoringCategory,
 } from "./config.js";
-import { exchangeAuthCode, buildAuthUrl, TokenManager } from "./tokenManager.js";
+import { exchangeAuthCode, buildAuthUrl, TokenManager } from "./oauth.js";
 import { startCallbackServer } from "./callbackServer.js";
-import { YahooClient } from "./yahooClient.js";
-import { asArray, str } from "./util.js";
+import { YahooClient } from "./client.js";
+import { asArray, str } from "../util.js";
 
 /** A baseball league plus the team the user owns in it (if any). */
 export interface LeagueChoice {

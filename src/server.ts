@@ -1,12 +1,14 @@
 import { writeSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { Session } from "./session.js";
-import { ToolContext } from "./tools/context.js";
-import { registerReadTools } from "./tools/read.js";
-import { registerWriteTools } from "./tools/write.js";
-import { registerOnboardingTools } from "./tools/onboarding.js";
-import { registerAnalysisTools } from "./tools/analysis.js";
+import { registerAnalysisTools } from "./analysis/index.js";
+import { McpContext } from "./mcp/context.js";
+import {
+  registerYahooReadTools,
+  registerYahooWriteTools,
+} from "./yahoo/index.js";
+import { registerYahooOnboardingTools } from "./yahoo/onboarding.js";
+import { Session } from "./yahoo/session.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
 export const VERSION = "0.6.1";
@@ -87,16 +89,16 @@ export async function runServer(): Promise<void> {
   const session = new Session();
   await session.init();
 
-  const ctx = new ToolContext(session);
+  const ctx = new McpContext(session);
   const server = new McpServer(
     { name: "fantasy-baseball", version: VERSION },
     { instructions: INSTRUCTIONS },
   );
 
-  registerOnboardingTools(server, session);
-  registerReadTools(server, ctx);
+  registerYahooOnboardingTools(server, session);
+  registerYahooReadTools(server, ctx);
   if (ENABLE_YAHOO_WRITE_API) {
-    registerWriteTools(server, ctx);
+    registerYahooWriteTools(server, ctx);
   }
   registerAnalysisTools(server, ctx);
 

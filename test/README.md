@@ -1,7 +1,7 @@
 # Test fixtures
 
 Captured Yahoo Fantasy API responses used to develop and regression-test the
-response mappers in [`src/tools/mappers.ts`](../src/tools/mappers.ts).
+response mappers colocated with their domains in [`src/yahoo/`](../src/yahoo/).
 
 ```
 test/

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Session, LeagueChoice } from "../session.js";
-import { textResult } from "./context.js";
+import type { Session, LeagueChoice } from "./session.js";
+import { textResult } from "../mcp/results.js";
 
 const VERBATIM_PREFIX = `[Claude: output the text below verbatim — do not paraphrase, summarize, rewrite, or restructure any part of it]\n\n`;
 
@@ -46,7 +46,7 @@ function listLeagues(choices: LeagueChoice[]): string {
  * Register the in-chat onboarding tools. These let a non-technical user complete
  * Yahoo's OAuth entirely inside Claude — no terminal required.
  */
-export function registerOnboardingTools(server: McpServer, session: Session): void {
+export function registerYahooOnboardingTools(server: McpServer, session: Session): void {
   server.registerTool(
     "fantasy_status",
     {

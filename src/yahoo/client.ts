@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
 import { XMLParser } from "fast-xml-parser";
-import { TokenManager } from "./tokenManager.js";
+import { TokenManager } from "./oauth.js";
 
 export const BASE_URL = "https://fantasysports.yahooapis.com/fantasy/v2";
 
@@ -95,26 +95,4 @@ export class YahooClient {
       throw toFriendlyError(err, resource);
     }
   }
-}
-
-// ---------------------------------------------------------------------------
-// Key helpers. Yahoo key formats:
-//   league = {game_id}.l.{league_id}            e.g. 431.l.12345
-//   team   = {league_key}.t.{n}                 e.g. 431.l.12345.t.2
-//   player = {game_id}.p.{player_id}            e.g. 431.p.10642
-// ---------------------------------------------------------------------------
-
-/** Game id is the leading segment of any league/team key (e.g. "431"). */
-export function gameIdFromLeagueKey(leagueKey: string): string {
-  return leagueKey.split(".")[0];
-}
-
-/** Build all team keys for a league given the number of teams. */
-export function teamKeysForLeague(leagueKey: string, numTeams: number): string[] {
-  return Array.from({ length: numTeams }, (_, i) => `${leagueKey}.t.${i + 1}`);
-}
-
-/** The league key that a team belongs to (strip the trailing ".t.N"). */
-export function leagueKeyFromTeamKey(teamKey: string): string {
-  return teamKey.replace(/\.t\.\d+$/, "");
 }

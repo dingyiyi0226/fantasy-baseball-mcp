@@ -14,7 +14,21 @@
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import * as mappers from "../dist/tools/mappers.js";
+import * as leagueMappers from "../dist/yahoo/league.js";
+import * as matchupMappers from "../dist/yahoo/matchup.js";
+import * as playerMappers from "../dist/yahoo/player.js";
+import * as rosterMappers from "../dist/yahoo/roster.js";
+import * as teamMappers from "../dist/yahoo/team.js";
+import * as transactionMappers from "../dist/yahoo/transaction.js";
+
+const mappers = {
+  ...leagueMappers,
+  ...matchupMappers,
+  ...playerMappers,
+  ...rosterMappers,
+  ...teamMappers,
+  ...transactionMappers,
+};
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const read = (sub, tool) =>
