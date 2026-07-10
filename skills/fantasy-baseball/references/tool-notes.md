@@ -19,6 +19,7 @@
 
 ### `get_roster`
 - Accepts `date` parameter in `YYYY-MM-DD` format.
+- Defaults to only `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, and `status`. Pass `full=true` for standard roster details, or `includeStats=true` for those six fields plus Yahoo stats.
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
 

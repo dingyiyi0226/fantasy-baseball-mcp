@@ -51,7 +51,7 @@ function mapLeagueHeader(league: any) {
 }
 
 /** Strip logos, URL, redundant fields from a team entry. */
-function mapTeamCore(t: any) {
+function mapTeamSummary(t: any) {
   return {
     team_key: t.team_key,
     team_id: t.team_id,
@@ -66,7 +66,7 @@ function mapTeamCore(t: any) {
 }
 
 /** Strip image/URL noise from a player entry. */
-function mapPlayerCore(p: any) {
+function mapPlayerProfile(p: any) {
   const eligPos = asArray(p.eligible_positions?.position).filter(Boolean);
   return {
     player_key: p.player_key,
@@ -83,6 +83,18 @@ function mapPlayerCore(p: any) {
     ...(p.injury_note ? { injury_note: p.injury_note } : {}),
     ...(p.on_disabled_list ? { on_disabled_list: p.on_disabled_list } : {}),
     is_undroppable: p.is_undroppable,
+  };
+}
+
+/** Minimal player projection shared by the compact roster views. */
+function mapCompactRosterPlayer(p: any) {
+  return {
+    player_key: p.player_key,
+    name: p.name?.full ?? p.name,
+    editorial_team_abbr: p.editorial_team_abbr,
+    display_position: p.display_position,
+    selected_position: p.selected_position?.position,
+    status: p.status ?? null,
   };
 }
 
@@ -174,7 +186,7 @@ export function mapLeague(data: any) {
   return {
     league: {
       ...mapLeagueHeader(league),
-      teams: asArray(league.teams?.team).map(mapTeamCore),
+      teams: asArray(league.teams?.team).map(mapTeamSummary),
       settings,
       standings: asArray(league.standings?.teams?.team).map((t: any) => ({
         team_key: t.team_key,
@@ -217,7 +229,7 @@ export function mapListLeagues(data: any) {
 export function mapTeams(data: any) {
   return {
     teams: asArray(data?.teams?.team).map((t: any) => ({
-      ...mapTeamCore(t),
+      ...mapTeamSummary(t),
       team_stats: t.team_stats,
       team_points: t.team_points,
       team_standings: t.team_standings,
@@ -226,8 +238,8 @@ export function mapTeams(data: any) {
   };
 }
 
-/** get_roster_stats */
-export function mapRosterStats(data: any) {
+/** get_roster with includeStats=true — compact player fields plus Yahoo stats. */
+export function mapRosterCompactWithStats(data: any) {
   const team = data?.team;
   if (!team) return data;
   const roster = team.roster;
@@ -239,13 +251,8 @@ export function mapRosterStats(data: any) {
       ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
     },
     roster_date: roster?.date,
-    outs_pitched_this_week: roster?.outs_pitched?.value,
     players: asArray(roster?.players?.player).map((p: any) => ({
-      ...mapPlayerCore(p),
-      selected_position: p.selected_position?.position,
-      is_flex: p.selected_position?.is_flex || undefined,
-      is_starting: p.starting_status?.is_starting,
-      is_editable: p.is_editable,
+      ...mapCompactRosterPlayer(p),
       player_stats: p.player_stats,
     })),
   };
@@ -299,7 +306,7 @@ export function mapTeamMatchups(data: any) {
 export function mapPlayerStats(data: any) {
   return {
     players: asArray(data?.players?.player).map((p: any) => ({
-      ...mapPlayerCore(p),
+      ...mapPlayerProfile(p),
       player_stats: p.player_stats,
     })),
   };
@@ -324,7 +331,7 @@ export function mapRankPlayers(data: any) {
           }
         : undefined;
       return {
-        ...mapPlayerCore(p),
+        ...mapPlayerProfile(p),
         ...(p.starting_status?.is_starting !== undefined
           ? { is_starting: p.starting_status.is_starting }
           : {}),
@@ -384,8 +391,8 @@ export function mapStandings(data: any) {
   };
 }
 
-/** get_roster — roster slots and availability only, no player stats. */
-export function mapRoster(data: any) {
+/** get_roster with full=true — standard roster slots and availability, no stats. */
+export function mapRosterFull(data: any) {
   const team = data?.team;
   if (!team) return data;
   const roster = team.roster;
@@ -398,11 +405,28 @@ export function mapRoster(data: any) {
     },
     roster_date: roster?.date,
     players: asArray(roster?.players?.player).map((p: any) => ({
-      ...mapPlayerCore(p),
+      ...mapPlayerProfile(p),
       selected_position: p.selected_position?.position,
       is_flex: p.selected_position?.is_flex || undefined,
       is_starting: p.starting_status?.is_starting,
     })),
+  };
+}
+
+/** get_roster default — compact player identity and roster status. */
+export function mapRosterCompact(data: any) {
+  const team = data?.team;
+  if (!team) return data;
+  const roster = team.roster;
+  return {
+    team: {
+      team_key: team.team_key,
+      team_id: team.team_id,
+      name: team.name,
+      ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
+    },
+    roster_date: roster?.date,
+    players: asArray(roster?.players?.player).map(mapCompactRosterPlayer),
   };
 }
 
@@ -413,7 +437,7 @@ export function mapPlayerList(data: any) {
   return {
     league: mapLeagueHeader(league),
     players: asArray(league.players?.player).map((p: any) => ({
-      ...mapPlayerCore(p),
+      ...mapPlayerProfile(p),
       ownership: p.ownership
         ? {
             ownership_type: p.ownership.ownership_type,

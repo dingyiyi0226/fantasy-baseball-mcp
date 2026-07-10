@@ -12,12 +12,12 @@
       }
     },
     "previous_season_team_rank": 3,
-    "number_of_moves": 18,
+    "number_of_moves": 21,
     "number_of_trades": 0,
     "roster_adds": {
       "coverage_type": "week",
-      "coverage_value": 13,
-      "value": 2
+      "coverage_value": 16,
+      "value": 0
     },
     "league_scoring_type": "headone",
     "draft_position": 8,
@@ -51,10 +51,6 @@
               "ascii_last": "Rutschman"
             },
             "url": "https://example.com/url",
-            "status": "IL7",
-            "status_full": "7-Day Injured List",
-            "injury_note": "Concussion",
-            "on_disabled_list": 1,
             "editorial_player_key": "mlb.p.11732",
             "editorial_team_key": "mlb.t.1",
             "editorial_team_full_name": "Baltimore Orioles",
@@ -78,14 +74,12 @@
             "eligible_positions": {
               "position": [
                 "C",
-                "Util",
-                "IL"
+                "Util"
               ]
             },
             "eligible_positions_to_add": "",
             "has_player_notes": 1,
-            "has_recent_player_notes": 1,
-            "player_notes_last_timestamp": 1782003997,
+            "player_notes_last_timestamp": 1782845334,
             "selected_position": {
               "coverage_type": "date",
               "date": "2026-06-20",
@@ -178,7 +172,7 @@
             },
             "eligible_positions_to_add": "",
             "has_player_notes": 1,
-            "player_notes_last_timestamp": 1781963523,
+            "player_notes_last_timestamp": 1783521192,
             "selected_position": {
               "coverage_type": "date",
               "date": "2026-06-20",
@@ -276,7 +270,7 @@
             "eligible_positions_to_add": "",
             "has_player_notes": 1,
             "has_recent_player_notes": 1,
-            "player_notes_last_timestamp": 1782004367,
+            "player_notes_last_timestamp": 1783559773,
             "selected_position": {
               "coverage_type": "date",
               "date": "2026-06-20",
@@ -338,7 +332,7 @@
       "outs_pitched": {
         "coverage_type": "week",
         "coverage_value": 13,
-        "value": 106
+        "value": 142
       }
     }
   }

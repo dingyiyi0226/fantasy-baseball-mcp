@@ -25,8 +25,9 @@ const CASES = [
   ["get_league", "mapLeague"],
   ["get_teams", "mapTeams"],
   ["get_standings", "mapStandings"],
-  ["get_roster", "mapRoster"],
-  ["get_roster_stats", "mapRosterStats"],
+  ["get_roster", "mapRosterCompact"],
+  ["get_roster_full", "mapRosterFull", "get_roster"],
+  ["get_roster_stats", "mapRosterCompactWithStats"],
   ["get_team_stats_week", "mapTeamStats"],
   ["get_team_stats_season", "mapTeamStats"],
   ["get_matchups", "mapMatchups"],
@@ -38,8 +39,8 @@ const CASES = [
 ];
 
 let failed = 0;
-for (const [tool, mapper] of CASES) {
-  const actual = JSON.stringify(mappers[mapper](read("raw", tool)), null, 2);
+for (const [tool, mapper, rawTool = tool] of CASES) {
+  const actual = JSON.stringify(mappers[mapper](read("raw", rawTool)), null, 2);
   const expected = JSON.stringify(read("mapped", tool), null, 2);
   if (actual === expected) {
     console.log(`  ok   ${tool}`);

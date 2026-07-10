@@ -12,7 +12,8 @@
  *
  * Usage:
  *   npm run build            # mappers must be compiled to dist/ first
- *   node test/fetch-fixtures.mjs
+ *   node test/fetch-fixtures.mjs                 # refresh every fixture
+ *   node test/fetch-fixtures.mjs get_roster      # refresh one fixture
  *
  * Requires a configured ~/.yahoo-fantasy-mcp/config.json (run the auth flow once).
  * Real player names are kept — they are public MLB data, not personal data.
@@ -177,34 +178,58 @@ function clean(data) {
 const lk = realLeagueKey;
 const tk = config.defaultTeamKey;
 
-// Pull two player keys off the roster so get_player_stats has valid inputs.
-const rosterRaw = await fetchResource(`/team/${tk}/roster;date=2026-06-20/players;out=stats`);
-const rosterPlayers = (() => {
-  const p = rosterRaw?.team?.roster?.players?.player;
-  return Array.isArray(p) ? p : p ? [p] : [];
-})();
-const playerKeys = rosterPlayers.slice(0, 2).map((p) => p.player_key).join(",");
-
 const endpoints = [
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=game_weeks,stat_categories,leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
   { tool: "get_teams", mapper: "mapTeams", path: `/teams;team_keys=${lk}.t.1,${lk}.t.2,${lk}.t.3;out=stats,standings,matchups` },
   { tool: "get_standings", mapper: "mapStandings", path: `/teams;team_keys=${lk}.t.1,${lk}.t.2,${lk}.t.3;out=stats,standings` },
-  { tool: "get_roster", mapper: "mapRoster", path: `/team/${tk}/roster;date=2026-06-20/players` },
-  { tool: "get_roster_stats", mapper: "mapRosterStats", path: `/team/${tk}/roster;date=2026-06-20/players;out=stats` },
+  { tool: "get_roster", mapper: "mapRosterCompact", path: `/team/${tk}/roster;date=2026-06-20/players` },
+  { tool: "get_roster_full", mapper: "mapRosterFull", path: `/team/${tk}/roster;date=2026-06-20/players` },
+  { tool: "get_roster_stats", mapper: "mapRosterCompactWithStats", path: `/team/${tk}/roster;date=2026-06-20/players;out=stats` },
   { tool: "get_team_stats_week", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=week;week=12` },
   { tool: "get_team_stats_season", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=season` },
   { tool: "get_matchups", mapper: "mapMatchups", path: `/league/${lk}/scoreboard` },
   { tool: "get_team_matchups", mapper: "mapTeamMatchups", path: `/team/${tk}/matchups;weeks=1,2,3` },
-  { tool: "get_player_stats", mapper: "mapPlayerStats", path: `/players;player_keys=${playerKeys}/stats;type=date;date=2026-06-20` },
+  { tool: "get_player_stats", mapper: "mapPlayerStats" },
   { tool: "list_players", mapper: "mapPlayerList", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership` },
   { tool: "rank_players", mapper: "mapRankPlayers", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership,stats` },
   { tool: "get_transactions", mapper: "mapTransactions", path: `/league/${lk}/transactions` },
 ];
 
-for (const { tool, mapper, path } of endpoints) {
+const requestedTools = process.argv.slice(2);
+if (requestedTools.length > 1) {
+  console.error("Usage: node test/fetch-fixtures.mjs [fixture-name]");
+  process.exit(1);
+}
+
+const requestedTool = requestedTools[0];
+const selectedEndpoints = requestedTool
+  ? endpoints.filter(({ tool }) => tool === requestedTool)
+  : endpoints;
+
+if (requestedTool && selectedEndpoints.length === 0) {
+  console.error(
+    `Unknown fixture \"${requestedTool}\". Choose one of: ${endpoints.map(({ tool }) => tool).join(", ")}`,
+  );
+  process.exit(1);
+}
+
+let playerKeys = "";
+if (selectedEndpoints.some(({ tool }) => tool === "get_player_stats")) {
+  // Only player stats needs this supporting roster request to obtain valid keys.
+  const rosterRaw = await fetchResource(`/team/${tk}/roster;date=2026-06-20/players;out=stats`);
+  const rosterPlayers = (() => {
+    const p = rosterRaw?.team?.roster?.players?.player;
+    return Array.isArray(p) ? p : p ? [p] : [];
+  })();
+  playerKeys = rosterPlayers.slice(0, 2).map((p) => p.player_key).join(",");
+}
+
+for (const { tool, mapper, path: configuredPath } of selectedEndpoints) {
   process.stdout.write(`${tool}... `);
   try {
+    const path =
+      configuredPath ?? `/players;player_keys=${playerKeys}/stats;type=date;date=2026-06-20`;
     const raw = clean(await fetchResource(path));
     writeFileSync(join(RAW_DIR, `${tool}.json`), JSON.stringify(raw, null, 2));
 

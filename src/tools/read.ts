@@ -8,8 +8,9 @@ import {
   mapListLeagues,
   mapTeams,
   mapStandings,
-  mapRosterStats,
-  mapRoster,
+  mapRosterCompactWithStats,
+  mapRosterFull,
+  mapRosterCompact,
   mapTeamStats,
   mapMatchups,
   mapTeamMatchups,
@@ -142,50 +143,43 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
       description:
         "Get a team's roster for a date — each player's roster slot (starting " +
         "position or BN/IL bench), starting status, injury status, and eligible " +
-        "positions, without any stats. Use this to see who is on the team and who " +
-        "is starting or benched. For per-date Yahoo stats use get_roster_stats; " +
-        "for advanced stats use analyze_roster_stats. Defaults to the configured " +
-        "team and today's date.",
+        "positions. By default, each player contains only player_key, name, " +
+        "editorial_team_abbr, display_position, selected_position, and status. Set " +
+        "full=true for the standard roster details, or includeStats=true to add Yahoo " +
+        "stats to the compact player fields. Use analyze_roster_stats for advanced " +
+        "stats. Defaults to the configured team and today's date.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key, e.g. 431.l.12345.t.2"),
         date: z
           .string()
           .optional()
           .describe("Date as YYYY-MM-DD; defaults to today"),
-      },
-      annotations: READ_ONLY,
-    },
-    async ({ teamKey, date }) => {
-      const tk = ctx.resolveTeamKey(teamKey);
-      const d = date || today();
-      const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players`);
-      return jsonResult(mapRoster(data));
-    },
-  );
-
-  server.registerTool(
-    "get_roster_stats",
-    {
-      title: "Get team roster with stats",
-      description:
-        "Get a team's roster with each player's Yahoo stats for a given date. Like " +
-        "get_roster but heavier — use get_roster when you only need slots/status, " +
-        "or analyze_roster_stats for advanced (Statcast/FanGraphs) stats. Defaults " +
-        "to the configured team and today's date.",
-      inputSchema: {
-        teamKey: z.string().optional().describe("Team key, e.g. 431.l.12345.t.2"),
-        date: z
-          .string()
+        includeStats: z
+          .boolean()
           .optional()
-          .describe("Date as YYYY-MM-DD; defaults to today"),
+          .describe("Add per-player Yahoo stats to the compact roster view. Cannot be combined with full=true."),
+        full: z
+          .boolean()
+          .optional()
+          .describe("Return the standard roster details instead of the compact default. Cannot be combined with includeStats=true."),
       },
       annotations: READ_ONLY,
     },
-    async ({ teamKey, date }) => {
+    async ({ teamKey, date, includeStats = false, full = false }) => {
+      if (full && includeStats) {
+        throw new Error("get_roster accepts either full=true or includeStats=true, not both.");
+      }
       const tk = ctx.resolveTeamKey(teamKey);
       const d = date || today();
-      const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players;out=stats`);
-      return jsonResult(mapRosterStats(data));
+      const statsSuffix = includeStats ? ";out=stats" : "";
+      const data = await ctx.client.get(`/team/${tk}/roster;date=${d}/players${statsSuffix}`);
+      return jsonResult(
+        full
+          ? mapRosterFull(data)
+          : includeStats
+            ? mapRosterCompactWithStats(data)
+            : mapRosterCompact(data),
+      );
     },
   );
 

@@ -14,11 +14,13 @@ npm run pack           # build .mcpb bundle
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
 
-**Read:** `list_leagues`, `get_league`, `get_standings`, `get_teams`, `get_roster`, `get_roster_stats`, `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `list_players`, `rank_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
+**Read:** `list_leagues`, `get_league`, `get_standings`, `get_teams`, `get_roster`, `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `list_players`, `rank_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
-stats are needed: `get_standings` vs `get_teams` (+matchups), `get_roster` vs
-`get_roster_stats` (+stats), `list_players` vs `rank_players` (+stats).
+stats are needed: `get_standings` vs `get_teams` (+matchups), `get_roster`
+with its six-field compact default, `full=true` (standard roster details), or
+`includeStats=true` (the six fields plus Yahoo stats), and `list_players` vs
+`rank_players` (+stats).
 
 **Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` labels each by ownership)
 
