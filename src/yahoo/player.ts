@@ -3,6 +3,8 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
 import { mapLeagueHeader, mapPlayerProfile } from "./mappers.js";
+import { gameIdFromLeagueKey } from "./utils.js";
+import type { GameStatCategory } from "./game.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -39,6 +41,46 @@ export function mapRankPlayers(data: any) {
         : {}),
       ownership: mapOwnership(player.ownership),
       player_stats: player.player_stats,
+      player_advanced_stats: player.player_advanced_stats,
+    })),
+  };
+}
+
+/** Map a game-wide player leaderboard without league ownership or scoring context. */
+function mapStatsWithCategories(playerStats: any, categoriesById: Map<number, GameStatCategory>) {
+  if (!playerStats?.stats?.stat) return playerStats;
+  return {
+    ...playerStats,
+    stats: {
+      ...playerStats.stats,
+      stat: asArray(playerStats.stats.stat).map((stat: any) => {
+        const category = categoriesById.get(stat.stat_id);
+        return {
+          stat_id: stat.stat_id,
+          ...(category?.name ? { name: category.name } : {}),
+          ...(category?.display_name ? { display_name: category.display_name } : {}),
+          value: stat.value,
+        };
+      }),
+    },
+  };
+}
+
+export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[] = []) {
+  const game = data?.game;
+  if (!game) return data;
+  const categoriesById = new Map(statCategories.map((category) => [category.stat_id, category]));
+  return {
+    game: {
+      game_key: game.game_key,
+      game_id: game.game_id,
+      name: game.name,
+      code: game.code,
+      season: game.season,
+    },
+    players: asArray(game.players?.player).map((player: any) => ({
+      ...mapPlayerProfile(player),
+      player_stats: mapStatsWithCategories(player.player_stats, categoriesById),
       player_advanced_stats: player.player_advanced_stats,
     })),
   };
@@ -110,6 +152,41 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
         `/league/${lk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${Math.min(count, 25)};out=ownership,stats`,
       );
       return jsonResult(mapRankPlayers(data));
+    },
+  );
+
+  // GET /game/{gameKey}/players;sort={sort};sort_type={sortType};...;out=stats
+  server.registerTool(
+    "rank_game_players",
+    {
+      title: "Rank all Yahoo baseball players",
+      description:
+        "Rank the current game's player pool by a Yahoo stat or ranking key. " +
+        "Unlike rank_players, this is not league-specific: it has no ownership, waiver, " +
+        "or custom league-scoring context, and returns up to 25 players per call.",
+      inputSchema: {
+        gameKey: z
+          .string()
+          .optional()
+          .describe("Yahoo game key; defaults to the game from the configured league"),
+        sort: z.string().default("AR").describe("Stat id, or AR / OR / PTS"),
+        sortType: z
+          .enum(["season", "lastweek", "lastmonth", "date"])
+          .default("season")
+          .describe("Ranking window"),
+        ...paginationSchema,
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ gameKey, sort, sortType, start, count }) => {
+      const gk = gameKey ?? gameIdFromLeagueKey(ctx.resolveLeagueKey());
+      const [data, statCategories] = await Promise.all([
+        ctx.yahoo.get(
+          `/game/${gk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${Math.min(count, 25)};out=stats`,
+        ),
+        ctx.getGameStatCategories(gk),
+      ]);
+      return jsonResult(mapGameRankPlayers(data, statCategories));
     },
   );
 

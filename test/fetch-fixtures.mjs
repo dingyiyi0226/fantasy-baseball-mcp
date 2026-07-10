@@ -209,6 +209,7 @@ const tk = config.defaultTeamKey;
 
 const endpoints = [
   { tool: "get_game", mapper: "mapGame", path: "/game/" + realLeagueKey.split(".l.")[0] },
+  { tool: "game_stat_categories", mapper: "mapGameStatCategories", path: "/game/" + realLeagueKey.split(".l.")[0] + "/stat_categories" },
   { tool: "list_games", mapper: "mapListGames", path: "/users;use_login=1/games;out=leagues,teams" },
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
@@ -225,6 +226,7 @@ const endpoints = [
   { tool: "get_player_stats", mapper: "mapPlayerStats" },
   { tool: "list_players", mapper: "mapPlayerList", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership` },
   { tool: "rank_players", mapper: "mapRankPlayers", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership,stats` },
+  { tool: "rank_game_players", mapper: "mapGameRankPlayers", path: `/game/${lk.split(".")[0]}/players;sort=AR;sort_type=season;start=0;count=3;out=stats` },
   { tool: "get_transactions", mapper: "mapTransactions", path: `/league/${lk}/transactions` },
 ];
 
@@ -255,7 +257,10 @@ try {
   const raw = clean(await fetchResource(path));
   writeFileSync(join(RAW_DIR, `${tool}.json`), JSON.stringify(raw, null, 2));
 
-  const mapped = mappers[mapper](raw);
+  const gameStatCategories = tool === "rank_game_players"
+    ? mappers.mapGameStatCategories(clean(await fetchResource(`/game/${lk.split(".")[0]}/stat_categories`))).stat_categories
+    : undefined;
+  const mapped = mappers[mapper](raw, gameStatCategories);
   writeFileSync(join(MAPPED_DIR, `${tool}.json`), JSON.stringify(mapped, null, 2));
 
   const rawKB = Math.round(JSON.stringify(raw).length / 1024);

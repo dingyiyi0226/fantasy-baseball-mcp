@@ -52,6 +52,8 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy season stats" -> get_team_stats with period=season
 - "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);
   "fantasy who should I add" (needs stats to compare) -> rank_players
+- "fantasy MLB leaders" / "rank all players by <stat>" -> rank_game_players (Yahoo-wide
+  leaderboard; not filtered by the user's league or its ownership)
 - For MLB probable starting pitchers on a date, or free-agent/streamer starter scouting,
   use list_probable_starters. Set fantasyContext=true when the user asks whether those
   starters are free agents, available, rostered, or addable.

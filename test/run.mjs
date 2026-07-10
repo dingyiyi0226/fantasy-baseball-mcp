@@ -38,6 +38,7 @@ const read = (sub, tool) =>
 
 const CASES = [
   ["get_game", "mapGame"],
+  ["game_stat_categories", "mapGameStatCategories"],
   ["list_games", "mapListGames"],
   ["list_leagues", "mapListLeagues"],
   ["get_league", "mapLeague"],
@@ -54,12 +55,16 @@ const CASES = [
   ["get_player_stats", "mapPlayerStats"],
   ["list_players", "mapPlayerList"],
   ["rank_players", "mapRankPlayers"],
+  ["rank_game_players", "mapGameRankPlayers", undefined, "game_stat_categories"],
   ["get_transactions", "mapTransactions"],
 ];
 
 let failed = 0;
-for (const [tool, mapper, rawTool = tool] of CASES) {
-  const actual = JSON.stringify(mappers[mapper](read("raw", rawTool)), null, 2);
+for (const [tool, mapper, rawTool = tool, categoryTool] of CASES) {
+  const categories = categoryTool
+    ? mappers.mapGameStatCategories(read("raw", categoryTool)).stat_categories
+    : undefined;
+  const actual = JSON.stringify(mappers[mapper](read("raw", rawTool), categories), null, 2);
   const expected = JSON.stringify(read("mapped", tool), null, 2);
   if (actual === expected) {
     console.log(`  ok   ${tool}`);

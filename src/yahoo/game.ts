@@ -6,6 +6,15 @@ import { asArray, str } from "../util.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
+/** A Yahoo stat definition for one game (for example, 12 -> Home Runs in MLB). */
+export interface GameStatCategory {
+  stat_id: number;
+  name?: string;
+  display_name?: string;
+  sort_order?: number;
+  position_type?: string;
+}
+
 /** A baseball league plus the team the user owns in it (if any). */
 export interface LeagueChoice {
   leagueKey: string;
@@ -59,6 +68,38 @@ export function mapGame(data: any) {
   if (!game) return data;
 
   return { game };
+}
+
+/** Extract the game-scoped dictionary that gives meaning to player stat IDs. */
+export function mapGameStatCategories(data: any) {
+  const game = data?.game;
+  if (!game) return data;
+  return {
+    game: {
+      game_key: game.game_key,
+      game_id: game.game_id,
+      name: game.name,
+      code: game.code,
+      season: game.season,
+    },
+    stat_categories: asArray(game.stat_categories?.stats?.stat).map((stat: any) => ({
+      stat_id: stat.stat_id,
+      name: stat.name,
+      display_name: stat.display_name,
+      sort_order: stat.sort_order,
+      position_type: stat.position_type,
+    })),
+  };
+}
+
+/** Fetch the stat-ID dictionary for a game. Stat IDs are not portable across sports. */
+export async function fetchGameStatCategories(
+  client: YahooClient,
+  gameKey: string,
+): Promise<GameStatCategory[]> {
+  const data = await client.get(`/game/${gameKey}/stat_categories`);
+  const mapped = mapGameStatCategories(data);
+  return Array.isArray(mapped?.stat_categories) ? mapped.stat_categories : [];
 }
 
 export function registerGameTools(server: McpServer, ctx: McpContext): void {

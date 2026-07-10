@@ -2,6 +2,7 @@ import type { Session } from "./app/session.js";
 import type { ScoringCategory } from "./app/config.js";
 import type { YahooClient } from "./yahoo/client.js";
 import { fetchLeagueScoringCategories } from "./yahoo/league.js";
+import { fetchGameStatCategories, type GameStatCategory } from "./yahoo/game.js";
 
 export type { ScoringCategory };
 
@@ -11,6 +12,8 @@ export type { ScoringCategory };
  * server restart.
  */
 export class McpContext {
+  private readonly gameStatCategoryRequests = new Map<string, Promise<GameStatCategory[]>>();
+
   constructor(private readonly session: Session) {}
 
   /** The Yahoo client, throwing a setup hint if Yahoo is not configured. */
@@ -38,6 +41,21 @@ export class McpContext {
       return categories;
     } catch {
       return [];
+    }
+  }
+
+  /** Return game-wide stat definitions, fetching each game's stable dictionary once. */
+  async getGameStatCategories(gameKey: string): Promise<GameStatCategory[]> {
+    let request = this.gameStatCategoryRequests.get(gameKey);
+    if (!request) {
+      request = fetchGameStatCategories(this.yahoo, gameKey);
+      this.gameStatCategoryRequests.set(gameKey, request);
+    }
+    try {
+      return await request;
+    } catch (error) {
+      this.gameStatCategoryRequests.delete(gameKey);
+      throw error;
     }
   }
 }
