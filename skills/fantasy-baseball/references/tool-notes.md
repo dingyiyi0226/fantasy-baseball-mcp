@@ -71,17 +71,19 @@
 - Multi-eligible hitters can light multiple infield or outfield pills plus `Util`.
 
 #### Codex
-- This path is **Codex in-app browser only** through the Browser plugin skill
-  `browser:control-in-app-browser`; do not write instructions that assume Chrome, Computer Use, API
-  writes, shell browser launches, or another browser automation surface.
+- This path uses the Browser plugin skill `browser:control-in-app-browser`. Follow its selection
+  rules: honor explicit in-app browser or Chrome intent; otherwise use `getForUrl(teamUrl)` for the
+  Yahoo team URL, or `getDefault()` only when no target URL is available.
 - Read `control-in-app-browser` before browser actions. Use `mcp__node_repl__js` to import the
   Browser plugin's `scripts/browser-client.mjs` by absolute path, call
-  `setupBrowserRuntime({ globals: globalThis })`, select `agent.browsers.get("iab")`, and
-  immediately read `await browser.documentation()` in full.
-- Use the selected `browser` and `tab` for all Yahoo actions. If the Browser plugin or in-app browser
-  is unavailable, stop and report it; do not silently fall back to Chrome, Computer Use, API writes,
-  shell browser launches, or another browser surface.
-- If opening or refreshing the selected in-app browser tab shows that Yahoo is not logged in, stop and
+  `setupBrowserRuntime({ globals: globalThis })`, persist the selected browser in `globalThis.iab`,
+  `globalThis.chrome`, or `globalThis.browser`, and immediately read
+  `await browser.documentation()` in full.
+- Reuse the selected browser binding for all Yahoo actions. If its tab is stale or closed, obtain a
+  fresh tab from that binding. If an explicitly requested browser is unavailable, stop and report it;
+  do not silently fall back to Computer Use, API writes, shell browser launches, or another browser
+  surface.
+- If opening or refreshing the selected browser tab shows that Yahoo is not logged in, stop and
   report it as a browser-login error; do not try to sign in or continue the move.
 - For Codex monitoring, prefer targeted `tab.playwright.evaluate(...)` row reads and screenshots over
   broad page scraping. If Yahoo fails `domSnapshot()` with

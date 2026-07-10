@@ -4,9 +4,9 @@ Use this tool when the user explicitly wants an agent to manage players between 
 slots and `BN` in the live Yahoo Fantasy Baseball website.
 
 This tool contains execution-surface-specific sections (`Codex` and `Claude`). Codex uses the
-Codex Browser plugin's in-app browser, while Claude drives the user's real Chrome through
-`claude-in-chrome`. Keep the Yahoo roster rules shared, and put surface-specific automation guidance
-under the right section.
+Browser plugin, selecting a browser as its current guidance requires, while Claude drives the user's
+real Chrome through `claude-in-chrome`. Keep the Yahoo roster rules shared, and put
+surface-specific automation guidance under the right section.
 
 Read `references/tool-notes.md` before using this tool.
 
@@ -44,25 +44,25 @@ When the selected browser tab is not already on the correct Yahoo team page:
 1. Discover the user's league and team ids from Yahoo tools such as `get_league`, `fantasy_status`, or other team-discovery output.
 2. Build the team URL as:
    `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>`
-3. For Codex, open that URL in the selected Codex in-app browser tab and verify the tab title
+3. For Codex, open that URL in the selected Browser plugin tab and verify the tab title
    and URL before making any roster clicks. For Claude, open that URL in the selected Chrome tab.
 
 ## Codex
 
-Use this section when the execution surface is Codex controlling the Browser plugin's in-app browser.
+Use this section when the execution surface is Codex controlling a browser through the Browser plugin.
 
-This section is **Codex in-app browser only**:
-- use it only when the Browser plugin skill `browser:control-in-app-browser` and the Codex in-app
-  browser are available
-- expect Yahoo to already be logged in inside the in-app browser before execution
+This section uses the current Browser plugin selection rules:
+- use it only when the Browser plugin skill `browser:control-in-app-browser` is available
+- honor an explicit user request for the Codex in-app browser or Chrome; otherwise select from the
+  Yahoo team URL, or use the runtime default only when no target URL is available
+- expect Yahoo to already be logged in inside the selected browser before execution
 - if the selected tab opens to a Yahoo sign-in page, sign-in prompt, or otherwise shows the user is
   not logged in, stop and report that as a browser-login error; do not continue the move
-- do not substitute Chrome, Computer Use, API writes, shell browser launches, or any other browser
-  automation surface unless the user explicitly asks for that fallback
+- do not switch the selected browser unless the Browser plugin guidance permits it
 - do not claim the move succeeded until it is confirmed; on any unexpected error, refresh and treat
   the `get_roster` tool as the source of truth (see the shared Phase 3 error path)
 
-### In-app browser setup (do this first)
+### Browser setup (do this first)
 
 Tool split:
 - read the `control-in-app-browser` skill provided by the Browser plugin before any browser actions
@@ -77,11 +77,16 @@ Workflow:
 2. In `mcp__node_repl__js`, import the Browser plugin's `scripts/browser-client.mjs` by absolute
    path.
 3. Call `setupBrowserRuntime({ globals: globalThis })`.
-4. Select the Codex in-app browser with `agent.browsers.get("iab")`.
-5. Immediately read `await browser.documentation()` in full.
+4. Reuse an existing `globalThis.iab`, `globalThis.chrome`, or `globalThis.browser` binding that
+   serves the task. Otherwise, follow the Browser plugin's selection rules: explicit user intent
+   selects that browser; the Yahoo team URL selects via `getForUrl(teamUrl)`; and `getDefault()` is
+   used only when no target URL is available.
+5. Store the initial selection in its persistent global binding and immediately read
+   `await browser.documentation()` in full. Reuse that browser binding for later calls; if a tab is
+   stale or closed, obtain a fresh tab from the existing browser binding.
 6. Use the selected `browser` and `tab` for all Yahoo actions.
-7. If the Browser plugin or in-app browser is unavailable, stop and report that. Do not silently fall
-   back to Chrome, Computer Use, API writes, shell browser launches, or another browser surface.
+7. If an explicitly requested browser is unavailable, stop and report that. Do not silently fall
+   back to Computer Use, API writes, shell browser launches, or another browser surface.
 8. If opening or refreshing the team page shows that Yahoo is not logged in, stop and report it as a
    browser-login error instead of trying to sign in or continuing with the move.
 
@@ -90,14 +95,20 @@ Example setup shape:
 ```js
 const { setupBrowserRuntime } = await import("/absolute/path/to/browser-plugin/scripts/browser-client.mjs");
 await setupBrowserRuntime({ globals: globalThis });
-const browser = await agent.browsers.get("iab");
-nodeRepl.write(await browser.documentation());
-const tab = await browser.tabs.getFocusedOrFirst();
+if (globalThis.browser == null) {
+  globalThis.browser = await agent.browsers.getForUrl(teamUrl);
+  nodeRepl.write(await globalThis.browser.documentation());
+}
+const tab = await globalThis.browser.tabs.getFocusedOrFirst();
 ```
 
-### Codex in-app browser implementation notes
+The example is for a task with no explicit browser request. For an explicit in-app browser or Chrome
+request, use the corresponding persistent `globalThis.iab` or `globalThis.chrome` binding and the
+selection code in the current Browser plugin skill.
 
-- Open the team URL in the selected Codex in-app browser tab and verify the tab title and URL before
+### Codex Browser implementation notes
+
+- Open the team URL in the selected Browser plugin tab and verify the tab title and URL before
   making any roster clicks. If the page is not already logged in to Yahoo Fantasy, stop and report a
   browser-login error.
 - Prefer targeted `tab.playwright.evaluate(...)` row reads and screenshots over broad page scraping.
