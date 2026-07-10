@@ -72,6 +72,7 @@ const rankingSchema = {
 };
 
 export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
+  // GET /players;player_keys={playerKeys}/stats;type=date;date={date}
   server.registerTool(
     "get_player_stats",
     {
@@ -92,6 +93,7 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey}/players;sort={sort};sort_type={sortType};...;out=ownership,stats
   server.registerTool(
     "rank_players",
     {
@@ -111,6 +113,7 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey}/players;sort={sort};sort_type={sortType};...;out=ownership
   server.registerTool(
     "list_players",
     {
@@ -130,6 +133,7 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey}/players;search={name};...;out=ownership
   server.registerTool(
     "search_players",
     {

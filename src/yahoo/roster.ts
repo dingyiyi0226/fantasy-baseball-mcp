@@ -56,6 +56,7 @@ export function mapRosterCompact(data: any) {
 }
 
 export function registerRosterReadTools(server: McpServer, ctx: McpContext): void {
+  // GET /team/{teamKey}/roster;date={date}/players[;out=stats]
   server.registerTool(
     "get_roster",
     {
@@ -99,6 +100,7 @@ export function registerRosterReadTools(server: McpServer, ctx: McpContext): voi
 }
 
 export function registerRosterWriteTools(server: McpServer, ctx: McpContext): void {
+  // PUT /team/{teamKey}/roster
   server.registerTool(
     "set_lineup",
     {

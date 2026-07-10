@@ -100,6 +100,7 @@ export function mapListLeagues(data: any) {
 }
 
 export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
+  // GET /users;use_login=1/games;out=game_weeks,stat_categories,leagues
   server.registerTool(
     "list_leagues",
     {
@@ -118,6 +119,7 @@ export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey};out=teams,settings,standings
   server.registerTool(
     "get_league",
     {
@@ -137,6 +139,7 @@ export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey}/settings (on cache miss)
   server.registerTool(
     "get_league_scoring_categories",
     {

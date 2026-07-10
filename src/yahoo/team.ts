@@ -55,6 +55,7 @@ export function mapTeamStats(data: any) {
 }
 
 export function registerTeamTools(server: McpServer, ctx: McpContext): void {
+  // GET /league/{leagueKey}/teams
   server.registerTool(
     "list_teams",
     {
@@ -74,6 +75,7 @@ export function registerTeamTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /team/{teamKey};out=stats,standings
   server.registerTool(
     "get_team",
     {
@@ -93,6 +95,7 @@ export function registerTeamTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /league/{leagueKey}, then GET /teams;team_keys={teamKeys};out=stats,standings
   server.registerTool(
     "get_standings",
     {
@@ -127,6 +130,7 @@ export function registerTeamTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /team/{teamKey}/stats;type={week|season}[;week={week}]
   server.registerTool(
     "get_team_stats",
     {

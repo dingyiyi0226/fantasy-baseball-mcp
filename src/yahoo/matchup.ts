@@ -44,6 +44,7 @@ export function mapTeamMatchups(data: any) {
 }
 
 export function registerMatchupTools(server: McpServer, ctx: McpContext): void {
+  // GET /league/{leagueKey}/scoreboard[;week={week}]
   server.registerTool(
     "get_league_scoreboard",
     {
@@ -67,6 +68,7 @@ export function registerMatchupTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
+  // GET /team/{teamKey};out=stats,matchups[;weeks={weeks}]
   server.registerTool(
     "get_team_matchup_history",
     {

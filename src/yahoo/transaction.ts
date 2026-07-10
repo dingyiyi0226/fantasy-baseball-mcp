@@ -33,6 +33,7 @@ export function mapTransactions(data: any) {
 }
 
 export function registerTransactionReadTools(server: McpServer, ctx: McpContext): void {
+  // GET /league/{leagueKey}/transactions[;team_key={teamKey}]
   server.registerTool(
     "get_transactions",
     {
@@ -56,6 +57,7 @@ export function registerTransactionReadTools(server: McpServer, ctx: McpContext)
 }
 
 export function registerTransactionWriteTools(server: McpServer, ctx: McpContext): void {
+  // POST /league/{leagueKey}/transactions
   server.registerTool(
     "add_drop_player",
     {
