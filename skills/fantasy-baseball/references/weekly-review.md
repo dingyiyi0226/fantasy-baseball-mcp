@@ -60,7 +60,7 @@ Resolve the scoring week to review:
 
 Call:
 - `get_matchups`
-- `get_team_stats_week`
+- `get_team_stats` with `period: "week"`
 - `get_team_matchups` if needed for extra context
 
 Capture:

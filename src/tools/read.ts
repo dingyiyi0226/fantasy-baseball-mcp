@@ -184,36 +184,40 @@ export function registerReadTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
-    "get_team_stats_week",
+    "get_team_stats",
     {
-      title: "Get team weekly stats",
-      description: "Get a team's aggregated stats for a specific scoring week.",
+      title: "Get team stats",
+      description:
+        "Get a team's aggregated stats for a scoring week or the whole season. " +
+        "Set period=week and provide week for a specific scoring week, or set " +
+        "period=season for season totals.",
       inputSchema: {
-        week: z.number().int().positive().describe("Week number"),
+        period: z
+          .enum(["week", "season"])
+          .describe("Stats period: week for one scoring week, or season for season totals"),
+        week: z
+          .number()
+          .int()
+          .positive()
+          .optional()
+          .describe("Week number; required only when period=week"),
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
       },
       annotations: READ_ONLY,
     },
-    async ({ week, teamKey }) => {
+    async ({ period, week, teamKey }) => {
+      if (period === "week" && week === undefined) {
+        throw new Error("get_team_stats requires week when period=week.");
+      }
+      if (period === "season" && week !== undefined) {
+        throw new Error("get_team_stats does not accept week when period=season.");
+      }
       const tk = ctx.resolveTeamKey(teamKey);
-      const data = await ctx.client.get(`/team/${tk}/stats;type=week;week=${week}`);
-      return jsonResult(mapTeamStats(data));
-    },
-  );
-
-  server.registerTool(
-    "get_team_stats_season",
-    {
-      title: "Get team season stats",
-      description: "Get a team's aggregated stats for the whole season.",
-      inputSchema: {
-        teamKey: z.string().optional().describe("Team key; defaults to configured team"),
-      },
-      annotations: READ_ONLY,
-    },
-    async ({ teamKey }) => {
-      const tk = ctx.resolveTeamKey(teamKey);
-      const data = await ctx.client.get(`/team/${tk}/stats;type=season`);
+      const resource =
+        period === "week"
+          ? `/team/${tk}/stats;type=week;week=${week}`
+          : `/team/${tk}/stats;type=season`;
+      const data = await ctx.client.get(resource);
       return jsonResult(mapTeamStats(data));
     },
   );

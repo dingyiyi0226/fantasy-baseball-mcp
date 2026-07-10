@@ -44,8 +44,8 @@ Everyday use (these default to the user's configured league/team):
   includeStats=true when per-player Yahoo stats are needed).
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchups or get_matchups
 - "fantasy standings" -> get_standings; "fantasy league" (settings + teams) -> get_league
-- "fantasy my stats this week" -> get_team_stats_week
-- "fantasy season stats" -> get_team_stats_season
+- "fantasy my stats this week" -> get_team_stats with period=week and the requested week
+- "fantasy season stats" -> get_team_stats with period=season
 - "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);
   "fantasy who should I add" (needs stats to compare) -> rank_players
 - For MLB probable starting pitchers on a date, or free-agent/streamer starter scouting,

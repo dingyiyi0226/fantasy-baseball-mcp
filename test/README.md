@@ -42,7 +42,8 @@ mapper's field selection. Requires a configured `~/.yahoo-fantasy-mcp/config.jso
 
 ```sh
 npm run build
-node test/fetch-fixtures.mjs
+node test/fetch-fixtures.mjs get_roster
 ```
 
-Then re-run `npm test` and review the diff before committing.
+The fixture name is required; the script updates only that fixture's raw and
+mapped JSON files. Then re-run `npm test` and review the diff before committing.

@@ -14,7 +14,7 @@ npm run pack           # build .mcpb bundle
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
 
-**Read:** `list_leagues`, `get_league`, `get_standings`, `get_teams`, `get_roster`, `get_team_stats_week`, `get_team_stats_season`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `list_players`, `rank_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
+**Read:** `list_leagues`, `get_league`, `get_standings`, `get_teams`, `get_roster`, `get_team_stats`, `get_matchups`, `get_team_matchups`, `get_player_stats`, `list_players`, `rank_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `get_standings` vs `get_teams` (+matchups), `get_roster`

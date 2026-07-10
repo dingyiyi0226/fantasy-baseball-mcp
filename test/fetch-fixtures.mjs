@@ -12,8 +12,7 @@
  *
  * Usage:
  *   npm run build            # mappers must be compiled to dist/ first
- *   node test/fetch-fixtures.mjs                 # refresh every fixture
- *   node test/fetch-fixtures.mjs get_roster      # refresh one fixture
+ *   node test/fetch-fixtures.mjs get_roster      # refresh exactly one fixture
  *
  * Requires a configured ~/.yahoo-fantasy-mcp/config.json (run the auth flow once).
  * Real player names are kept — they are public MLB data, not personal data.
@@ -26,6 +25,12 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 import * as mappers from "../dist/tools/mappers.js";
+
+const requestedFixture = process.argv[2];
+if (!requestedFixture || process.argv.length !== 3) {
+  console.error("Usage: node test/fetch-fixtures.mjs <fixture-name>");
+  process.exit(1);
+}
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const RAW_DIR = join(HERE, "fixtures", "raw");
@@ -186,8 +191,8 @@ const endpoints = [
   { tool: "get_roster", mapper: "mapRosterCompact", path: `/team/${tk}/roster;date=2026-06-20/players` },
   { tool: "get_roster_full", mapper: "mapRosterFull", path: `/team/${tk}/roster;date=2026-06-20/players` },
   { tool: "get_roster_stats", mapper: "mapRosterCompactWithStats", path: `/team/${tk}/roster;date=2026-06-20/players;out=stats` },
-  { tool: "get_team_stats_week", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=week;week=12` },
-  { tool: "get_team_stats_season", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=season` },
+  { tool: "team_stats_week", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=week;week=12` },
+  { tool: "team_stats_season", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=season` },
   { tool: "get_matchups", mapper: "mapMatchups", path: `/league/${lk}/scoreboard` },
   { tool: "get_team_matchups", mapper: "mapTeamMatchups", path: `/team/${tk}/matchups;weeks=1,2,3` },
   { tool: "get_player_stats", mapper: "mapPlayerStats" },
@@ -196,26 +201,16 @@ const endpoints = [
   { tool: "get_transactions", mapper: "mapTransactions", path: `/league/${lk}/transactions` },
 ];
 
-const requestedTools = process.argv.slice(2);
-if (requestedTools.length > 1) {
-  console.error("Usage: node test/fetch-fixtures.mjs [fixture-name]");
-  process.exit(1);
-}
-
-const requestedTool = requestedTools[0];
-const selectedEndpoints = requestedTool
-  ? endpoints.filter(({ tool }) => tool === requestedTool)
-  : endpoints;
-
-if (requestedTool && selectedEndpoints.length === 0) {
+const selectedEndpoint = endpoints.find(({ tool }) => tool === requestedFixture);
+if (!selectedEndpoint) {
   console.error(
-    `Unknown fixture \"${requestedTool}\". Choose one of: ${endpoints.map(({ tool }) => tool).join(", ")}`,
+    `Unknown fixture \"${requestedFixture}\". Choose one of: ${endpoints.map(({ tool }) => tool).join(", ")}`,
   );
   process.exit(1);
 }
 
 let playerKeys = "";
-if (selectedEndpoints.some(({ tool }) => tool === "get_player_stats")) {
+if (selectedEndpoint.tool === "get_player_stats") {
   // Only player stats needs this supporting roster request to obtain valid keys.
   const rosterRaw = await fetchResource(`/team/${tk}/roster;date=2026-06-20/players;out=stats`);
   const rosterPlayers = (() => {
@@ -225,22 +220,21 @@ if (selectedEndpoints.some(({ tool }) => tool === "get_player_stats")) {
   playerKeys = rosterPlayers.slice(0, 2).map((p) => p.player_key).join(",");
 }
 
-for (const { tool, mapper, path: configuredPath } of selectedEndpoints) {
-  process.stdout.write(`${tool}... `);
-  try {
-    const path =
-      configuredPath ?? `/players;player_keys=${playerKeys}/stats;type=date;date=2026-06-20`;
-    const raw = clean(await fetchResource(path));
-    writeFileSync(join(RAW_DIR, `${tool}.json`), JSON.stringify(raw, null, 2));
+const { tool, mapper, path: configuredPath } = selectedEndpoint;
+process.stdout.write(`${tool}... `);
+try {
+  const path =
+    configuredPath ?? `/players;player_keys=${playerKeys}/stats;type=date;date=2026-06-20`;
+  const raw = clean(await fetchResource(path));
+  writeFileSync(join(RAW_DIR, `${tool}.json`), JSON.stringify(raw, null, 2));
 
-    const mapped = mappers[mapper](raw);
-    writeFileSync(join(MAPPED_DIR, `${tool}.json`), JSON.stringify(mapped, null, 2));
+  const mapped = mappers[mapper](raw);
+  writeFileSync(join(MAPPED_DIR, `${tool}.json`), JSON.stringify(mapped, null, 2));
 
-    const rawKB = Math.round(JSON.stringify(raw).length / 1024);
-    const mapKB = Math.round(JSON.stringify(mapped).length / 1024);
-    console.log(`raw ${rawKB}KB -> mapped ${mapKB}KB`);
-  } catch (e) {
-    console.log(`ERROR: ${e.message}`);
-  }
+  const rawKB = Math.round(JSON.stringify(raw).length / 1024);
+  const mapKB = Math.round(JSON.stringify(mapped).length / 1024);
+  console.log(`raw ${rawKB}KB -> mapped ${mapKB}KB`);
+} catch (e) {
+  console.log(`ERROR: ${e.message}`);
 }
 console.log("Done.");

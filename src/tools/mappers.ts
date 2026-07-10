@@ -258,16 +258,14 @@ export function mapRosterCompactWithStats(data: any) {
   };
 }
 
-/** get_team_stats_week + get_team_stats_season */
+/** get_team_stats */
 export function mapTeamStats(data: any) {
   const team = data?.team;
   if (!team) return data;
   return {
     team_key: team.team_key,
-    team_id: team.team_id,
     name: team.name,
     ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
-    managers: mapManagers(team.managers),
     team_stats: team.team_stats,
     team_points: team.team_points,
   };
