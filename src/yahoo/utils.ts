@@ -8,11 +8,6 @@ export function gameIdFromLeagueKey(leagueKey: string): string {
   return leagueKey.split(".")[0];
 }
 
-/** Build all team keys for a league given its number of teams. */
-export function teamKeysForLeague(leagueKey: string, numTeams: number): string[] {
-  return Array.from({ length: numTeams }, (_, index) => `${leagueKey}.t.${index + 1}`);
-}
-
 /** Return the league key for a team key by stripping the trailing team segment. */
 export function leagueKeyFromTeamKey(teamKey: string): string {
   return teamKey.replace(/\.t\.\d+$/, "");

@@ -218,7 +218,6 @@ const endpoints = [
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
   { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },
   { tool: "get_team", mapper: "mapTeam", path: `/team/${tk};out=stats,standings` },
-  { tool: "get_standings", mapper: "mapStandings", path: `/teams;team_keys=${lk}.t.1,${lk}.t.2,${lk}.t.3;out=stats,standings` },
   { tool: "get_roster", mapper: "mapRosterCompact", path: `/team/${tk}/roster;date=2026-06-20/players` },
   { tool: "get_roster_full", mapper: "mapRosterFull", path: `/team/${tk}/roster;date=2026-06-20/players` },
   { tool: "get_roster_stats", mapper: "mapRosterCompactWithStats", path: `/team/${tk}/roster;date=2026-06-20/players;out=stats` },

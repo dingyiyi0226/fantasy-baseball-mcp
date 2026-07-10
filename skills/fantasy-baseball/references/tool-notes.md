@@ -43,6 +43,8 @@
 - `list_teams` is the lightweight league-wide discovery tool; it returns only team keys and names.
 - `get_team` returns one team's metadata, season stats, points, and standings—but never roster or
   matchups. Use the more focused stats or matchup tools when those are the only data needed.
+- `get_league` is the league-wide standings tool. It returns league settings, teams, and the
+  standings table together; do not look for or call a separate standings tool.
 
 ### `get_league_scoreboard` / `get_team_matchup_history`
 - Use `get_league_scoreboard` for every pairing in one scoring week; it deliberately omits team

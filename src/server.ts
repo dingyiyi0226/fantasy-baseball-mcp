@@ -47,7 +47,7 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchup_history
 - "fantasy league scoreboard" -> get_league_scoreboard
 - "fantasy list teams" -> list_teams; "fantasy show my team" -> get_team
-- "fantasy standings" -> get_standings; "fantasy league" (settings + teams) -> get_league
+- "fantasy standings" / "fantasy league" -> get_league (settings, teams, and standings)
 - "fantasy my stats this week" -> get_team_stats with period=week and the requested week
 - "fantasy season stats" -> get_team_stats with period=season
 - "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);

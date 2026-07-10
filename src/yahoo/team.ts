@@ -2,7 +2,6 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, str } from "../util.js";
-import { teamKeysForLeague } from "./utils.js";
 import { mapTeamSummary } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
@@ -26,19 +25,6 @@ export function mapTeam(data: any) {
       team_points: team.team_points,
       team_standings: team.team_standings,
     },
-  };
-}
-
-export function mapStandings(data: any) {
-  return {
-    teams: asArray(data?.teams?.team).map((team: any) => ({
-      team_key: team.team_key,
-      team_id: team.team_id,
-      name: team.name,
-      ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
-      team_standings: team.team_standings,
-      team_stats: team.team_stats,
-    })),
   };
 }
 
@@ -92,41 +78,6 @@ export function registerTeamTools(server: McpServer, ctx: McpContext): void {
       const tk = ctx.resolveTeamKey(teamKey);
       const data = await ctx.yahoo.get(`/team/${tk};out=stats,standings`);
       return jsonResult(mapTeam(data));
-    },
-  );
-
-  // GET /league/{leagueKey}, then GET /teams;team_keys={teamKeys};out=stats,standings
-  server.registerTool(
-    "get_standings",
-    {
-      title: "Get league standings",
-      description:
-        "Get the league standings table, including rank, record, games back, playoff " +
-        "seed, and season category totals.",
-      inputSchema: {
-        leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
-        teamKeys: z
-          .array(z.string())
-          .optional()
-          .describe("Specific team keys; defaults to all teams in the league"),
-      },
-      annotations: READ_ONLY,
-    },
-    async ({ leagueKey, teamKeys }) => {
-      let keys = teamKeys ?? [];
-      if (keys.length === 0) {
-        const lk = ctx.resolveLeagueKey(leagueKey);
-        const league = await ctx.yahoo.get(`/league/${lk}`);
-        const numTeams = Number(str(league?.league?.num_teams)) || 0;
-        if (numTeams === 0) {
-          throw new Error(`Could not determine number of teams for league ${lk}.`);
-        }
-        keys = teamKeysForLeague(lk, numTeams);
-      }
-      const data = await ctx.yahoo.get(
-        `/teams;team_keys=${keys.join(",")};out=stats,standings`,
-      );
-      return jsonResult(mapStandings(data));
     },
   );
 

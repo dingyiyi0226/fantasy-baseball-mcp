@@ -14,11 +14,11 @@ npm run pack           # build .mcpb bundle
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
 
-**Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `list_teams`, `get_team`, `get_standings`, `get_roster`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
+**Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `list_teams`, `get_team`, `get_roster`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only) vs `get_team` (one team's metadata + season
-stats) vs `get_standings` (league standings),
+stats) vs `get_league` (league settings, teams, and standings),
 `get_league_scoreboard` (one week, every pairing) vs `get_team_matchup_history` (one team,
 detailed weekly stats), `get_roster`
 with its six-field compact default, `full=true` (standard roster details), or

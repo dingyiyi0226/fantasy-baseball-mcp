@@ -40,7 +40,6 @@
     { "name": "get_game", "description": "Get a fantasy game's details." },
     { "name": "list_leagues", "description": "List your leagues, game weeks, and stat categories." },
     { "name": "get_league", "description": "Get a league's teams, settings, and current standings." },
-    { "name": "get_standings", "description": "Get the league standings table (rank, record, games back, seed) with each team's season category totals." },
     { "name": "list_teams", "description": "List teams in a league with only team keys and names." },
     { "name": "get_team", "description": "Get detailed metadata, season stats, points, and standings for one team; excludes roster and matchup history." },
     { "name": "get_roster", "description": "Get a team's roster for a date. It defaults to a compact six-field player view; use full=true for standard roster details or includeStats=true for per-player Yahoo stats." },
