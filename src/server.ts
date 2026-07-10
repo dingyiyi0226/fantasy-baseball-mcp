@@ -85,7 +85,7 @@ export async function runServer(): Promise<void> {
   // especially when diagnosing platform-specific issues.
   writeSync(
     2,
-    `[yahoo-fantasy-mcp] starting v${VERSION} (node ${process.version}, ${process.platform} ${process.arch})\n`,
+    `[fantasy-baseball-mcp] starting v${VERSION} (node ${process.version}, ${process.platform} ${process.arch})\n`,
   );
 
   const session = new Session();

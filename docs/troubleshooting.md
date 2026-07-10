@@ -2,7 +2,7 @@
 
 ## FAQ
 
-**Is my data safe?** Your Yahoo keys are stored only on your computer (`~/.yahoo-fantasy-mcp/config.json`) and in your OS keychain. Nothing is sent anywhere but Yahoo's API.
+**Is my data safe?** Your Yahoo keys are stored only on your computer (`~/.fantasy-baseball-mcp/config.json`) and in your OS keychain. Nothing is sent anywhere but Yahoo's API.
 
 **Why do I need my own Yahoo app?** Yahoo requires each person to use their own keys — no shared secrets.
 

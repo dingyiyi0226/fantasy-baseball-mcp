@@ -32,12 +32,13 @@ npm test          # builds, then runs test/run.mjs
 ```
 
 `run.mjs` re-runs each mapper on its `raw/` fixture and asserts the output equals
-the committed `mapped/` fixture. It needs no credentials.
+the committed `mapped/` fixture. `config.mjs` verifies that the current config
+path is preferred and the legacy path is still readable. Neither needs credentials.
 
 ## Regenerating fixtures
 
 Only needed when a Yahoo response shape changes or you intentionally change a
-mapper's field selection. Requires a configured `~/.yahoo-fantasy-mcp/config.json`
+mapper's field selection. Requires a configured `~/.fantasy-baseball-mcp/config.json`
 (run the auth flow once).
 
 ```sh

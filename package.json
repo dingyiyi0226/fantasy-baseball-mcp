@@ -14,7 +14,7 @@
     "url": "https://github.com/dingyiyi0226/fantasy-baseball-mcp/issues"
   },
   "bin": {
-    "yahoo-fantasy-mcp": "dist/cli.js"
+    "fantasy-baseball-mcp": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -27,7 +27,7 @@
   "scripts": {
     "build": "node scripts/clean-dist.js && tsc",
     "watch": "tsc --watch",
-    "test": "npm run build && node test/run.mjs",
+    "test": "npm run build && node test/run.mjs && node test/config.mjs",
     "auth": "node dist/cli.js auth",
     "serve": "node dist/cli.js serve",
     "pack": "npx -y @anthropic-ai/mcpb pack . fantasy-baseball-v$npm_package_version.mcpb",

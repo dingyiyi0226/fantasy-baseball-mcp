@@ -3,7 +3,7 @@
  * Stats APIs. Handy when designing a new tool: hit a raw endpoint and eyeball
  * the JSON before committing to a mapper/shape. Not part of the test suite.
  *
- * Auth reuses the saved session (~/.yahoo-fantasy-mcp/config.json) and the real
+ * Auth reuses the saved session (~/.fantasy-baseball-mcp/config.json) and the real
  * compiled YahooClient, so the OAuth token is refreshed transparently.
  *
  * Usage:

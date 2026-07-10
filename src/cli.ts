@@ -13,7 +13,7 @@ import { runServer } from "./server.js";
 function logError(prefix: string, err: unknown): void {
   const detail = err instanceof Error ? (err.stack ?? err.message) : String(err);
   try {
-    writeSync(2, `[yahoo-fantasy-mcp] ${prefix}: ${detail}\n`);
+    writeSync(2, `[fantasy-baseball-mcp] ${prefix}: ${detail}\n`);
   } catch {
     // Nothing more we can do if even stderr is gone.
   }
@@ -33,12 +33,12 @@ process.on("unhandledRejection", (err) => {
 const HELP = `fantasy-baseball-mcp — local MCP server for Yahoo Fantasy Baseball
 
 Usage:
-  yahoo-fantasy-mcp auth [--client-id <id>] [--client-secret <secret>]
+  fantasy-baseball-mcp auth [--client-id <id>] [--client-secret <secret>]
       One-time interactive setup: authorize with Yahoo and save your config.
       Credentials may also come from YF_CLIENT_ID / YF_CLIENT_SECRET env vars.
 
-  yahoo-fantasy-mcp serve        Run the MCP server over stdio (default).
-  yahoo-fantasy-mcp --help       Show this help.
+  fantasy-baseball-mcp serve        Run the MCP server over stdio (default).
+  fantasy-baseball-mcp --help       Show this help.
 `;
 
 /** Minimal flag parser: supports "--key value" and "--key=value". */

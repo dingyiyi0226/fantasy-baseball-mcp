@@ -11,9 +11,11 @@ export interface ScoringCategory {
 }
 
 /**
- * Persistent, per-user configuration. Stored at ~/.yahoo-fantasy-mcp/config.json
- * with 0600 permissions. Holds the user's own Yahoo app credentials, a long-lived
- * refresh token, and the default league/team to operate on.
+ * Persistent, per-user configuration. Stored at
+ * ~/.fantasy-baseball-mcp/config.json with 0600 permissions. The legacy
+ * ~/.yahoo-fantasy-mcp/config.json location is read when the new file is absent.
+ * Holds the user's own Yahoo app credentials, a long-lived refresh token, and
+ * the default league/team to operate on.
  *
  * Every field is optional because setup happens incrementally (and credentials
  * may instead arrive via environment variables, e.g. from the desktop extension
@@ -36,29 +38,33 @@ export interface Credentials {
   clientSecret: string;
 }
 
-export const CONFIG_DIR = path.join(os.homedir(), ".yahoo-fantasy-mcp");
+export const CONFIG_DIR = path.join(os.homedir(), ".fantasy-baseball-mcp");
 export const CONFIG_PATH = path.join(CONFIG_DIR, "config.json");
+export const LEGACY_CONFIG_PATH = path.join(os.homedir(), ".yahoo-fantasy-mcp", "config.json");
 
 /**
- * Load the saved config, or null when no file exists yet. Does not throw on
- * missing fields — callers decide what is "configured enough" to operate.
+ * Load the saved config, preferring the current location and falling back to
+ * the legacy location. Does not throw on missing fields — callers decide what
+ * is "configured enough" to operate.
  */
 export async function loadConfig(): Promise<Config | null> {
-  let raw: string;
-  try {
-    raw = await fs.readFile(CONFIG_PATH, "utf8");
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") return null;
-    throw err;
+  for (const configPath of [CONFIG_PATH, LEGACY_CONFIG_PATH]) {
+    let raw: string;
+    try {
+      raw = await fs.readFile(configPath, "utf8");
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw err;
+    }
+
+    try {
+      return JSON.parse(raw) as Config;
+    } catch {
+      throw new Error(`Config at ${configPath} is not valid JSON. Delete it and run setup again.`);
+    }
   }
 
-  try {
-    return JSON.parse(raw) as Config;
-  } catch {
-    throw new Error(
-      `Config at ${CONFIG_PATH} is not valid JSON. Delete it and run setup again.`,
-    );
-  }
+  return null;
 }
 
 /**

@@ -15,12 +15,12 @@
  *   npm run build            # mappers must be compiled to dist/ first
  *   node test/fetch-fixtures.mjs get_roster      # refresh exactly one fixture
  *
- * Requires a configured ~/.yahoo-fantasy-mcp/config.json (run the auth flow once).
+ * Requires a configured ~/.fantasy-baseball-mcp/config.json (run the auth flow once).
  * Real player names are kept — they are public MLB data, not personal data.
  */
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
-import { readFileSync, writeFileSync, mkdirSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { homedir } from "os";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -56,8 +56,10 @@ mkdirSync(RAW_DIR, { recursive: true });
 mkdirSync(MAPPED_DIR, { recursive: true });
 
 // --- auth -----------------------------------------------------------------
-const configPath = `${homedir()}/.yahoo-fantasy-mcp/config.json`;
-const config = JSON.parse(readFileSync(configPath, "utf8"));
+const configPath = `${homedir()}/.fantasy-baseball-mcp/config.json`;
+const legacyConfigPath = `${homedir()}/.yahoo-fantasy-mcp/config.json`;
+const readConfigPath = existsSync(configPath) ? configPath : legacyConfigPath;
+const config = JSON.parse(readFileSync(readConfigPath, "utf8"));
 const { clientId, clientSecret, refreshToken } = config;
 
 const tokenRes = await axios.post(
@@ -77,6 +79,7 @@ const tokenRes = await axios.post(
 const accessToken = tokenRes.data.access_token;
 if (tokenRes.data.refresh_token) {
   config.refreshToken = tokenRes.data.refresh_token;
+  mkdirSync(dirname(configPath), { recursive: true, mode: 0o700 });
   writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
 
