@@ -118,6 +118,7 @@ The assistant will find your leagues, set your default team, and finish setup.
 | `fantasy my matchup` | Summarize this week's matchup |
 | `fantasy standings` | Show league standings |
 | `fantasy who should I add` | Find strong free-agent options |
+| `fantasy MLB leaders` | Rank all Yahoo baseball players by a stat or overall rank |
 | `fantasy my stats this week` | Show your team's weekly totals |
 | `fantasy recent moves` | List recent adds, drops, and trades |
 | `who's pitching tomorrow` | List probable starting pitchers for a date (add "and who's a free agent" for ownership) |
