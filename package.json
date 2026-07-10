@@ -1,6 +1,6 @@
 {
   "name": "fantasy-baseball-mcp",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "MCP server for Yahoo Fantasy Baseball — AI-powered roster management, Statcast analytics, and free-agent scouting via natural language.",
   "type": "module",
   "license": "MIT",
