@@ -38,7 +38,7 @@
     { "name": "fantasy_logout", "description": "Remove saved Yahoo credentials and disconnect." },
     { "name": "list_games", "description": "Discover your baseball leagues and the team you own in each." },
     { "name": "get_game", "description": "Get a fantasy game's details." },
-    { "name": "list_leagues", "description": "List your leagues, game weeks, and stat categories." },
+    { "name": "list_leagues", "description": "List each fantasy game and its leagues' keys and names." },
     { "name": "get_league", "description": "Get a league's teams, settings, and current standings." },
     { "name": "list_teams", "description": "List teams in a league with only team keys and names." },
     { "name": "get_team", "description": "Get detailed metadata, season stats, points, and standings for one team; excludes roster and matchup history." },

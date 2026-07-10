@@ -61,10 +61,12 @@ Everyday use (these default to the user's configured league/team):
   -> search_players (resolves a name to a player_key; filter status=FA for free agents)
 - "fantasy recent moves" / "fantasy transactions" -> get_transactions
 
-Advanced player / roster analysis (no Yahoo auth required for these):
+Advanced player analysis (no Yahoo auth required):
 - "analyze [player name]" / "how is [player] doing" -> analyze_player_stats
   Fetches Statcast (exit velo, barrel %, hard-hit %), expected stats (xBA, xSLG,
   xwOBA), recent 14-/30-day splits, and FanGraphs (WAR, wRC+, K%, BB%) for any MLB player.
+
+Roster analysis (requires Yahoo setup):
 - "analyze my roster" / "roster report" / "who should start tomorrow" -> analyze_roster_stats
   Runs analyze_player_stats for every player on the team's current roster.
 
