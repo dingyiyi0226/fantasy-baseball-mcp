@@ -9,7 +9,7 @@ your credentials stay on your machine.
 
 We support a broad range of operations (league, team, roster, matchup, and player stats) via Yahoo's Fantasy Sports API.
 Lineup adjustments and add/drop actions go through browser-based workflows (Claude in Chrome or the Codex browser plugin),
-as Yahoo's write-scope API is deprecated. The add/drop browser flow for Claude is still under development.
+as Yahoo's write-scope API is deprecated.
 
 ## Contents
 

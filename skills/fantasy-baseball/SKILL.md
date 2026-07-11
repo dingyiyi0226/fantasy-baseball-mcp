@@ -53,11 +53,9 @@ Use this tool when the user explicitly wants browser-driven Yahoo lineup slot ma
 - inspect the current Yahoo page state before or after a manual click sequence
 - produce a manual browser checklist when write execution should stay user-driven
 
-This is a shared tool with surface-specific sections. The `Codex` section uses the Browser plugin
-and follows its current browser-selection guidance, while the `Claude` section drives the user's real
-Chrome through the `claude-in-chrome` MCP tools. Do not use it for generic browser automation or
-API-only roster advice. When triggered, load `references/adjust-lineup.md` and follow the
-section that matches the active surface.
+Load `references/browser-control.md` for browser control and
+`references/adjust-lineup.md` for the Yahoo lineup procedure. Do not use it for generic browser
+automation or API-only roster advice.
 
 ### `add-drop-player`
 
@@ -65,10 +63,9 @@ Use this tool when the user explicitly authorizes a browser-driven Yahoo roster 
 - add a specific free agent into an empty roster spot
 - add a specific free agent and drop one exact, user-approved rostered player
 
-The `Codex` section uses the Browser plugin and verified Yahoo add/drop page behavior. The `Claude`
-section is intentionally TODO until that browser flow is tested. Do not use the legacy Yahoo write
-API. When triggered, load `references/add-drop-player.md` and follow its confirmation and
-post-transaction verification rules.
+Load `references/browser-control.md` for browser control and
+`references/add-drop-player.md` for the Yahoo transaction procedure. Do not use the legacy Yahoo
+write API. Follow its confirmation and post-transaction verification rules.
 
 ## Operating Rules
 

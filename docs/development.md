@@ -31,9 +31,9 @@ Yahoo's write-scoped fantasy API is deprecated, so this server does not expose
 write tools as part of the supported workflow.
 
 Daily lineup adjustments are handled through the browser-based `adjust-lineup`
-Fantasy Baseball skill flow. Add/drop recommendations remain non-executing by default. In Codex,
-an explicitly approved exact transaction can use the browser-based `add-drop-player` skill flow;
-the Claude browser implementation remains TODO.
+Fantasy Baseball skill flow. Add/drop recommendations remain non-executing by default. An explicitly
+approved exact transaction can use the browser-based `add-drop-player` skill flow in Codex or
+Claude.
 
 Credentials resolve from saved config or from the `YF_CLIENT_ID` / `YF_CLIENT_SECRET` env vars.
 

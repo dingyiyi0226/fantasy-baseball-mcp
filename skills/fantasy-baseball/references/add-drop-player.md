@@ -3,10 +3,11 @@
 Use this tool when the user explicitly authorizes adding a Yahoo free agent or adding one player
 while dropping another in Yahoo Fantasy Baseball.
 
-This tool contains execution-surface-specific sections (`Codex` and `Claude`). Codex uses the
-Browser plugin. Leave Claude browser execution unimplemented until its flow is tested separately.
+Browser-control instructions live in `references/browser-control.md`. Keep this file focused on
+Yahoo add/drop rules and transaction state.
 
 Read `references/tool-notes.md` before using this tool.
+Read `references/browser-control.md` before opening or controlling a browser.
 
 ## Shared Scope
 
@@ -74,25 +75,7 @@ Do not construct or replay transaction submission URLs. Both the no-drop and add
 Yahoo `POST` form with a short-lived crumb. Navigate directly only to read/selection pages, then use
 the live page's exact submit control.
 
-## Codex
-
-Use this section when Codex controls Yahoo through the Browser plugin.
-
-### Browser setup
-
-1. Read the Browser plugin skill `browser:control-in-app-browser` before any browser-control call.
-2. Use `mcp__node_repl__js` and import the plugin's `scripts/browser-client.mjs` by absolute path.
-3. Call `setupBrowserRuntime({ globals: globalThis })` once per fresh JavaScript session.
-4. Reuse a compatible existing browser binding. Otherwise follow the Browser plugin's current
-   selection rules for an explicit in-app browser/Chrome request or a task with a Yahoo URL.
-5. Read the selected browser's complete documentation once before interacting with it.
-6. Reuse one controlled tab throughout the transaction. Do not finalize or hand off the tab while
-   an add/drop is staged.
-7. If Yahoo is not logged in, stop and report a browser-login error. Do not switch surfaces or try
-   to sign in for the user.
-
-Use Playwright locators and the required snapshot/count/click discipline from the Browser plugin.
-Prefer stable exact `href`, form value, and player-row locators over glyph text alone.
+## Add/Drop Workflow
 
 ### Phase 1 - Open and verify the add page
 
@@ -150,14 +133,9 @@ After the final submit click:
 4. Confirm the added player is present. For an add/drop, also confirm the dropped player is absent.
 5. Report success only when the browser banner and `get_roster` agree.
 
-If Yahoo shows an error, a waiver flow, an add-limit warning, a different transaction pair, or any
-unexpected state, stop immediately and report it before another browser action. If navigation is
-ambiguous after submission, reload the team page and use `get_roster` as the source of truth.
-
-## Claude
-
-TODO: Implement and test the Claude browser flow separately. Do not improvise with
-`claude-in-chrome` or claim Claude support until this section is completed.
+On any Yahoo error, unexpected state, or ambiguous navigation, follow `Error Handling` in
+`references/browser-control.md`. If Yahoo shows a waiver flow, an add-limit warning, or a different
+transaction pair, do not resubmit; report the confirmed state instead.
 
 ## Reporting Rules
 
