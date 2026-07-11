@@ -62,7 +62,8 @@
 
 ### `get_league_scoreboard` / `get_team_matchup_history`
 - Use `get_league_scoreboard` for every pairing in one scoring week; it deliberately omits team
-  matchup stats. Use `get_team_matchup_history` for one team's detailed weekly matchup stats.
+  matchup stats. Use `get_team_matchup_history` for one team's detailed weekly matchup stats; it
+  defaults to the current week, or accepts `weeks` for specified historical weeks.
 
 ### `add_drop_player`
 - Legacy-only Yahoo API path retained for future compatibility testing; do not use it in

@@ -93,6 +93,37 @@ if (matchupResource === "/team/123.l.12345.t.1/matchups;weeks=16") {
   console.log("  FAIL get_team_matchup_history uses the matchup weeks endpoint");
 }
 
+const registeredTools = new Map();
+const defaultRequests = [];
+mappers.registerMatchupTools(
+  {
+    registerTool(name, _definition, handler) {
+      registeredTools.set(name, handler);
+    },
+  },
+  {
+    resolveTeamKey: () => "123.l.12345.t.1",
+    yahoo: {
+      async get(path) {
+        defaultRequests.push(path);
+        return path === "/league/123.l.12345"
+          ? { league: { current_week: 16 } }
+          : read("raw", "get_team_matchup_history");
+      },
+    },
+  },
+);
+await registeredTools.get("get_team_matchup_history")({});
+if (
+  JSON.stringify(defaultRequests) ===
+  JSON.stringify(["/league/123.l.12345", "/team/123.l.12345.t.1/matchups;weeks=16"])
+) {
+  console.log("  ok   get_team_matchup_history resolves the current week by default");
+} else {
+  failed++;
+  console.log("  FAIL get_team_matchup_history resolves the current week by default");
+}
+
 if (failed) {
   console.error(`\n${failed} mapper(s) failed.`);
   process.exit(1);

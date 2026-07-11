@@ -3,6 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray } from "../util.js";
 import { mapMatchup } from "./mappers.js";
+import { leagueKeyFromTeamKey } from "./utils.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -22,6 +23,16 @@ export function teamMatchupHistoryResource(teamKey: string, weeks?: number[]) {
   return weeks && weeks.length > 0
     ? `/team/${teamKey}/matchups;weeks=${weeks.join(",")}`
     : `/team/${teamKey}/matchups`;
+}
+
+async function getCurrentWeek(ctx: McpContext, teamKey: string): Promise<number> {
+  const leagueKey = leagueKeyFromTeamKey(teamKey);
+  const league = await ctx.yahoo.get(`/league/${leagueKey}`);
+  const currentWeek = Number(league?.league?.current_week);
+  if (!Number.isInteger(currentWeek) || currentWeek <= 0) {
+    throw new Error(`Yahoo did not return a valid current week for league ${leagueKey}.`);
+  }
+  return currentWeek;
 }
 
 export function mapMatchups(data: any) {
@@ -81,20 +92,22 @@ export function registerMatchupTools(server: McpServer, ctx: McpContext): void {
     {
       title: "Get one team's detailed matchup history",
       description:
-        "Get one team's matchup schedule and weekly stats for both teams.",
+        "Get one team's matchup schedule and weekly stats for both teams. " +
+        "Defaults to the current week.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
         weeks: z
           .array(z.number().int().positive())
           .optional()
-          .describe("Specific week numbers; defaults to all weeks"),
+          .describe("Specific week numbers; defaults to the current week"),
       },
       annotations: READ_ONLY,
     },
     async ({ teamKey, weeks }) => {
       const tk = ctx.resolveTeamKey(teamKey);
-      const resource = teamMatchupHistoryResource(tk, weeks);
-      return jsonResult(mapTeamMatchups(await ctx.yahoo.get(resource), weeks));
+      const requestedWeeks = weeks?.length ? weeks : [await getCurrentWeek(ctx, tk)];
+      const resource = teamMatchupHistoryResource(tk, requestedWeeks);
+      return jsonResult(mapTeamMatchups(await ctx.yahoo.get(resource), requestedWeeks));
     },
   );
 }
