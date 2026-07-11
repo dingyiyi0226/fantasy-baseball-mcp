@@ -224,7 +224,7 @@ const endpoints = [
   { tool: "team_stats_week", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=week;week=12` },
   { tool: "team_stats_season", mapper: "mapTeamStats", path: `/team/${tk}/stats;type=season` },
   { tool: "get_league_scoreboard", mapper: "mapMatchups", path: `/league/${lk}/scoreboard` },
-  { tool: "get_team_matchup_history", mapper: "mapTeamMatchups", path: `/team/${tk};out=stats,matchups;weeks=1,2,3` },
+  { tool: "get_team_matchup_history", mapper: "mapTeamMatchups", path: `/team/${tk}/matchups;weeks=16` },
   { tool: "get_player_stats", mapper: "mapPlayerStats" },
   { tool: "list_players", mapper: "mapPlayerList", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership` },
   { tool: "rank_players", mapper: "mapRankPlayers", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership,stats` },

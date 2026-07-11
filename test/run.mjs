@@ -73,6 +73,26 @@ for (const [tool, mapper, rawTool = tool, categoryTool] of CASES) {
   }
 }
 
+const requestedWeek = 16;
+const filteredMatchups = mappers.mapTeamMatchups(
+  read("raw", "get_team_matchup_history"),
+  [requestedWeek],
+).matchups;
+if (filteredMatchups.length === 1 && filteredMatchups[0]?.week === requestedWeek) {
+  console.log(`  ok   get_team_matchup_history filters requested weeks`);
+} else {
+  failed++;
+  console.log("  FAIL get_team_matchup_history filters requested weeks");
+}
+
+const matchupResource = mappers.teamMatchupHistoryResource("123.l.12345.t.1", [16]);
+if (matchupResource === "/team/123.l.12345.t.1/matchups;weeks=16") {
+  console.log("  ok   get_team_matchup_history uses the matchup weeks endpoint");
+} else {
+  failed++;
+  console.log("  FAIL get_team_matchup_history uses the matchup weeks endpoint");
+}
+
 if (failed) {
   console.error(`\n${failed} mapper(s) failed.`);
   process.exit(1);

@@ -18,6 +18,12 @@ function mapTeamMatchupTeam(team: any) {
   };
 }
 
+export function teamMatchupHistoryResource(teamKey: string, weeks?: number[]) {
+  return weeks && weeks.length > 0
+    ? `/team/${teamKey}/matchups;weeks=${weeks.join(",")}`
+    : `/team/${teamKey}/matchups`;
+}
+
 export function mapMatchups(data: any) {
   const league = data?.league;
   if (!league) return data;
@@ -32,14 +38,15 @@ export function mapMatchups(data: any) {
   };
 }
 
-export function mapTeamMatchups(data: any) {
+export function mapTeamMatchups(data: any, weeks?: number[]) {
   const team = data?.team;
   if (!team) return data;
+  const requestedWeeks = weeks && weeks.length > 0 ? new Set(weeks) : undefined;
   return {
     team: { team_key: team.team_key, name: team.name, team_stats: team.team_stats },
-    matchups: asArray(team.matchups?.matchup).map((matchup) =>
-      mapMatchup(matchup, mapTeamMatchupTeam),
-    ),
+    matchups: asArray(team.matchups?.matchup)
+      .filter((matchup) => !requestedWeeks || requestedWeeks.has(Number(matchup.week)))
+      .map((matchup) => mapMatchup(matchup, mapTeamMatchupTeam)),
   };
 }
 
@@ -68,13 +75,13 @@ export function registerMatchupTools(server: McpServer, ctx: McpContext): void {
     },
   );
 
-  // GET /team/{teamKey};out=stats,matchups[;weeks={weeks}]
+  // GET /team/{teamKey}/matchups[;weeks={weeks}]
   server.registerTool(
     "get_team_matchup_history",
     {
       title: "Get one team's detailed matchup history",
       description:
-        "Get one team's season stats, matchup schedule, and weekly stats for both teams.",
+        "Get one team's matchup schedule and weekly stats for both teams.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
         weeks: z
@@ -86,11 +93,8 @@ export function registerMatchupTools(server: McpServer, ctx: McpContext): void {
     },
     async ({ teamKey, weeks }) => {
       const tk = ctx.resolveTeamKey(teamKey);
-      const resource =
-        weeks && weeks.length > 0
-          ? `/team/${tk};out=stats,matchups;weeks=${weeks.join(",")}`
-          : `/team/${tk};out=stats,matchups`;
-      return jsonResult(mapTeamMatchups(await ctx.yahoo.get(resource)));
+      const resource = teamMatchupHistoryResource(tk, weeks);
+      return jsonResult(mapTeamMatchups(await ctx.yahoo.get(resource), weeks));
     },
   );
 }
