@@ -42,8 +42,9 @@ the exact instructions; rewriting them breaks the setup flow.
 
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact six-field
-  player view by default; pass full=true for standard roster details or
-  includeStats=true when per-player Yahoo stats are needed).
+  player view: player_key, name, editorial_team_abbr, display_position, selected_position,
+  and status. Pass full=true for detailed profile, injury, eligibility, and is_starting fields;
+  pass includeStats=true for the compact fields plus player_stats).
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchup_history
 - "fantasy league scoreboard" -> get_league_scoreboard
 - "fantasy list teams" -> list_teams; "fantasy show my team" -> get_team
@@ -56,7 +57,8 @@ Everyday use (these default to the user's configured league/team):
   leaderboard; not filtered by the user's league or its ownership)
 - For MLB probable starting pitchers on a date, or free-agent/streamer starter scouting,
   use list_probable_starters. Set fantasyContext=true when the user asks whether those
-  starters are free agents, available, rostered, or addable.
+  starters are free agents, available, rostered, or addable; it adds fantasyStatus and
+  ownerTeamName (when rostered by another team).
 - "fantasy find <player name>" / "is <name> available" / need a player_key from a name
   -> search_players (resolves a name to a player_key; filter status=FA for free agents)
 - "fantasy recent moves" / "fantasy transactions" -> get_transactions

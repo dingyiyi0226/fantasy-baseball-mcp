@@ -19,13 +19,14 @@
 
 ### `get_roster`
 - Accepts `date` parameter in `YYYY-MM-DD` format.
-- Defaults to only `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, and `status`. Pass `full=true` for standard roster details, or `includeStats=true` for those six fields plus Yahoo stats.
+- Defaults to only `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, and `status`. `full=true` returns `player_key`, `player_id`, `name`, `editorial_team_abbr`, `editorial_team_full_name`, `display_position`, `position_type`, `primary_position`, `eligible_positions`, `status`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `selected_position`, `is_flex`, and `is_starting`. `includeStats=true` returns the six default fields plus `player_stats`.
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
 
 ### `list_probable_starters`
 - Use `date=lineupDate` and `fantasyContext=true` during roster reviews so each probable SP is
-  labeled `yourTeam`, `otherTeam`, `freeAgent`, `waivers`, or `unknown`.
+  labeled through `fantasyStatus` as `yourTeam`, `otherTeam`, `freeAgent`, `waivers`, or `unknown`;
+  `ownerTeamName` is also present for `otherTeam`.
 - Use this as the first source for "is this SP actually probable to start?" and for free-agent
   streamer discovery. Filter locally for `fantasyStatus` of `freeAgent` or `waivers`, then use
   `analyze_player_stats` / matchup context before recommending an add.

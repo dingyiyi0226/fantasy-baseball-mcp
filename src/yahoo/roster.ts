@@ -62,19 +62,23 @@ export function registerRosterReadTools(server: McpServer, ctx: McpContext): voi
     {
       title: "Get team roster",
       description:
-        "Get a team's roster for a date, including roster slots and player status. " +
-        "Set full=true for standard details or includeStats=true for Yahoo stats.",
+        "Get a team's roster for a date. By default, each player contains player_key, name, " +
+        "editorial_team_abbr, display_position, selected_position, and status. Set full=true " +
+        "for player_key, player_id, name, editorial_team_abbr, editorial_team_full_name, " +
+        "display_position, position_type, primary_position, eligible_positions, status, " +
+        "status_full, injury_note, on_disabled_list, is_undroppable, selected_position, " +
+        "is_flex, and is_starting. Set includeStats=true for the default fields plus player_stats.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
         date: z.string().optional().describe("Date as YYYY-MM-DD; defaults to today"),
         includeStats: z
           .boolean()
           .optional()
-          .describe("Add per-player Yahoo stats; cannot be combined with full=true"),
+          .describe("Add player_stats to the six default player fields; cannot be combined with full=true"),
         full: z
           .boolean()
           .optional()
-          .describe("Return standard roster details; cannot be combined with includeStats=true"),
+          .describe("Return the detailed player fields, including eligible_positions, injury fields, and is_starting; cannot be combined with includeStats=true"),
       },
       annotations: READ_ONLY,
     },

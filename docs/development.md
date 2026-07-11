@@ -21,11 +21,13 @@ stats are needed: `list_teams` (keys/names only) vs `get_team` (one team's metad
 stats) vs `get_league` (league settings, teams, and standings),
 `get_league_scoreboard` (one week, every pairing) vs `get_team_matchup_history` (one team,
 detailed weekly stats), `get_roster`
-with its six-field compact default, `full=true` (standard roster details), or
-`includeStats=true` (the six fields plus Yahoo stats), and `list_players` vs
+with compact `player_key`, `name`, `editorial_team_abbr`, `display_position`,
+`selected_position`, and `status`; `full=true` adds detailed profile, injury,
+eligibility, and lineup fields (including `is_starting`); `includeStats=true`
+adds `player_stats` to the compact fields; and `list_players` vs
 `rank_players` (+stats).
 
-**Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` labels each by ownership)
+**Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` adds `fantasyStatus` and, for another manager's pitcher, `ownerTeamName`)
 
 Yahoo's write-scoped fantasy API is deprecated, so this server does not expose
 write tools as part of the supported workflow.

@@ -407,10 +407,11 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
         "(no Yahoo auth needed). MLB only posts probables for roughly today through ~2-3 " +
         "days out, so 'tomorrow' returns a full board, the day after is usually partial, " +
         "and dates further out return few or none (not yet announced — not an error). " +
-        "Set fantasyContext=true to also label each starter as yourTeam / otherTeam (with " +
-        "the owning manager) / freeAgent — useful for spotting streamable free-agent " +
-        "starters. Enrichment issues about one Yahoo request per starter (~10-26), so " +
-        "leave it off unless you need ownership.",
+        "Each starter contains mlbamId, name, team, teamAbbr, opponent, opponentAbbr, homeAway, " +
+        "gameTimeUtc, gamePk, and doubleHeader. Set fantasyContext=true to add fantasyStatus " +
+        "(yourTeam, otherTeam, freeAgent, waivers, or unknown) and, for otherTeam, ownerTeamName. " +
+        "Enrichment issues about one Yahoo request per starter (~10-26), so leave it off unless " +
+        "you need ownership.",
       inputSchema: {
         date: z
           .string()
@@ -420,7 +421,7 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
           .boolean()
           .optional()
           .default(false)
-          .describe("When true, annotate each starter with Yahoo ownership in the configured league."),
+          .describe("Add fantasyStatus and, for otherTeam, ownerTeamName from Yahoo ownership in the configured league."),
       },
       annotations: READ_ONLY,
     },
