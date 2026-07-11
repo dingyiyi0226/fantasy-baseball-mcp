@@ -230,7 +230,9 @@ If `autoStartBench=false` and `autoAddDrop=false`, output a numbered manual chec
 
 If `autoStartBench=true`, hand the approved lineup adjustments to the dedicated `adjust-lineup`
 workflow and follow that skill's surface-specific execution steps. If browser-driven write execution
-is unavailable, fall back to the manual checklist.
+is unavailable, fall back to the manual checklist. After a first browser timeout, follow the single
+fresh-tab retry in `browser-control.md`; if it does not save the move, verify with `get_roster` and
+fall back to the manual checklist. Do not make another browser recovery attempt during this review.
 
 If `autoAddDrop=true`, hand each exact approved transaction to the dedicated `add-drop-player`
 workflow and follow its surface-specific execution and verification steps. If browser-driven write

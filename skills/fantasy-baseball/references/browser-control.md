@@ -77,11 +77,28 @@ Use the in-app Browser plugin for Codex and `claude-in-chrome` for Claude.
 
 ## Error Handling
 
-On any browser error or unexpected Yahoo state:
+### Timeout or Browser Transport Failure
+
+After the first timeout from a click, screenshot, snapshot, navigation, reload, or browser transport:
+
+1. Stop the current action. Do not repeat the click or submit control in the failed tab.
+2. Call `get_roster` once for the target team and roster date to confirm Yahoo's saved state. If the
+   intended move saved, report success and stop.
+3. If the move did not save, reuse the existing browser binding to open one new normal tab at the
+   same team URL. Reinspect the roster date, source player, and legal green destination, then retry
+   that same approved move once.
+4. If the new tab cannot load, or any action in it times out, call `get_roster` once more and report
+   the exact manual source-to-destination swap with the API-confirmed state.
+
+Never reinitialize the browser, reload, scroll for recovery, return to the failed tab, or open a
+third tab for the same move.
+
+### Other Unexpected Yahoo State
+
+When the browser is responsive but Yahoo's visible state is inconsistent:
 
 1. Stop the current action. Do not repeat a click or submit control.
-2. Take a fresh screenshot and try to identify the cause from the visible page state.
-3. If the cause remains unclear or the error persists, refresh the current Yahoo page and call
-   `get_roster` for the target team and roster date to obtain the latest saved state.
-4. Restart the workflow from its initial verification only when the refreshed page and `get_roster`
-   establish a clear, still-authorized action. Otherwise, stop and report the confirmed state.
+2. Take one fresh screenshot to identify the visible state.
+3. If it remains unclear, refresh once and call `get_roster` for the target team and roster date.
+4. Resume only when that single refresh and `get_roster` establish a clear, still-authorized action;
+   otherwise, stop and report the manual swap.

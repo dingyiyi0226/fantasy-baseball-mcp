@@ -57,7 +57,8 @@ Before any click:
 4. Find the source player on `BN` or in an active slot, and identify the source player's current
    position pill.
 5. Identify the desired destination slot or the destination player the user wants to swap with.
-6. If the page already looks inconsistent after a failed move, refresh first.
+6. If the page already looks inconsistent, follow `Error Handling` in
+   `references/browser-control.md`; do not start another swap attempt first.
 
 ### Phase 2 - Enter Swap Mode
 
@@ -70,8 +71,8 @@ Before any click:
 
 Interpretation rules:
 - No green destination means the move is not legal in the current roster state.
-- If the approved destination is not green after inspection, do not guess or force the move; refresh
-  or reassess the roster constraint.
+- If the approved destination is not green after inspection, do not guess or force the move; reassess
+  the roster constraint. Follow the browser error procedure only when the page is inconsistent.
 
 ### Phase 3 - Complete Or Abort
 
@@ -95,13 +96,14 @@ Use these behaviors as hard-earned constraints, not guesses:
 - `RP` bench pitchers can swap into `RP` and `P`, but not `SP`.
 - Multi-eligible hitters can light multiple infield or outfield pills plus `Util`.
 - IL moves can fail even after a click path appears available; a full active-plus-bench roster is a common cause.
-- After a failed IL-related move, refresh before deciding what the current roster actually is.
+- After a failed IL-related move while the browser remains responsive, refresh once before deciding
+  what the current roster actually is. A timeout follows the terminal timeout rule instead.
 
 ## Reporting Rules
 
 - output a short browser management checklist with the exact source player, source slot, and intended destination slot
 - mention any observed roster constraint that might block the move
-- when monitoring a live move, narrate only the meaningful state changes: page verified, source pill selected, destination became green, save confirmed, or refresh required
+- when monitoring a live move, narrate only the meaningful state changes: page verified, source pill selected, destination became green, save confirmed, or manual fallback required
 - if a move fails, say it failed and give the post-failure state confirmed via `get_roster`
-- never report success from the pre-refresh visual state alone after an error; on any unexpected
-  error, refresh and confirm the final roster with `get_roster` before reporting
+- never report success from the pre-error visual state alone; confirm the final roster with
+  `get_roster` before reporting and obey the terminal timeout rule in `browser-control.md`
