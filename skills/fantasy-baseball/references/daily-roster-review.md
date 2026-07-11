@@ -216,23 +216,7 @@ Produce one compact table per team:
 | K. Hendricks | SP     | Stream           | Coors Field, HR/F 1.42, weak K-BB%       | ❌ Reversed -> Sit    |
 ```
 
-## Phase 3 — Synthesize & Report
-
-For each team, output these sections in order:
-
-1. **Week Strategy**
-2. **Category Scoreboard**
-3. **Opponent Pressure Check**
-4. **Start/Sit Moves**
-5. **Add/Drop Targets**
-
-Rules:
-- Use markdown tables throughout.
-- Every non-trivial move needs a **Why** line and an **Evidence** table.
-- Phase 2 reversals must be called out with the `Phase 2 reversal` prefix.
-- If there are no urgent moves, say so explicitly.
-
-## Phase 4 — Execute or Checklist
+## Phase 3 — Execute or Checklist
 
 If `autoStartBench=false` and `autoAddDrop=false`, output a numbered manual checklist in execution order.
 
@@ -241,6 +225,9 @@ workflow and follow that skill's surface-specific execution steps. If browser-dr
 is unavailable, fall back to the manual checklist. After a first browser timeout, follow the single
 fresh-tab retry in `browser-control.md`; if it does not save the move, verify with `get_roster` and
 fall back to the manual checklist. Do not make another browser recovery attempt during this review.
+Record a successfully saved browser action for the final report's **Executed** section. If
+verification fails or is unavailable, record it for **Recommended** and explain why in the report's
+earlier rationale; never treat it as completed.
 
 If `autoAddDrop=true`, hand each exact approved transaction to the dedicated `add-drop-player`
 workflow and follow its surface-specific execution and verification steps. If browser-driven write
@@ -251,3 +238,59 @@ reason.
 After executing any roster change, finish by calling `get_roster` (`date=lineupDate`) to verify the
 saved state — the browser page can misrepresent what Yahoo saved, so treat `get_roster` as the
 source of truth and report any mismatch.
+
+## Phase 4 — Synthesize & Report
+
+Complete Phase 3 before writing this report so every action can be sorted into **Recommended** or
+**Executed** from its verified final state, rather than from its original recommendation.
+
+For each team, output these sections in order:
+
+1. **Week Strategy**
+2. **Category Scoreboard**
+3. **Opponent Pressure Check**
+4. **Decision Rationale**
+5. **Executed**
+6. **Recommended**
+
+Rules:
+- Use markdown tables for the category scoreboard and compact supporting evidence only. Write
+  lineup and add/drop actions as plain, one-line moves so a manager can scan them quickly.
+- **Decision Rationale** gives each non-trivial action a brief **Why** and compact **Evidence**;
+  use a short action identifier when helpful.
+- **Recommended** and **Executed** contain only clean action lines.
+- **Recommended** contains only actions that still need to be done. **Executed** contains only
+  successfully saved and verified browser-plugin actions. If **Executed** is non-empty, introduce
+  it with `Completed via browser plugin and verified with get_roster.` Never repeat that status in
+  the individual action lines.
+- For an ordinary two-player lineup swap, write the action cleanly:
+
+  ```markdown
+  - **Player A** (2B) <-> **Player B** (BN)
+  ```
+
+  For a three-way-or-larger rotation, do not compress it into a single swap. List each player's
+  destination on its own line, in execution order:
+
+  ```markdown
+  - **Player A** (2B) -> **Player B** (BN)
+  - **Player B** (BN) -> **Player C** (SS)
+  - **Player C** (SS) -> **Player A** (2B)
+  ```
+
+- State each add/drop pair as one clean action line:
+
+  ```markdown
+  - Add **Player A** (SP); drop **Player B** (BN)
+  ```
+
+- Example rationale:
+
+  ```markdown
+  ## Decision Rationale
+  - **A — Add Player A; drop Player B.** Targets W and QS, the week's closest pitching categories.
+    - Evidence: Player A starts today; Player B has no confirmed role or start.
+  ```
+
+- Phase 2 reversals must be called out with the `Phase 2 reversal` prefix.
+- If there are no urgent moves, say so explicitly.
