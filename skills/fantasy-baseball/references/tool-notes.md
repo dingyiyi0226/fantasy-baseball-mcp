@@ -24,11 +24,14 @@
 - Injury status flags are separate from the slot.
 
 ### `list_probable_starters`
-- Use `date=lineupDate` and `fantasyContext=true` during roster reviews so each probable SP is
-  labeled through `fantasyStatus` as `yourTeam`, `otherTeam`, `freeAgent`, `waivers`, or `unknown`;
-  `ownerTeamName` is also present for `otherTeam`.
+- For roster reviews, call once per date with `date=lineupDate, fantasyContext=false` and join the
+  plain MLB board to the selected team and opponent rosters locally by normalized name and MLB team
+  abbreviation. Reuse that board for every team in a multi-team review.
+- Use `fantasyContext=true` only when ownership in the configured default league/team is explicitly
+  needed. It makes one Yahoo ownership request per starter and cannot be scoped to a different team
+  under review.
 - Use this as the first source for "is this SP actually probable to start?" and for free-agent
-  streamer discovery. Filter locally for `fantasyStatus` of `freeAgent` or `waivers`, then use
+  streamer discovery. Confirm availability from the active league's player ownership data, then use
   `analyze_player_stats` / matchup context before recommending an add.
 - MLB usually posts probables only for today through roughly 2-3 days out. A low or zero count
   for a later date means probables may not be announced yet.

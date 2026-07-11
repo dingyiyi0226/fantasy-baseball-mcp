@@ -77,6 +77,12 @@ to `lineupDate`:
   the drop is replaceable and the move targets live categories.
 - **Mid-week / first day** -> optimize the full week; prioritize adds that bank value.
 
+Before reviewing any team, call `list_probable_starters` **once per `lineupDate`** with
+`date=lineupDate, fantasyContext=false`. Reuse that plain MLB board for every team in this
+review. Do not request fantasy ownership enrichment: it performs a Yahoo lookup for every starter
+and only uses the configured default league/team, which may not be the team currently under
+review.
+
 ## Phase 1 — Gather
 
 Run steps A-E for the current team before moving to the next.
@@ -91,10 +97,8 @@ Produce a compact category table: your totals vs. opponent totals for IP, W, SV,
 
 ### B — Your Roster & Availability
 
-Call `list_probable_starters` with `date=lineupDate` and `fantasyContext=true` once, then reuse
-that probable-starter board throughout this team's review.
-
-Call `get_roster` with `date=lineupDate`. For each player:
+Call `get_roster` with `teamKey=currentTeamKey, date=lineupDate`. Join its pitchers to the shared
+probable-starter board locally by normalized player name and MLB team abbreviation. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
 - Identify pitchers with a start on `lineupDate` from the `list_probable_starters` result.
@@ -102,10 +106,11 @@ Call `get_roster` with `date=lineupDate`. For each player:
 
 ### C — Opponent Roster Pressure
 
-Call `get_roster` for the opponent with `date=lineupDate, full=true` before deciding whether your
-planned management is enough. If the opponent roster appears unmanaged or has stale bench choices,
-infer the expected best active roster from the lineup date's Yahoo start flags and obvious
-active/bench conflicts.
+Call `get_roster` for the opponent with `teamKey=opponentTeamKey, date=lineupDate, full=true`
+before deciding whether your planned management is enough. Join the opponent's pitchers to the
+same shared probable-starter board locally by normalized player name and MLB team abbreviation. If
+the opponent roster appears unmanaged or has stale bench choices, infer the expected best active
+roster from the lineup date's Yahoo start flags and obvious active/bench conflicts.
 
 For the opponent:
 - List active hitters with `is_starting=1`, benched hitters with `is_starting=1`, and active
@@ -130,8 +135,9 @@ Extract only this compact summary from each player object:
 
 ### E — FA Scout
 
-Use the `list_probable_starters` board first to identify free-agent or waiver SP streamers who
-are actually probable to start on `lineupDate`.
+Use the `list_probable_starters` board first to identify SPs who are actually probable to start on
+`lineupDate`. Determine whether a probable SP is a free agent or on waivers from this league's
+`rank_players` ownership data; do not infer availability from the shared starter board.
 
 Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from offset ~75 until
 >=8 free agents are found in the returned `ownership.ownership_type` values.
