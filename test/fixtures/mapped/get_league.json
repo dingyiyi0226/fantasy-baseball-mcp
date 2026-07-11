@@ -26,51 +26,15 @@
     "teams": [
       {
         "team_key": "123.l.12345.t.1",
-        "team_id": 1,
-        "name": "Team 1",
-        "number_of_moves": 33,
-        "number_of_trades": 3,
-        "roster_adds_this_week": 3,
-        "draft_position": 3,
-        "managers": {
-          "manager_id": 1,
-          "nickname": "Manager 1",
-          "is_commissioner": 1,
-          "felo_score": 625,
-          "felo_tier": "silver"
-        }
+        "name": "Team 1"
       },
       {
         "team_key": "123.l.12345.t.2",
-        "team_id": 2,
-        "name": "Team 2",
-        "is_owned_by_current_login": 1,
-        "number_of_moves": 18,
-        "number_of_trades": 0,
-        "roster_adds_this_week": 2,
-        "draft_position": 8,
-        "managers": {
-          "manager_id": 2,
-          "nickname": "Manager 2",
-          "is_current_login": 1,
-          "felo_score": 594,
-          "felo_tier": "bronze"
-        }
+        "name": "Team 2"
       },
       {
         "team_key": "123.l.12345.t.3",
-        "team_id": 3,
-        "name": "Team 3",
-        "number_of_moves": 4,
-        "number_of_trades": 0,
-        "roster_adds_this_week": 0,
-        "draft_position": 5,
-        "managers": {
-          "manager_id": 3,
-          "nickname": "Manager 3",
-          "felo_score": 594,
-          "felo_tier": "bronze"
-        }
+        "name": "Team 3"
       }
     ],
     "settings": {

@@ -4,7 +4,7 @@ import { jsonResult, type McpContext } from "../mcp.js";
 import type { ScoringCategory } from "../app/config.js";
 import type { YahooClient } from "./client.js";
 import { asArray, str } from "../util.js";
-import { mapLeagueHeader, mapTeamSummary } from "./mappers.js";
+import { mapLeagueHeader } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -80,7 +80,10 @@ export function mapLeague(data: any) {
   return {
     league: {
       ...mapLeagueHeader(league),
-      teams: asArray(league.teams?.team).map(mapTeamSummary),
+      teams: asArray(league.teams?.team).map((team: any) => ({
+        team_key: team.team_key,
+        name: team.name,
+      })),
       settings,
       standings: asArray(league.standings?.teams?.team).map((team: any) => ({
         team_key: team.team_key,
@@ -142,8 +145,9 @@ export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
     {
       title: "Get league overview",
       description:
-        "Get a league's teams, settings, and current standings. Defaults to the " +
-        "configured league when leagueKey is omitted.",
+        "Get a league's settings and current standings, with each team limited to team_key " +
+        "and name. Do not call this just to list teams; list_teams is sufficient for that. " +
+        "Defaults to the configured league when leagueKey is omitted.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
       },

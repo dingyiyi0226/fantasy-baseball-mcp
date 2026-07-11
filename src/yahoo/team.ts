@@ -47,8 +47,9 @@ export function registerTeamTools(server: McpServer, ctx: McpContext): void {
     {
       title: "List league teams",
       description:
-        "List the teams in a league with only team_key and name. Use get_team for " +
-        "detailed information about one selected team.",
+        "List the teams in a league with only team_key and name. Use this alone when " +
+        "those fields are enough; do not call get_league. Use get_team for detailed " +
+        "information about one selected team.",
       inputSchema: {
         leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
       },
