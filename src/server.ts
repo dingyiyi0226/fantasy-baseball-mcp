@@ -41,10 +41,11 @@ section, the numbered steps, the URL, or any field names. The user depends on
 the exact instructions; rewriting them breaks the setup flow.
 
 Everyday use (these default to the user's configured league/team):
-- "fantasy show roster" / "who is starting" -> get_roster (the compact six-field
+- "fantasy show roster" / "who is starting" -> get_roster (the compact seven-field
   player view: player_key, name, editorial_team_abbr, display_position, selected_position,
-  and status. Pass full=true for detailed profile, injury, eligibility, and is_starting fields;
-  pass includeStats=true for the compact fields plus player_stats).
+  status, and is_starting. Pass keyOnly=true when only player keys are needed.)
+- "fantasy roster stats" -> get_roster_stats (detailed player profile, injury, eligibility,
+  lineup, and player_stats fields).
 - "fantasy show my matchup" / "fantasy matchup" -> get_team_matchup_history
 - "fantasy league scoreboard" -> get_league_scoreboard
 - "fantasy list teams" -> list_teams (team_key and name only; do not also call get_league)

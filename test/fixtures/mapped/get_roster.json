@@ -13,7 +13,8 @@
       "editorial_team_abbr": "BAL",
       "display_position": "C",
       "selected_position": "C",
-      "status": null
+      "status": null,
+      "is_starting": 0
     },
     {
       "player_key": "123.p.10235",
@@ -21,7 +22,8 @@
       "editorial_team_abbr": "SF",
       "display_position": "1B",
       "selected_position": "1B",
-      "status": null
+      "status": null,
+      "is_starting": 1
     },
     {
       "player_key": "123.p.12100",
@@ -29,7 +31,8 @@
       "editorial_team_abbr": "MIA",
       "display_position": "2B,SS",
       "selected_position": "2B",
-      "status": null
+      "status": null,
+      "is_starting": 1
     }
   ]
 }

@@ -106,7 +106,7 @@ probable-starter board locally by normalized player name and MLB team abbreviati
 
 ### C — Opponent Roster Pressure
 
-Call `get_roster` for the opponent with `teamKey=opponentTeamKey, date=lineupDate, full=true`
+Call `get_roster` for the opponent with `teamKey=opponentTeamKey, date=lineupDate`
 before deciding whether your planned management is enough. Join the opponent's pitchers to the
 same shared probable-starter board locally by normalized player name and MLB team abbreviation. If
 the opponent roster appears unmanaged or has stale bench choices, infer the expected best active
@@ -125,8 +125,8 @@ For the opponent:
 
 ### D — Stat Cruncher
 
-Call `get_roster` first to collect all player keys.
-Split into **batches of <=10 keys**. Call `analyze_roster_stats` once per batch
+Reuse the player keys from Phase 1B's roster response; do not call `get_roster` again. Split
+them into **batches of <=10 keys**. Call `analyze_roster_stats` once per batch
 (batches may run as parallel calls if available; otherwise sequential).
 
 Extract only this compact summary from each player object:

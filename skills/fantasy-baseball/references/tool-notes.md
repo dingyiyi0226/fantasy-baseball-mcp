@@ -6,9 +6,9 @@
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
 - **Batch size ≤ 10** — the tool enforces `.max(10)` on `playerKeys`. A 28-player roster = 3 batches (≤10 each).
 - **No `compact` flag** — the size fix is the ≤10-key batching. Each returned player is the full (trimmed) object.
-- **Workflow**: call `get_roster` first to get all player keys, split them into batches of
-  up to 10, call `analyze_roster_stats` once per batch, then extract only the compact summary
-  fields.
+- **Workflow**: reuse player keys from a roster response when it is already available. Otherwise,
+  call `get_roster` with `keyOnly=true`, split the returned array into batches of up to 10, call
+  `analyze_roster_stats` once per batch, then extract only the compact summary fields.
 - **Missing `recent14d`/`recent30d`**: treat as "no recent data". Do not label the player hot or cold from a missing key. The conditional spread means players with no recent data simply won't have these keys.
 
 ### `rank_players`
@@ -19,9 +19,13 @@
 
 ### `get_roster`
 - Accepts `date` parameter in `YYYY-MM-DD` format.
-- Defaults to only `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, and `status`. `full=true` returns `player_key`, `player_id`, `name`, `editorial_team_abbr`, `editorial_team_full_name`, `display_position`, `position_type`, `primary_position`, `eligible_positions`, `status`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `selected_position`, `is_flex`, and `is_starting`. `includeStats=true` returns the six default fields plus `player_stats`.
+- Defaults to `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, `status`, and `is_starting`. Use `keyOnly=true` to return only an array of player keys.
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
+
+### `get_roster_stats`
+- Use only when Yahoo player stats or detailed player profile, injury, eligibility, or lineup fields are needed.
+- Returns every `get_roster` field plus `player_id`, `editorial_team_full_name`, `position_type`, `primary_position`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`.
 
 ### `list_probable_starters`
 - For roster reviews, call once per date with `date=lineupDate, fantasyContext=false` and join the

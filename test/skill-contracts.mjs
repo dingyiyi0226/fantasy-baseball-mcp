@@ -25,6 +25,16 @@ assert.doesNotMatch(
   /fantasyContext=true/,
   "daily review must not use default-team ownership enrichment",
 );
+assert.doesNotMatch(
+  dailyReview,
+  /full=true/,
+  "daily review must use the compact roster tool for opponent pressure",
+);
+assert.match(
+  dailyReview,
+  /Reuse the player keys from Phase 1B's roster response; do not call `get_roster` again/,
+  "daily review must reuse the roster response when batching player analysis",
+);
 assert.match(
   dailyReview,
   /currentTeamKey[\s\S]*?probable-starter board locally[\s\S]*?opponentTeamKey/,

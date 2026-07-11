@@ -14,7 +14,7 @@ npm run pack           # build .mcpb bundle
 
 **Onboarding:** `fantasy_status`, `fantasy_login`, `fantasy_authorize`, `fantasy_logout`, `fantasy_select_team`
 
-**Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `get_league_metadata`, `list_teams`, `get_team`, `get_roster`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
+**Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `get_league_metadata`, `list_teams`, `get_team`, `get_roster`, `get_roster_stats`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`
@@ -23,9 +23,9 @@ keys/names), `get_league_metadata` (current week and season dates only),
 `get_league_scoreboard` (one week, every pairing) vs `get_team_matchup_history` (one team,
 detailed weekly stats), `get_roster`
 with compact `player_key`, `name`, `editorial_team_abbr`, `display_position`,
-`selected_position`, and `status`; `full=true` adds detailed profile, injury,
-eligibility, and lineup fields (including `is_starting`); `includeStats=true`
-adds `player_stats` to the compact fields; and `list_players` vs
+`selected_position`, `status`, and `is_starting` (or `keyOnly=true` for just
+the player-key array); `get_roster_stats` for the detailed player profile,
+injury, eligibility, lineup, and `player_stats` fields; and `list_players` vs
 `rank_players` (+stats).
 
 **Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` adds `fantasyStatus` and, for another manager's pitcher, `ownerTeamName`)

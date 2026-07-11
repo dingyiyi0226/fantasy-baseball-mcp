@@ -17,7 +17,7 @@ function mapRosterTeam(team: any) {
   };
 }
 
-export function mapRosterCompactWithStats(data: any) {
+export function mapRosterStats(data: any) {
   const team = data?.team;
   if (!team) return data;
   return {
@@ -25,22 +25,11 @@ export function mapRosterCompactWithStats(data: any) {
     roster_date: team.roster?.date,
     players: asArray(team.roster?.players?.player).map((player: any) => ({
       ...mapCompactRosterPlayer(player),
-      player_stats: player.player_stats,
-    })),
-  };
-}
-
-export function mapRosterFull(data: any) {
-  const team = data?.team;
-  if (!team) return data;
-  return {
-    team: mapRosterTeam(team),
-    roster_date: team.roster?.date,
-    players: asArray(team.roster?.players?.player).map((player: any) => ({
       ...mapPlayerProfile(player),
       selected_position: player.selected_position?.position,
       is_flex: player.selected_position?.is_flex || undefined,
       is_starting: player.starting_status?.is_starting,
+      player_stats: player.player_stats,
     })),
   };
 }
@@ -51,8 +40,17 @@ export function mapRosterCompact(data: any) {
   return {
     team: mapRosterTeam(team),
     roster_date: team.roster?.date,
-    players: asArray(team.roster?.players?.player).map(mapCompactRosterPlayer),
+    players: asArray(team.roster?.players?.player).map((player: any) => ({
+      ...mapCompactRosterPlayer(player),
+      is_starting: player.starting_status?.is_starting,
+    })),
   };
+}
+
+export function mapRosterKeys(data: any) {
+  const team = data?.team;
+  if (!team) return data;
+  return asArray(team.roster?.players?.player).map((player: any) => player.player_key);
 }
 
 export function registerRosterReadTools(server: McpServer, ctx: McpContext): void {
@@ -63,42 +61,45 @@ export function registerRosterReadTools(server: McpServer, ctx: McpContext): voi
       title: "Get team roster",
       description:
         "Get a team's roster for a date. By default, each player contains player_key, name, " +
-        "editorial_team_abbr, display_position, selected_position, and status. Set full=true " +
-        "for player_key, player_id, name, editorial_team_abbr, editorial_team_full_name, " +
-        "display_position, position_type, primary_position, eligible_positions, status, " +
-        "status_full, injury_note, on_disabled_list, is_undroppable, selected_position, " +
-        "is_flex, and is_starting. Set includeStats=true for the default fields plus player_stats.",
+        "editorial_team_abbr, display_position, selected_position, status, and is_starting. " +
+        "Set keyOnly=true to return only the player_key array.",
       inputSchema: {
         teamKey: z.string().optional().describe("Team key; defaults to configured team"),
         date: z.string().optional().describe("Date as YYYY-MM-DD; defaults to today"),
-        includeStats: z
+        keyOnly: z
           .boolean()
           .optional()
-          .describe("Add player_stats to the six default player fields; cannot be combined with full=true"),
-        full: z
-          .boolean()
-          .optional()
-          .describe("Return the detailed player fields, including eligible_positions, injury fields, and is_starting; cannot be combined with includeStats=true"),
+          .describe("Return only an array of player_key values"),
       },
       annotations: READ_ONLY,
     },
-    async ({ teamKey, date, includeStats = false, full = false }) => {
-      if (full && includeStats) {
-        throw new Error("get_roster accepts either full=true or includeStats=true, not both.");
-      }
+    async ({ teamKey, date, keyOnly = false }) => {
       const tk = ctx.resolveTeamKey(teamKey);
       const rosterDate = date || today();
-      const statsSuffix = includeStats ? ";out=stats" : "";
-      const data = await ctx.yahoo.get(
-        `/team/${tk}/roster;date=${rosterDate}/players${statsSuffix}`,
-      );
-      return jsonResult(
-        full
-          ? mapRosterFull(data)
-          : includeStats
-            ? mapRosterCompactWithStats(data)
-            : mapRosterCompact(data),
-      );
+      const data = await ctx.yahoo.get(`/team/${tk}/roster;date=${rosterDate}/players`);
+      return jsonResult(keyOnly ? mapRosterKeys(data) : mapRosterCompact(data));
+    },
+  );
+
+  // GET /team/{teamKey}/roster;date={date}/players;out=stats
+  server.registerTool(
+    "get_roster_stats",
+    {
+      title: "Get team roster with stats",
+      description:
+        "Get a team's roster and Yahoo player stats for a date. Each player includes the " +
+        "detailed profile, injury, eligibility, lineup, and player_stats fields.",
+      inputSchema: {
+        teamKey: z.string().optional().describe("Team key; defaults to configured team"),
+        date: z.string().optional().describe("Date as YYYY-MM-DD; defaults to today"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ teamKey, date }) => {
+      const tk = ctx.resolveTeamKey(teamKey);
+      const rosterDate = date || today();
+      const data = await ctx.yahoo.get(`/team/${tk}/roster;date=${rosterDate}/players;out=stats`);
+      return jsonResult(mapRosterStats(data));
     },
   );
 }

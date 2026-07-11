@@ -14,6 +14,16 @@
       "display_position": "C",
       "selected_position": "C",
       "status": null,
+      "player_id": 11732,
+      "editorial_team_full_name": "Baltimore Orioles",
+      "position_type": "B",
+      "primary_position": "C",
+      "eligible_positions": [
+        "C",
+        "Util"
+      ],
+      "is_undroppable": 0,
+      "is_starting": 0,
       "player_stats": {
         "coverage_type": "date",
         "date": "2026-06-20",
@@ -62,6 +72,16 @@
       "display_position": "1B",
       "selected_position": "1B",
       "status": null,
+      "player_id": 10235,
+      "editorial_team_full_name": "San Francisco Giants",
+      "position_type": "B",
+      "primary_position": "1B",
+      "eligible_positions": [
+        "1B",
+        "Util"
+      ],
+      "is_undroppable": 0,
+      "is_starting": 1,
       "player_stats": {
         "coverage_type": "date",
         "date": "2026-06-20",
@@ -110,6 +130,17 @@
       "display_position": "2B,SS",
       "selected_position": "2B",
       "status": null,
+      "player_id": 12100,
+      "editorial_team_full_name": "Miami Marlins",
+      "position_type": "B",
+      "primary_position": "2B",
+      "eligible_positions": [
+        "2B",
+        "SS",
+        "Util"
+      ],
+      "is_undroppable": 0,
+      "is_starting": 1,
       "player_stats": {
         "coverage_type": "date",
         "date": "2026-06-20",
