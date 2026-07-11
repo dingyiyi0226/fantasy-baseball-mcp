@@ -31,7 +31,7 @@ Apply this lens throughout, especially in Phase 2:
   streaming gain. A strong everyday bat or anchor SP is worth more across the season than a
   marginal category point this week. Prefer dropping low-value/role-less players for short-term
   streams; protect cornerstones.
-- **Read the clock.** The day type (from Phase 0) changes the math: early-week moves bank value
+- **Read the clock.** The day type (resolved from the active-week matchup in Phase 1A) changes the math: early-week moves bank value
   and can be speculative; the last three days switch to margin-building. Do not merely preserve
   the current score; widen any category the opponent can still flip, including categories currently
   being won by a slim margin.
@@ -58,12 +58,14 @@ Savant/FanGraphs/MLB stat endpoints. Within each team, batch tool calls where po
 
 ## Phase 0 — Setup
 
-Call `fantasy_status` to confirm auth. Then call `get_league_scoring_categories` and
-`get_league` (standings, current week, `week_start`, `week_end`).
+Call `fantasy_status` to confirm auth. Then call `get_league_metadata` for the current week and
+season dates, and `get_league_scoring_categories` for the league's scored categories. Do not call
+`get_league` during setup: its teams, settings, and standings are not needed for a daily review.
 
 Set `currentWeek` from the league's current week.
 
-Determine **day type** by comparing `lineupDate` to `week_end`:
+After Phase 1A returns the active-week matchup's `week_end`, determine **day type** by comparing it
+to `lineupDate`:
 - **Final day** -> maximize the win aggressively: build margin in every category the opponent can
   still flip, chase every close/tied/flippable losing cat, and assume the opponent may activate all
   confirmed starters and obvious bench upgrades. Accept damage to already-lost categories when it
@@ -146,7 +148,7 @@ in Phase 1, challenge the initial assessment with contextual data before finaliz
 ### A — Matchup Strategy
 
 Before evaluating individual players, set the week's strategy using the guiding principle. From
-the Phase 1 scoreboard, opponent roster pressure, and the Phase 0 day type, classify every category:
+the Phase 1 scoreboard, opponent roster pressure, and the Phase 1A day type, classify every category:
 
 - **Winning safely** -> protect; don't make moves that risk it.
 - **Winning but vulnerable** -> build margin; in the final three days, treat slim leads as attack targets.

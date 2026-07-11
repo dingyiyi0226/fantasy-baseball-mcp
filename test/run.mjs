@@ -42,6 +42,7 @@ const CASES = [
   ["list_games", "mapListGames"],
   ["list_leagues", "mapListLeagues"],
   ["get_league", "mapLeague"],
+  ["get_league_metadata", "mapLeagueMetadata", "get_league"],
   ["list_teams", "mapListTeams"],
   ["get_team", "mapTeam"],
   ["get_roster", "mapRosterCompact"],

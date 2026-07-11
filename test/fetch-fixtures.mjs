@@ -216,6 +216,7 @@ const endpoints = [
   { tool: "list_games", mapper: "mapListGames", path: "/users;use_login=1/games;out=leagues,teams" },
   { tool: "list_leagues", mapper: "mapListLeagues", path: "/users;use_login=1/games;out=leagues" },
   { tool: "get_league", mapper: "mapLeague", path: `/league/${lk};out=teams,settings,standings` },
+  { tool: "get_league_metadata", mapper: "mapLeagueMetadata", path: `/league/${lk}` },
   { tool: "list_teams", mapper: "mapListTeams", path: `/league/${lk}/teams` },
   { tool: "get_team", mapper: "mapTeam", path: `/team/${tk};out=stats,standings` },
   { tool: "get_roster", mapper: "mapRosterCompact", path: `/team/${tk}/roster;date=2026-06-20/players` },

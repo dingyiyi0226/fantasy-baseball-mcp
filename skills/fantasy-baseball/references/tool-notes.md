@@ -40,6 +40,11 @@
   default team, explicit user-provided team keys, or the teams surfaced by `fantasy_status`.
 - Never publish or hardcode a user's personal league key, team key, or team name in this skill.
 
+### `get_league_metadata` / `get_league`
+- Use `get_league_metadata` when only the current week and league/season dates are needed, such as
+  daily-review setup. It deliberately omits teams, settings, and standings.
+- Use `get_league` only when the league settings, team list, or standings are needed.
+
 ### `list_teams` / `get_team`
 - `list_teams` is the lightweight league-wide discovery tool; it returns only `team_key` and
   `name`. If those fields are enough, stop there—do not also call `get_league`.

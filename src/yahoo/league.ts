@@ -96,6 +96,14 @@ export function mapLeague(data: any) {
   };
 }
 
+/** Map the lightweight league-metadata response. */
+export function mapLeagueMetadata(data: any) {
+  const league = data?.league;
+  if (!league) return data;
+
+  return { league: mapLeagueHeader(league) };
+}
+
 /** Map the list_leagues response. */
 export function mapListLeagues(data: any) {
   const games = asArray(data?.users?.user?.games?.game);
@@ -157,6 +165,27 @@ export function registerLeagueTools(server: McpServer, ctx: McpContext): void {
       const lk = ctx.resolveLeagueKey(leagueKey);
       const data = await ctx.yahoo.get(`/league/${lk};out=teams,settings,standings`);
       return jsonResult(mapLeague(data));
+    },
+  );
+
+  // GET /league/{leagueKey}
+  server.registerTool(
+    "get_league_metadata",
+    {
+      title: "Get league metadata",
+      description:
+        "Get lightweight league metadata such as the current matchup week and season dates. " +
+        "Does not include teams, settings, or standings. Defaults to the configured league when " +
+        "leagueKey is omitted.",
+      inputSchema: {
+        leagueKey: z.string().optional().describe("League key, e.g. 431.l.12345"),
+      },
+      annotations: READ_ONLY,
+    },
+    async ({ leagueKey }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const data = await ctx.yahoo.get(`/league/${lk}`);
+      return jsonResult(mapLeagueMetadata(data));
     },
   );
 
