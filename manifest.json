@@ -30,33 +30,6 @@
       }
     }
   },
-  "tools": [
-    { "name": "fantasy_status", "description": "Check whether setup is complete and what to do next." },
-    { "name": "fantasy_login", "description": "Start setup: show the Yahoo app guide and return the authorization link." },
-    { "name": "fantasy_authorize", "description": "Finish setup using the verification code from Yahoo." },
-    { "name": "fantasy_select_team", "description": "Set your default league and team." },
-    { "name": "fantasy_logout", "description": "Remove saved Yahoo credentials and disconnect." },
-    { "name": "list_games", "description": "Discover your baseball leagues and the team you own in each." },
-    { "name": "get_game", "description": "Get a fantasy game's details." },
-    { "name": "list_leagues", "description": "List each fantasy game and its leagues' keys and names." },
-    { "name": "get_league", "description": "Get a league's teams, settings, and current standings." },
-    { "name": "list_teams", "description": "List teams in a league with only team keys and names." },
-    { "name": "get_team", "description": "Get detailed metadata, season stats, points, and standings for one team; excludes roster and matchup history." },
-    { "name": "get_roster", "description": "Get a team's roster for a date. It defaults to a compact six-field player view; use full=true for standard roster details or includeStats=true for per-player Yahoo stats." },
-    { "name": "get_team_stats", "description": "Get a team's aggregated stats for a scoring week or the whole season." },
-    { "name": "get_league_scoreboard", "description": "Get every head-to-head pairing in a league for one week, with team keys/names but no per-team stats." },
-    { "name": "get_team_matchup_history", "description": "Get one team's matchup history with weekly stats for both teams; filter to specific weeks when needed." },
-    { "name": "get_player_stats", "description": "Get stats for one or more players on a specific date." },
-    { "name": "list_players", "description": "List/browse ranked players (incl. free agents) with ownership but no stats." },
-    { "name": "rank_players", "description": "Rank league players and free agents by a stat or overall rank, with stats (heavier than list_players)." },
-    { "name": "rank_game_players", "description": "Rank all Yahoo baseball players by a stat or overall rank, without league-specific ownership or scoring context." },
-    { "name": "search_players", "description": "Search players by name to resolve a player_key; optionally filter by availability status or position." },
-    { "name": "get_league_scoring_categories", "description": "Get the stat categories used for scoring in this league (e.g. R, HR, ERA, WHIP)." },
-    { "name": "get_transactions", "description": "Get recent transactions (adds, drops, trades) in a league." },
-    { "name": "analyze_player_stats", "description": "Fetch advanced stats (Statcast, FanGraphs) for a player — use before add/drop decisions." },
-    { "name": "analyze_roster_stats", "description": "Fetch advanced stats for every player on a roster — use for lineup and waiver decisions." },
-    { "name": "list_probable_starters", "description": "List probable starting pitchers across MLB for a date (opponent, home/away, time); optionally label each by Yahoo ownership." }
-  ],
   "user_config": {
     "client_id": {
       "type": "string",
