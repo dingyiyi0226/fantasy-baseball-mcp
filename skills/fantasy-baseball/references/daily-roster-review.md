@@ -93,7 +93,17 @@ Call `get_team_matchup_history` with `weeks: [currentWeek]` for the active week 
 `get_team_stats` with `period: "week", week: currentWeek` if matchup data is sparse). Use
 `get_league_scoreboard` with `week: currentWeek` only when the full league's pairings are also
 needed.
-Produce a compact category table: your totals vs. opponent totals for IP, W, SV, ERA, WHIP, K/BB, QS, BSV.
+Produce the category scoreboard in exactly this form (substitute the current matchup totals):
+
+| R | HR | RBI | SB | HBP | TB | OBP |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 26–28 | 8–7 | 26–23 | 1–1 | 0–4 | 69–85 | .303–.321 |
+| L | W | W | T | L | L | L |
+
+| W | SV | ERA | WHIP | K/BB | QS | BSV |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 2–1 | 1–2 | 3.64–6.26 | 1.40–1.54 | 3.33–2.31 | 4–1 | 0–1 |
+| W | L | W | W | W | W | W |
 
 ### B — Your Roster & Availability
 
@@ -254,8 +264,9 @@ For each team, output these sections in order:
 6. **Recommended**
 
 Rules:
-- Use markdown tables for the category scoreboard and compact supporting evidence only. Write
-  lineup and add/drop actions as plain, one-line moves so a manager can scan them quickly.
+- Use the exact batting-then-pitching category-scoreboard template in Phase 1A. Use markdown
+  tables for compact supporting evidence only. Write lineup and add/drop actions as plain,
+  one-line moves so a manager can scan them quickly.
 - **Decision Rationale** gives each non-trivial action a brief **Why** and compact **Evidence**;
   use a short action identifier when helpful.
 - **Recommended** and **Executed** contain only clean action lines.
