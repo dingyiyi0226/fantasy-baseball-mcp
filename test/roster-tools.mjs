@@ -33,16 +33,17 @@ assert.ok(!("full" in registered.get("get_roster").definition.inputSchema));
 assert.ok(!("includeStats" in registered.get("get_roster").definition.inputSchema));
 
 const parseResult = (result) => JSON.parse(result.content[0].text);
+const tableValue = (table, rowIndex, column) => table.rows[rowIndex][table.columns.indexOf(column)];
 const keyOnly = parseResult(await registered.get("get_roster").handler({ keyOnly: true }));
 assert.deepEqual(keyOnly, ["123.p.11732", "123.p.10235", "123.p.12100"]);
 
 const roster = parseResult(await registered.get("get_roster").handler({}));
-assert.equal(roster.players[0].is_starting, 0);
+assert.equal(tableValue(roster.players, 0, "is_starting"), 0);
 
 const rosterStats = parseResult(await registered.get("get_roster_stats").handler({}));
-assert.equal(rosterStats.players[0].player_id, 11732);
-assert.equal(rosterStats.players[0].is_starting, 0);
-assert.ok(rosterStats.players[0].player_stats);
+assert.equal(tableValue(rosterStats.players, 0, "player_id"), 11732);
+assert.equal(tableValue(rosterStats.players, 0, "is_starting"), 0);
+assert.ok(tableValue(rosterStats.players, 0, "player_stats"));
 assert.ok(requests.some((path) => path.endsWith("/players;out=stats")));
 
 console.log("Roster tool contracts pass.");

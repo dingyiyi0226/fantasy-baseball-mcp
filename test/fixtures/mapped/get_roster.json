@@ -6,33 +6,44 @@
     "is_owned_by_current_login": 1
   },
   "roster_date": "2026-06-20",
-  "players": [
-    {
-      "player_key": "123.p.11732",
-      "name": "Adley Rutschman",
-      "editorial_team_abbr": "BAL",
-      "display_position": "C",
-      "selected_position": "C",
-      "status": null,
-      "is_starting": 0
-    },
-    {
-      "player_key": "123.p.10235",
-      "name": "Rafael Devers",
-      "editorial_team_abbr": "SF",
-      "display_position": "1B",
-      "selected_position": "1B",
-      "status": null,
-      "is_starting": 1
-    },
-    {
-      "player_key": "123.p.12100",
-      "name": "Otto Lopez",
-      "editorial_team_abbr": "MIA",
-      "display_position": "2B,SS",
-      "selected_position": "2B",
-      "status": null,
-      "is_starting": 1
-    }
-  ]
+  "players": {
+    "columns": [
+      "player_key",
+      "name",
+      "editorial_team_abbr",
+      "display_position",
+      "selected_position",
+      "status",
+      "is_starting"
+    ],
+    "rows": [
+      [
+        "123.p.11732",
+        "Adley Rutschman",
+        "BAL",
+        "C",
+        "C",
+        null,
+        0
+      ],
+      [
+        "123.p.10235",
+        "Rafael Devers",
+        "SF",
+        "1B",
+        "1B",
+        null,
+        1
+      ],
+      [
+        "123.p.12100",
+        "Otto Lopez",
+        "MIA",
+        "2B,SS",
+        "2B",
+        null,
+        1
+      ]
+    ]
+  }
 }

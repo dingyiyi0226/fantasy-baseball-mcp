@@ -10,38 +10,49 @@
       "type": "add/drop",
       "status": "successful",
       "timestamp": 1782055825,
-      "players": [
-        {
-          "player_key": "123.p.60223",
-          "player_id": 60223,
-          "name": "Walbert Ureña",
-          "editorial_team_abbr": "LAA",
-          "display_position": "SP",
-          "position_type": "P",
-          "transaction_data": {
-            "type": "add",
-            "source_type": "freeagents",
-            "destination_type": "team",
-            "destination_team_key": "123.l.12345.t.7",
-            "destination_team_name": "Team 7"
-          }
-        },
-        {
-          "player_key": "123.p.12158",
-          "player_id": 12158,
-          "name": "J.T. Ginn",
-          "editorial_team_abbr": "ATH",
-          "display_position": "SP,RP",
-          "position_type": "P",
-          "transaction_data": {
-            "type": "drop",
-            "source_type": "team",
-            "source_team_key": "123.l.12345.t.7",
-            "source_team_name": "Team 7",
-            "destination_type": "freeagents"
-          }
-        }
-      ]
+      "players": {
+        "columns": [
+          "player_key",
+          "player_id",
+          "name",
+          "editorial_team_abbr",
+          "display_position",
+          "position_type",
+          "transaction_data"
+        ],
+        "rows": [
+          [
+            "123.p.60223",
+            60223,
+            "Walbert Ureña",
+            "LAA",
+            "SP",
+            "P",
+            {
+              "type": "add",
+              "source_type": "freeagents",
+              "destination_type": "team",
+              "destination_team_key": "123.l.12345.t.7",
+              "destination_team_name": "Team 7"
+            }
+          ],
+          [
+            "123.p.12158",
+            12158,
+            "J.T. Ginn",
+            "ATH",
+            "SP,RP",
+            "P",
+            {
+              "type": "drop",
+              "source_type": "team",
+              "source_team_key": "123.l.12345.t.7",
+              "source_team_name": "Team 7",
+              "destination_type": "freeagents"
+            }
+          ]
+        ]
+      }
     },
     {
       "transaction_key": "123.l.12345.tr.248",
@@ -49,38 +60,49 @@
       "type": "add/drop",
       "status": "successful",
       "timestamp": 1782045443,
-      "players": [
-        {
-          "player_key": "123.p.10909",
-          "player_id": 10909,
-          "name": "Trevor Rogers",
-          "editorial_team_abbr": "BAL",
-          "display_position": "SP",
-          "position_type": "P",
-          "transaction_data": {
-            "type": "add",
-            "source_type": "freeagents",
-            "destination_type": "team",
-            "destination_team_key": "123.l.12345.t.4",
-            "destination_team_name": "Team 4"
-          }
-        },
-        {
-          "player_key": "123.p.11750",
-          "player_id": 11750,
-          "name": "Nick Lodolo",
-          "editorial_team_abbr": "CIN",
-          "display_position": "SP",
-          "position_type": "P",
-          "transaction_data": {
-            "type": "drop",
-            "source_type": "team",
-            "source_team_key": "123.l.12345.t.4",
-            "source_team_name": "Team 4",
-            "destination_type": "freeagents"
-          }
-        }
-      ]
+      "players": {
+        "columns": [
+          "player_key",
+          "player_id",
+          "name",
+          "editorial_team_abbr",
+          "display_position",
+          "position_type",
+          "transaction_data"
+        ],
+        "rows": [
+          [
+            "123.p.10909",
+            10909,
+            "Trevor Rogers",
+            "BAL",
+            "SP",
+            "P",
+            {
+              "type": "add",
+              "source_type": "freeagents",
+              "destination_type": "team",
+              "destination_team_key": "123.l.12345.t.4",
+              "destination_team_name": "Team 4"
+            }
+          ],
+          [
+            "123.p.11750",
+            11750,
+            "Nick Lodolo",
+            "CIN",
+            "SP",
+            "P",
+            {
+              "type": "drop",
+              "source_type": "team",
+              "source_team_key": "123.l.12345.t.4",
+              "source_team_name": "Team 4",
+              "destination_type": "freeagents"
+            }
+          ]
+        ]
+      }
     },
     {
       "transaction_key": "123.l.12345.tr.247",
@@ -88,23 +110,34 @@
       "type": "add",
       "status": "successful",
       "timestamp": 1781879872,
-      "players": [
-        {
-          "player_key": "123.p.12500",
-          "player_id": 12500,
-          "name": "Randy Vásquez",
-          "editorial_team_abbr": "SD",
-          "display_position": "SP",
-          "position_type": "P",
-          "transaction_data": {
-            "type": "add",
-            "source_type": "freeagents",
-            "destination_type": "team",
-            "destination_team_key": "123.l.12345.t.10",
-            "destination_team_name": "Team 10"
-          }
-        }
-      ]
+      "players": {
+        "columns": [
+          "player_key",
+          "player_id",
+          "name",
+          "editorial_team_abbr",
+          "display_position",
+          "position_type",
+          "transaction_data"
+        ],
+        "rows": [
+          [
+            "123.p.12500",
+            12500,
+            "Randy Vásquez",
+            "SD",
+            "SP",
+            "P",
+            {
+              "type": "add",
+              "source_type": "freeagents",
+              "destination_type": "team",
+              "destination_team_key": "123.l.12345.t.10",
+              "destination_team_name": "Team 10"
+            }
+          ]
+        ]
+      }
     }
   ]
 }

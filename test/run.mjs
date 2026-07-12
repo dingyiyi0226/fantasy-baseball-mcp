@@ -112,6 +112,23 @@ if (
   console.log("  FAIL stats use compact self-describing row tables");
 }
 
+const compactPlayers = mappers.mapRecordsTable([
+  { player_key: "123.p.1", name: "Player One", status: undefined },
+  { player_key: "123.p.2", name: "Player Two", status: "DTD" },
+]);
+if (
+  JSON.stringify(compactPlayers) ===
+  JSON.stringify({
+    columns: ["player_key", "name", "status"],
+    rows: [["123.p.1", "Player One", null], ["123.p.2", "Player Two", "DTD"]],
+  })
+) {
+  console.log("  ok   players use compact self-describing row tables");
+} else {
+  failed++;
+  console.log("  FAIL players use compact self-describing row tables");
+}
+
 const registeredTools = new Map();
 const defaultRequests = [];
 mappers.registerMatchupTools(

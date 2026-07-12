@@ -6,193 +6,211 @@
     "is_owned_by_current_login": 1
   },
   "roster_date": "2026-06-20",
-  "players": [
-    {
-      "player_key": "123.p.11732",
-      "name": "Adley Rutschman",
-      "editorial_team_abbr": "BAL",
-      "display_position": "C",
-      "selected_position": "C",
-      "status": null,
-      "player_id": 11732,
-      "editorial_team_full_name": "Baltimore Orioles",
-      "position_type": "B",
-      "primary_position": "C",
-      "eligible_positions": [
+  "players": {
+    "columns": [
+      "player_key",
+      "name",
+      "editorial_team_abbr",
+      "display_position",
+      "selected_position",
+      "status",
+      "player_id",
+      "editorial_team_full_name",
+      "position_type",
+      "primary_position",
+      "eligible_positions",
+      "is_undroppable",
+      "is_starting",
+      "player_stats"
+    ],
+    "rows": [
+      [
+        "123.p.11732",
+        "Adley Rutschman",
+        "BAL",
         "C",
-        "Util"
-      ],
-      "is_undroppable": 0,
-      "is_starting": 0,
-      "player_stats": {
-        "coverage_type": "date",
-        "date": "2026-06-20",
-        "stats": {
-          "columns": [
-            "stat_id",
-            "value"
-          ],
-          "rows": [
-            [
-              60,
-              "-/-"
+        "C",
+        null,
+        11732,
+        "Baltimore Orioles",
+        "B",
+        "C",
+        [
+          "C",
+          "Util"
+        ],
+        0,
+        0,
+        {
+          "coverage_type": "date",
+          "date": "2026-06-20",
+          "stats": {
+            "columns": [
+              "stat_id",
+              "value"
             ],
-            [
-              7,
-              "-"
-            ],
-            [
-              12,
-              "-"
-            ],
-            [
-              13,
-              "-"
-            ],
-            [
-              16,
-              "-"
-            ],
-            [
-              20,
-              "-"
-            ],
-            [
-              23,
-              "-"
-            ],
-            [
-              4,
-              "-"
+            "rows": [
+              [
+                60,
+                "-/-"
+              ],
+              [
+                7,
+                "-"
+              ],
+              [
+                12,
+                "-"
+              ],
+              [
+                13,
+                "-"
+              ],
+              [
+                16,
+                "-"
+              ],
+              [
+                20,
+                "-"
+              ],
+              [
+                23,
+                "-"
+              ],
+              [
+                4,
+                "-"
+              ]
             ]
-          ]
+          }
         }
-      }
-    },
-    {
-      "player_key": "123.p.10235",
-      "name": "Rafael Devers",
-      "editorial_team_abbr": "SF",
-      "display_position": "1B",
-      "selected_position": "1B",
-      "status": null,
-      "player_id": 10235,
-      "editorial_team_full_name": "San Francisco Giants",
-      "position_type": "B",
-      "primary_position": "1B",
-      "eligible_positions": [
+      ],
+      [
+        "123.p.10235",
+        "Rafael Devers",
+        "SF",
         "1B",
-        "Util"
-      ],
-      "is_undroppable": 0,
-      "is_starting": 1,
-      "player_stats": {
-        "coverage_type": "date",
-        "date": "2026-06-20",
-        "stats": {
-          "columns": [
-            "stat_id",
-            "value"
-          ],
-          "rows": [
-            [
-              60,
-              "0/4"
+        "1B",
+        null,
+        10235,
+        "San Francisco Giants",
+        "B",
+        "1B",
+        [
+          "1B",
+          "Util"
+        ],
+        0,
+        1,
+        {
+          "coverage_type": "date",
+          "date": "2026-06-20",
+          "stats": {
+            "columns": [
+              "stat_id",
+              "value"
             ],
-            [
-              7,
-              0
-            ],
-            [
-              12,
-              0
-            ],
-            [
-              13,
-              0
-            ],
-            [
-              16,
-              0
-            ],
-            [
-              20,
-              0
-            ],
-            [
-              23,
-              0
-            ],
-            [
-              4,
-              0
+            "rows": [
+              [
+                60,
+                "0/4"
+              ],
+              [
+                7,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                23,
+                0
+              ],
+              [
+                4,
+                0
+              ]
             ]
-          ]
+          }
         }
-      }
-    },
-    {
-      "player_key": "123.p.12100",
-      "name": "Otto Lopez",
-      "editorial_team_abbr": "MIA",
-      "display_position": "2B,SS",
-      "selected_position": "2B",
-      "status": null,
-      "player_id": 12100,
-      "editorial_team_full_name": "Miami Marlins",
-      "position_type": "B",
-      "primary_position": "2B",
-      "eligible_positions": [
+      ],
+      [
+        "123.p.12100",
+        "Otto Lopez",
+        "MIA",
+        "2B,SS",
         "2B",
-        "SS",
-        "Util"
-      ],
-      "is_undroppable": 0,
-      "is_starting": 1,
-      "player_stats": {
-        "coverage_type": "date",
-        "date": "2026-06-20",
-        "stats": {
-          "columns": [
-            "stat_id",
-            "value"
-          ],
-          "rows": [
-            [
-              60,
-              "1/5"
+        null,
+        12100,
+        "Miami Marlins",
+        "B",
+        "2B",
+        [
+          "2B",
+          "SS",
+          "Util"
+        ],
+        0,
+        1,
+        {
+          "coverage_type": "date",
+          "date": "2026-06-20",
+          "stats": {
+            "columns": [
+              "stat_id",
+              "value"
             ],
-            [
-              7,
-              2
-            ],
-            [
-              12,
-              0
-            ],
-            [
-              13,
-              0
-            ],
-            [
-              16,
-              1
-            ],
-            [
-              20,
-              0
-            ],
-            [
-              23,
-              1
-            ],
-            [
-              4,
-              0.2
+            "rows": [
+              [
+                60,
+                "1/5"
+              ],
+              [
+                7,
+                2
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ],
+              [
+                16,
+                1
+              ],
+              [
+                20,
+                0
+              ],
+              [
+                23,
+                1
+              ],
+              [
+                4,
+                0.2
+              ]
             ]
-          ]
+          }
         }
-      }
-    }
-  ]
+      ]
+    ]
+  }
 }

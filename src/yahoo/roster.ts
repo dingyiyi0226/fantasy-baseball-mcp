@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, textResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { mapCompactRosterPlayer, mapPlayerProfile, mapStatsTable } from "./mappers.js";
+import { mapCompactRosterPlayer, mapPlayerProfile, mapRecordsTable, mapStatsTable } from "./mappers.js";
 import { DESTRUCTIVE, WRITE_NOT_SUPPORTED } from "./writeSupport.js";
 import { escapeXml } from "./utils.js";
 
@@ -20,30 +20,32 @@ function mapRosterTeam(team: any) {
 export function mapRosterStats(data: any) {
   const team = data?.team;
   if (!team) return data;
+  const players = asArray(team.roster?.players?.player).map((player: any) => ({
+    ...mapCompactRosterPlayer(player),
+    ...mapPlayerProfile(player),
+    selected_position: player.selected_position?.position,
+    is_flex: player.selected_position?.is_flex || undefined,
+    is_starting: player.starting_status?.is_starting,
+    player_stats: mapStatsTable(player.player_stats),
+  }));
   return {
     team: mapRosterTeam(team),
     roster_date: team.roster?.date,
-    players: asArray(team.roster?.players?.player).map((player: any) => ({
-      ...mapCompactRosterPlayer(player),
-      ...mapPlayerProfile(player),
-      selected_position: player.selected_position?.position,
-      is_flex: player.selected_position?.is_flex || undefined,
-      is_starting: player.starting_status?.is_starting,
-      player_stats: mapStatsTable(player.player_stats),
-    })),
+    players: mapRecordsTable(players),
   };
 }
 
 export function mapRosterCompact(data: any) {
   const team = data?.team;
   if (!team) return data;
+  const players = asArray(team.roster?.players?.player).map((player: any) => ({
+    ...mapCompactRosterPlayer(player),
+    is_starting: player.starting_status?.is_starting,
+  }));
   return {
     team: mapRosterTeam(team),
     roster_date: team.roster?.date,
-    players: asArray(team.roster?.players?.player).map((player: any) => ({
-      ...mapCompactRosterPlayer(player),
-      is_starting: player.starting_status?.is_starting,
-    })),
+    players: mapRecordsTable(players),
   };
 }
 
@@ -60,7 +62,7 @@ export function registerRosterReadTools(server: McpServer, ctx: McpContext): voi
     {
       title: "Get team roster",
       description:
-        "Get a team's roster for a date. By default, each player contains player_key, name, " +
+        "Get a team's roster for a date. By default, each player row contains player_key, name, " +
         "editorial_team_abbr, display_position, selected_position, status, and is_starting. " +
         "Set keyOnly=true to return only the player_key array.",
       inputSchema: {

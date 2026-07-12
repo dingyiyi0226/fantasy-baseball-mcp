@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { mapLeagueHeader, mapPlayerProfile, mapStatsTable } from "./mappers.js";
+import { mapLeagueHeader, mapPlayerProfile, mapRecordsTable, mapStatsTable } from "./mappers.js";
 import { gameIdFromLeagueKey } from "./utils.js";
 import type { GameStatCategory } from "./game.js";
 
@@ -18,31 +18,33 @@ function mapOwnership(ownership: any) {
 }
 
 export function mapPlayerStats(data: any) {
+  const players = asArray(data?.players?.player).map((player: any) => ({
+    ...mapPlayerProfile(player),
+    player_stats: mapStatsTable(player.player_stats),
+  }));
   return {
-    players: asArray(data?.players?.player).map((player: any) => ({
-      ...mapPlayerProfile(player),
-      player_stats: mapStatsTable(player.player_stats),
-    })),
+    players: mapRecordsTable(players),
   };
 }
 
 export function mapRankPlayers(data: any) {
   const league = data?.league;
   if (!league) return data;
+  const players = asArray(league.players?.player).map((player: any) => ({
+    ...mapPlayerProfile(player),
+    ...(player.starting_status?.is_starting !== undefined
+      ? { is_starting: player.starting_status.is_starting }
+      : {}),
+    ...(player.batting_order?.order_num !== undefined
+      ? { batting_order: player.batting_order.order_num }
+      : {}),
+    ownership: mapOwnership(player.ownership),
+    player_stats: mapStatsTable(player.player_stats),
+    player_advanced_stats: mapStatsTable(player.player_advanced_stats),
+  }));
   return {
     league: mapLeagueHeader(league),
-    players: asArray(league.players?.player).map((player: any) => ({
-      ...mapPlayerProfile(player),
-      ...(player.starting_status?.is_starting !== undefined
-        ? { is_starting: player.starting_status.is_starting }
-        : {}),
-      ...(player.batting_order?.order_num !== undefined
-        ? { batting_order: player.batting_order.order_num }
-        : {}),
-      ownership: mapOwnership(player.ownership),
-      player_stats: mapStatsTable(player.player_stats),
-      player_advanced_stats: mapStatsTable(player.player_advanced_stats),
-    })),
+    players: mapRecordsTable(players),
   };
 }
 
@@ -68,6 +70,11 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
   const game = data?.game;
   if (!game) return data;
   const categoriesById = new Map(statCategories.map((category) => [category.stat_id, category]));
+  const players = asArray(game.players?.player).map((player: any) => ({
+    ...mapPlayerProfile(player),
+    player_stats: mapStatsWithCategories(player.player_stats, categoriesById),
+    player_advanced_stats: mapStatsTable(player.player_advanced_stats),
+  }));
   return {
     game: {
       game_key: game.game_key,
@@ -76,23 +83,20 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
       code: game.code,
       season: game.season,
     },
-    players: asArray(game.players?.player).map((player: any) => ({
-      ...mapPlayerProfile(player),
-      player_stats: mapStatsWithCategories(player.player_stats, categoriesById),
-      player_advanced_stats: mapStatsTable(player.player_advanced_stats),
-    })),
+    players: mapRecordsTable(players),
   };
 }
 
 export function mapPlayerList(data: any) {
   const league = data?.league;
   if (!league) return data;
+  const players = asArray(league.players?.player).map((player: any) => ({
+    ...mapPlayerProfile(player),
+    ownership: mapOwnership(player.ownership),
+  }));
   return {
     league: mapLeagueHeader(league),
-    players: asArray(league.players?.player).map((player: any) => ({
-      ...mapPlayerProfile(player),
-      ownership: mapOwnership(player.ownership),
-    })),
+    players: mapRecordsTable(players),
   };
 }
 

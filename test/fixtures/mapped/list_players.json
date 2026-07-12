@@ -24,66 +24,81 @@
     "is_cash_league": 0,
     "is_plus_league": 0
   },
-  "players": [
-    {
-      "player_key": "123.p.12521",
-      "player_id": 12521,
-      "name": "James Wood",
-      "editorial_team_abbr": "WSH",
-      "editorial_team_full_name": "Washington Nationals",
-      "display_position": "OF",
-      "position_type": "B",
-      "primary_position": "OF",
-      "eligible_positions": [
+  "players": {
+    "columns": [
+      "player_key",
+      "player_id",
+      "name",
+      "editorial_team_abbr",
+      "editorial_team_full_name",
+      "display_position",
+      "position_type",
+      "primary_position",
+      "eligible_positions",
+      "is_undroppable",
+      "ownership"
+    ],
+    "rows": [
+      [
+        "123.p.12521",
+        12521,
+        "James Wood",
+        "WSH",
+        "Washington Nationals",
         "OF",
-        "Util"
-      ],
-      "is_undroppable": 0,
-      "ownership": {
-        "ownership_type": "team",
-        "owner_team_key": "123.l.12345.t.4",
-        "owner_team_name": "Team 4"
-      }
-    },
-    {
-      "player_key": "123.p.10883",
-      "player_id": 10883,
-      "name": "Yordan Alvarez",
-      "editorial_team_abbr": "HOU",
-      "editorial_team_full_name": "Houston Astros",
-      "display_position": "OF",
-      "position_type": "B",
-      "primary_position": "OF",
-      "eligible_positions": [
+        "B",
         "OF",
-        "Util"
+        [
+          "OF",
+          "Util"
+        ],
+        0,
+        {
+          "ownership_type": "team",
+          "owner_team_key": "123.l.12345.t.4",
+          "owner_team_name": "Team 4"
+        }
       ],
-      "is_undroppable": 0,
-      "ownership": {
-        "ownership_type": "team",
-        "owner_team_key": "123.l.12345.t.4",
-        "owner_team_name": "Team 4"
-      }
-    },
-    {
-      "player_key": "123.p.60254",
-      "player_id": 60254,
-      "name": "Jacob Misiorowski",
-      "editorial_team_abbr": "MIL",
-      "editorial_team_full_name": "Milwaukee Brewers",
-      "display_position": "SP",
-      "position_type": "P",
-      "primary_position": "SP",
-      "eligible_positions": [
+      [
+        "123.p.10883",
+        10883,
+        "Yordan Alvarez",
+        "HOU",
+        "Houston Astros",
+        "OF",
+        "B",
+        "OF",
+        [
+          "OF",
+          "Util"
+        ],
+        0,
+        {
+          "ownership_type": "team",
+          "owner_team_key": "123.l.12345.t.4",
+          "owner_team_name": "Team 4"
+        }
+      ],
+      [
+        "123.p.60254",
+        60254,
+        "Jacob Misiorowski",
+        "MIL",
+        "Milwaukee Brewers",
         "SP",
-        "P"
-      ],
-      "is_undroppable": 0,
-      "ownership": {
-        "ownership_type": "team",
-        "owner_team_key": "123.l.12345.t.1",
-        "owner_team_name": "Team 1"
-      }
-    }
-  ]
+        "P",
+        "SP",
+        [
+          "SP",
+          "P"
+        ],
+        0,
+        {
+          "ownership_type": "team",
+          "owner_team_key": "123.l.12345.t.1",
+          "owner_team_name": "Team 1"
+        }
+      ]
+    ]
+  }
 }

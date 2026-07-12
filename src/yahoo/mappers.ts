@@ -1,9 +1,34 @@
 import { asArray } from "../util.js";
 
 /**
- * Compact Yahoo's repeated stat records into a self-describing row table.
+ * Compact repeated records into a self-describing row table.
  * Columns and rows stay together so clients do not need to align parallel arrays.
  */
+export function mapRecordsTable(
+  records: any[],
+  columns?: readonly string[],
+  mapRecord: (record: any) => Record<string, unknown> = (record) => record,
+) {
+  const mappedRecords = records.map(mapRecord);
+  const tableColumns =
+    columns ??
+    [
+      ...new Set(
+        mappedRecords.flatMap((record) =>
+          Object.entries(record)
+            .filter(([, value]) => value !== undefined)
+            .map(([column]) => column),
+        ),
+      ),
+    ];
+
+  return {
+    columns: tableColumns,
+    rows: mappedRecords.map((record) => tableColumns.map((column) => record[column] ?? null)),
+  };
+}
+
+/** Compact Yahoo's repeated stat records into a self-describing row table. */
 export function mapStatsTable(
   statBlock: any,
   columns: readonly string[] = ["stat_id", "value"],
@@ -13,14 +38,7 @@ export function mapStatsTable(
   const { stat, ...statsMetadata } = statBlock.stats;
   return {
     ...statBlock,
-    stats: {
-      ...statsMetadata,
-      columns,
-      rows: asArray(stat).map((stat: any) => {
-        const mappedStat = mapStat(stat);
-        return columns.map((column) => mappedStat[column] ?? null);
-      }),
-    },
+    stats: { ...statsMetadata, ...mapRecordsTable(asArray(stat), columns, mapStat) },
   };
 }
 

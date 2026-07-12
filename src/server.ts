@@ -44,6 +44,10 @@ Yahoo stats use compact row tables: \`stats.columns\` names the values in each
 corresponding \`stats.rows\` array. Read values by their shared position; do not
 treat the columns as unrelated lists.
 
+Repeated Yahoo player results use the same format: \`players.columns\` names
+the values in each \`players.rows\` array. \`keyOnly=true\` roster results remain
+a plain player-key array.
+
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact seven-field
   player view: player_key, name, editorial_team_abbr, display_position, selected_position,

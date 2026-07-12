@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, textResult, type McpContext } from "../mcp.js";
 import { asArray, str } from "../util.js";
+import { mapRecordsTable } from "./mappers.js";
 import { leagueKeyFromTeamKey, escapeXml } from "./utils.js";
 import { DESTRUCTIVE, WRITE_NOT_SUPPORTED } from "./writeSupport.js";
 
@@ -15,13 +16,8 @@ export function mapTransactions(data: any) {
       league_key: league.league_key,
       name: league.name,
     },
-    transactions: asArray(league.transactions?.transaction).map((transaction: any) => ({
-      transaction_key: transaction.transaction_key,
-      transaction_id: transaction.transaction_id,
-      type: transaction.type,
-      status: transaction.status,
-      timestamp: transaction.timestamp,
-      players: asArray(transaction.players?.player).map((player: any) => ({
+    transactions: asArray(league.transactions?.transaction).map((transaction: any) => {
+      const players = asArray(transaction.players?.player).map((player: any) => ({
         player_key: player.player_key,
         player_id: player.player_id,
         name: player.name?.full ?? player.name,
@@ -29,8 +25,16 @@ export function mapTransactions(data: any) {
         display_position: player.display_position,
         position_type: player.position_type,
         transaction_data: player.transaction_data,
-      })),
-    })),
+      }));
+      return {
+        transaction_key: transaction.transaction_key,
+        transaction_id: transaction.transaction_id,
+        type: transaction.type,
+        status: transaction.status,
+        timestamp: transaction.timestamp,
+        players: mapRecordsTable(players),
+      };
+    }),
   };
 }
 

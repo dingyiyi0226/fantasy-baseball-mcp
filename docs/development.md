@@ -18,6 +18,8 @@ npm run pack           # build .mcpb bundle
 
 Yahoo stat values use compact row tables: `stats.columns` defines the fields at each position in
 the corresponding `stats.rows` arrays.
+Yahoo player lists use the same `players.columns` / `players.rows` format; `get_roster` with
+`keyOnly=true` remains a plain player-key array.
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`

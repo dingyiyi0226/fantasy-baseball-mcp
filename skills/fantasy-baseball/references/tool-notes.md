@@ -8,6 +8,8 @@
   same position.
 - Typical tables use `columns: ["stat_id", "value"]`; Yahoo-wide player rankings also include
   `name` and `display_name` columns.
+- Yahoo player lists use the same `columns` / `rows` format. `get_roster` with `keyOnly=true`
+  remains a plain player-key array.
 
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
@@ -26,7 +28,7 @@
 
 ### `get_roster`
 - Accepts `date` parameter in `YYYY-MM-DD` format.
-- Defaults to `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, `status`, and `is_starting`. Use `keyOnly=true` to return only an array of player keys.
+- Player rows default to `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, `status`, and `is_starting`. Use `keyOnly=true` to return only an array of player keys.
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
 
