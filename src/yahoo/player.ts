@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { liftStatsTable, mapLeagueHeader, mapPlayerProfile, mapRecordsTable } from "./mappers.js";
+import { liftStatsTable, mapLeagueHeader, mapPlayerProfile, mapPlayerStatsProfile, mapRecordsTable } from "./mappers.js";
 import { gameIdFromLeagueKey } from "./utils.js";
 import type { GameStatCategory } from "./game.js";
 
@@ -19,7 +19,7 @@ function mapOwnership(ownership: any) {
 
 export function mapPlayerStats(data: any) {
   const players = asArray(data?.players?.player).map((player: any) => ({
-    ...mapPlayerProfile(player),
+    ...mapPlayerStatsProfile(player),
     ...liftStatsTable("player_stats", player.player_stats),
   }));
   return {
@@ -31,7 +31,7 @@ export function mapRankPlayers(data: any) {
   const league = data?.league;
   if (!league) return data;
   const players = asArray(league.players?.player).map((player: any) => ({
-    ...mapPlayerProfile(player),
+    ...mapPlayerStatsProfile(player),
     ...(player.starting_status?.is_starting !== undefined
       ? { is_starting: player.starting_status.is_starting }
       : {}),
@@ -71,7 +71,7 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
   if (!game) return data;
   const categoriesById = new Map(statCategories.map((category) => [category.stat_id, category]));
   const players = asArray(game.players?.player).map((player: any) => ({
-    ...mapPlayerProfile(player),
+    ...mapPlayerStatsProfile(player),
     ...liftStatsWithCategories(player.player_stats, categoriesById),
     ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
   }));

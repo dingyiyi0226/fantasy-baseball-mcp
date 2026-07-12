@@ -157,6 +157,12 @@ export function mapPlayerProfile(p: any) {
   };
 }
 
+/** Detailed player profile for stat and ranking results, without redundant position/team labels. */
+export function mapPlayerStatsProfile(p: any) {
+  const { editorial_team_full_name, display_position, primary_position, ...profile } = mapPlayerProfile(p);
+  return profile;
+}
+
 /** Minimal player projection shared by compact roster views. */
 export function mapCompactRosterPlayer(p: any) {
   return {

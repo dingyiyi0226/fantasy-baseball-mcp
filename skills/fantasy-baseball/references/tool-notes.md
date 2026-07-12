@@ -35,7 +35,7 @@
 
 ### `get_roster_stats`
 - Use only when Yahoo player stats or detailed player profile, injury, eligibility, or lineup fields are needed.
-- Returns every `get_roster` field plus `player_id`, `editorial_team_full_name`, `position_type`, `primary_position`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`.
+- Returns detailed player data including `player_id`, `editorial_team_abbr`, `position_type`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`; it also includes `selected_position`, `status`, and `is_starting` from the roster.
 
 ### `list_probable_starters`
 - For roster reviews, call once per date with `date=lineupDate, fantasyContext=false` and join the

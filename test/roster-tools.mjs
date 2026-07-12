@@ -42,6 +42,7 @@ assert.equal(tableValue(roster.players, 0, "is_starting"), 0);
 
 const rosterStats = parseResult(await registered.get("get_roster_stats").handler({}));
 assert.equal(tableValue(rosterStats.players, 0, "player_id"), 11732);
+assert.equal(tableValue(rosterStats.players, 0, "status"), null);
 assert.equal(tableValue(rosterStats.players, 0, "is_starting"), 0);
 const playerStats = tableValue(rosterStats.players, 0, "player_stats");
 assert.equal(playerStats.coverage_type, "date");
