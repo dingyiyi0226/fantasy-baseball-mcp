@@ -111,6 +111,10 @@ Call `get_roster` with `teamKey=currentTeamKey, date=lineupDate`. Join its pitch
 probable-starter board locally by normalized player name and MLB team abbreviation. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
+- Identify every IL/NA-status player occupying an active or `BN` slot, the available `IL`/`NA`
+  reserve slots, and whether that player can legally move into a vacant matching reserve slot.
+  Prioritize that placement before ordinary start/bench choices: it frees a standard roster spot
+  without dropping anyone.
 - Identify pitchers with a start on `lineupDate` from the `list_probable_starters` result.
 - Output: a start/sit candidate list with slot positions and "playing on lineupDate? y/n".
 
@@ -151,6 +155,10 @@ Use the `list_probable_starters` board first to identify SPs who are actually pr
 
 Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from offset ~75 until
 >=8 free agents are found in the returned `ownership.ownership_type` values.
+- Before identifying a drop candidate, check the roster assignments after any proposed IL/NA
+  placement. If a standard roster slot is empty, prefer an add-only recommendation; do not pair
+  the add with a drop merely because a replaceable player exists. Recommend an add/drop only when
+  no empty slot remains, or Yahoo's transaction page confirms that a drop is required.
 - Rank by the team's weakest categories.
 - Judge "hot" from `recent14d`/`recent30d` only when those keys are present; if absent,
   use the season line and do not label the player hot.
@@ -175,6 +183,9 @@ Write a one-line strategy per team. On any of the final three days, also answer 
 is enough to prevent a flip after considering the opponent's best plausible active roster.
 
 ### B — Identify Targets
+
+First, finalize each legal IL/NA placement identified in Phase 1B. Treat the newly freed standard
+slot as available roster capacity when evaluating add targets.
 
 From Phase 1, select:
 - All non-trivial start/sit candidates
@@ -235,7 +246,9 @@ workflow and follow that skill's surface-specific execution steps. If browser-dr
 is unavailable, fall back to the manual checklist. After a first browser timeout, follow the single
 fresh-tab retry in `browser-control.md`; if it does not save the move, verify with `get_roster` and
 fall back to the manual checklist. Do not make another browser recovery attempt during this review.
-Record a successfully saved browser action for the final report's **Executed** section. If
+Execute and verify any approved IL/NA placement before normal start/bench swaps or an add
+transaction, so a newly empty standard slot can be used without a drop. Record a successfully saved
+browser action for the final report's **Executed** section. If
 verification fails or is unavailable, record it for **Recommended** and explain why in the report's
 earlier rationale; never treat it as completed.
 
@@ -293,6 +306,12 @@ Rules:
 
   ```markdown
   - Add **Player A** (SP); drop **Player B** (BN)
+  ```
+
+  When a verified empty standard slot is available, state the preferred add-only action instead:
+
+  ```markdown
+  - Add **Player A** (SP) into the open roster slot
   ```
 
 - Example rationale:

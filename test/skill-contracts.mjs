@@ -37,6 +37,16 @@ assert.match(
 );
 assert.match(
   dailyReview,
+  /IL\/NA-status player occupying an active or `BN` slot[\s\S]*?vacant matching reserve slot[\s\S]*?without dropping anyone/,
+  "daily review must free standard roster capacity by placing eligible IL/NA players first",
+);
+assert.match(
+  dailyReview,
+  /Before identifying a drop candidate[\s\S]*?prefer an add-only recommendation[\s\S]*?no empty slot remains/,
+  "daily review must prefer an add-only recommendation when roster capacity is open",
+);
+assert.match(
+  dailyReview,
   /currentTeamKey[\s\S]*?probable-starter board locally[\s\S]*?opponentTeamKey/,
   "daily review must join the shared board to both rosters locally",
 );
