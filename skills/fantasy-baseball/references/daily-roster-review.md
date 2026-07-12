@@ -6,40 +6,38 @@ baseball teams.
 
 Read `references/tool-notes.md` before calling any Yahoo tools.
 
-## Guiding Principle — Win the Matchup, Not the Roster
+## Strategy
 
-**The goal is to win the weekly head-to-head matchup, not to acquire the best players.**
-Every start/sit and add/drop decision is judged by one question: *does this move improve our
-chance of winning more categories this week?* A strictly "better" player who doesn't move a
-winnable category — or who actively hurts one — is the wrong add.
-
-Apply this lens throughout, especially in Phase 2:
-
-- **Punt unwinnable categories.** If a category is already lost by a wide margin and cannot
-  realistically be flipped this week, stop spending resources on it. Redirect roster slots and
-  add/drops toward categories that are still in play. Losing one category by a lot is the same
-  as losing it by a little — concede it and concentrate elsewhere.
-- **Watch paired/counter categories.** Some categories trade off against each other. SV and BSV
-  are paired: stacking relievers/closers to chase saves also piles up blown-save risk, which can
-  hand the opponent the BSV category. Don't over-add at one cat's expense of its counterpart.
-  Ratio cats (ERA, WHIP, K/BB) are similarly fragile — a single bad outing can swing them.
-- **Trade fragile ratio cats for counting cats when behind.** Late in the week, if WHIP/ERA are
-  already lost and W or QS is still winnable, streaming extra starting pitchers is correct even
-  though they'll inflate WHIP — because WHIP is already conceded this week. The innings buy
-  shots at wins/QS that actually count toward the score.
-- **Respect next week's value.** Don't drop a genuinely good rostered player for a one-week
-  streaming gain. A strong everyday bat or anchor SP is worth more across the season than a
-  marginal category point this week. Prefer dropping low-value/role-less players for short-term
-  streams; protect cornerstones.
-- **Read the clock.** The day type (resolved from the active-week matchup in Phase 1A) changes the math: early-week moves bank value
-  and can be speculative; the last three days switch to margin-building. Do not merely preserve
-  the current score; widen any category the opponent can still flip, including categories currently
-  being won by a slim margin.
-- **Be aggressive late.** In the final three days, the default posture is to win by as many
-  categories, and by as much category margin, as practical. If a replaceable move can add buffer in
-  a vulnerable winning category, flip a tied/losing category, or block an opponent's realistic path,
-  recommend it. Do not stop at "probably enough" until the opponent's active/probable roster has
-  been checked and the plan is enough even if the opponent fixes obvious lineup mistakes.
+- **Goal:** Win the weekly head-to-head matchup, not the best roster. Every start/sit and add/drop
+  decision must improve the chance of winning more categories this week; a strictly "better" player
+  who does not move a winnable category — or actively hurts one — is the wrong add.
+- **Week stage:** Resolve day type from the active-week matchup's `week_end` in Phase 1A.
+  - **Final two days (days 6-7):** Maximize the win aggressively.
+    - Build margin in every category the opponent can still flip; chase every close, tied, or
+      flippable losing category.
+    - Assume the opponent activates all confirmed starters and obvious bench upgrades.
+    - Use replaceable roster spots for streams and lineup upgrades that widen vulnerable winning
+      categories, convert ties, or remove opponent comeback paths.
+    - Prefer extra margin over optional depth when the drop is replaceable and the move targets live
+      categories. Accept damage to already-lost categories when it improves the path to more wins.
+    - Avoid pitching adds that risk a ratio category only when that ratio is still winnable or being
+      protected.
+  - **Days 1-5:** Optimize the full week; prioritize adds that bank value.
+  - Week stage raises or lowers urgency; it never overrides protecting cornerstones or using only
+    replaceable roster spots for streams and lineup upgrades.
+- **Category priorities:** Use the matchup scoreboard and opponent's best plausible active roster.
+  - **Winning safely:** Protect it; do not make moves that risk it.
+  - **Winning but vulnerable:** Build margin. In the final two days, treat slim leads as attack
+    targets.
+  - **Close / flippable:** Spend roster slots and adds here.
+  - **Lost:** Punt it when the margin is wide and it is not flippable this week; redirect roster
+    slots and adds toward categories still in play.
+  - **Paired/counter categories:** Chasing SV can risk BSV, and ERA, WHIP, and K/BB are fragile.
+    Do not over-add at one category's expense of its counterpart.
+  - **Ratio-for-counting trade:** If WHIP/ERA are already lost but W or QS is winnable, a risky SP
+    can be correct because the innings buy chances at live categories.
+  - **Next week's value:** Do not drop a genuine roster cornerstone for a one-week stream; use
+    low-value or role-less players for short-term moves.
 
 ## Inputs
 
@@ -65,17 +63,7 @@ season dates, and `get_league_scoring_categories` for the league's scored catego
 Set `currentWeek` from the league's current week.
 
 After Phase 1A returns the active-week matchup's `week_end`, determine **day type** by comparing it
-to `lineupDate`:
-- **Final day** -> maximize the win aggressively: build margin in every category the opponent can
-  still flip, chase every close/tied/flippable losing cat, and assume the opponent may activate all
-  confirmed starters and obvious bench upgrades. Accept damage to already-lost categories when it
-  improves the path to more category wins. Avoid pitching adds that risk a ratio category only when
-  that ratio is still winnable or currently being protected.
-- **Final three days (days 5-7)** -> shift from "try to win" to "win by as much as possible." Use
-  replaceable roster spots for streams/lineup upgrades that widen vulnerable winning cats, convert
-  ties, or remove opponent comeback paths. Prefer extra margin over preserving optional depth when
-  the drop is replaceable and the move targets live categories.
-- **Mid-week / first day** -> optimize the full week; prioritize adds that bank value.
+to `lineupDate`. Apply the matching Strategy bullet during Phase 2A.
 
 Before reviewing any team, call `list_probable_starters` **once per `lineupDate`** with
 `date=lineupDate, fantasyContext=false`. Reuse that plain MLB board for every team in this
@@ -169,17 +157,12 @@ Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from o
 For every player flagged as a non-obvious start/sit candidate, add/drop target, or streamer SP
 in Phase 1, challenge the initial assessment with contextual data before finalizing moves.
 
-### A — Matchup Strategy
+### A — Apply Strategy
 
-Before evaluating individual players, set the week's strategy using the guiding principle. From
-the Phase 1 scoreboard, opponent roster pressure, and the Phase 1A day type, classify every category:
+Before evaluating individual players, apply the relevant Strategy bullets to the Phase 1 scoreboard
+and opponent roster pressure.
 
-- **Winning safely** -> protect; don't make moves that risk it.
-- **Winning but vulnerable** -> build margin; in the final three days, treat slim leads as attack targets.
-- **Close / flippable** -> this is where to spend roster slots and adds.
-- **Lost (wide margin, not flippable this week)** -> **punt it.**
-
-Write a one-line strategy per team. On any of the final three days, also answer whether the plan
+Write a one-line strategy per team. In the final two days, also answer whether the plan
 is enough to prevent a flip after considering the opponent's best plausible active roster.
 
 ### B — Identify Targets
@@ -217,7 +200,8 @@ For each SP starting on `lineupDate`:
 4. Call `analyze_player_stats` for peripherals if needed.
 5. Check for workload or innings-limit context.
 
-If WHIP/ERA are punted this week, a risky SP can still be a good add when the move buys W/QS.
+Apply the Strategy section's ratio-category guidance: if WHIP/ERA are punted this week, a risky SP
+can still be a good add when the move buys W/QS.
 
 ### F — Closer Role Confirmation
 
@@ -255,7 +239,7 @@ earlier rationale; never treat it as completed.
 If `autoAddDrop=true`, hand each exact approved transaction to the dedicated `add-drop-player`
 workflow and follow its surface-specific execution and verification steps. If browser-driven write
 execution is unavailable, fall back to the manual checklist. The Yahoo write API path is legacy-only
-and should not be used in normal execution. Never auto-drop on the final day without a clear win
+and should not be used in normal execution. Never auto-drop in the final two days without a clear win
 reason.
 
 After executing any roster change, finish by calling `get_roster` (`date=lineupDate`) to verify the
