@@ -16,12 +16,16 @@ npm run pack           # build .mcpb bundle
 
 **Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `get_league_metadata`, `list_teams`, `get_team`, `get_roster`, `get_roster_stats`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
-Yahoo stat values use compact row tables: `stats.columns` defines the fields at each position in
-the corresponding `stats.rows` arrays. League/game `stat_categories` and matchup `stat_winners`
-use the same format. League-settings `roster_positions` also uses that format.
-Yahoo player lists use the same `players.columns` / `players.rows` format; `get_roster` with
-`keyOnly=true` remains a plain player-key array. `player_stats` retains coverage metadata, while
-its table uses sibling `player_stats.stats.columns` and `player_stats.stats.rows` columns.
+### Compact response tables
+
+Yahoo represents repeated records as `{ "columns": [...], "rows": [...] }`: a column name at
+index `n` describes the value at index `n` in every row. This applies to player lists, stat values,
+league/game stat categories, matchup stat winners, and league roster positions.
+
+In player tables, `player_stats` and `player_advanced_stats` retain only their coverage metadata.
+Their stat tables are sibling columns such as `player_stats.stats.columns` and
+`player_stats.stats.rows`. `get_roster` with `keyOnly=true` is the sole exception: it returns a
+plain player-key array.
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`

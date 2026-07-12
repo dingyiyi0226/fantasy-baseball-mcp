@@ -2,19 +2,15 @@
 
 ## Tool Constraints & Known Behaviors
 
-### Yahoo stat tables
-- Yahoo stat values are compact row tables: `stats.columns` defines the fields in every
-  corresponding `stats.rows` entry. Read a row by matching each value to the column at the
-  same position.
-- Typical tables use `columns: ["stat_id", "value"]`; Yahoo-wide player rankings also include
-  `name` and `display_name` columns.
-- League/game `stat_categories` and matchup `stat_winners` use the same row-table format.
-- League-settings `roster_positions` uses the same row-table format.
-- Yahoo player lists use the same `columns` / `rows` format. `get_roster` with `keyOnly=true`
-  remains a plain player-key array.
-- Player `player_stats` fields retain only coverage metadata. Their stat tables are sibling player
-  columns named `player_stats.stats.columns` and `player_stats.stats.rows`; use the same pattern
-  for `player_advanced_stats` when present.
+### Compact Yahoo tables
+- A table is `{ "columns": [...], "rows": [...] }`: the column at index `n` names the value at
+  index `n` in every row. Read each row by matching values to columns at the same position.
+- This format covers player lists, stat values, league/game `stat_categories`, matchup
+  `stat_winners`, and league-settings `roster_positions`.
+- In a player table, `player_stats` and `player_advanced_stats` contain only coverage metadata.
+  Their stat values are sibling columns, for example `player_stats.stats.columns` and
+  `player_stats.stats.rows`.
+- `get_roster` with `keyOnly=true` is the exception: it returns a plain player-key array.
 
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
