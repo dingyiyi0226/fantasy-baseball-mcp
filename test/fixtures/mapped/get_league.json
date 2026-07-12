@@ -53,71 +53,29 @@
       "season_type": "full",
       "min_innings_pitched": 40,
       "post_draft_players": "W",
-      "roster_positions": [
-        {
-          "position": "C",
-          "position_type": "B",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {
-          "position": "1B",
-          "position_type": "B",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {
-          "position": "2B",
-          "position_type": "B",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {
-          "position": "3B",
-          "position_type": "B",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {
-          "position": "SS",
-          "position_type": "B",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {
-          "position": "OF",
-          "position_type": "B",
-          "count": 3,
-          "is_starting_position": 1
-        },
-        {
-          "position": "Util",
-          "position_type": "B",
-          "count": 2,
-          "is_starting_position": 1
-        },
-        {
-          "position": "SP",
-          "position_type": "P",
-          "count": 3,
-          "is_starting_position": 1
-        },
-        {
-          "position": "RP",
-          "position_type": "P",
-          "count": 2,
-          "is_starting_position": 1
-        },
-        {
-          "position": "P",
-          "position_type": "P",
-          "count": 1,
-          "is_starting_position": 1
-        },
-        {"position": "BN", "count": 10, "is_starting_position": 0},
-        {"position": "IL", "count": 5, "is_starting_position": 0},
-        {"position": "NA", "count": 3, "is_starting_position": 0}
-      ],
+      "roster_positions": {
+        "columns": [
+          "position",
+          "position_type",
+          "count",
+          "is_starting_position"
+        ],
+        "rows": [
+          ["C", "B", 1, 1],
+          ["1B", "B", 1, 1],
+          ["2B", "B", 1, 1],
+          ["3B", "B", 1, 1],
+          ["SS", "B", 1, 1],
+          ["OF", "B", 3, 1],
+          ["Util", "B", 2, 1],
+          ["SP", "P", 3, 1],
+          ["RP", "P", 2, 1],
+          ["P", "P", 1, 1],
+          ["BN", null, 10, 0],
+          ["IL", null, 5, 0],
+          ["NA", null, 3, 0]
+        ]
+      },
       "stat_categories": {
         "columns": [
           "stat_id",

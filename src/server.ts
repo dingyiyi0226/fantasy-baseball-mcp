@@ -43,7 +43,7 @@ the exact instructions; rewriting them breaks the setup flow.
 Yahoo stats use compact row tables: \`stats.columns\` names the values in each
 corresponding \`stats.rows\` array. Read values by their shared position; do not
 treat the columns as unrelated lists. \`stat_categories\` and \`stat_winners\`
-use the same format.
+use the same format. League-settings \`roster_positions\` also uses that format.
 
 Repeated Yahoo player results use the same format: \`players.columns\` names
 the values in each \`players.rows\` array. \`keyOnly=true\` roster results remain

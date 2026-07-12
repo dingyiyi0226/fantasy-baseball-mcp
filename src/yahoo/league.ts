@@ -57,13 +57,13 @@ export function mapLeague(data: any) {
         season_type: league.settings.season_type,
         min_innings_pitched: league.settings.min_innings_pitched,
         post_draft_players: league.settings.post_draft_players,
-        roster_positions: asArray(league.settings.roster_positions?.roster_position).map(
-          (position: any) => ({
+        roster_positions: mapRecordsTable(
+          asArray(league.settings.roster_positions?.roster_position).map((position: any) => ({
             position: position.position,
             ...(position.position_type ? { position_type: position.position_type } : {}),
             count: position.count,
             is_starting_position: position.is_starting_position,
-          }),
+          })),
         ),
         stat_categories: mapRecordsTable(
           asArray(league.settings.stat_categories?.stats?.stat).map((stat: any) => ({
