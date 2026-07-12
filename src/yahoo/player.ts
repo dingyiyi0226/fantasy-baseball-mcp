@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { liftStatsTable, mapLeagueHeader, mapPlayerProfile, mapPlayerStatsProfile, mapRecordsTable } from "./mappers.js";
+import { liftStatsTable, mapPlayerProfile, mapPlayerStatsProfile, mapRecordsTable } from "./mappers.js";
 import { gameIdFromLeagueKey } from "./utils.js";
 import type { GameStatCategory } from "./game.js";
 
@@ -43,7 +43,7 @@ export function mapRankPlayers(data: any) {
     ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
   }));
   return {
-    league: mapLeagueHeader(league),
+    league: { league_key: league.league_key, name: league.name },
     players: mapRecordsTable(players),
   };
 }
@@ -95,7 +95,7 @@ export function mapPlayerList(data: any) {
     ownership: mapOwnership(player.ownership),
   }));
   return {
-    league: mapLeagueHeader(league),
+    league: { league_key: league.league_key, name: league.name },
     players: mapRecordsTable(players),
   };
 }
