@@ -10,13 +10,13 @@
     "scoring_type": "headone",
     "scoring_label": "H2H Cat One",
     "league_type": "private",
-    "matchup_week": 13,
-    "current_week": 13,
+    "matchup_week": 16,
+    "current_week": 16,
     "start_week": 1,
     "end_week": 26,
     "start_date": "2026-03-25",
     "end_date": "2026-09-27",
-    "current_date": "2026-06-21",
+    "current_date": "2026-07-12",
     "season": 2026,
     "game_code": "mlb",
     "allow_add_to_dl_extra_pos": 0,
@@ -118,106 +118,33 @@
         {"position": "IL", "count": 5, "is_starting_position": 0},
         {"position": "NA", "count": 3, "is_starting_position": 0}
       ],
-      "stat_categories": [
-        {
-          "stat_id": 60,
-          "display_name": "H/AB",
-          "position_type": "B",
-          "sort_order": 1,
-          "is_only_display_stat": 1
-        },
-        {
-          "stat_id": 7,
-          "display_name": "R",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 12,
-          "display_name": "HR",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 13,
-          "display_name": "RBI",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 16,
-          "display_name": "SB",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 20,
-          "display_name": "HBP",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 23,
-          "display_name": "TB",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 4,
-          "display_name": "OBP",
-          "position_type": "B",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 50,
-          "display_name": "IP",
-          "position_type": "P",
-          "sort_order": 1,
-          "is_only_display_stat": 1
-        },
-        {
-          "stat_id": 28,
-          "display_name": "W",
-          "position_type": "P",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 32,
-          "display_name": "SV",
-          "position_type": "P",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 26,
-          "display_name": "ERA",
-          "position_type": "P",
-          "sort_order": 0
-        },
-        {
-          "stat_id": 27,
-          "display_name": "WHIP",
-          "position_type": "P",
-          "sort_order": 0
-        },
-        {
-          "stat_id": 56,
-          "display_name": "K/BB",
-          "position_type": "P",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 83,
-          "display_name": "QS",
-          "position_type": "P",
-          "sort_order": 1
-        },
-        {
-          "stat_id": 84,
-          "display_name": "BSV",
-          "position_type": "P",
-          "sort_order": 0
-        }
-      ]
+      "stat_categories": {
+        "columns": [
+          "stat_id",
+          "display_name",
+          "position_type",
+          "sort_order",
+          "is_only_display_stat"
+        ],
+        "rows": [
+          [60, "H/AB", "B", 1, 1],
+          [7, "R", "B", 1, null],
+          [12, "HR", "B", 1, null],
+          [13, "RBI", "B", 1, null],
+          [16, "SB", "B", 1, null],
+          [20, "HBP", "B", 1, null],
+          [23, "TB", "B", 1, null],
+          [4, "OBP", "B", 1, null],
+          [50, "IP", "P", 1, 1],
+          [28, "W", "P", 1, null],
+          [32, "SV", "P", 1, null],
+          [26, "ERA", "P", 0, null],
+          [27, "WHIP", "P", 0, null],
+          [56, "K/BB", "P", 1, null],
+          [83, "QS", "P", 1, null],
+          [84, "BSV", "P", 0, null]
+        ]
+      }
     },
     "standings": [
       {
@@ -230,20 +157,20 @@
             "columns": ["stat_id", "value"],
             "rows": [
               [60, ""],
-              [7, 470],
-              [12, 155],
-              [13, 470],
-              [16, 48],
-              [20, 36],
-              [23, 1429],
-              [4, 0.364],
-              [50, 753.2],
-              [28, 57],
-              [32, 39],
-              [26, 4.22],
+              [7, 597],
+              [12, 210],
+              [13, 622],
+              [16, 61],
+              [20, 41],
+              [23, 1813],
+              [4, 0.363],
+              [50, 911],
+              [28, 67],
+              [32, 50],
+              [26, 4.11],
               [27, 1.26],
-              [56, 2.36],
-              [83, 48],
+              [56, 2.46],
+              [83, 58],
               [84, 11]
             ]
           }
@@ -253,10 +180,10 @@
           "rank": 1,
           "playoff_seed": 1,
           "outcome_totals": {
-            "wins": 10,
-            "losses": 2,
-            "ties": 0,
-            "percentage": 0.833
+            "wins": 11,
+            "losses": 3,
+            "ties": 1,
+            "percentage": 0.767
           },
           "games_back": "-"
         }
@@ -271,21 +198,21 @@
             "columns": ["stat_id", "value"],
             "rows": [
               [60, ""],
-              [7, 403],
-              [12, 102],
-              [13, 368],
-              [16, 79],
-              [20, 40],
-              [23, 1155],
-              [4, 0.33],
-              [50, 910.2],
-              [28, 60],
-              [32, 28],
-              [26, 3.52],
-              [27, 1.22],
-              [56, 3.19],
-              [83, 69],
-              [84, 5]
+              [7, 496],
+              [12, 121],
+              [13, 443],
+              [16, 104],
+              [20, 50],
+              [23, 1431],
+              [4, 0.331],
+              [50, 1148.2],
+              [28, 75],
+              [32, 37],
+              [26, 3.73],
+              [27, 1.23],
+              [56, 3.15],
+              [83, 84],
+              [84, 8]
             ]
           }
         },
@@ -294,10 +221,10 @@
           "rank": 2,
           "playoff_seed": 2,
           "outcome_totals": {
-            "wins": 9,
-            "losses": 3,
-            "ties": 0,
-            "percentage": 0.75
+            "wins": 10,
+            "losses": 4,
+            "ties": 1,
+            "percentage": 0.7
           },
           "games_back": 1
         }
@@ -312,21 +239,21 @@
             "columns": ["stat_id", "value"],
             "rows": [
               [60, ""],
-              [7, 452],
-              [12, 122],
-              [13, 393],
-              [16, 50],
-              [20, 54],
-              [23, 1226],
-              [4, 0.338],
-              [50, 764.2],
-              [28, 46],
-              [32, 43],
-              [26, 3.94],
-              [27, 1.29],
-              [56, 2.88],
-              [83, 49],
-              [84, 7]
+              [7, 551],
+              [12, 141],
+              [13, 473],
+              [16, 59],
+              [20, 69],
+              [23, 1499],
+              [4, 0.337],
+              [50, 914.2],
+              [28, 54],
+              [32, 51],
+              [26, 4.1],
+              [27, 1.31],
+              [56, 2.84],
+              [83, 58],
+              [84, 8]
             ]
           }
         },
@@ -335,12 +262,12 @@
           "rank": 3,
           "playoff_seed": 3,
           "outcome_totals": {
-            "wins": 8,
-            "losses": 4,
+            "wins": 10,
+            "losses": 5,
             "ties": 0,
             "percentage": 0.667
           },
-          "games_back": 2
+          "games_back": 1.5
         }
       }
     ]

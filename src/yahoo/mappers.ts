@@ -42,6 +42,13 @@ export function mapStatsTable(
   };
 }
 
+/** Compact a matchup's category-by-category winner records. */
+function mapStatWinners(statWinners: any) {
+  if (!statWinners?.stat_winner) return statWinners;
+  const { stat_winner, ...metadata } = statWinners;
+  return { ...metadata, ...mapRecordsTable(asArray(stat_winner)) };
+}
+
 function mapManager(m: any) {
   return {
     manager_id: m.manager_id,
@@ -148,7 +155,7 @@ export function mapMatchup(m: any, mapTeam: (team: any) => any) {
     ...(m.is_tied !== undefined ? { is_tied: m.is_tied } : {}),
     ...(m.winner_team_key ? { winner_team_key: m.winner_team_key } : {}),
     ...(m.is_matchup_of_the_week ? { is_matchup_of_the_week: m.is_matchup_of_the_week } : {}),
-    stat_winners: m.stat_winners,
+    stat_winners: mapStatWinners(m.stat_winners),
     teams: asArray(m.teams?.team).map(mapTeam),
   };
 }

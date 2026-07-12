@@ -6,428 +6,101 @@
     "code": "mlb",
     "season": 2026
   },
-  "stat_categories": [
-    {
-      "stat_id": 0,
-      "name": "Games Played",
-      "display_name": "GP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 1,
-      "name": "Games Played",
-      "display_name": "GP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 2,
-      "name": "Games Started",
-      "display_name": "GS",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 3,
-      "name": "Batting Average",
-      "display_name": "AVG",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 4,
-      "name": "On-base Percentage",
-      "display_name": "OBP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 5,
-      "name": "Slugging Percentage",
-      "display_name": "SLG",
-      "sort_order": 1
-    },
-    {"stat_id": 6, "name": "At Bats", "display_name": "AB", "sort_order": 1},
-    {"stat_id": 7, "name": "Runs", "display_name": "R", "sort_order": 1},
-    {"stat_id": 8, "name": "Hits", "display_name": "H", "sort_order": 1},
-    {"stat_id": 9, "name": "Singles", "display_name": "1B", "sort_order": 1},
-    {"stat_id": 10, "name": "Doubles", "display_name": "2B", "sort_order": 1},
-    {"stat_id": 11, "name": "Triples", "display_name": "3B", "sort_order": 1},
-    {"stat_id": 12, "name": "Home Runs", "display_name": "HR", "sort_order": 1},
-    {
-      "stat_id": 13,
-      "name": "Runs Batted In",
-      "display_name": "RBI",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 14,
-      "name": "Sacrifice Hits",
-      "display_name": "SH",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 15,
-      "name": "Sacrifice Flys",
-      "display_name": "SF",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 16,
-      "name": "Stolen Bases",
-      "display_name": "SB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 17,
-      "name": "Caught Stealing",
-      "display_name": "CS",
-      "sort_order": 0
-    },
-    {"stat_id": 18, "name": "Walks", "display_name": "BB", "sort_order": 1},
-    {
-      "stat_id": 19,
-      "name": "Intentional Walks",
-      "display_name": "IBB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 20,
-      "name": "Hit By Pitch",
-      "display_name": "HBP",
-      "sort_order": 1
-    },
-    {"stat_id": 21, "name": "Strikeouts", "display_name": "K", "sort_order": 0},
-    {
-      "stat_id": 22,
-      "name": "Ground Into Double Play",
-      "display_name": "GIDP",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 23,
-      "name": "Total Bases",
-      "display_name": "TB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 24,
-      "name": "Pitching Appearances",
-      "display_name": "APP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 25,
-      "name": "Games Started",
-      "display_name": "GS",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 26,
-      "name": "Earned Run Average",
-      "display_name": "ERA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 27,
-      "name": "(Walks + Hits)/ Innings Pitched",
-      "display_name": "WHIP",
-      "sort_order": 0
-    },
-    {"stat_id": 28, "name": "Wins", "display_name": "W", "sort_order": 1},
-    {"stat_id": 29, "name": "Losses", "display_name": "L", "sort_order": 0},
-    {
-      "stat_id": 30,
-      "name": "Complete Games",
-      "display_name": "CG",
-      "sort_order": 1
-    },
-    {"stat_id": 31, "name": "Shutouts", "display_name": "SHO", "sort_order": 1},
-    {"stat_id": 32, "name": "Saves", "display_name": "SV", "sort_order": 1},
-    {"stat_id": 33, "name": "Outs", "display_name": "OUT", "sort_order": 1},
-    {"stat_id": 34, "name": "Hits", "display_name": "H", "sort_order": 0},
-    {
-      "stat_id": 35,
-      "name": "Total Batters Faced",
-      "display_name": "TBF",
-      "sort_order": 1
-    },
-    {"stat_id": 36, "name": "Runs", "display_name": "R", "sort_order": 0},
-    {
-      "stat_id": 37,
-      "name": "Earned Runs",
-      "display_name": "ER",
-      "sort_order": 0
-    },
-    {"stat_id": 38, "name": "Home Runs", "display_name": "HR", "sort_order": 0},
-    {"stat_id": 39, "name": "Walks", "display_name": "BB", "sort_order": 0},
-    {
-      "stat_id": 40,
-      "name": "Intentional Walks",
-      "display_name": "IBB",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 41,
-      "name": "Hit Batters",
-      "display_name": "HBP",
-      "sort_order": 0
-    },
-    {"stat_id": 42, "name": "Strikeouts", "display_name": "K", "sort_order": 1},
-    {
-      "stat_id": 43,
-      "name": "Wild Pitches",
-      "display_name": "WP",
-      "sort_order": 0
-    },
-    {"stat_id": 44, "name": "Balks", "display_name": "BLK", "sort_order": 0},
-    {
-      "stat_id": 45,
-      "name": "Stolen Bases Allowed",
-      "display_name": "SB",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 46,
-      "name": "Batters Grounded Into Double Plays",
-      "display_name": "GIDP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 47,
-      "name": "Save Chances",
-      "display_name": "SVOP",
-      "sort_order": 1
-    },
-    {"stat_id": 48, "name": "Holds", "display_name": "HLD", "sort_order": 1},
-    {
-      "stat_id": 49,
-      "name": "Total Bases Allowed",
-      "display_name": "TB",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 50,
-      "name": "Innings Pitched",
-      "display_name": "IP",
-      "sort_order": 1
-    },
-    {"stat_id": 51, "name": "Putouts", "display_name": "PO", "sort_order": 1},
-    {"stat_id": 52, "name": "Assists", "display_name": "A", "sort_order": 1},
-    {"stat_id": 53, "name": "Errors", "display_name": "E", "sort_order": 0},
-    {
-      "stat_id": 54,
-      "name": "Fielding Percentage",
-      "display_name": "FPCT",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 55,
-      "name": "On-base + Slugging Percentage",
-      "display_name": "OPS",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 56,
-      "name": "Strikeouts per Walk Ratio",
-      "display_name": "K/BB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 57,
-      "name": "Strikeouts per Nine Innings",
-      "display_name": "K/9",
-      "sort_order": 1
-    },
-    {"stat_id": 58, "name": "Team", "display_name": "TEAM", "sort_order": 1},
-    {
-      "stat_id": 59,
-      "name": "League",
-      "display_name": "LEAGUE",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 60,
-      "name": "Hits / At Bats",
-      "display_name": "H/AB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 61,
-      "name": "Extra Base Hits",
-      "display_name": "XBH",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 62,
-      "name": "Net Stolen Bases",
-      "display_name": "NSB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 63,
-      "name": "Stolen Base Percentage",
-      "display_name": "SB%",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 64,
-      "name": "Hitting for the Cycle",
-      "display_name": "CYC",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 65,
-      "name": "Plate Appearances",
-      "display_name": "PA",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 66,
-      "name": "Grand Slam Home Runs",
-      "display_name": "SLAM",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 67,
-      "name": "Pitch Count",
-      "display_name": "PC",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 68,
-      "name": "Doubles Allowed",
-      "display_name": "2BA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 69,
-      "name": "Triples Allowed",
-      "display_name": "3BA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 70,
-      "name": "Relief Wins",
-      "display_name": "RW",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 71,
-      "name": "Relief Losses",
-      "display_name": "RL",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 72,
-      "name": "Pickoffs",
-      "display_name": "PICK",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 73,
-      "name": "Relief Appearances",
-      "display_name": "RAPP",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 74,
-      "name": "On-base Percentage Against",
-      "display_name": "OBPA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 75,
-      "name": "Winning Percentage",
-      "display_name": "WIN%",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 76,
-      "name": "Singles Allowed",
-      "display_name": "1BA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 77,
-      "name": "Hits Per Nine Innings",
-      "display_name": "H/9",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 78,
-      "name": "Walks Per Nine Innings",
-      "display_name": "BB/9",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 79,
-      "name": "No Hitters",
-      "display_name": "NH",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 80,
-      "name": "Perfect Games",
-      "display_name": "PG",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 81,
-      "name": "Save Percentage",
-      "display_name": "SV%",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 82,
-      "name": "Inherited Runners Scored",
-      "display_name": "IRA",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 83,
-      "name": "Quality Starts",
-      "display_name": "QS",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 84,
-      "name": "Blown Saves",
-      "display_name": "BSV",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 85,
-      "name": "Net Saves",
-      "display_name": "NSV",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 86,
-      "name": "Outfield Assists",
-      "display_name": "OFA",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 87,
-      "name": "Double Plays Turned",
-      "display_name": "DPT",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 88,
-      "name": "Catcher Interference",
-      "display_name": "CI",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 89,
-      "name": "Saves + Holds",
-      "display_name": "SV+H",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 90,
-      "name": "Net Saves and Holds",
-      "display_name": "NSVH",
-      "sort_order": 1
-    },
-    {"stat_id": 91, "name": "Net Wins", "display_name": "NW", "sort_order": 1}
-  ]
+  "stat_categories": {
+    "columns": ["stat_id", "name", "display_name", "sort_order"],
+    "rows": [
+      [0, "Games Played", "GP", 1],
+      [1, "Games Played", "GP", 1],
+      [2, "Games Started", "GS", 1],
+      [3, "Batting Average", "AVG", 1],
+      [4, "On-base Percentage", "OBP", 1],
+      [5, "Slugging Percentage", "SLG", 1],
+      [6, "At Bats", "AB", 1],
+      [7, "Runs", "R", 1],
+      [8, "Hits", "H", 1],
+      [9, "Singles", "1B", 1],
+      [10, "Doubles", "2B", 1],
+      [11, "Triples", "3B", 1],
+      [12, "Home Runs", "HR", 1],
+      [13, "Runs Batted In", "RBI", 1],
+      [14, "Sacrifice Hits", "SH", 1],
+      [15, "Sacrifice Flys", "SF", 1],
+      [16, "Stolen Bases", "SB", 1],
+      [17, "Caught Stealing", "CS", 0],
+      [18, "Walks", "BB", 1],
+      [19, "Intentional Walks", "IBB", 1],
+      [20, "Hit By Pitch", "HBP", 1],
+      [21, "Strikeouts", "K", 0],
+      [22, "Ground Into Double Play", "GIDP", 0],
+      [23, "Total Bases", "TB", 1],
+      [24, "Pitching Appearances", "APP", 1],
+      [25, "Games Started", "GS", 1],
+      [26, "Earned Run Average", "ERA", 0],
+      [27, "(Walks + Hits)/ Innings Pitched", "WHIP", 0],
+      [28, "Wins", "W", 1],
+      [29, "Losses", "L", 0],
+      [30, "Complete Games", "CG", 1],
+      [31, "Shutouts", "SHO", 1],
+      [32, "Saves", "SV", 1],
+      [33, "Outs", "OUT", 1],
+      [34, "Hits", "H", 0],
+      [35, "Total Batters Faced", "TBF", 1],
+      [36, "Runs", "R", 0],
+      [37, "Earned Runs", "ER", 0],
+      [38, "Home Runs", "HR", 0],
+      [39, "Walks", "BB", 0],
+      [40, "Intentional Walks", "IBB", 0],
+      [41, "Hit Batters", "HBP", 0],
+      [42, "Strikeouts", "K", 1],
+      [43, "Wild Pitches", "WP", 0],
+      [44, "Balks", "BLK", 0],
+      [45, "Stolen Bases Allowed", "SB", 0],
+      [46, "Batters Grounded Into Double Plays", "GIDP", 1],
+      [47, "Save Chances", "SVOP", 1],
+      [48, "Holds", "HLD", 1],
+      [49, "Total Bases Allowed", "TB", 0],
+      [50, "Innings Pitched", "IP", 1],
+      [51, "Putouts", "PO", 1],
+      [52, "Assists", "A", 1],
+      [53, "Errors", "E", 0],
+      [54, "Fielding Percentage", "FPCT", 1],
+      [55, "On-base + Slugging Percentage", "OPS", 1],
+      [56, "Strikeouts per Walk Ratio", "K/BB", 1],
+      [57, "Strikeouts per Nine Innings", "K/9", 1],
+      [58, "Team", "TEAM", 1],
+      [59, "League", "LEAGUE", 1],
+      [60, "Hits / At Bats", "H/AB", 1],
+      [61, "Extra Base Hits", "XBH", 1],
+      [62, "Net Stolen Bases", "NSB", 1],
+      [63, "Stolen Base Percentage", "SB%", 1],
+      [64, "Hitting for the Cycle", "CYC", 1],
+      [65, "Plate Appearances", "PA", 1],
+      [66, "Grand Slam Home Runs", "SLAM", 1],
+      [67, "Pitch Count", "PC", 1],
+      [68, "Doubles Allowed", "2BA", 0],
+      [69, "Triples Allowed", "3BA", 0],
+      [70, "Relief Wins", "RW", 1],
+      [71, "Relief Losses", "RL", 0],
+      [72, "Pickoffs", "PICK", 1],
+      [73, "Relief Appearances", "RAPP", 1],
+      [74, "On-base Percentage Against", "OBPA", 0],
+      [75, "Winning Percentage", "WIN%", 1],
+      [76, "Singles Allowed", "1BA", 0],
+      [77, "Hits Per Nine Innings", "H/9", 0],
+      [78, "Walks Per Nine Innings", "BB/9", 0],
+      [79, "No Hitters", "NH", 1],
+      [80, "Perfect Games", "PG", 1],
+      [81, "Save Percentage", "SV%", 1],
+      [82, "Inherited Runners Scored", "IRA", 0],
+      [83, "Quality Starts", "QS", 1],
+      [84, "Blown Saves", "BSV", 0],
+      [85, "Net Saves", "NSV", 1],
+      [86, "Outfield Assists", "OFA", 1],
+      [87, "Double Plays Turned", "DPT", 1],
+      [88, "Catcher Interference", "CI", 1],
+      [89, "Saves + Holds", "SV+H", 1],
+      [90, "Net Saves and Holds", "NSVH", 1],
+      [91, "Net Wins", "NW", 1]
+    ]
+  }
 }

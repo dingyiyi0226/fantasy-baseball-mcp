@@ -44,7 +44,7 @@ const CASES = [
   ["list_games", "mapListGames"],
   ["list_leagues", "mapListLeagues"],
   ["get_league", "mapLeague"],
-  ["get_league_metadata", "mapLeagueMetadata", "get_league"],
+  ["get_league_metadata", "mapLeagueMetadata"],
   ["list_teams", "mapListTeams"],
   ["get_team", "mapTeam"],
   ["get_roster", "mapRosterCompact"],
@@ -62,9 +62,16 @@ const CASES = [
 
 let failed = 0;
 for (const [tool, mapper, rawTool = tool, categoryTool] of CASES) {
-  const categories = categoryTool
-    ? mappers.mapGameStatCategories(read("raw", categoryTool)).stat_categories
+  const categoryStats = categoryTool
+    ? read("raw", categoryTool).game.stat_categories.stats.stat
     : undefined;
+  const categories = categoryStats?.map((stat) => ({
+    stat_id: stat.stat_id,
+    name: stat.name,
+    display_name: stat.display_name,
+    sort_order: stat.sort_order,
+    position_type: stat.position_type,
+  }));
   const actual = JSON.stringify(mappers[mapper](read("raw", rawTool), categories), null, 2);
   const expected = JSON.stringify(read("mapped", tool), null, 2);
   if (actual === expected) {
@@ -127,6 +134,17 @@ if (
 } else {
   failed++;
   console.log("  FAIL players use compact self-describing row tables");
+}
+
+const fetchedGameCategories = await mappers.fetchGameStatCategories(
+  { get: async () => read("raw", "game_stat_categories") },
+  "123",
+);
+if (Array.isArray(fetchedGameCategories) && fetchedGameCategories[0]?.display_name === "GP") {
+  console.log("  ok   game stat-category lookup remains row-based internally");
+} else {
+  failed++;
+  console.log("  FAIL game stat-category lookup remains row-based internally");
 }
 
 const registeredTools = new Map();

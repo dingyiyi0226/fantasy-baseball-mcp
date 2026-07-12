@@ -37,10 +37,10 @@
         "is_matchup_of_the_week": 1,
         "stat_winners": {
           "stat_winner": [
-            {"stat_id": 7, "winner_team_key": "123.l.12345.t.2"},
+            {"stat_id": 7, "winner_team_key": "123.l.12345.t.7"},
             {"stat_id": 12, "winner_team_key": "123.l.12345.t.2"},
             {"stat_id": 13, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 16, "winner_team_key": "123.l.12345.t.2"},
+            {"stat_id": 16, "is_tied": 1},
             {"stat_id": 20, "winner_team_key": "123.l.12345.t.7"},
             {"stat_id": 23, "winner_team_key": "123.l.12345.t.7"},
             {"stat_id": 4, "winner_team_key": "123.l.12345.t.7"},
@@ -91,14 +91,14 @@
                 "week": 16,
                 "stats": {
                   "stat": [
-                    {"stat_id": 60, "value": "35/146"},
-                    {"stat_id": 7, "value": 25},
+                    {"stat_id": 60, "value": "37/183"},
+                    {"stat_id": 7, "value": 26},
                     {"stat_id": 12, "value": 8},
-                    {"stat_id": 13, "value": 25},
+                    {"stat_id": 13, "value": 26},
                     {"stat_id": 16, "value": 1},
                     {"stat_id": 20, "value": 0},
-                    {"stat_id": 23, "value": 66},
-                    {"stat_id": 4, "value": 0.333},
+                    {"stat_id": 23, "value": 69},
+                    {"stat_id": 4, "value": 0.303},
                     {"stat_id": 50, "value": 42},
                     {"stat_id": 28, "value": 2},
                     {"stat_id": 32, "value": 1},
@@ -110,14 +110,14 @@
                   ]
                 }
               },
-              "team_points": {"coverage_type": "week", "week": 16, "total": 10},
+              "team_points": {"coverage_type": "week", "week": 16, "total": 8},
               "team_remaining_games": {
                 "coverage_type": "week",
                 "week": 16,
                 "total": {
-                  "remaining_games": 33,
+                  "remaining_games": 16,
                   "live_games": 0,
-                  "completed_games": 68
+                  "completed_games": 85
                 }
               }
             },
@@ -155,33 +155,33 @@
                 "week": 16,
                 "stats": {
                   "stat": [
-                    {"stat_id": 60, "value": "46/180"},
-                    {"stat_id": 7, "value": 22},
-                    {"stat_id": 12, "value": 5},
-                    {"stat_id": 13, "value": 18},
-                    {"stat_id": 16, "value": 0},
+                    {"stat_id": 60, "value": "55/220"},
+                    {"stat_id": 7, "value": 28},
+                    {"stat_id": 12, "value": 7},
+                    {"stat_id": 13, "value": 23},
+                    {"stat_id": 16, "value": 1},
                     {"stat_id": 20, "value": 4},
-                    {"stat_id": 23, "value": 68},
-                    {"stat_id": 4, "value": 0.337},
-                    {"stat_id": 50, "value": 16.1},
-                    {"stat_id": 28, "value": 0},
+                    {"stat_id": 23, "value": 85},
+                    {"stat_id": 4, "value": 0.321},
+                    {"stat_id": 50, "value": 27.1},
+                    {"stat_id": 28, "value": 1},
                     {"stat_id": 32, "value": 2},
-                    {"stat_id": 26, "value": 8.82},
-                    {"stat_id": 27, "value": 1.84},
-                    {"stat_id": 56, "value": 3.17},
-                    {"stat_id": 83, "value": 0},
+                    {"stat_id": 26, "value": 6.26},
+                    {"stat_id": 27, "value": 1.54},
+                    {"stat_id": 56, "value": 2.31},
+                    {"stat_id": 83, "value": 1},
                     {"stat_id": 84, "value": 1}
                   ]
                 }
               },
-              "team_points": {"coverage_type": "week", "week": 16, "total": 4},
+              "team_points": {"coverage_type": "week", "week": 16, "total": 5},
               "team_remaining_games": {
                 "coverage_type": "week",
                 "week": 16,
                 "total": {
-                  "remaining_games": 32,
+                  "remaining_games": 16,
                   "live_games": 0,
-                  "completed_games": 79
+                  "completed_games": 95
                 }
               }
             }

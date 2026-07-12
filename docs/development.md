@@ -17,7 +17,8 @@ npm run pack           # build .mcpb bundle
 **Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `get_league_metadata`, `list_teams`, `get_team`, `get_roster`, `get_roster_stats`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
 Yahoo stat values use compact row tables: `stats.columns` defines the fields at each position in
-the corresponding `stats.rows` arrays.
+the corresponding `stats.rows` arrays. League/game `stat_categories` and matchup `stat_winners`
+use the same format.
 Yahoo player lists use the same `players.columns` / `players.rows` format; `get_roster` with
 `keyOnly=true` remains a plain player-key array.
 

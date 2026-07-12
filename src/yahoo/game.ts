@@ -3,6 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import type { YahooClient } from "./client.js";
 import { asArray, str } from "../util.js";
+import { mapRecordsTable } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -70,6 +71,16 @@ export function mapGame(data: any) {
   return { game };
 }
 
+function mapGameStatCategoryRows(data: any): GameStatCategory[] {
+  return asArray(data?.game?.stat_categories?.stats?.stat).map((stat: any) => ({
+    stat_id: stat.stat_id,
+    name: stat.name,
+    display_name: stat.display_name,
+    sort_order: stat.sort_order,
+    position_type: stat.position_type,
+  }));
+}
+
 /** Extract the game-scoped dictionary that gives meaning to player stat IDs. */
 export function mapGameStatCategories(data: any) {
   const game = data?.game;
@@ -82,13 +93,7 @@ export function mapGameStatCategories(data: any) {
       code: game.code,
       season: game.season,
     },
-    stat_categories: asArray(game.stat_categories?.stats?.stat).map((stat: any) => ({
-      stat_id: stat.stat_id,
-      name: stat.name,
-      display_name: stat.display_name,
-      sort_order: stat.sort_order,
-      position_type: stat.position_type,
-    })),
+    stat_categories: mapRecordsTable(mapGameStatCategoryRows(data)),
   };
 }
 
@@ -98,8 +103,7 @@ export async function fetchGameStatCategories(
   gameKey: string,
 ): Promise<GameStatCategory[]> {
   const data = await client.get(`/game/${gameKey}/stat_categories`);
-  const mapped = mapGameStatCategories(data);
-  return Array.isArray(mapped?.stat_categories) ? mapped.stat_categories : [];
+  return mapGameStatCategoryRows(data);
 }
 
 export function registerGameTools(server: McpServer, ctx: McpContext): void {

@@ -1,66 +1,69 @@
 {
   "league": {"league_key": "123.l.12345", "name": "Demo League"},
   "scoreboard": {
-    "week": 13,
+    "week": 16,
     "matchups": [
       {
-        "week": 13,
-        "week_start": "2026-06-15",
-        "week_end": "2026-06-21",
+        "week": 16,
+        "week_start": "2026-07-06",
+        "week_end": "2026-07-12",
         "status": "midevent",
         "is_playoffs": 0,
         "is_consolation": 0,
         "stat_winners": {
-          "stat_winner": [
-            {"stat_id": 7, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 12, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 13, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 16, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 20, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 23, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 4, "winner_team_key": "123.l.12345.t.1"},
-            {"stat_id": 28, "winner_team_key": "123.l.12345.t.1"},
-            {"stat_id": 32, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 26, "winner_team_key": "123.l.12345.t.2"},
-            {"stat_id": 27, "winner_team_key": "123.l.12345.t.1"},
-            {"stat_id": 56, "winner_team_key": "123.l.12345.t.1"},
-            {"stat_id": 83, "winner_team_key": "123.l.12345.t.1"},
-            {"stat_id": 84, "is_tied": 1}
+          "columns": ["stat_id", "winner_team_key", "is_tied"],
+          "rows": [
+            [7, "123.l.12345.t.1", null],
+            [12, null, 1],
+            [13, "123.l.12345.t.5", null],
+            [16, "123.l.12345.t.1", null],
+            [20, "123.l.12345.t.1", null],
+            [23, "123.l.12345.t.5", null],
+            [4, "123.l.12345.t.1", null],
+            [28, "123.l.12345.t.1", null],
+            [32, null, 1],
+            [26, "123.l.12345.t.5", null],
+            [27, "123.l.12345.t.5", null],
+            [56, "123.l.12345.t.1", null],
+            [83, null, 1],
+            [84, "123.l.12345.t.5", null]
           ]
         },
         "teams": [
           {"team_key": "123.l.12345.t.1", "name": "Team 1"},
-          {"team_key": "123.l.12345.t.2", "name": "Team 2"}
+          {"team_key": "123.l.12345.t.5", "name": "Team 5"}
         ]
       },
       {
-        "week": 13,
-        "week_start": "2026-06-15",
-        "week_end": "2026-06-21",
+        "week": 16,
+        "week_start": "2026-07-06",
+        "week_end": "2026-07-12",
         "status": "midevent",
         "is_playoffs": 0,
         "is_consolation": 0,
+        "is_matchup_of_the_week": 1,
         "stat_winners": {
-          "stat_winner": [
-            {"stat_id": 7, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 12, "is_tied": 1},
-            {"stat_id": 13, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 16, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 20, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 23, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 4, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 28, "winner_team_key": "123.l.12345.t.6"},
-            {"stat_id": 32, "winner_team_key": "123.l.12345.t.3"},
-            {"stat_id": 26, "winner_team_key": "123.l.12345.t.6"},
-            {"stat_id": 27, "winner_team_key": "123.l.12345.t.6"},
-            {"stat_id": 56, "winner_team_key": "123.l.12345.t.6"},
-            {"stat_id": 83, "winner_team_key": "123.l.12345.t.6"},
-            {"stat_id": 84, "is_tied": 1}
+          "columns": ["stat_id", "winner_team_key", "is_tied"],
+          "rows": [
+            [7, "123.l.12345.t.7", null],
+            [12, "123.l.12345.t.2", null],
+            [13, "123.l.12345.t.2", null],
+            [16, null, 1],
+            [20, "123.l.12345.t.7", null],
+            [23, "123.l.12345.t.7", null],
+            [4, "123.l.12345.t.7", null],
+            [28, "123.l.12345.t.2", null],
+            [32, "123.l.12345.t.7", null],
+            [26, "123.l.12345.t.2", null],
+            [27, "123.l.12345.t.2", null],
+            [56, "123.l.12345.t.2", null],
+            [83, "123.l.12345.t.2", null],
+            [84, "123.l.12345.t.2", null]
           ]
         },
         "teams": [
-          {"team_key": "123.l.12345.t.3", "name": "Team 3"},
-          {"team_key": "123.l.12345.t.6", "name": "Team 6"}
+          {"team_key": "123.l.12345.t.2", "name": "Team 2"},
+          {"team_key": "123.l.12345.t.7", "name": "Team 7"}
         ]
       }
     ]

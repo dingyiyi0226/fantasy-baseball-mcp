@@ -8,6 +8,7 @@
   same position.
 - Typical tables use `columns: ["stat_id", "value"]`; Yahoo-wide player rankings also include
   `name` and `display_name` columns.
+- League/game `stat_categories` and matchup `stat_winners` use the same row-table format.
 - Yahoo player lists use the same `columns` / `rows` format. `get_roster` with `keyOnly=true`
   remains a plain player-key array.
 
