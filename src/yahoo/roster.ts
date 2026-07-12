@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, textResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { mapCompactRosterPlayer, mapPlayerProfile } from "./mappers.js";
+import { mapCompactRosterPlayer, mapPlayerProfile, mapStatsTable } from "./mappers.js";
 import { DESTRUCTIVE, WRITE_NOT_SUPPORTED } from "./writeSupport.js";
 import { escapeXml } from "./utils.js";
 
@@ -29,7 +29,7 @@ export function mapRosterStats(data: any) {
       selected_position: player.selected_position?.position,
       is_flex: player.selected_position?.is_flex || undefined,
       is_starting: player.starting_status?.is_starting,
-      player_stats: player.player_stats,
+      player_stats: mapStatsTable(player.player_stats),
     })),
   };
 }

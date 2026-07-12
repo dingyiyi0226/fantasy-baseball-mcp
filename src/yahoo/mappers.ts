@@ -1,5 +1,29 @@
 import { asArray } from "../util.js";
 
+/**
+ * Compact Yahoo's repeated stat records into a self-describing row table.
+ * Columns and rows stay together so clients do not need to align parallel arrays.
+ */
+export function mapStatsTable(
+  statBlock: any,
+  columns: readonly string[] = ["stat_id", "value"],
+  mapStat: (stat: any) => Record<string, unknown> = (stat) => stat,
+) {
+  if (!statBlock?.stats?.stat) return statBlock;
+  const { stat, ...statsMetadata } = statBlock.stats;
+  return {
+    ...statBlock,
+    stats: {
+      ...statsMetadata,
+      columns,
+      rows: asArray(stat).map((stat: any) => {
+        const mappedStat = mapStat(stat);
+        return columns.map((column) => mappedStat[column] ?? null);
+      }),
+    },
+  };
+}
+
 function mapManager(m: any) {
   return {
     manager_id: m.manager_id,

@@ -4,7 +4,7 @@ import { jsonResult, type McpContext } from "../mcp.js";
 import type { ScoringCategory } from "../app/config.js";
 import type { YahooClient } from "./client.js";
 import { asArray, str } from "../util.js";
-import { mapLeagueHeader } from "./mappers.js";
+import { mapLeagueHeader, mapStatsTable } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -88,7 +88,7 @@ export function mapLeague(data: any) {
       standings: asArray(league.standings?.teams?.team).map((team: any) => ({
         team_key: team.team_key,
         name: team.name,
-        team_stats: team.team_stats,
+        team_stats: mapStatsTable(team.team_stats),
         team_points: team.team_points,
         team_standings: team.team_standings,
       })),

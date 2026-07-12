@@ -16,6 +16,9 @@ npm run pack           # build .mcpb bundle
 
 **Read:** `list_games`, `get_game`, `list_leagues`, `get_league`, `get_league_metadata`, `list_teams`, `get_team`, `get_roster`, `get_roster_stats`, `get_team_stats`, `get_league_scoreboard`, `get_team_matchup_history`, `get_player_stats`, `list_players`, `rank_players`, `rank_game_players`, `search_players`, `get_league_scoring_categories`, `get_transactions`
 
+Yahoo stat values use compact row tables: `stats.columns` defines the fields at each position in
+the corresponding `stats.rows` arrays.
+
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`
 (one team's metadata + season stats) vs `get_league` (league settings, standings, and team

@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray } from "../util.js";
-import { mapMatchup } from "./mappers.js";
+import { mapMatchup, mapStatsTable } from "./mappers.js";
 import { leagueKeyFromTeamKey } from "./utils.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
@@ -15,7 +15,7 @@ function mapTeamMatchupTeam(team: any) {
   return {
     team_key: team.team_key,
     name: team.name,
-    team_stats: team.team_stats,
+    team_stats: mapStatsTable(team.team_stats),
   };
 }
 
@@ -54,7 +54,7 @@ export function mapTeamMatchups(data: any, weeks?: number[]) {
   if (!team) return data;
   const requestedWeeks = weeks && weeks.length > 0 ? new Set(weeks) : undefined;
   return {
-    team: { team_key: team.team_key, name: team.name, team_stats: team.team_stats },
+    team: { team_key: team.team_key, name: team.name, team_stats: mapStatsTable(team.team_stats) },
     matchups: asArray(team.matchups?.matchup)
       .filter((matchup) => !requestedWeeks || requestedWeeks.has(Number(matchup.week)))
       .map((matchup) => mapMatchup(matchup, mapTeamMatchupTeam)),

@@ -2,6 +2,13 @@
 
 ## Tool Constraints & Known Behaviors
 
+### Yahoo stat tables
+- Yahoo stat values are compact row tables: `stats.columns` defines the fields in every
+  corresponding `stats.rows` entry. Read a row by matching each value to the column at the
+  same position.
+- Typical tables use `columns: ["stat_id", "value"]`; Yahoo-wide player rankings also include
+  `name` and `display_name` columns.
+
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
 - **Batch size ≤ 10** — the tool enforces `.max(10)` on `playerKeys`. A 28-player roster = 3 batches (≤10 each).

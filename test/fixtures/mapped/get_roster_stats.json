@@ -28,39 +28,43 @@
         "coverage_type": "date",
         "date": "2026-06-20",
         "stats": {
-          "stat": [
-            {
-              "stat_id": 60,
-              "value": "-/-"
-            },
-            {
-              "stat_id": 7,
-              "value": "-"
-            },
-            {
-              "stat_id": 12,
-              "value": "-"
-            },
-            {
-              "stat_id": 13,
-              "value": "-"
-            },
-            {
-              "stat_id": 16,
-              "value": "-"
-            },
-            {
-              "stat_id": 20,
-              "value": "-"
-            },
-            {
-              "stat_id": 23,
-              "value": "-"
-            },
-            {
-              "stat_id": 4,
-              "value": "-"
-            }
+          "columns": [
+            "stat_id",
+            "value"
+          ],
+          "rows": [
+            [
+              60,
+              "-/-"
+            ],
+            [
+              7,
+              "-"
+            ],
+            [
+              12,
+              "-"
+            ],
+            [
+              13,
+              "-"
+            ],
+            [
+              16,
+              "-"
+            ],
+            [
+              20,
+              "-"
+            ],
+            [
+              23,
+              "-"
+            ],
+            [
+              4,
+              "-"
+            ]
           ]
         }
       }
@@ -86,39 +90,43 @@
         "coverage_type": "date",
         "date": "2026-06-20",
         "stats": {
-          "stat": [
-            {
-              "stat_id": 60,
-              "value": "0/4"
-            },
-            {
-              "stat_id": 7,
-              "value": 0
-            },
-            {
-              "stat_id": 12,
-              "value": 0
-            },
-            {
-              "stat_id": 13,
-              "value": 0
-            },
-            {
-              "stat_id": 16,
-              "value": 0
-            },
-            {
-              "stat_id": 20,
-              "value": 0
-            },
-            {
-              "stat_id": 23,
-              "value": 0
-            },
-            {
-              "stat_id": 4,
-              "value": 0
-            }
+          "columns": [
+            "stat_id",
+            "value"
+          ],
+          "rows": [
+            [
+              60,
+              "0/4"
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              13,
+              0
+            ],
+            [
+              16,
+              0
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              23,
+              0
+            ],
+            [
+              4,
+              0
+            ]
           ]
         }
       }
@@ -145,39 +153,43 @@
         "coverage_type": "date",
         "date": "2026-06-20",
         "stats": {
-          "stat": [
-            {
-              "stat_id": 60,
-              "value": "1/5"
-            },
-            {
-              "stat_id": 7,
-              "value": 2
-            },
-            {
-              "stat_id": 12,
-              "value": 0
-            },
-            {
-              "stat_id": 13,
-              "value": 0
-            },
-            {
-              "stat_id": 16,
-              "value": 1
-            },
-            {
-              "stat_id": 20,
-              "value": 0
-            },
-            {
-              "stat_id": 23,
-              "value": 1
-            },
-            {
-              "stat_id": 4,
-              "value": 0.2
-            }
+          "columns": [
+            "stat_id",
+            "value"
+          ],
+          "rows": [
+            [
+              60,
+              "1/5"
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              13,
+              0
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              23,
+              1
+            ],
+            [
+              4,
+              0.2
+            ]
           ]
         }
       }

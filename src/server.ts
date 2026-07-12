@@ -40,6 +40,10 @@ own bullet points or "two options" framing. Do NOT omit the network-allowlist
 section, the numbered steps, the URL, or any field names. The user depends on
 the exact instructions; rewriting them breaks the setup flow.
 
+Yahoo stats use compact row tables: \`stats.columns\` names the values in each
+corresponding \`stats.rows\` array. Read values by their shared position; do not
+treat the columns as unrelated lists.
+
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact seven-field
   player view: player_key, name, editorial_team_abbr, display_position, selected_position,

@@ -17,6 +17,7 @@ import { dirname, join } from "path";
 import * as leagueMappers from "../dist/yahoo/league.js";
 import * as gameMappers from "../dist/yahoo/game.js";
 import * as matchupMappers from "../dist/yahoo/matchup.js";
+import * as commonMappers from "../dist/yahoo/mappers.js";
 import * as playerMappers from "../dist/yahoo/player.js";
 import * as rosterMappers from "../dist/yahoo/roster.js";
 import * as teamMappers from "../dist/yahoo/team.js";
@@ -26,6 +27,7 @@ const mappers = {
   ...gameMappers,
   ...leagueMappers,
   ...matchupMappers,
+  ...commonMappers,
   ...playerMappers,
   ...rosterMappers,
   ...teamMappers,
@@ -91,6 +93,23 @@ if (matchupResource === "/team/123.l.12345.t.1/matchups;weeks=16") {
 } else {
   failed++;
   console.log("  FAIL get_team_matchup_history uses the matchup weeks endpoint");
+}
+
+const compactStats = mappers.mapStatsTable({
+  coverage_type: "date",
+  stats: { stat: [{ stat_id: 60, value: "" }, { stat_id: 7, value: 426 }] },
+});
+if (
+  JSON.stringify(compactStats) ===
+  JSON.stringify({
+    coverage_type: "date",
+    stats: { columns: ["stat_id", "value"], rows: [[60, ""], [7, 426]] },
+  })
+) {
+  console.log("  ok   stats use compact self-describing row tables");
+} else {
+  failed++;
+  console.log("  FAIL stats use compact self-describing row tables");
 }
 
 const registeredTools = new Map();

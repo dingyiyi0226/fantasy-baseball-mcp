@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, str } from "../util.js";
-import { mapTeamSummary } from "./mappers.js";
+import { mapStatsTable, mapTeamSummary } from "./mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -21,7 +21,7 @@ export function mapTeam(data: any) {
   return {
     team: {
       ...mapTeamSummary(team),
-      team_stats: team.team_stats,
+      team_stats: mapStatsTable(team.team_stats),
       team_points: team.team_points,
       team_standings: team.team_standings,
     },
@@ -35,7 +35,7 @@ export function mapTeamStats(data: any) {
     team_key: team.team_key,
     name: team.name,
     ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
-    team_stats: team.team_stats,
+    team_stats: mapStatsTable(team.team_stats),
     team_points: team.team_points,
   };
 }

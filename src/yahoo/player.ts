@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { mapLeagueHeader, mapPlayerProfile } from "./mappers.js";
+import { mapLeagueHeader, mapPlayerProfile, mapStatsTable } from "./mappers.js";
 import { gameIdFromLeagueKey } from "./utils.js";
 import type { GameStatCategory } from "./game.js";
 
@@ -21,7 +21,7 @@ export function mapPlayerStats(data: any) {
   return {
     players: asArray(data?.players?.player).map((player: any) => ({
       ...mapPlayerProfile(player),
-      player_stats: player.player_stats,
+      player_stats: mapStatsTable(player.player_stats),
     })),
   };
 }
@@ -40,8 +40,8 @@ export function mapRankPlayers(data: any) {
         ? { batting_order: player.batting_order.order_num }
         : {}),
       ownership: mapOwnership(player.ownership),
-      player_stats: player.player_stats,
-      player_advanced_stats: player.player_advanced_stats,
+      player_stats: mapStatsTable(player.player_stats),
+      player_advanced_stats: mapStatsTable(player.player_advanced_stats),
     })),
   };
 }
@@ -49,21 +49,19 @@ export function mapRankPlayers(data: any) {
 /** Map a game-wide player leaderboard without league ownership or scoring context. */
 function mapStatsWithCategories(playerStats: any, categoriesById: Map<number, GameStatCategory>) {
   if (!playerStats?.stats?.stat) return playerStats;
-  return {
-    ...playerStats,
-    stats: {
-      ...playerStats.stats,
-      stat: asArray(playerStats.stats.stat).map((stat: any) => {
-        const category = categoriesById.get(stat.stat_id);
-        return {
-          stat_id: stat.stat_id,
-          ...(category?.name ? { name: category.name } : {}),
-          ...(category?.display_name ? { display_name: category.display_name } : {}),
-          value: stat.value,
-        };
-      }),
+  return mapStatsTable(
+    playerStats,
+    ["stat_id", "name", "display_name", "value"],
+    (stat: any) => {
+      const category = categoriesById.get(stat.stat_id);
+      return {
+        stat_id: stat.stat_id,
+        name: category?.name,
+        display_name: category?.display_name,
+        value: stat.value,
+      };
     },
-  };
+  );
 }
 
 export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[] = []) {
@@ -81,7 +79,7 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
     players: asArray(game.players?.player).map((player: any) => ({
       ...mapPlayerProfile(player),
       player_stats: mapStatsWithCategories(player.player_stats, categoriesById),
-      player_advanced_stats: player.player_advanced_stats,
+      player_advanced_stats: mapStatsTable(player.player_advanced_stats),
     })),
   };
 }
