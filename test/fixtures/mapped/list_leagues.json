@@ -8,12 +8,7 @@
       "season": 2020,
       "is_game_over": 1,
       "is_offseason": 1,
-      "leagues": [
-        {
-          "league_key": "123.l.12345",
-          "name": "Demo League"
-        }
-      ]
+      "leagues": [{"league_key": "123.l.12345", "name": "Demo League"}]
     },
     {
       "game_key": 123,
@@ -23,12 +18,7 @@
       "season": 2021,
       "is_game_over": 1,
       "is_offseason": 1,
-      "leagues": [
-        {
-          "league_key": "123.l.12345",
-          "name": "Demo League"
-        }
-      ]
+      "leagues": [{"league_key": "123.l.12345", "name": "Demo League"}]
     }
   ]
 }

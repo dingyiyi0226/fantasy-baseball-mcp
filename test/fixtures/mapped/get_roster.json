@@ -17,33 +17,9 @@
       "is_starting"
     ],
     "rows": [
-      [
-        "123.p.11732",
-        "Adley Rutschman",
-        "BAL",
-        "C",
-        "C",
-        null,
-        0
-      ],
-      [
-        "123.p.10235",
-        "Rafael Devers",
-        "SF",
-        "1B",
-        "1B",
-        null,
-        1
-      ],
-      [
-        "123.p.12100",
-        "Otto Lopez",
-        "MIA",
-        "2B,SS",
-        "2B",
-        null,
-        1
-      ]
+      ["123.p.11732", "Adley Rutschman", "BAL", "C", "C", null, 0],
+      ["123.p.10235", "Rafael Devers", "SF", "1B", "1B", null, 1],
+      ["123.p.12100", "Otto Lopez", "MIA", "2B,SS", "2B", null, 1]
     ]
   }
 }

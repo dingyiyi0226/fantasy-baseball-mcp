@@ -20,6 +20,7 @@
  */
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
+import stringify from "json-stringify-pretty-compact";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { homedir } from "os";
 import { fileURLToPath } from "url";
@@ -257,13 +258,13 @@ try {
   const path =
     configuredPath ?? `/players;player_keys=${playerKeys}/stats;type=date;date=2026-06-20`;
   const raw = clean(await fetchResource(path));
-  writeFileSync(join(RAW_DIR, `${tool}.json`), JSON.stringify(raw, null, 2));
+  writeFileSync(join(RAW_DIR, `${tool}.json`), stringify(raw));
 
   const gameStatCategories = tool === "rank_game_players"
     ? mappers.mapGameStatCategories(clean(await fetchResource(`/game/${lk.split(".")[0]}/stat_categories`))).stat_categories
     : undefined;
   const mapped = mappers[mapper](raw, gameStatCategories);
-  writeFileSync(join(MAPPED_DIR, `${tool}.json`), JSON.stringify(mapped, null, 2));
+  writeFileSync(join(MAPPED_DIR, `${tool}.json`), stringify(mapped));
 
   const rawKB = Math.round(JSON.stringify(raw).length / 1024);
   const mapKB = Math.round(JSON.stringify(mapped).length / 1024);

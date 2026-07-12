@@ -29,26 +29,14 @@
           "editorial_team_full_name": "Milwaukee Brewers",
           "editorial_team_abbr": "MIL",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 32,
           "display_position": "SP",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "P",
-          "eligible_positions": {
-            "position": [
-              "P",
-              "SP"
-            ]
-          },
+          "eligible_positions": {"position": ["P", "SP"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1783517228,
@@ -57,222 +45,60 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 0,
-                  "value": 18
-                },
-                {
-                  "stat_id": 24,
-                  "value": 18
-                },
-                {
-                  "stat_id": 25,
-                  "value": 18
-                },
-                {
-                  "stat_id": 50,
-                  "value": 111
-                },
-                {
-                  "stat_id": 28,
-                  "value": 10
-                },
-                {
-                  "stat_id": 29,
-                  "value": 4
-                },
-                {
-                  "stat_id": 30,
-                  "value": 1
-                },
-                {
-                  "stat_id": 31,
-                  "value": 1
-                },
-                {
-                  "stat_id": 32,
-                  "value": 0
-                },
-                {
-                  "stat_id": 33,
-                  "value": 333
-                },
-                {
-                  "stat_id": 34,
-                  "value": 57
-                },
-                {
-                  "stat_id": 35,
-                  "value": 422
-                },
-                {
-                  "stat_id": 36,
-                  "value": 27
-                },
-                {
-                  "stat_id": 37,
-                  "value": 20
-                },
-                {
-                  "stat_id": 38,
-                  "value": 9
-                },
-                {
-                  "stat_id": 39,
-                  "value": 27
-                },
-                {
-                  "stat_id": 40,
-                  "value": 0
-                },
-                {
-                  "stat_id": 41,
-                  "value": 8
-                },
-                {
-                  "stat_id": 42,
-                  "value": 167
-                },
-                {
-                  "stat_id": 43,
-                  "value": 5
-                },
-                {
-                  "stat_id": 44,
-                  "value": 1
-                },
-                {
-                  "stat_id": 45,
-                  "value": 1
-                },
-                {
-                  "stat_id": 46,
-                  "value": 7
-                },
-                {
-                  "stat_id": 47,
-                  "value": 0
-                },
-                {
-                  "stat_id": 48,
-                  "value": 0
-                },
-                {
-                  "stat_id": 49,
-                  "value": 89
-                },
-                {
-                  "stat_id": 26,
-                  "value": 1.62
-                },
-                {
-                  "stat_id": 27,
-                  "value": 0.76
-                },
-                {
-                  "stat_id": 56,
-                  "value": 6.19
-                },
-                {
-                  "stat_id": 57,
-                  "value": 13.54
-                },
-                {
-                  "stat_id": 58,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 59,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 67,
-                  "value": 1660
-                },
-                {
-                  "stat_id": 76,
-                  "value": 43
-                },
-                {
-                  "stat_id": 68,
-                  "value": 5
-                },
-                {
-                  "stat_id": 69,
-                  "value": 0
-                },
-                {
-                  "stat_id": 70,
-                  "value": 0
-                },
-                {
-                  "stat_id": 71,
-                  "value": 0
-                },
-                {
-                  "stat_id": 72,
-                  "value": 0
-                },
-                {
-                  "stat_id": 73,
-                  "value": 0
-                },
-                {
-                  "stat_id": 74,
-                  "value": 0.218
-                },
-                {
-                  "stat_id": 75,
-                  "value": 0.714
-                },
-                {
-                  "stat_id": 77,
-                  "value": 4.622
-                },
-                {
-                  "stat_id": 78,
-                  "value": 2.189
-                },
-                {
-                  "stat_id": 79,
-                  "value": 0
-                },
-                {
-                  "stat_id": 80,
-                  "value": 0
-                },
-                {
-                  "stat_id": 81,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 82,
-                  "value": 0
-                },
-                {
-                  "stat_id": 83,
-                  "value": 12
-                },
-                {
-                  "stat_id": 84,
-                  "value": 0
-                },
-                {
-                  "stat_id": 85,
-                  "value": 0
-                },
-                {
-                  "stat_id": 89,
-                  "value": 0
-                },
-                {
-                  "stat_id": 90,
-                  "value": 0
-                },
-                {
-                  "stat_id": 91,
-                  "value": 6
-                }
+                {"stat_id": 0, "value": 18},
+                {"stat_id": 24, "value": 18},
+                {"stat_id": 25, "value": 18},
+                {"stat_id": 50, "value": 111},
+                {"stat_id": 28, "value": 10},
+                {"stat_id": 29, "value": 4},
+                {"stat_id": 30, "value": 1},
+                {"stat_id": 31, "value": 1},
+                {"stat_id": 32, "value": 0},
+                {"stat_id": 33, "value": 333},
+                {"stat_id": 34, "value": 57},
+                {"stat_id": 35, "value": 422},
+                {"stat_id": 36, "value": 27},
+                {"stat_id": 37, "value": 20},
+                {"stat_id": 38, "value": 9},
+                {"stat_id": 39, "value": 27},
+                {"stat_id": 40, "value": 0},
+                {"stat_id": 41, "value": 8},
+                {"stat_id": 42, "value": 167},
+                {"stat_id": 43, "value": 5},
+                {"stat_id": 44, "value": 1},
+                {"stat_id": 45, "value": 1},
+                {"stat_id": 46, "value": 7},
+                {"stat_id": 47, "value": 0},
+                {"stat_id": 48, "value": 0},
+                {"stat_id": 49, "value": 89},
+                {"stat_id": 26, "value": 1.62},
+                {"stat_id": 27, "value": 0.76},
+                {"stat_id": 56, "value": 6.19},
+                {"stat_id": 57, "value": 13.54},
+                {"stat_id": 58, "value": "-"},
+                {"stat_id": 59, "value": "-"},
+                {"stat_id": 67, "value": 1660},
+                {"stat_id": 76, "value": 43},
+                {"stat_id": 68, "value": 5},
+                {"stat_id": 69, "value": 0},
+                {"stat_id": 70, "value": 0},
+                {"stat_id": 71, "value": 0},
+                {"stat_id": 72, "value": 0},
+                {"stat_id": 73, "value": 0},
+                {"stat_id": 74, "value": 0.218},
+                {"stat_id": 75, "value": 0.714},
+                {"stat_id": 77, "value": 4.622},
+                {"stat_id": 78, "value": 2.189},
+                {"stat_id": 79, "value": 0},
+                {"stat_id": 80, "value": 0},
+                {"stat_id": 81, "value": "-"},
+                {"stat_id": 82, "value": 0},
+                {"stat_id": 83, "value": 12},
+                {"stat_id": 84, "value": 0},
+                {"stat_id": 85, "value": 0},
+                {"stat_id": 89, "value": 0},
+                {"stat_id": 90, "value": 0},
+                {"stat_id": 91, "value": 6}
               ]
             }
           },
@@ -281,78 +107,24 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1032,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1021,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1022,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1031,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1036,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1037,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1038,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1020,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1018,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1034,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1019,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1023,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1024,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1025,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1028,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1029,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1030,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1033,
-                  "value": 0
-                }
+                {"stat_id": 1032, "value": 0},
+                {"stat_id": 1021, "value": 0},
+                {"stat_id": 1022, "value": 0},
+                {"stat_id": 1031, "value": 0},
+                {"stat_id": 1036, "value": 0},
+                {"stat_id": 1037, "value": 0},
+                {"stat_id": 1038, "value": 0},
+                {"stat_id": 1020, "value": 0},
+                {"stat_id": 1018, "value": 0},
+                {"stat_id": 1034, "value": 0},
+                {"stat_id": 1019, "value": 0},
+                {"stat_id": 1023, "value": 0},
+                {"stat_id": 1024, "value": 0},
+                {"stat_id": 1025, "value": 0},
+                {"stat_id": 1028, "value": 0},
+                {"stat_id": 1029, "value": 0},
+                {"stat_id": 1030, "value": 0},
+                {"stat_id": 1033, "value": 0}
               ]
             }
           }
@@ -373,27 +145,14 @@
           "editorial_team_full_name": "Washington Nationals",
           "editorial_team_abbr": "WSH",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 29,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
-          "eligible_positions": {
-            "position": [
-              "LF",
-              "OF",
-              "RF"
-            ]
-          },
+          "eligible_positions": {"position": ["LF", "OF", "RF"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1783480061,
@@ -402,166 +161,46 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 0,
-                  "value": 94
-                },
-                {
-                  "stat_id": 1,
-                  "value": 94
-                },
-                {
-                  "stat_id": 2,
-                  "value": 94
-                },
-                {
-                  "stat_id": 6,
-                  "value": 357
-                },
-                {
-                  "stat_id": 7,
-                  "value": 85
-                },
-                {
-                  "stat_id": 8,
-                  "value": 96
-                },
-                {
-                  "stat_id": 9,
-                  "value": 48
-                },
-                {
-                  "stat_id": 10,
-                  "value": 22
-                },
-                {
-                  "stat_id": 11,
-                  "value": 1
-                },
-                {
-                  "stat_id": 12,
-                  "value": 25
-                },
-                {
-                  "stat_id": 13,
-                  "value": 61
-                },
-                {
-                  "stat_id": 14,
-                  "value": 0
-                },
-                {
-                  "stat_id": 15,
-                  "value": 2
-                },
-                {
-                  "stat_id": 16,
-                  "value": 15
-                },
-                {
-                  "stat_id": 17,
-                  "value": 2
-                },
-                {
-                  "stat_id": 18,
-                  "value": 77
-                },
-                {
-                  "stat_id": 19,
-                  "value": 8
-                },
-                {
-                  "stat_id": 20,
-                  "value": 4
-                },
-                {
-                  "stat_id": 21,
-                  "value": 127
-                },
-                {
-                  "stat_id": 22,
-                  "value": 3
-                },
-                {
-                  "stat_id": 23,
-                  "value": 195
-                },
-                {
-                  "stat_id": 51,
-                  "value": 146
-                },
-                {
-                  "stat_id": 52,
-                  "value": 5
-                },
-                {
-                  "stat_id": 53,
-                  "value": 4
-                },
-                {
-                  "stat_id": 54,
-                  "value": 0.974
-                },
-                {
-                  "stat_id": 3,
-                  "value": 0.269
-                },
-                {
-                  "stat_id": 4,
-                  "value": 0.402
-                },
-                {
-                  "stat_id": 5,
-                  "value": 0.546
-                },
-                {
-                  "stat_id": 55,
-                  "value": 0.948
-                },
-                {
-                  "stat_id": 58,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 59,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 61,
-                  "value": 48
-                },
-                {
-                  "stat_id": 62,
-                  "value": 13
-                },
-                {
-                  "stat_id": 63,
-                  "value": 0.882
-                },
-                {
-                  "stat_id": 64,
-                  "value": 0
-                },
-                {
-                  "stat_id": 65,
-                  "value": 440
-                },
-                {
-                  "stat_id": 66,
-                  "value": 2
-                },
-                {
-                  "stat_id": 86,
-                  "value": 5
-                },
-                {
-                  "stat_id": 87,
-                  "value": 0
-                },
-                {
-                  "stat_id": 88,
-                  "value": 0
-                }
+                {"stat_id": 0, "value": 94},
+                {"stat_id": 1, "value": 94},
+                {"stat_id": 2, "value": 94},
+                {"stat_id": 6, "value": 357},
+                {"stat_id": 7, "value": 85},
+                {"stat_id": 8, "value": 96},
+                {"stat_id": 9, "value": 48},
+                {"stat_id": 10, "value": 22},
+                {"stat_id": 11, "value": 1},
+                {"stat_id": 12, "value": 25},
+                {"stat_id": 13, "value": 61},
+                {"stat_id": 14, "value": 0},
+                {"stat_id": 15, "value": 2},
+                {"stat_id": 16, "value": 15},
+                {"stat_id": 17, "value": 2},
+                {"stat_id": 18, "value": 77},
+                {"stat_id": 19, "value": 8},
+                {"stat_id": 20, "value": 4},
+                {"stat_id": 21, "value": 127},
+                {"stat_id": 22, "value": 3},
+                {"stat_id": 23, "value": 195},
+                {"stat_id": 51, "value": 146},
+                {"stat_id": 52, "value": 5},
+                {"stat_id": 53, "value": 4},
+                {"stat_id": 54, "value": 0.974},
+                {"stat_id": 3, "value": 0.269},
+                {"stat_id": 4, "value": 0.402},
+                {"stat_id": 5, "value": 0.546},
+                {"stat_id": 55, "value": 0.948},
+                {"stat_id": 58, "value": "-"},
+                {"stat_id": 59, "value": "-"},
+                {"stat_id": 61, "value": 48},
+                {"stat_id": 62, "value": 13},
+                {"stat_id": 63, "value": 0.882},
+                {"stat_id": 64, "value": 0},
+                {"stat_id": 65, "value": 440},
+                {"stat_id": 66, "value": 2},
+                {"stat_id": 86, "value": 5},
+                {"stat_id": 87, "value": 0},
+                {"stat_id": 88, "value": 0}
               ]
             }
           },
@@ -570,74 +209,23 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1035,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1008,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1013,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1002,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1014,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1015,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1011,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1005,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1006,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1009,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1007,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1010,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1004,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1039,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1003,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1040,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1041,
-                  "value": 0
-                }
+                {"stat_id": 1035, "value": 0},
+                {"stat_id": 1008, "value": 0},
+                {"stat_id": 1013, "value": 0},
+                {"stat_id": 1002, "value": 0},
+                {"stat_id": 1014, "value": 0},
+                {"stat_id": 1015, "value": 0},
+                {"stat_id": 1011, "value": 0},
+                {"stat_id": 1005, "value": 0},
+                {"stat_id": 1006, "value": 0},
+                {"stat_id": 1009, "value": 0},
+                {"stat_id": 1007, "value": 0},
+                {"stat_id": 1010, "value": 0},
+                {"stat_id": 1004, "value": 0},
+                {"stat_id": 1039, "value": 0},
+                {"stat_id": 1003, "value": 0},
+                {"stat_id": 1040, "value": 0},
+                {"stat_id": 1041, "value": 0}
               ]
             }
           }
@@ -658,26 +246,14 @@
           "editorial_team_full_name": "Houston Astros",
           "editorial_team_abbr": "HOU",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 44,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
-          "eligible_positions": {
-            "position": [
-              "LF",
-              "OF"
-            ]
-          },
+          "eligible_positions": {"position": ["LF", "OF"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1783220608,
@@ -686,166 +262,46 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 0,
-                  "value": 93
-                },
-                {
-                  "stat_id": 1,
-                  "value": 93
-                },
-                {
-                  "stat_id": 2,
-                  "value": 93
-                },
-                {
-                  "stat_id": 6,
-                  "value": 339
-                },
-                {
-                  "stat_id": 7,
-                  "value": 62
-                },
-                {
-                  "stat_id": 8,
-                  "value": 105
-                },
-                {
-                  "stat_id": 9,
-                  "value": 60
-                },
-                {
-                  "stat_id": 10,
-                  "value": 16
-                },
-                {
-                  "stat_id": 11,
-                  "value": 0
-                },
-                {
-                  "stat_id": 12,
-                  "value": 29
-                },
-                {
-                  "stat_id": 13,
-                  "value": 67
-                },
-                {
-                  "stat_id": 14,
-                  "value": 0
-                },
-                {
-                  "stat_id": 15,
-                  "value": 3
-                },
-                {
-                  "stat_id": 16,
-                  "value": 1
-                },
-                {
-                  "stat_id": 17,
-                  "value": 0
-                },
-                {
-                  "stat_id": 18,
-                  "value": 59
-                },
-                {
-                  "stat_id": 19,
-                  "value": 13
-                },
-                {
-                  "stat_id": 20,
-                  "value": 5
-                },
-                {
-                  "stat_id": 21,
-                  "value": 72
-                },
-                {
-                  "stat_id": 22,
-                  "value": 2
-                },
-                {
-                  "stat_id": 23,
-                  "value": 208
-                },
-                {
-                  "stat_id": 51,
-                  "value": 25
-                },
-                {
-                  "stat_id": 52,
-                  "value": 0
-                },
-                {
-                  "stat_id": 53,
-                  "value": 2
-                },
-                {
-                  "stat_id": 54,
-                  "value": 0.926
-                },
-                {
-                  "stat_id": 3,
-                  "value": 0.31
-                },
-                {
-                  "stat_id": 4,
-                  "value": 0.416
-                },
-                {
-                  "stat_id": 5,
-                  "value": 0.614
-                },
-                {
-                  "stat_id": 55,
-                  "value": 1.03
-                },
-                {
-                  "stat_id": 58,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 59,
-                  "value": "-"
-                },
-                {
-                  "stat_id": 61,
-                  "value": 45
-                },
-                {
-                  "stat_id": 62,
-                  "value": 1
-                },
-                {
-                  "stat_id": 63,
-                  "value": 1
-                },
-                {
-                  "stat_id": 64,
-                  "value": 0
-                },
-                {
-                  "stat_id": 65,
-                  "value": 406
-                },
-                {
-                  "stat_id": 66,
-                  "value": 3
-                },
-                {
-                  "stat_id": 86,
-                  "value": 0
-                },
-                {
-                  "stat_id": 87,
-                  "value": 0
-                },
-                {
-                  "stat_id": 88,
-                  "value": 0
-                }
+                {"stat_id": 0, "value": 93},
+                {"stat_id": 1, "value": 93},
+                {"stat_id": 2, "value": 93},
+                {"stat_id": 6, "value": 339},
+                {"stat_id": 7, "value": 62},
+                {"stat_id": 8, "value": 105},
+                {"stat_id": 9, "value": 60},
+                {"stat_id": 10, "value": 16},
+                {"stat_id": 11, "value": 0},
+                {"stat_id": 12, "value": 29},
+                {"stat_id": 13, "value": 67},
+                {"stat_id": 14, "value": 0},
+                {"stat_id": 15, "value": 3},
+                {"stat_id": 16, "value": 1},
+                {"stat_id": 17, "value": 0},
+                {"stat_id": 18, "value": 59},
+                {"stat_id": 19, "value": 13},
+                {"stat_id": 20, "value": 5},
+                {"stat_id": 21, "value": 72},
+                {"stat_id": 22, "value": 2},
+                {"stat_id": 23, "value": 208},
+                {"stat_id": 51, "value": 25},
+                {"stat_id": 52, "value": 0},
+                {"stat_id": 53, "value": 2},
+                {"stat_id": 54, "value": 0.926},
+                {"stat_id": 3, "value": 0.31},
+                {"stat_id": 4, "value": 0.416},
+                {"stat_id": 5, "value": 0.614},
+                {"stat_id": 55, "value": 1.03},
+                {"stat_id": 58, "value": "-"},
+                {"stat_id": 59, "value": "-"},
+                {"stat_id": 61, "value": 45},
+                {"stat_id": 62, "value": 1},
+                {"stat_id": 63, "value": 1},
+                {"stat_id": 64, "value": 0},
+                {"stat_id": 65, "value": 406},
+                {"stat_id": 66, "value": 3},
+                {"stat_id": 86, "value": 0},
+                {"stat_id": 87, "value": 0},
+                {"stat_id": 88, "value": 0}
               ]
             }
           },
@@ -854,74 +310,23 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1035,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1008,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1013,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1002,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1014,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1015,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1011,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1005,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1006,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1009,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1007,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1010,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1004,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1039,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1003,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1040,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1041,
-                  "value": 0
-                }
+                {"stat_id": 1035, "value": 0},
+                {"stat_id": 1008, "value": 0},
+                {"stat_id": 1013, "value": 0},
+                {"stat_id": 1002, "value": 0},
+                {"stat_id": 1014, "value": 0},
+                {"stat_id": 1015, "value": 0},
+                {"stat_id": 1011, "value": 0},
+                {"stat_id": 1005, "value": 0},
+                {"stat_id": 1006, "value": 0},
+                {"stat_id": 1009, "value": 0},
+                {"stat_id": 1007, "value": 0},
+                {"stat_id": 1010, "value": 0},
+                {"stat_id": 1004, "value": 0},
+                {"stat_id": 1039, "value": 0},
+                {"stat_id": 1003, "value": 0},
+                {"stat_id": 1040, "value": 0},
+                {"stat_id": 1041, "value": 0}
               ]
             }
           }

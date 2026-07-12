@@ -51,27 +51,15 @@
           "editorial_team_full_name": "Washington Nationals",
           "editorial_team_abbr": "WSH",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 29,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
           "primary_position": "OF",
-          "eligible_positions": {
-            "position": [
-              "OF",
-              "Util"
-            ]
-          },
+          "eligible_positions": {"position": ["OF", "Util"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781487086,
@@ -80,9 +68,7 @@
             "date": "2026-06-21",
             "is_starting": 1
           },
-          "batting_order": {
-            "order_num": 1
-          },
+          "batting_order": {"order_num": 1},
           "ownership": {
             "ownership_type": "team",
             "owner_team_key": "123.l.12345.t.4",
@@ -128,38 +114,14 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 60,
-                  "value": "80/294"
-                },
-                {
-                  "stat_id": 7,
-                  "value": 68
-                },
-                {
-                  "stat_id": 12,
-                  "value": 20
-                },
-                {
-                  "stat_id": 13,
-                  "value": 48
-                },
-                {
-                  "stat_id": 16,
-                  "value": 13
-                },
-                {
-                  "stat_id": 20,
-                  "value": 4
-                },
-                {
-                  "stat_id": 23,
-                  "value": 158
-                },
-                {
-                  "stat_id": 4,
-                  "value": 0.399
-                }
+                {"stat_id": 60, "value": "80/294"},
+                {"stat_id": 7, "value": 68},
+                {"stat_id": 12, "value": 20},
+                {"stat_id": 13, "value": 48},
+                {"stat_id": 16, "value": 13},
+                {"stat_id": 20, "value": 4},
+                {"stat_id": 23, "value": 158},
+                {"stat_id": 4, "value": 0.399}
               ]
             }
           },
@@ -168,74 +130,23 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1035,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1008,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1013,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1002,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1014,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1015,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1011,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1005,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1006,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1009,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1007,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1010,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1004,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1039,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1003,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1040,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1041,
-                  "value": 0
-                }
+                {"stat_id": 1035, "value": 0},
+                {"stat_id": 1008, "value": 0},
+                {"stat_id": 1013, "value": 0},
+                {"stat_id": 1002, "value": 0},
+                {"stat_id": 1014, "value": 0},
+                {"stat_id": 1015, "value": 0},
+                {"stat_id": 1011, "value": 0},
+                {"stat_id": 1005, "value": 0},
+                {"stat_id": 1006, "value": 0},
+                {"stat_id": 1009, "value": 0},
+                {"stat_id": 1007, "value": 0},
+                {"stat_id": 1010, "value": 0},
+                {"stat_id": 1004, "value": 0},
+                {"stat_id": 1039, "value": 0},
+                {"stat_id": 1003, "value": 0},
+                {"stat_id": 1040, "value": 0},
+                {"stat_id": 1041, "value": 0}
               ]
             }
           }
@@ -256,27 +167,15 @@
           "editorial_team_full_name": "Houston Astros",
           "editorial_team_abbr": "HOU",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 44,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
           "primary_position": "OF",
-          "eligible_positions": {
-            "position": [
-              "OF",
-              "Util"
-            ]
-          },
+          "eligible_positions": {"position": ["OF", "Util"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781359470,
@@ -285,9 +184,7 @@
             "date": "2026-06-21",
             "is_starting": 1
           },
-          "batting_order": {
-            "order_num": 2
-          },
+          "batting_order": {"order_num": 2},
           "ownership": {
             "ownership_type": "team",
             "owner_team_key": "123.l.12345.t.4",
@@ -333,38 +230,14 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 60,
-                  "value": "90/281"
-                },
-                {
-                  "stat_id": 7,
-                  "value": 52
-                },
-                {
-                  "stat_id": 12,
-                  "value": 24
-                },
-                {
-                  "stat_id": 13,
-                  "value": 55
-                },
-                {
-                  "stat_id": 16,
-                  "value": 1
-                },
-                {
-                  "stat_id": 20,
-                  "value": 5
-                },
-                {
-                  "stat_id": 23,
-                  "value": 177
-                },
-                {
-                  "stat_id": 4,
-                  "value": 0.424
-                }
+                {"stat_id": 60, "value": "90/281"},
+                {"stat_id": 7, "value": 52},
+                {"stat_id": 12, "value": 24},
+                {"stat_id": 13, "value": 55},
+                {"stat_id": 16, "value": 1},
+                {"stat_id": 20, "value": 5},
+                {"stat_id": 23, "value": 177},
+                {"stat_id": 4, "value": 0.424}
               ]
             }
           },
@@ -373,74 +246,23 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1035,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1008,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1013,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1002,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1014,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1015,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1011,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1005,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1006,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1009,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1007,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1010,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1004,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1039,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1003,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1040,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1041,
-                  "value": 0
-                }
+                {"stat_id": 1035, "value": 0},
+                {"stat_id": 1008, "value": 0},
+                {"stat_id": 1013, "value": 0},
+                {"stat_id": 1002, "value": 0},
+                {"stat_id": 1014, "value": 0},
+                {"stat_id": 1015, "value": 0},
+                {"stat_id": 1011, "value": 0},
+                {"stat_id": 1005, "value": 0},
+                {"stat_id": 1006, "value": 0},
+                {"stat_id": 1009, "value": 0},
+                {"stat_id": 1007, "value": 0},
+                {"stat_id": 1010, "value": 0},
+                {"stat_id": 1004, "value": 0},
+                {"stat_id": 1039, "value": 0},
+                {"stat_id": 1003, "value": 0},
+                {"stat_id": 1040, "value": 0},
+                {"stat_id": 1041, "value": 0}
               ]
             }
           }
@@ -461,27 +283,15 @@
           "editorial_team_full_name": "Milwaukee Brewers",
           "editorial_team_abbr": "MIL",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 32,
           "display_position": "SP",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "P",
           "primary_position": "SP",
-          "eligible_positions": {
-            "position": [
-              "SP",
-              "P"
-            ]
-          },
+          "eligible_positions": {"position": ["SP", "P"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781923177,
@@ -531,38 +341,14 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 50,
-                  "value": 93
-                },
-                {
-                  "stat_id": 28,
-                  "value": 8
-                },
-                {
-                  "stat_id": 32,
-                  "value": 0
-                },
-                {
-                  "stat_id": 26,
-                  "value": 1.45
-                },
-                {
-                  "stat_id": 27,
-                  "value": 0.75
-                },
-                {
-                  "stat_id": 56,
-                  "value": 6
-                },
-                {
-                  "stat_id": 83,
-                  "value": 10
-                },
-                {
-                  "stat_id": 84,
-                  "value": 0
-                }
+                {"stat_id": 50, "value": 93},
+                {"stat_id": 28, "value": 8},
+                {"stat_id": 32, "value": 0},
+                {"stat_id": 26, "value": 1.45},
+                {"stat_id": 27, "value": 0.75},
+                {"stat_id": 56, "value": 6},
+                {"stat_id": 83, "value": 10},
+                {"stat_id": 84, "value": 0}
               ]
             }
           },
@@ -571,78 +357,24 @@
             "season": 2026,
             "stats": {
               "stat": [
-                {
-                  "stat_id": 1032,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1021,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1022,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1031,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1036,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1037,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1038,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1020,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1018,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1034,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1019,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1023,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1024,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1025,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1028,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1029,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1030,
-                  "value": 0
-                },
-                {
-                  "stat_id": 1033,
-                  "value": 0
-                }
+                {"stat_id": 1032, "value": 0},
+                {"stat_id": 1021, "value": 0},
+                {"stat_id": 1022, "value": 0},
+                {"stat_id": 1031, "value": 0},
+                {"stat_id": 1036, "value": 0},
+                {"stat_id": 1037, "value": 0},
+                {"stat_id": 1038, "value": 0},
+                {"stat_id": 1020, "value": 0},
+                {"stat_id": 1018, "value": 0},
+                {"stat_id": 1034, "value": 0},
+                {"stat_id": 1019, "value": 0},
+                {"stat_id": 1023, "value": 0},
+                {"stat_id": 1024, "value": 0},
+                {"stat_id": 1025, "value": 0},
+                {"stat_id": 1028, "value": 0},
+                {"stat_id": 1029, "value": 0},
+                {"stat_id": 1030, "value": 0},
+                {"stat_id": 1033, "value": 0}
               ]
             }
           }

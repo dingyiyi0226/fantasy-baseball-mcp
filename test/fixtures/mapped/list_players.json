@@ -48,10 +48,7 @@
         "OF",
         "B",
         "OF",
-        [
-          "OF",
-          "Util"
-        ],
+        ["OF", "Util"],
         0,
         {
           "ownership_type": "team",
@@ -68,10 +65,7 @@
         "OF",
         "B",
         "OF",
-        [
-          "OF",
-          "Util"
-        ],
+        ["OF", "Util"],
         0,
         {
           "ownership_type": "team",
@@ -88,10 +82,7 @@
         "SP",
         "P",
         "SP",
-        [
-          "SP",
-          "P"
-        ],
+        ["SP", "P"],
         0,
         {
           "ownership_type": "team",

@@ -51,27 +51,15 @@
           "editorial_team_full_name": "Washington Nationals",
           "editorial_team_abbr": "WSH",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 29,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
           "primary_position": "OF",
-          "eligible_positions": {
-            "position": [
-              "OF",
-              "Util"
-            ]
-          },
+          "eligible_positions": {"position": ["OF", "Util"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781487086,
@@ -80,9 +68,7 @@
             "date": "2026-06-21",
             "is_starting": 1
           },
-          "batting_order": {
-            "order_num": 1
-          },
+          "batting_order": {"order_num": 1},
           "ownership": {
             "ownership_type": "team",
             "owner_team_key": "123.l.12345.t.4",
@@ -140,27 +126,15 @@
           "editorial_team_full_name": "Houston Astros",
           "editorial_team_abbr": "HOU",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 44,
           "display_position": "OF",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "B",
           "primary_position": "OF",
-          "eligible_positions": {
-            "position": [
-              "OF",
-              "Util"
-            ]
-          },
+          "eligible_positions": {"position": ["OF", "Util"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781359470,
@@ -169,9 +143,7 @@
             "date": "2026-06-21",
             "is_starting": 1
           },
-          "batting_order": {
-            "order_num": 2
-          },
+          "batting_order": {"order_num": 2},
           "ownership": {
             "ownership_type": "team",
             "owner_team_key": "123.l.12345.t.4",
@@ -229,27 +201,15 @@
           "editorial_team_full_name": "Milwaukee Brewers",
           "editorial_team_abbr": "MIL",
           "editorial_team_url": "https://example.com/editorial_team_url",
-          "is_keeper": {
-            "status": "",
-            "cost": "",
-            "kept": ""
-          },
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
           "uniform_number": 32,
           "display_position": "SP",
-          "headshot": {
-            "url": "https://example.com/url",
-            "size": "small"
-          },
+          "headshot": {"url": "https://example.com/url", "size": "small"},
           "image_url": "https://example.com/image_url",
           "is_undroppable": 0,
           "position_type": "P",
           "primary_position": "SP",
-          "eligible_positions": {
-            "position": [
-              "SP",
-              "P"
-            ]
-          },
+          "eligible_positions": {"position": ["SP", "P"]},
           "eligible_positions_to_add": "",
           "has_player_notes": 1,
           "player_notes_last_timestamp": 1781923177,

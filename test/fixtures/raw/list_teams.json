@@ -42,10 +42,7 @@
           "name": "Team 1",
           "url": "https://example.com/url",
           "team_logos": {
-            "team_logo": {
-              "size": "large",
-              "url": "https://example.com/url"
-            }
+            "team_logo": {"size": "large", "url": "https://example.com/url"}
           },
           "previous_season_team_rank": 5,
           "number_of_moves": 38,
@@ -77,10 +74,7 @@
           "is_owned_by_current_login": 1,
           "url": "https://example.com/url",
           "team_logos": {
-            "team_logo": {
-              "size": "large",
-              "url": "https://example.com/url"
-            }
+            "team_logo": {"size": "large", "url": "https://example.com/url"}
           },
           "previous_season_team_rank": 3,
           "number_of_moves": 21,
@@ -111,10 +105,7 @@
           "name": "Team 3",
           "url": "https://example.com/url",
           "team_logos": {
-            "team_logo": {
-              "size": "large",
-              "url": "https://example.com/url"
-            }
+            "team_logo": {"size": "large", "url": "https://example.com/url"}
           },
           "previous_season_team_rank": 8,
           "number_of_moves": 4,

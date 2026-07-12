@@ -1,8 +1,5 @@
 {
-  "league": {
-    "league_key": "123.l.12345",
-    "name": "Demo League"
-  },
+  "league": {"league_key": "123.l.12345", "name": "Demo League"},
   "transactions": [
     {
       "transaction_key": "123.l.12345.tr.249",

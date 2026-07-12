@@ -43,48 +43,13 @@
       "display_name": "SLG",
       "sort_order": 1
     },
-    {
-      "stat_id": 6,
-      "name": "At Bats",
-      "display_name": "AB",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 7,
-      "name": "Runs",
-      "display_name": "R",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 8,
-      "name": "Hits",
-      "display_name": "H",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 9,
-      "name": "Singles",
-      "display_name": "1B",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 10,
-      "name": "Doubles",
-      "display_name": "2B",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 11,
-      "name": "Triples",
-      "display_name": "3B",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 12,
-      "name": "Home Runs",
-      "display_name": "HR",
-      "sort_order": 1
-    },
+    {"stat_id": 6, "name": "At Bats", "display_name": "AB", "sort_order": 1},
+    {"stat_id": 7, "name": "Runs", "display_name": "R", "sort_order": 1},
+    {"stat_id": 8, "name": "Hits", "display_name": "H", "sort_order": 1},
+    {"stat_id": 9, "name": "Singles", "display_name": "1B", "sort_order": 1},
+    {"stat_id": 10, "name": "Doubles", "display_name": "2B", "sort_order": 1},
+    {"stat_id": 11, "name": "Triples", "display_name": "3B", "sort_order": 1},
+    {"stat_id": 12, "name": "Home Runs", "display_name": "HR", "sort_order": 1},
     {
       "stat_id": 13,
       "name": "Runs Batted In",
@@ -115,12 +80,7 @@
       "display_name": "CS",
       "sort_order": 0
     },
-    {
-      "stat_id": 18,
-      "name": "Walks",
-      "display_name": "BB",
-      "sort_order": 1
-    },
+    {"stat_id": 18, "name": "Walks", "display_name": "BB", "sort_order": 1},
     {
       "stat_id": 19,
       "name": "Intentional Walks",
@@ -133,12 +93,7 @@
       "display_name": "HBP",
       "sort_order": 1
     },
-    {
-      "stat_id": 21,
-      "name": "Strikeouts",
-      "display_name": "K",
-      "sort_order": 0
-    },
+    {"stat_id": 21, "name": "Strikeouts", "display_name": "K", "sort_order": 0},
     {
       "stat_id": 22,
       "name": "Ground Into Double Play",
@@ -175,78 +130,33 @@
       "display_name": "WHIP",
       "sort_order": 0
     },
-    {
-      "stat_id": 28,
-      "name": "Wins",
-      "display_name": "W",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 29,
-      "name": "Losses",
-      "display_name": "L",
-      "sort_order": 0
-    },
+    {"stat_id": 28, "name": "Wins", "display_name": "W", "sort_order": 1},
+    {"stat_id": 29, "name": "Losses", "display_name": "L", "sort_order": 0},
     {
       "stat_id": 30,
       "name": "Complete Games",
       "display_name": "CG",
       "sort_order": 1
     },
-    {
-      "stat_id": 31,
-      "name": "Shutouts",
-      "display_name": "SHO",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 32,
-      "name": "Saves",
-      "display_name": "SV",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 33,
-      "name": "Outs",
-      "display_name": "OUT",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 34,
-      "name": "Hits",
-      "display_name": "H",
-      "sort_order": 0
-    },
+    {"stat_id": 31, "name": "Shutouts", "display_name": "SHO", "sort_order": 1},
+    {"stat_id": 32, "name": "Saves", "display_name": "SV", "sort_order": 1},
+    {"stat_id": 33, "name": "Outs", "display_name": "OUT", "sort_order": 1},
+    {"stat_id": 34, "name": "Hits", "display_name": "H", "sort_order": 0},
     {
       "stat_id": 35,
       "name": "Total Batters Faced",
       "display_name": "TBF",
       "sort_order": 1
     },
-    {
-      "stat_id": 36,
-      "name": "Runs",
-      "display_name": "R",
-      "sort_order": 0
-    },
+    {"stat_id": 36, "name": "Runs", "display_name": "R", "sort_order": 0},
     {
       "stat_id": 37,
       "name": "Earned Runs",
       "display_name": "ER",
       "sort_order": 0
     },
-    {
-      "stat_id": 38,
-      "name": "Home Runs",
-      "display_name": "HR",
-      "sort_order": 0
-    },
-    {
-      "stat_id": 39,
-      "name": "Walks",
-      "display_name": "BB",
-      "sort_order": 0
-    },
+    {"stat_id": 38, "name": "Home Runs", "display_name": "HR", "sort_order": 0},
+    {"stat_id": 39, "name": "Walks", "display_name": "BB", "sort_order": 0},
     {
       "stat_id": 40,
       "name": "Intentional Walks",
@@ -259,24 +169,14 @@
       "display_name": "HBP",
       "sort_order": 0
     },
-    {
-      "stat_id": 42,
-      "name": "Strikeouts",
-      "display_name": "K",
-      "sort_order": 1
-    },
+    {"stat_id": 42, "name": "Strikeouts", "display_name": "K", "sort_order": 1},
     {
       "stat_id": 43,
       "name": "Wild Pitches",
       "display_name": "WP",
       "sort_order": 0
     },
-    {
-      "stat_id": 44,
-      "name": "Balks",
-      "display_name": "BLK",
-      "sort_order": 0
-    },
+    {"stat_id": 44, "name": "Balks", "display_name": "BLK", "sort_order": 0},
     {
       "stat_id": 45,
       "name": "Stolen Bases Allowed",
@@ -295,12 +195,7 @@
       "display_name": "SVOP",
       "sort_order": 1
     },
-    {
-      "stat_id": 48,
-      "name": "Holds",
-      "display_name": "HLD",
-      "sort_order": 1
-    },
+    {"stat_id": 48, "name": "Holds", "display_name": "HLD", "sort_order": 1},
     {
       "stat_id": 49,
       "name": "Total Bases Allowed",
@@ -313,24 +208,9 @@
       "display_name": "IP",
       "sort_order": 1
     },
-    {
-      "stat_id": 51,
-      "name": "Putouts",
-      "display_name": "PO",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 52,
-      "name": "Assists",
-      "display_name": "A",
-      "sort_order": 1
-    },
-    {
-      "stat_id": 53,
-      "name": "Errors",
-      "display_name": "E",
-      "sort_order": 0
-    },
+    {"stat_id": 51, "name": "Putouts", "display_name": "PO", "sort_order": 1},
+    {"stat_id": 52, "name": "Assists", "display_name": "A", "sort_order": 1},
+    {"stat_id": 53, "name": "Errors", "display_name": "E", "sort_order": 0},
     {
       "stat_id": 54,
       "name": "Fielding Percentage",
@@ -355,12 +235,7 @@
       "display_name": "K/9",
       "sort_order": 1
     },
-    {
-      "stat_id": 58,
-      "name": "Team",
-      "display_name": "TEAM",
-      "sort_order": 1
-    },
+    {"stat_id": 58, "name": "Team", "display_name": "TEAM", "sort_order": 1},
     {
       "stat_id": 59,
       "name": "League",
@@ -553,11 +428,6 @@
       "display_name": "NSVH",
       "sort_order": 1
     },
-    {
-      "stat_id": 91,
-      "name": "Net Wins",
-      "display_name": "NW",
-      "sort_order": 1
-    }
+    {"stat_id": 91, "name": "Net Wins", "display_name": "NW", "sort_order": 1}
   ]
 }

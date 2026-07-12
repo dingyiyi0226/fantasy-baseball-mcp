@@ -1,8 +1,5 @@
 {
-  "team": {
-    "team_key": "123.l.12345.t.2",
-    "name": "Team 2"
-  },
+  "team": {"team_key": "123.l.12345.t.2", "name": "Team 2"},
   "matchups": [
     {
       "week": 16,
@@ -14,62 +11,20 @@
       "is_matchup_of_the_week": 1,
       "stat_winners": {
         "stat_winner": [
-          {
-            "stat_id": 7,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 12,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 13,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 16,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 20,
-            "winner_team_key": "123.l.12345.t.7"
-          },
-          {
-            "stat_id": 23,
-            "winner_team_key": "123.l.12345.t.7"
-          },
-          {
-            "stat_id": 4,
-            "winner_team_key": "123.l.12345.t.7"
-          },
-          {
-            "stat_id": 28,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 32,
-            "winner_team_key": "123.l.12345.t.7"
-          },
-          {
-            "stat_id": 26,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 27,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 56,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 83,
-            "winner_team_key": "123.l.12345.t.2"
-          },
-          {
-            "stat_id": 84,
-            "winner_team_key": "123.l.12345.t.2"
-          }
+          {"stat_id": 7, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 12, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 13, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 16, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 20, "winner_team_key": "123.l.12345.t.7"},
+          {"stat_id": 23, "winner_team_key": "123.l.12345.t.7"},
+          {"stat_id": 4, "winner_team_key": "123.l.12345.t.7"},
+          {"stat_id": 28, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 32, "winner_team_key": "123.l.12345.t.7"},
+          {"stat_id": 26, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 27, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 56, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 83, "winner_team_key": "123.l.12345.t.2"},
+          {"stat_id": 84, "winner_team_key": "123.l.12345.t.2"}
         ]
       },
       "teams": [
@@ -80,75 +35,24 @@
             "coverage_type": "week",
             "week": 16,
             "stats": {
-              "columns": [
-                "stat_id",
-                "value"
-              ],
+              "columns": ["stat_id", "value"],
               "rows": [
-                [
-                  60,
-                  "35/146"
-                ],
-                [
-                  7,
-                  25
-                ],
-                [
-                  12,
-                  8
-                ],
-                [
-                  13,
-                  25
-                ],
-                [
-                  16,
-                  1
-                ],
-                [
-                  20,
-                  0
-                ],
-                [
-                  23,
-                  66
-                ],
-                [
-                  4,
-                  0.333
-                ],
-                [
-                  50,
-                  42
-                ],
-                [
-                  28,
-                  2
-                ],
-                [
-                  32,
-                  1
-                ],
-                [
-                  26,
-                  3.64
-                ],
-                [
-                  27,
-                  1.4
-                ],
-                [
-                  56,
-                  3.33
-                ],
-                [
-                  83,
-                  4
-                ],
-                [
-                  84,
-                  0
-                ]
+                [60, "35/146"],
+                [7, 25],
+                [12, 8],
+                [13, 25],
+                [16, 1],
+                [20, 0],
+                [23, 66],
+                [4, 0.333],
+                [50, 42],
+                [28, 2],
+                [32, 1],
+                [26, 3.64],
+                [27, 1.4],
+                [56, 3.33],
+                [83, 4],
+                [84, 0]
               ]
             }
           }
@@ -160,75 +64,24 @@
             "coverage_type": "week",
             "week": 16,
             "stats": {
-              "columns": [
-                "stat_id",
-                "value"
-              ],
+              "columns": ["stat_id", "value"],
               "rows": [
-                [
-                  60,
-                  "46/180"
-                ],
-                [
-                  7,
-                  22
-                ],
-                [
-                  12,
-                  5
-                ],
-                [
-                  13,
-                  18
-                ],
-                [
-                  16,
-                  0
-                ],
-                [
-                  20,
-                  4
-                ],
-                [
-                  23,
-                  68
-                ],
-                [
-                  4,
-                  0.337
-                ],
-                [
-                  50,
-                  16.1
-                ],
-                [
-                  28,
-                  0
-                ],
-                [
-                  32,
-                  2
-                ],
-                [
-                  26,
-                  8.82
-                ],
-                [
-                  27,
-                  1.84
-                ],
-                [
-                  56,
-                  3.17
-                ],
-                [
-                  83,
-                  0
-                ],
-                [
-                  84,
-                  1
-                ]
+                [60, "46/180"],
+                [7, 22],
+                [12, 5],
+                [13, 18],
+                [16, 0],
+                [20, 4],
+                [23, 68],
+                [4, 0.337],
+                [50, 16.1],
+                [28, 0],
+                [32, 2],
+                [26, 8.82],
+                [27, 1.84],
+                [56, 3.17],
+                [83, 0],
+                [84, 1]
               ]
             }
           }
