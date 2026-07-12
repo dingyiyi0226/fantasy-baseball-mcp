@@ -9,9 +9,9 @@
       "team_logo": {"size": "large", "url": "https://example.com/url"}
     },
     "previous_season_team_rank": 3,
-    "number_of_moves": 21,
+    "number_of_moves": 23,
     "number_of_trades": 0,
-    "roster_adds": {"coverage_type": "week", "coverage_value": 16, "value": 0},
+    "roster_adds": {"coverage_type": "week", "coverage_value": 16, "value": 2},
     "league_scoring_type": "headone",
     "draft_position": 8,
     "has_draft_grade": 0,
@@ -59,8 +59,6 @@
             "primary_position": "C",
             "eligible_positions": {"position": ["C", "Util"]},
             "eligible_positions_to_add": "",
-            "has_player_notes": 1,
-            "player_notes_last_timestamp": 1782845334,
             "selected_position": {
               "coverage_type": "date",
               "date": "2026-06-20",
@@ -117,7 +115,7 @@
             "eligible_positions": {"position": ["1B", "Util"]},
             "eligible_positions_to_add": "",
             "has_player_notes": 1,
-            "player_notes_last_timestamp": 1783521192,
+            "player_notes_last_timestamp": 1783752409,
             "selected_position": {
               "coverage_type": "date",
               "date": "2026-06-20",
@@ -175,7 +173,6 @@
             "eligible_positions": {"position": ["2B", "SS", "Util"]},
             "eligible_positions_to_add": "",
             "has_player_notes": 1,
-            "has_recent_player_notes": 1,
             "player_notes_last_timestamp": 1783559773,
             "selected_position": {
               "coverage_type": "date",

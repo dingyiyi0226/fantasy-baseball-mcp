@@ -12,10 +12,6 @@
           "ascii_last": "Rutschman"
         },
         "url": "https://example.com/url",
-        "status": "IL7",
-        "status_full": "7-Day Injured List",
-        "injury_note": "Concussion",
-        "on_disabled_list": 1,
         "editorial_player_key": "mlb.p.11732",
         "editorial_team_key": "mlb.t.1",
         "editorial_team_full_name": "Baltimore Orioles",
@@ -30,9 +26,6 @@
         "position_type": "B",
         "eligible_positions": {"position": "C"},
         "eligible_positions_to_add": "",
-        "has_player_notes": 1,
-        "has_recent_player_notes": 1,
-        "player_notes_last_timestamp": 1782003997,
         "player_stats": {
           "coverage_type": "date",
           "date": "2026-06-20",
@@ -108,7 +101,7 @@
         "eligible_positions": {"position": ["1B", "CI", "IF"]},
         "eligible_positions_to_add": "",
         "has_player_notes": 1,
-        "player_notes_last_timestamp": 1781963523,
+        "player_notes_last_timestamp": 1783752409,
         "player_stats": {
           "coverage_type": "date",
           "date": "2026-06-20",

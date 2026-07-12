@@ -20,7 +20,8 @@ Yahoo stat values use compact row tables: `stats.columns` defines the fields at 
 the corresponding `stats.rows` arrays. League/game `stat_categories` and matchup `stat_winners`
 use the same format.
 Yahoo player lists use the same `players.columns` / `players.rows` format; `get_roster` with
-`keyOnly=true` remains a plain player-key array.
+`keyOnly=true` remains a plain player-key array. `player_stats` retains coverage metadata, while
+its table uses sibling `player_stats.stats.columns` and `player_stats.stats.rows` columns.
 
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`

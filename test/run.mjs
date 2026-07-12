@@ -119,6 +119,25 @@ if (
   console.log("  FAIL stats use compact self-describing row tables");
 }
 
+const liftedStats = mappers.liftStatsTable("player_stats", {
+  coverage_type: "season",
+  season: 2026,
+  stats: { stat: [{ stat_id: 50, value: "12.1" }] },
+});
+if (
+  JSON.stringify(liftedStats) ===
+  JSON.stringify({
+    player_stats: { coverage_type: "season", season: 2026 },
+    "player_stats.stats.columns": ["stat_id", "value"],
+    "player_stats.stats.rows": [[50, "12.1"]],
+  })
+) {
+  console.log("  ok   player stat tables lift into sibling player fields");
+} else {
+  failed++;
+  console.log("  FAIL player stat tables lift into sibling player fields");
+}
+
 const compactPlayers = mappers.mapRecordsTable([
   { player_key: "123.p.1", name: "Player One", status: undefined },
   { player_key: "123.p.2", name: "Player Two", status: "DTD" },

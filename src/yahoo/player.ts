@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { jsonResult, type McpContext } from "../mcp.js";
 import { asArray, today } from "../util.js";
-import { mapLeagueHeader, mapPlayerProfile, mapRecordsTable, mapStatsTable } from "./mappers.js";
+import { liftStatsTable, mapLeagueHeader, mapPlayerProfile, mapRecordsTable } from "./mappers.js";
 import { gameIdFromLeagueKey } from "./utils.js";
 import type { GameStatCategory } from "./game.js";
 
@@ -20,7 +20,7 @@ function mapOwnership(ownership: any) {
 export function mapPlayerStats(data: any) {
   const players = asArray(data?.players?.player).map((player: any) => ({
     ...mapPlayerProfile(player),
-    player_stats: mapStatsTable(player.player_stats),
+    ...liftStatsTable("player_stats", player.player_stats),
   }));
   return {
     players: mapRecordsTable(players),
@@ -39,8 +39,8 @@ export function mapRankPlayers(data: any) {
       ? { batting_order: player.batting_order.order_num }
       : {}),
     ownership: mapOwnership(player.ownership),
-    player_stats: mapStatsTable(player.player_stats),
-    player_advanced_stats: mapStatsTable(player.player_advanced_stats),
+    ...liftStatsTable("player_stats", player.player_stats),
+    ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
   }));
   return {
     league: mapLeagueHeader(league),
@@ -48,10 +48,10 @@ export function mapRankPlayers(data: any) {
   };
 }
 
-/** Map a game-wide player leaderboard without league ownership or scoring context. */
-function mapStatsWithCategories(playerStats: any, categoriesById: Map<number, GameStatCategory>) {
-  if (!playerStats?.stats?.stat) return playerStats;
-  return mapStatsTable(
+/** Lift game-wide player stats while preserving Yahoo's stat-category labels. */
+function liftStatsWithCategories(playerStats: any, categoriesById: Map<number, GameStatCategory>) {
+  return liftStatsTable(
+    "player_stats",
     playerStats,
     ["stat_id", "name", "display_name", "value"],
     (stat: any) => {
@@ -72,8 +72,8 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
   const categoriesById = new Map(statCategories.map((category) => [category.stat_id, category]));
   const players = asArray(game.players?.player).map((player: any) => ({
     ...mapPlayerProfile(player),
-    player_stats: mapStatsWithCategories(player.player_stats, categoriesById),
-    player_advanced_stats: mapStatsTable(player.player_advanced_stats),
+    ...liftStatsWithCategories(player.player_stats, categoriesById),
+    ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
   }));
   return {
     game: {

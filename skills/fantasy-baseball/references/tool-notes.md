@@ -11,6 +11,9 @@
 - League/game `stat_categories` and matchup `stat_winners` use the same row-table format.
 - Yahoo player lists use the same `columns` / `rows` format. `get_roster` with `keyOnly=true`
   remains a plain player-key array.
+- Player `player_stats` fields retain only coverage metadata. Their stat tables are sibling player
+  columns named `player_stats.stats.columns` and `player_stats.stats.rows`; use the same pattern
+  for `player_advanced_stats` when present.
 
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.

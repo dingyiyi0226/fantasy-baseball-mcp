@@ -42,6 +42,32 @@ export function mapStatsTable(
   };
 }
 
+/**
+ * Keep a stat block's coverage metadata together while lifting its compact
+ * table into the surrounding record's shared columns.
+ */
+export function liftStatsTable(
+  prefix: string,
+  statBlock: any,
+  columns: readonly string[] = ["stat_id", "value"],
+  mapStat: (stat: any) => Record<string, unknown> = (stat) => stat,
+) {
+  const mappedStats = mapStatsTable(statBlock, columns, mapStat);
+  if (!mappedStats?.stats?.columns || !Array.isArray(mappedStats.stats.rows)) {
+    return { [prefix]: mappedStats };
+  }
+
+  const { stats, ...metadata } = mappedStats;
+  const { columns: statColumns, rows: statRows, ...remainingStats } = stats;
+  return {
+    [prefix]: Object.keys(remainingStats).length
+      ? { ...metadata, stats: remainingStats }
+      : metadata,
+    [`${prefix}.stats.columns`]: statColumns,
+    [`${prefix}.stats.rows`]: statRows,
+  };
+}
+
 /** Compact a matchup's category-by-category winner records. */
 function mapStatWinners(statWinners: any) {
   if (!statWinners?.stat_winner) return statWinners;

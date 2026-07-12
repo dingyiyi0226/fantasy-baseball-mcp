@@ -260,9 +260,19 @@ try {
   const raw = clean(await fetchResource(path));
   writeFileSync(join(RAW_DIR, `${tool}.json`), stringify(raw));
 
-  const gameStatCategories = tool === "rank_game_players"
-    ? mappers.mapGameStatCategories(clean(await fetchResource(`/game/${lk.split(".")[0]}/stat_categories`))).stat_categories
-    : undefined;
+  let gameStatCategories;
+  if (tool === "rank_game_players") {
+    const categoryData = clean(await fetchResource(`/game/${lk.split(".")[0]}/stat_categories`));
+    const categoryStats = categoryData?.game?.stat_categories?.stats?.stat;
+    const stats = Array.isArray(categoryStats) ? categoryStats : categoryStats ? [categoryStats] : [];
+    gameStatCategories = stats.map((stat) => ({
+      stat_id: stat.stat_id,
+      name: stat.name,
+      display_name: stat.display_name,
+      sort_order: stat.sort_order,
+      position_type: stat.position_type,
+    }));
+  }
   const mapped = mappers[mapper](raw, gameStatCategories);
   writeFileSync(join(MAPPED_DIR, `${tool}.json`), stringify(mapped));
 

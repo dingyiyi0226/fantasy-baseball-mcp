@@ -10,13 +10,13 @@
     "scoring_type": "headone",
     "scoring_label": "H2H Cat One",
     "league_type": "private",
-    "matchup_week": 13,
-    "current_week": 13,
+    "matchup_week": 16,
+    "current_week": 16,
     "start_week": 1,
     "end_week": 26,
     "start_date": "2026-03-25",
     "end_date": "2026-09-27",
-    "current_date": "2026-06-21",
+    "current_date": "2026-07-12",
     "season": 2026,
     "game_code": "mlb",
     "allow_add_to_dl_extra_pos": 0,
@@ -36,11 +36,16 @@
       "primary_position",
       "eligible_positions",
       "is_undroppable",
-      "is_starting",
-      "batting_order",
       "ownership",
       "player_stats",
-      "player_advanced_stats"
+      "player_stats.stats.columns",
+      "player_stats.stats.rows",
+      "player_advanced_stats",
+      "player_advanced_stats.stats.columns",
+      "player_advanced_stats.stats.rows",
+      "status",
+      "status_full",
+      "injury_note"
     ],
     "rows": [
       [
@@ -54,118 +59,47 @@
         "OF",
         ["OF", "Util"],
         0,
-        1,
-        1,
         {
           "ownership_type": "team",
           "owner_team_key": "123.l.12345.t.4",
           "owner_team_name": "Team 4"
         },
-        {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [60, "80/294"],
-              [7, 68],
-              [12, 20],
-              [13, 48],
-              [16, 13],
-              [20, 4],
-              [23, 158],
-              [4, 0.399]
-            ]
-          }
-        },
-        {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [1035, 0],
-              [1008, 0],
-              [1013, 0],
-              [1002, 0],
-              [1014, 0],
-              [1015, 0],
-              [1011, 0],
-              [1005, 0],
-              [1006, 0],
-              [1009, 0],
-              [1007, 0],
-              [1010, 0],
-              [1004, 0],
-              [1039, 0],
-              [1003, 0],
-              [1040, 0],
-              [1041, 0]
-            ]
-          }
-        }
-      ],
-      [
-        "123.p.10883",
-        10883,
-        "Yordan Alvarez",
-        "HOU",
-        "Houston Astros",
-        "OF",
-        "B",
-        "OF",
-        ["OF", "Util"],
-        0,
-        1,
-        2,
-        {
-          "ownership_type": "team",
-          "owner_team_key": "123.l.12345.t.4",
-          "owner_team_name": "Team 4"
-        },
-        {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [60, "90/281"],
-              [7, 52],
-              [12, 24],
-              [13, 55],
-              [16, 1],
-              [20, 5],
-              [23, 177],
-              [4, 0.424]
-            ]
-          }
-        },
-        {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [1035, 0],
-              [1008, 0],
-              [1013, 0],
-              [1002, 0],
-              [1014, 0],
-              [1015, 0],
-              [1011, 0],
-              [1005, 0],
-              [1006, 0],
-              [1009, 0],
-              [1007, 0],
-              [1010, 0],
-              [1004, 0],
-              [1039, 0],
-              [1003, 0],
-              [1040, 0],
-              [1041, 0]
-            ]
-          }
-        }
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [60, "102/367"],
+          [7, 88],
+          [12, 27],
+          [13, 63],
+          [16, 15],
+          [20, 4],
+          [23, 208],
+          [4, 0.407]
+        ],
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [1035, 0],
+          [1008, 0],
+          [1013, 0],
+          [1002, 0],
+          [1014, 0],
+          [1015, 0],
+          [1011, 0],
+          [1005, 0],
+          [1006, 0],
+          [1009, 0],
+          [1007, 0],
+          [1010, 0],
+          [1004, 0],
+          [1039, 0],
+          [1003, 0],
+          [1040, 0],
+          [1041, 0]
+        ],
+        null,
+        null,
+        null
       ],
       [
         "123.p.60254",
@@ -178,57 +112,101 @@
         "SP",
         ["SP", "P"],
         0,
-        null,
-        null,
         {
           "ownership_type": "team",
           "owner_team_key": "123.l.12345.t.1",
           "owner_team_name": "Team 1"
         },
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [50, 111],
+          [28, 10],
+          [32, 0],
+          [26, 1.62],
+          [27, 0.76],
+          [56, 6.19],
+          [83, 12],
+          [84, 0]
+        ],
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [1032, 0],
+          [1021, 0],
+          [1022, 0],
+          [1031, 0],
+          [1036, 0],
+          [1037, 0],
+          [1038, 0],
+          [1020, 0],
+          [1018, 0],
+          [1034, 0],
+          [1019, 0],
+          [1023, 0],
+          [1024, 0],
+          [1025, 0],
+          [1028, 0],
+          [1029, 0],
+          [1030, 0],
+          [1033, 0]
+        ],
+        "DTD",
+        "Day-to-Day",
+        "Undisclosed"
+      ],
+      [
+        "123.p.10883",
+        10883,
+        "Yordan Alvarez",
+        "HOU",
+        "Houston Astros",
+        "OF",
+        "B",
+        "OF",
+        ["OF", "Util"],
+        0,
         {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [50, 93],
-              [28, 8],
-              [32, 0],
-              [26, 1.45],
-              [27, 0.75],
-              [56, 6],
-              [83, 10],
-              [84, 0]
-            ]
-          }
+          "ownership_type": "team",
+          "owner_team_key": "123.l.12345.t.4",
+          "owner_team_name": "Team 4"
         },
-        {
-          "coverage_type": "season",
-          "season": 2026,
-          "stats": {
-            "columns": ["stat_id", "value"],
-            "rows": [
-              [1032, 0],
-              [1021, 0],
-              [1022, 0],
-              [1031, 0],
-              [1036, 0],
-              [1037, 0],
-              [1038, 0],
-              [1020, 0],
-              [1018, 0],
-              [1034, 0],
-              [1019, 0],
-              [1023, 0],
-              [1024, 0],
-              [1025, 0],
-              [1028, 0],
-              [1029, 0],
-              [1030, 0],
-              [1033, 0]
-            ]
-          }
-        }
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [60, "109/346"],
+          [7, 65],
+          [12, 31],
+          [13, 70],
+          [16, 1],
+          [20, 5],
+          [23, 219],
+          [4, 0.422]
+        ],
+        {"coverage_type": "season", "season": 2026},
+        ["stat_id", "value"],
+        [
+          [1035, 0],
+          [1008, 0],
+          [1013, 0],
+          [1002, 0],
+          [1014, 0],
+          [1015, 0],
+          [1011, 0],
+          [1005, 0],
+          [1006, 0],
+          [1009, 0],
+          [1007, 0],
+          [1010, 0],
+          [1004, 0],
+          [1039, 0],
+          [1003, 0],
+          [1040, 0],
+          [1041, 0]
+        ],
+        null,
+        null,
+        null
       ]
     ]
   }

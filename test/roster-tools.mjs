@@ -43,7 +43,11 @@ assert.equal(tableValue(roster.players, 0, "is_starting"), 0);
 const rosterStats = parseResult(await registered.get("get_roster_stats").handler({}));
 assert.equal(tableValue(rosterStats.players, 0, "player_id"), 11732);
 assert.equal(tableValue(rosterStats.players, 0, "is_starting"), 0);
-assert.ok(tableValue(rosterStats.players, 0, "player_stats"));
+const playerStats = tableValue(rosterStats.players, 0, "player_stats");
+assert.equal(playerStats.coverage_type, "date");
+assert.ok(!("stats" in playerStats));
+assert.deepEqual(tableValue(rosterStats.players, 0, "player_stats.stats.columns"), ["stat_id", "value"]);
+assert.ok(tableValue(rosterStats.players, 0, "player_stats.stats.rows"));
 assert.ok(requests.some((path) => path.endsWith("/players;out=stats")));
 
 console.log("Roster tool contracts pass.");
