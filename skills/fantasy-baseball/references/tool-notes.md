@@ -24,6 +24,8 @@
 ### `rank_players`
 - Use `sortType=lastmonth` and `lastweek` for recency.
 - Returns up to 25 players per call; page with `start`.
+- The compact ranking response omits `player_id` and `batting_order`; use `player_key`, name,
+  eligibility, ownership, and stat rows for comparisons.
 - The schema does **not** accept an `ownership_type` filter. Filter returned players locally where
   `ownership.ownership_type` indicates a free agent.
 
@@ -33,6 +35,7 @@
 - Use `period=lastweek` for discovery. Use `lastmonth` only as a fallback or stability check.
 - Unlike `rank_players`, its returned `player_stats.coverage_type` and stat rows match the requested
   recent period. Yahoo returns free-agent ownership as `ownership_type: "freeagents"`.
+- Its compact response also omits `player_id` and `batting_order`.
 - Yahoo has no 14-day ranking window. For the top candidates, call `analyze_player_stats` and use
   `recent14d` to verify playing time and category production before recommending an add.
 - Use the current league's batting stat ids for category-specific `sort` values; do not hardcode a

@@ -156,8 +156,8 @@ batters into Phase 2.
 
 - The tool already returns only players with Yahoo `status=FA` and `position=B`; do not page
   through owned players or filter pitchers locally.
-- Treat Yahoo's same-day `is_starting` and `batting_order` as supporting evidence when present,
-  never as a prerequisite for the shortlist. Early in the day those fields may be absent.
+- Treat Yahoo's same-day `is_starting` as supporting evidence when present, never as a prerequisite
+  for the shortlist. Early in the day that field may be absent.
 - Use `period=lastmonth` only to break ties or when the last-week sample is too small. The 14-day
   validation comes from `analyze_player_stats` in Phase 2, not from Yahoo ranking.
 - Prioritize candidates who contribute to the team's weakest flippable batting categories and can

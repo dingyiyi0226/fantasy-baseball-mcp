@@ -44,10 +44,22 @@ assert.equal(
 );
 
 const payload = JSON.parse(result.content[0].text);
+assert.ok(!payload.players.columns.includes("player_id"));
+assert.ok(!payload.players.columns.includes("batting_order"));
 const value = (column) =>
   payload.players.rows[0][payload.players.columns.indexOf(column)];
 assert.deepEqual(value("ownership"), { ownership_type: "freeagents" });
 assert.deepEqual(value("player_stats"), { coverage_type: "lastweek" });
 assert.ok(value("player_stats.stats.rows").length > 0);
+
+const rankPlayersResult = await registered.get("rank_players").handler({
+  sort: "AR",
+  sortType: "lastweek",
+  start: 0,
+  count: 5,
+});
+const rankPlayersPayload = JSON.parse(rankPlayersResult.content[0].text);
+assert.ok(!rankPlayersPayload.players.columns.includes("player_id"));
+assert.ok(!rankPlayersPayload.players.columns.includes("batting_order"));
 
 console.log("Player tool contracts pass.");

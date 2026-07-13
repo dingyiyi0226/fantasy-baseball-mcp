@@ -30,18 +30,19 @@ export function mapPlayerStats(data: any) {
 export function mapRankPlayers(data: any) {
   const league = data?.league;
   if (!league) return data;
-  const players = asArray(league.players?.player).map((player: any) => ({
-    ...mapPlayerStatsProfile(player),
-    ...(player.starting_status?.is_starting !== undefined
-      ? { is_starting: player.starting_status.is_starting }
-      : {}),
-    ...(player.batting_order?.order_num !== undefined
-      ? { batting_order: player.batting_order.order_num }
-      : {}),
-    ownership: mapOwnership(player.ownership),
-    ...liftStatsTable("player_stats", player.player_stats),
-    ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
-  }));
+  const players = asArray(league.players?.player).map((player: any) => {
+    const profile = mapPlayerStatsProfile(player);
+    const { player_id: _playerId, ...profileWithoutPlayerId } = profile;
+    return {
+      ...profileWithoutPlayerId,
+      ...(player.starting_status?.is_starting !== undefined
+        ? { is_starting: player.starting_status.is_starting }
+        : {}),
+      ownership: mapOwnership(player.ownership),
+      ...liftStatsTable("player_stats", player.player_stats),
+      ...liftStatsTable("player_advanced_stats", player.player_advanced_stats),
+    };
+  });
   return {
     league: { league_key: league.league_key, name: league.name },
     players: mapRecordsTable(players),
@@ -187,7 +188,7 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
       title: "Rank free-agent batters",
       description:
         "Rank only free-agent batters in a league by recent Yahoo performance. " +
-        "Returns ownership, eligibility, available lineup metadata, and the actual " +
+        "Returns ownership, eligibility, same-day starting status when available, and the actual " +
         "last-week or last-month stat values used for the ranking.",
       inputSchema: freeAgentBatterRankingSchema,
       annotations: READ_ONLY,
