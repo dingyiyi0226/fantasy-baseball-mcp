@@ -46,6 +46,9 @@
 - Player rows default to `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, `status`, and `is_starting`. Use `keyOnly=true` to return only an array of player keys.
 - Slot field tells you the position assignment (SP, RP, C, 1B, 2B, 3B, SS, OF, Util, BN, IL, NA).
 - Injury status flags are separate from the slot.
+- The rows show occupied `selected_position` assignments, not configured slot capacity. Empty IL/NA
+  slots may be absent, so never infer total reserve capacity or that a reserve is full from the
+  number of `IL`/`NA` rows returned.
 
 ### `get_roster_stats`
 - Use only when Yahoo player stats or detailed player profile, injury, eligibility, or lineup fields are needed.
@@ -75,6 +78,11 @@
 - Use `get_league_metadata` when only the current week and league/season dates are needed, such as
   daily-review setup. It deliberately omits teams, settings, and standings.
 - Use `get_league` only when the league settings, team list, or standings are needed.
+- In daily review, keep `get_league_metadata` as the normal setup call. Call `get_league` lazily,
+  at most once per league, only when an IL/NA-status player is assigned to an active or `BN` slot
+  and configured reserve capacity is not already known. Read IL/NA counts from
+  `settings.roster_positions`, then compare them with occupied `selected_position` assignments
+  from `get_roster`.
 
 ### `list_teams` / `get_team`
 - `list_teams` is the lightweight league-wide discovery tool; it returns only `team_key` and

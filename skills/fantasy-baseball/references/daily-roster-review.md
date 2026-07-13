@@ -99,12 +99,32 @@ Call `get_roster` with `teamKey=currentTeamKey, date=lineupDate`. Join its pitch
 probable-starter board locally by normalized player name and MLB team abbreviation. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
-- Identify every IL/NA-status player occupying an active or `BN` slot, the available `IL`/`NA`
-  reserve slots, and whether that player can legally move into a vacant matching reserve slot.
-  Prioritize that placement before ordinary start/bench choices: it frees a standard roster spot
-  without dropping anyone.
+- Identify every IL/NA-status player occupying an active or `BN` slot. If configured reserve
+  capacity is not already cached for this league, lazily call `get_league` once for the league.
+  Read the configured `IL` and `NA` counts from `settings.roster_positions` by matching its
+  `columns` to its `rows`, and cache the result for the rest of the review. A failed lookup caches
+  an unknown result rather than triggering another league read for a later team.
+- Count occupied reserve assignments from this team's `get_roster` rows whose
+  `selected_position` is `IL` or `NA`. A matching reserve slot is vacant only when its configured
+  count is greater than its occupied assignment count. Never infer configured IL/NA capacity from
+  the number of reserve rows returned by `get_roster`; empty reserve slots may be omitted.
+- If settings cannot be fetched, record reserve capacity as **unknown**. Do not call the reserve
+  full and do not recommend a drop from occupied roster rows alone. Use the Yahoo
+  browser/transaction page to confirm whether a drop is required.
+- Move an eligible player into a vacant matching reserve slot before ordinary start/bench or
+  transaction choices. Treat the freed active/`BN` spot as an available standard roster spot and
+  prefer adding a compatible target without a drop. Consider a drop only after no standard spot
+  can be freed, or after Yahoo's transaction page confirms that a drop is required.
 - Identify pitchers with a start on `lineupDate` from the `list_probable_starters` result.
 - Output: a start/sit candidate list with slot positions and "playing on lineupDate? y/n".
+
+Regression cases for this decision order:
+
+| Case | Configured reserve | Occupied assignments | Candidate | Required result |
+|---|---:|---:|---|---|
+| Vacant IL | 5 IL | 3 IL | IL10 player on BN | Move BN -> IL, treat the freed standard spot as open, and recommend adding the target without a drop |
+| Full IL | 5 IL | 5 IL | IL10 player on BN | No reserve vacancy; consider a drop only if no other standard spot can be freed or Yahoo confirms one is required |
+| Vacant NA | 3 NA | 2 NA | NA player on BN | Move BN -> NA, treat the freed standard spot as open, and recommend adding the target without a drop |
 
 ### C — Opponent Roster Pressure
 
@@ -166,9 +186,11 @@ batters into Phase 2.
 After both scouts:
 
 - Before identifying a drop candidate, check the roster assignments after any proposed IL/NA
-  placement. If a standard roster slot is empty, prefer an add-only recommendation; do not pair
-  the add with a drop merely because a replaceable player exists. Recommend an add/drop only when
-  no empty slot remains, or Yahoo's transaction page confirms that a drop is required.
+  placement. If a standard roster slot is empty or will be freed by that placement and can hold the
+  target, prefer an add-only recommendation; do not pair the add with a drop merely because a
+  replaceable player exists. Recommend an add/drop only when no standard spot can be freed, or
+  Yahoo's transaction page confirms that a drop is required. When configured reserve capacity is
+  unknown, confirm through Yahoo before requiring a drop.
 - Rank by the team's weakest categories.
 - Judge "hot" from `recent14d`/`recent30d` only when those keys are present; if absent,
   use the season line and do not label the player hot.
