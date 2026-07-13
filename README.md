@@ -2,14 +2,15 @@
 
 [![npm](https://img.shields.io/npm/v/fantasy-baseball-mcp)](https://www.npmjs.com/package/fantasy-baseball-mcp)
 
-Manage your **fantasy baseball** team by chatting with **Claude** or **Codex**: check your
-roster, scout free agents, review your matchup, and analyze players with Statcast and
-FanGraphs data. Everything runs locally with your own Yahoo login — nothing is hosted, and
-your credentials stay on your machine.
+Manage your **Yahoo Fantasy Baseball** team from Claude or Codex with built-in skills for
+daily roster reviews, weekly post-mortems, automated lineup adjustments, and free-agent scouting.
 
-We support a broad range of operations (league, team, roster, matchup, and player stats) via Yahoo's Fantasy Sports API.
-Lineup adjustments and add/drop actions go through browser-based workflows (Claude in Chrome or the Codex browser plugin),
-as Yahoo's write-scope API is deprecated.
+Yahoo's Fantasy Sports API supplies league and team data, while the **MLB Stats API**,
+**Baseball Savant Statcast**, and **FanGraphs** provide advanced player data and probable
+starting pitchers for tomorrow or any requested date.
+
+Automated browser-based workflows handle lineup adjustments and approved add/drop actions
+(Claude in Chrome or the Codex browser plugin), because Yahoo's write-scope API is deprecated.
 
 ## Contents
 
@@ -19,7 +20,7 @@ as Yahoo's write-scope API is deprecated.
 - [Connect your Yahoo team](#connect-your-yahoo-team)
 - [Talk to your team](#talk-to-your-team)
 - [What "analyze" looks up](#what-analyze-looks-up)
-- [Help](#help)
+- [Good to know](#good-to-know)
 - [License](#license)
 
 ---
@@ -142,10 +143,9 @@ data is cached for one hour.
 
 ---
 
-## Help
+## Good to know
 
-- **[FAQ and troubleshooting](docs/troubleshooting.md)** — data safety, rate limits, and letting `analyze` reach the stats sites.
-- **[Developer notes](docs/development.md)** — building from source and the full tool list.
+- We store your Yahoo app credentials locally in `~/.fantasy-baseball-mcp/config.json`.
 
 ## License
 
