@@ -27,6 +27,17 @@
 - The schema does **not** accept an `ownership_type` filter. Filter returned players locally where
   `ownership.ownership_type` indicates a free agent.
 
+### `rank_free_agent_batters`
+- Returns only league free-agent batters by applying Yahoo `status=FA` and `position=B`; do not
+  filter owned players locally or use it for pitchers.
+- Use `period=lastweek` for discovery. Use `lastmonth` only as a fallback or stability check.
+- Unlike `rank_players`, its returned `player_stats.coverage_type` and stat rows match the requested
+  recent period. Yahoo returns free-agent ownership as `ownership_type: "freeagents"`.
+- Yahoo has no 14-day ranking window. For the top candidates, call `analyze_player_stats` and use
+  `recent14d` to verify playing time and category production before recommending an add.
+- Use the current league's batting stat ids for category-specific `sort` values; do not hardcode a
+  league's scoring categories.
+
 ### `get_roster`
 - Accepts `date` parameter in `YYYY-MM-DD` format.
 - Player rows default to `player_key`, `name`, `editorial_team_abbr`, `display_position`, `selected_position`, `status`, and `is_starting`. Use `keyOnly=true` to return only an array of player keys.

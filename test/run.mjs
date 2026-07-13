@@ -56,6 +56,7 @@ const CASES = [
   ["get_player_stats", "mapPlayerStats"],
   ["list_players", "mapPlayerList"],
   ["rank_players", "mapRankPlayers"],
+  ["rank_free_agent_batters", "mapRankPlayers"],
   ["rank_game_players", "mapGameRankPlayers", undefined, "game_stat_categories"],
   ["get_transactions", "mapTransactions"],
 ];

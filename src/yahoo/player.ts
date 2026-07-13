@@ -115,6 +115,29 @@ const rankingSchema = {
   ...paginationSchema,
 };
 
+const freeAgentBatterRankingSchema = {
+  leagueKey: z.string().optional().describe("League key; defaults to configured league"),
+  sort: z.string().default("AR").describe("Batting stat id, or AR / OR / PTS"),
+  period: z
+    .enum(["lastweek", "lastmonth"])
+    .default("lastweek")
+    .describe("Recent Yahoo stat window to rank and return"),
+  ...paginationSchema,
+};
+
+export function freeAgentBatterRankingResource(
+  leagueKey: string,
+  sort: string,
+  period: "lastweek" | "lastmonth",
+  start: number,
+  count: number,
+): string {
+  return (
+    `/league/${leagueKey}/players;status=FA;position=B;sort=${sort};sort_type=${period};` +
+    `start=${start};count=${Math.min(count, 25)};out=ownership/stats;type=${period}`
+  );
+}
+
 export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
   // GET /players;player_keys={playerKeys}/stats;type=date;date={date}
   server.registerTool(
@@ -152,6 +175,27 @@ export function registerPlayerTools(server: McpServer, ctx: McpContext): void {
       const lk = ctx.resolveLeagueKey(leagueKey);
       const data = await ctx.yahoo.get(
         `/league/${lk}/players;sort=${sort};sort_type=${sortType};start=${start};count=${Math.min(count, 25)};out=ownership,stats`,
+      );
+      return jsonResult(mapRankPlayers(data));
+    },
+  );
+
+  // GET /league/{leagueKey}/players;status=FA;position=B;...;out=ownership/stats;type={period}
+  server.registerTool(
+    "rank_free_agent_batters",
+    {
+      title: "Rank free-agent batters",
+      description:
+        "Rank only free-agent batters in a league by recent Yahoo performance. " +
+        "Returns ownership, eligibility, available lineup metadata, and the actual " +
+        "last-week or last-month stat values used for the ranking.",
+      inputSchema: freeAgentBatterRankingSchema,
+      annotations: READ_ONLY,
+    },
+    async ({ leagueKey, sort, period, start, count }) => {
+      const lk = ctx.resolveLeagueKey(leagueKey);
+      const data = await ctx.yahoo.get(
+        freeAgentBatterRankingResource(lk, sort, period, start, count),
       );
       return jsonResult(mapRankPlayers(data));
     },

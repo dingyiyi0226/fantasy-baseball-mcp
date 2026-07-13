@@ -137,12 +137,34 @@ Extract only this compact summary from each player object:
 
 ### E — FA Scout
 
+#### Pitchers
+
 Use the `list_probable_starters` board first to identify SPs who are actually probable to start on
 `lineupDate`. Determine whether a probable SP is a free agent or on waivers from this league's
 `rank_players` ownership data; do not infer availability from the shared starter board.
 
 Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from offset ~75 until
 >=8 free agents are found in the returned `ownership.ownership_type` values.
+- Note if no rosterable closer is available.
+
+#### Batters
+
+Call `rank_free_agent_batters` with `period=lastweek`. Use `sort=AR` for the initial board, then
+make category-specific calls for at most the three highest-priority flippable batting categories,
+using their stat ids from Phase 0. Union and deduplicate the results, then carry at most five
+batters into Phase 2.
+
+- The tool already returns only players with Yahoo `status=FA` and `position=B`; do not page
+  through owned players or filter pitchers locally.
+- Treat Yahoo's same-day `is_starting` and `batting_order` as supporting evidence when present,
+  never as a prerequisite for the shortlist. Early in the day those fields may be absent.
+- Use `period=lastmonth` only to break ties or when the last-week sample is too small. The 14-day
+  validation comes from `analyze_player_stats` in Phase 2, not from Yahoo ranking.
+- Prioritize candidates who contribute to the team's weakest flippable batting categories and can
+  legally fill a usable active slot.
+
+After both scouts:
+
 - Before identifying a drop candidate, check the roster assignments after any proposed IL/NA
   placement. If a standard roster slot is empty, prefer an add-only recommendation; do not pair
   the add with a drop merely because a replaceable player exists. Recommend an add/drop only when
@@ -150,7 +172,6 @@ Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from o
 - Rank by the team's weakest categories.
 - Judge "hot" from `recent14d`/`recent30d` only when those keys are present; if absent,
   use the season line and do not label the player hot.
-- Note if no rosterable closer is available.
 
 ## Phase 2 — Deep Evaluation
 
@@ -173,25 +194,38 @@ slot as available roster capacity when evaluating add targets.
 From Phase 1, select:
 - All non-trivial start/sit candidates
 - All add/drop candidates
+- Up to five shortlisted free-agent batters
 - Every SP scheduled to start on `lineupDate` from the probable-starter board
 - Any RP flagged as a saves source
 - Any batter whose Phase 1 recent data was absent or sparse
 
-### C — Platoon & Handedness
+### C — FA Batter Form & Playing Time
+
+For every shortlisted free-agent batter:
+1. Call `analyze_player_stats` and use `recent14d` as the main validation window;
+   use `recent30d` only when the 14-day data is absent or clearly too sparse.
+2. Check games, plate appearances, and plate appearances per game. Prefer regular playing time
+   around 3.5+ PA/game; label smaller samples as high variance rather than treating a short hot
+   streak as a stable role.
+3. Compare recent R, HR, RBI, SB, TB, and OBP with the live matchup categories. Use season wRC+,
+   barrel%, and xwOBA vs. wOBA as the skill-quality check behind the recent results.
+4. Do not reject a candidate solely because Yahoo has not posted the day's starting lineup.
+
+### D — Platoon & Handedness
 
 For each batter target:
 1. Use the probable-starter board to identify the `lineupDate` opposing SP hand.
 2. Call `analyze_player_stats` or web-search for handedness splits.
 3. Flag a mismatch if the batter is materially weaker against that hand.
 
-### D — Pitcher Arsenal / Approach Matchup
+### E — Pitcher Arsenal / Approach Matchup
 
 For each batter target:
 1. Web-search the opposing SP's pitch mix.
 2. Check whether the batter has a documented weakness vs that pitch type.
 3. Flag an arsenal mismatch if a clear weakness aligns with the SP's primary weapon.
 
-### E — SP Context
+### F — SP Context
 
 For each SP starting on `lineupDate`:
 1. Check opposing lineup quality.
@@ -203,13 +237,13 @@ For each SP starting on `lineupDate`:
 Apply the Strategy section's ratio-category guidance: if WHIP/ERA are punted this week, a risky SP
 can still be a good add when the move buys W/QS.
 
-### F — Closer Role Confirmation
+### G — Closer Role Confirmation
 
 For each RP flagged as a saves source:
 1. Confirm role security and recent save usage.
 2. Verify the move does not needlessly risk BSV.
 
-### G — Evaluation Verdicts
+### H — Evaluation Verdicts
 
 Produce one compact table per team:
 

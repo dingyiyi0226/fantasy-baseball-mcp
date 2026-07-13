@@ -229,6 +229,7 @@ const endpoints = [
   { tool: "get_player_stats", mapper: "mapPlayerStats" },
   { tool: "list_players", mapper: "mapPlayerList", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership` },
   { tool: "rank_players", mapper: "mapRankPlayers", path: `/league/${lk}/players;sort=AR;sort_type=season;start=0;count=3;out=ownership,stats` },
+  { tool: "rank_free_agent_batters", mapper: "mapRankPlayers", path: `/league/${lk}/players;status=FA;position=B;sort=AR;sort_type=lastweek;start=0;count=3;out=ownership/stats;type=lastweek` },
   { tool: "rank_game_players", mapper: "mapGameRankPlayers", path: `/game/${lk.split(".")[0]}/players;sort=AR;sort_type=season;start=0;count=3;out=stats` },
   { tool: "get_transactions", mapper: "mapTransactions", path: `/league/${lk}/transactions` },
 ];

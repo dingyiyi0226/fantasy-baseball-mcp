@@ -66,6 +66,8 @@ Everyday use (these default to the user's configured league/team):
 - "fantasy season stats" -> get_team_stats with period=season
 - "fantasy free agents" / "who's available" -> list_players (names/ownership, no stats);
   "fantasy who should I add" (needs stats to compare) -> rank_players
+- "fantasy hot free-agent batters" / "which FA hitter should I add"
+  -> rank_free_agent_batters (FA batters only, with actual last-week or last-month stats)
 - "fantasy MLB leaders" / "rank all players by <stat>" -> rank_game_players (Yahoo-wide
   leaderboard; not filtered by the user's league or its ownership)
 - For MLB probable starting pitchers on a date, or free-agent/streamer starter scouting,

@@ -55,5 +55,15 @@ assert.match(
   /configured default league\/team[\s\S]*?cannot be scoped to a different team/,
   "tool notes must preserve the ownership-enrichment scope limitation",
 );
+assert.match(
+  dailyReview,
+  /`rank_free_agent_batters` with `period=lastweek`[\s\S]*?at most five[\s\S]*?`recent14d`/,
+  "daily review must shortlist FA batters from recent Yahoo rankings and validate 14-day form",
+);
+assert.match(
+  toolNotes,
+  /`rank_free_agent_batters`[\s\S]*?`status=FA` and `position=B`[\s\S]*?`player_stats\.coverage_type`/,
+  "tool notes must preserve the FA-only batter ranking and recent-stat response contract",
+);
 
 console.log("Skill workflow contracts pass.");

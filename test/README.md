@@ -25,15 +25,21 @@ Real MLB player names are kept — they are public data, not personal data. Long
 lists (teams, players, matchups, transactions) are trimmed to a few items so the
 fixtures stay small and readable.
 
+Whenever an MCP tool is added, add raw and mapped fixtures named after that tool and register it
+in both `fetch-fixtures.mjs` and `run.mjs`, even when the tool reuses an existing mapper. This keeps
+an example response discoverable by tool name and protects the tool's exact endpoint shape.
+
 ## Running the regression test
 
 ```sh
-npm test          # builds, then runs test/run.mjs
+npm test          # builds, then runs mapper and tool/workflow contract tests
 ```
 
 `run.mjs` re-runs each mapper on its `raw/` fixture and asserts the output equals
-the committed `mapped/` fixture. `config.mjs` verifies that the current config
-path is preferred and the legacy path is still readable. Neither needs credentials.
+the committed `mapped/` fixture. The roster/player tool tests verify focused request and
+response contracts, `skill-contracts.mjs` checks workflow assumptions, and `config.mjs`
+verifies that the current config path is preferred and the legacy path is still readable.
+None needs credentials.
 
 ## Regenerating fixtures
 

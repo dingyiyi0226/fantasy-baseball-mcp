@@ -1,0 +1,196 @@
+{
+  "league": {
+    "league_key": "123.l.12345",
+    "league_id": 12345,
+    "name": "Demo League",
+    "url": "https://example.com/url",
+    "recordbook_url": "https://example.com/recordbook_url",
+    "logo_url": "https://example.com/logo_url",
+    "draft_status": "postdraft",
+    "num_teams": 10,
+    "edit_key": "2026-07-12",
+    "weekly_deadline": "intraday",
+    "roster_type": "date",
+    "league_update_timestamp": 1783843176,
+    "scoring_type": "headone",
+    "scoring_label": "H2H Cat One",
+    "league_type": "private",
+    "renew": "123_12345",
+    "renewed": "",
+    "felo_tier": "silver",
+    "is_highscore": "",
+    "is_guillotine": 0,
+    "matchup_week": 16,
+    "iris_group_chat_id": "",
+    "allow_add_to_dl_extra_pos": 0,
+    "is_pro_league": 0,
+    "is_cash_league": 0,
+    "current_week": 16,
+    "start_week": 1,
+    "start_date": "2026-03-25",
+    "end_week": 26,
+    "end_date": "2026-09-27",
+    "current_date": "2026-07-12",
+    "is_plus_league": 0,
+    "game_code": "mlb",
+    "season": 2026,
+    "players": {
+      "player": [
+        {
+          "player_key": "123.p.64150",
+          "player_id": 64150,
+          "name": {
+            "full": "Esmerlyn Valdez",
+            "first": "Esmerlyn",
+            "last": "Valdez",
+            "ascii_first": "Esmerlyn",
+            "ascii_last": "Valdez"
+          },
+          "url": "https://example.com/url",
+          "editorial_player_key": "mlb.p.64150",
+          "editorial_team_key": "mlb.t.23",
+          "editorial_team_full_name": "Pittsburgh Pirates",
+          "editorial_team_abbr": "PIT",
+          "editorial_team_url": "https://example.com/editorial_team_url",
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
+          "uniform_number": 55,
+          "display_position": "1B,OF",
+          "headshot": {"url": "https://example.com/url", "size": "small"},
+          "image_url": "https://example.com/image_url",
+          "is_undroppable": 0,
+          "position_type": "B",
+          "primary_position": "1B",
+          "eligible_positions": {"position": ["1B", "OF", "Util"]},
+          "eligible_positions_to_add": "",
+          "has_player_notes": 1,
+          "player_notes_last_timestamp": 1783826436,
+          "starting_status": {
+            "coverage_type": "date",
+            "date": "2026-07-12",
+            "is_starting": 1
+          },
+          "batting_order": {"order_num": 4},
+          "ownership": {"ownership_type": "freeagents"},
+          "player_stats": {
+            "coverage_type": "lastweek",
+            "stats": {
+              "stat": [
+                {"stat_id": 60, "value": "6/24"},
+                {"stat_id": 7, "value": 6},
+                {"stat_id": 12, "value": 4},
+                {"stat_id": 13, "value": 9},
+                {"stat_id": 16, "value": 0},
+                {"stat_id": 20, "value": 0},
+                {"stat_id": 23, "value": 18},
+                {"stat_id": 4, "value": 0.333}
+              ]
+            }
+          }
+        },
+        {
+          "player_key": "123.p.61637",
+          "player_id": 61637,
+          "name": {
+            "full": "Tyler Tolbert",
+            "first": "Tyler",
+            "last": "Tolbert",
+            "ascii_first": "Tyler",
+            "ascii_last": "Tolbert"
+          },
+          "url": "https://example.com/url",
+          "editorial_player_key": "mlb.p.61637",
+          "editorial_team_key": "mlb.t.7",
+          "editorial_team_full_name": "Kansas City Royals",
+          "editorial_team_abbr": "KC",
+          "editorial_team_url": "https://example.com/editorial_team_url",
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
+          "uniform_number": 2,
+          "display_position": "SS,OF",
+          "headshot": {"url": "https://example.com/url", "size": "small"},
+          "image_url": "https://example.com/image_url",
+          "is_undroppable": 0,
+          "position_type": "B",
+          "primary_position": "SS",
+          "eligible_positions": {"position": ["SS", "OF", "Util"]},
+          "eligible_positions_to_add": "",
+          "has_player_notes": 1,
+          "has_recent_player_notes": 1,
+          "player_notes_last_timestamp": 1783869643,
+          "starting_status": {
+            "coverage_type": "date",
+            "date": "2026-07-12",
+            "is_starting": 0
+          },
+          "ownership": {"ownership_type": "freeagents"},
+          "player_stats": {
+            "coverage_type": "lastweek",
+            "stats": {
+              "stat": [
+                {"stat_id": 60, "value": "11/17"},
+                {"stat_id": 7, "value": 7},
+                {"stat_id": 12, "value": 2},
+                {"stat_id": 13, "value": 4},
+                {"stat_id": 16, "value": 1},
+                {"stat_id": 20, "value": 0},
+                {"stat_id": 23, "value": 18},
+                {"stat_id": 4, "value": 0.647}
+              ]
+            }
+          }
+        },
+        {
+          "player_key": "123.p.12557",
+          "player_id": 12557,
+          "name": {
+            "full": "Heriberto Hernández",
+            "first": "Heriberto",
+            "last": "Hernández",
+            "ascii_first": "Heriberto",
+            "ascii_last": "Hernández"
+          },
+          "url": "https://example.com/url",
+          "editorial_player_key": "mlb.p.12557",
+          "editorial_team_key": "mlb.t.28",
+          "editorial_team_full_name": "Miami Marlins",
+          "editorial_team_abbr": "MIA",
+          "editorial_team_url": "https://example.com/editorial_team_url",
+          "is_keeper": {"status": "", "cost": "", "kept": ""},
+          "uniform_number": 13,
+          "display_position": "OF",
+          "headshot": {"url": "https://example.com/url", "size": "small"},
+          "image_url": "https://example.com/image_url",
+          "is_undroppable": 0,
+          "position_type": "B",
+          "primary_position": "OF",
+          "eligible_positions": {"position": ["OF", "Util"]},
+          "eligible_positions_to_add": "",
+          "has_player_notes": 1,
+          "has_recent_player_notes": 1,
+          "player_notes_last_timestamp": 1783878126,
+          "starting_status": {
+            "coverage_type": "date",
+            "date": "2026-07-12",
+            "is_starting": 1
+          },
+          "batting_order": {"order_num": 2},
+          "ownership": {"ownership_type": "freeagents"},
+          "player_stats": {
+            "coverage_type": "lastweek",
+            "stats": {
+              "stat": [
+                {"stat_id": 60, "value": "7/19"},
+                {"stat_id": 7, "value": 4},
+                {"stat_id": 12, "value": 4},
+                {"stat_id": 13, "value": 4},
+                {"stat_id": 16, "value": 0},
+                {"stat_id": 20, "value": 0},
+                {"stat_id": 23, "value": 22},
+                {"stat_id": 4, "value": 0.478}
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
