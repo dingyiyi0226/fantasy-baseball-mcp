@@ -113,6 +113,32 @@ for (const [tool, mapFixture] of analysisCases) {
   }
 }
 
+const rosterAnalysis = analysisMappers.mapAnalyzeRosterStats(
+  2026,
+  "2026-07-13",
+  [],
+  [{
+    player: { name: "Example Pitcher" },
+    standard: { games: 10, wins: 4 },
+    recent14d: { games: 2, wins: 1 },
+    expectedStats: { xwOBAAgainst: "0.300" },
+  }],
+);
+const rosterAnalysisPlayer = rosterAnalysis.players[0];
+if (
+  JSON.stringify(rosterAnalysisPlayer?.["mlbStats.columns"]) === JSON.stringify(["games", "wins"]) &&
+  JSON.stringify(rosterAnalysisPlayer?.["mlbStats.standard"]) === JSON.stringify([10, 4]) &&
+  JSON.stringify(rosterAnalysisPlayer?.["mlbStats.recent14d"]) === JSON.stringify([2, 1]) &&
+  !("mlbStats.recent30d" in rosterAnalysisPlayer) &&
+  !("standard" in rosterAnalysisPlayer) &&
+  rosterAnalysisPlayer.expectedStats?.xwOBAAgainst === "0.300"
+) {
+  console.log("  ok   analyze_roster_stats flattens only MLB stat windows");
+} else {
+  failed++;
+  console.log("  FAIL analyze_roster_stats flattens only MLB stat windows");
+}
+
 const probableStarters = statsMappers.mapProbableStarters(
   read("raw", "list_probable_starters").schedule,
 );

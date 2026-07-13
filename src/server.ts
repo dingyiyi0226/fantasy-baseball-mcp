@@ -54,6 +54,11 @@ its table is stored in sibling \`player_stats.stats.columns\` and
 Probable-starter results also use this format: \`starters.columns\` names the
 values in each corresponding \`starters.rows\` array.
 
+In \`analyze_roster_stats\`, each player remains an object. Only its MLB time
+windows are flattened: \`mlbStats.columns\` names the aligned values in
+\`mlbStats.standard\` and the optional \`mlbStats.recent14d\` and
+\`mlbStats.recent30d\` arrays.
+
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact seven-field
   player view: player_key, name, editorial_team_abbr, display_position, selected_position,

@@ -354,6 +354,36 @@ export function mapAnalyzePlayerStats(
     : result;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/** Flatten only the repeated MLB stat windows within one roster-analysis player. */
+function flattenRosterMlbStats(player: unknown) {
+  if (!isRecord(player) || !Object.hasOwn(player, "standard")) return player;
+
+  const { standard, recent14d, recent30d } = player;
+  const windows = [standard, recent14d, recent30d].filter(isRecord);
+  const { columns } = mapRecordsTable(windows);
+  const row = (stats: unknown) =>
+    isRecord(stats) ? columns.map((column) => stats[column] ?? null) : null;
+
+  const flattened: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(player)) {
+    if (key === "recent14d" || key === "recent30d") continue;
+    if (key !== "standard") {
+      flattened[key] = value;
+      continue;
+    }
+
+    flattened["mlbStats.columns"] = columns;
+    flattened["mlbStats.standard"] = row(standard);
+    if (isRecord(recent14d)) flattened["mlbStats.recent14d"] = row(recent14d);
+    if (isRecord(recent30d)) flattened["mlbStats.recent30d"] = row(recent30d);
+  }
+  return flattened;
+}
+
 /** Build the exact public response for analyze_roster_stats. */
 export function mapAnalyzeRosterStats(
   season: number,
@@ -367,7 +397,7 @@ export function mapAnalyzeRosterStats(
     ...(categories.length > 0 && {
       leagueScoringCategories: mapLeagueScoringCategories(categories),
     }),
-    players,
+    players: players.map(flattenRosterMlbStats),
   };
 }
 
@@ -448,7 +478,9 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
         "call this tool once per batch (calls can run in parallel). " +
         "The response includes the league's scoring categories so advice targets " +
         "stats that actually matter in this league (e.g. SB if stolen bases count, " +
-        "HLD if holds count). Combine with get_roster to see who is starting or benched.",
+        "HLD if holds count). Within each player, mlbStats.columns names the aligned values " +
+        "in mlbStats.standard and the optional mlbStats.recent14d / mlbStats.recent30d arrays. " +
+        "Combine with get_roster to see who is starting or benched.",
       inputSchema: {
         teamKey: z
           .string()

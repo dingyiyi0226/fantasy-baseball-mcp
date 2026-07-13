@@ -152,8 +152,10 @@ them into **batches of <=10 keys**. Call `analyze_roster_stats` once per batch
 (batches may run as parallel calls if available; otherwise sequential).
 
 Extract only this compact summary from each player object:
-- **Batters**: wRC+, OBP, HR, SB, TB, barrel%, xwOBA-wOBA gap; `recent14d`/`recent30d` when present.
-- **Pitchers**: ERA/xERA, WHIP, K/BB, K%, BB%, QS; `recent14d`/`recent30d` when present.
+- Decode each `mlbStats.standard`, `mlbStats.recent14d`, and `mlbStats.recent30d` array by matching
+  values to the same player's `mlbStats.columns` indexes.
+- **Batters**: wRC+, OBP, HR, SB, TB, barrel%, xwOBA-wOBA gap; `mlbStats.recent14d` / `mlbStats.recent30d` when present.
+- **Pitchers**: ERA/xERA, WHIP, K/BB, K%, BB%, QS; `mlbStats.recent14d` / `mlbStats.recent30d` when present.
 
 ### E — FA Scout
 
@@ -192,8 +194,8 @@ After both scouts:
   Yahoo's transaction page confirms that a drop is required. When configured reserve capacity is
   unknown, confirm through Yahoo before requiring a drop.
 - Rank by the team's weakest categories.
-- Judge "hot" from `recent14d`/`recent30d` only when those keys are present; if absent,
-  use the season line and do not label the player hot.
+- Judge "hot" from `mlbStats.recent14d` / `mlbStats.recent30d` only when those keys are present; if absent,
+  use `mlbStats.standard` and do not label the player hot.
 
 ## Phase 2 — Deep Evaluation
 

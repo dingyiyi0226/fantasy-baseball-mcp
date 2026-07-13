@@ -102,6 +102,16 @@ assert.match(
 );
 assert.match(
   toolNotes,
+  /`mlbStats\.columns`[\s\S]*?`mlbStats\.standard`[\s\S]*?`mlbStats\.recent14d`[\s\S]*?`mlbStats\.recent30d`/,
+  "tool notes must document the flattened roster-analysis MLB windows",
+);
+assert.match(
+  dailyReview,
+  /Decode each `mlbStats\.standard`[\s\S]*?`mlbStats\.columns` indexes/,
+  "daily review must decode roster-analysis MLB arrays by their shared columns",
+);
+assert.match(
+  toolNotes,
   /rows show occupied `selected_position` assignments, not configured slot capacity[\s\S]*?Empty IL\/NA[\s\S]*?never infer total reserve capacity/,
   "tool notes must distinguish roster assignments from configured reserve capacity",
 );

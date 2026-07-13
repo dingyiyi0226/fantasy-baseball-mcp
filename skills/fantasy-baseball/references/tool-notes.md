@@ -15,11 +15,14 @@
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
 - **Batch size ≤ 10** — the tool enforces `.max(10)` on `playerKeys`. A 28-player roster = 3 batches (≤10 each).
-- **No `compact` flag** — the size fix is the ≤10-key batching. Each returned player is the full (trimmed) object.
+- **No `compact` flag** — always use the ≤10-key batching. Each returned player keeps its
+  existing object shape except for the three MLB windows: `mlbStats.columns` names the aligned
+  values in `mlbStats.standard` and the optional `mlbStats.recent14d` / `mlbStats.recent30d` arrays.
 - **Workflow**: reuse player keys from a roster response when it is already available. Otherwise,
   call `get_roster` with `keyOnly=true`, split the returned array into batches of up to 10, call
   `analyze_roster_stats` once per batch, then extract only the compact summary fields.
-- **Missing `recent14d`/`recent30d`**: treat as "no recent data". Do not label the player hot or cold from a missing key. The conditional spread means players with no recent data simply won't have these keys.
+- **Missing recent arrays**: when `mlbStats.recent14d` or `mlbStats.recent30d` is absent, treat it
+  as "no recent data". Do not label the player hot or cold from a missing key.
 
 ### `rank_players`
 - Use `sortType=lastmonth` and `lastweek` for recency.
@@ -121,8 +124,8 @@ K/BB, QS, and BSV, but always use the current league's actual categories when wr
 
 Extract **only** these fields from `analyze_roster_stats` results:
 
-**Batters**: wRC+, OBP, HR, SB, TB, barrel%, xwOBA–wOBA gap, `recent14d` (if present), `recent30d` (if present)
+**Batters**: wRC+, OBP, HR, SB, TB, barrel%, xwOBA–wOBA gap, `mlbStats.recent14d` (if present), `mlbStats.recent30d` (if present)
 
-**Pitchers**: ERA, xERA, WHIP, K/BB, K%, BB%, QS, `recent14d` (if present), `recent30d` (if present)
+**Pitchers**: ERA, xERA, WHIP, K/BB, K%, BB%, QS, `mlbStats.recent14d` (if present), `mlbStats.recent30d` (if present)
 
 Discard all other fields from the raw per-player objects.
