@@ -57,6 +57,8 @@
 ### `list_probable_starters`
 - Returns starters as a compact row table: `starters.columns` names the values in each
   corresponding `starters.rows` array.
+- Team and opponent are represented by `teamAbbr` and `opponentAbbr`; full team names are
+  omitted to keep the board compact.
 - For roster reviews, call once per date with `date=lineupDate, fantasyContext=false` and join the
   plain MLB board to the selected team and opponent rosters locally by normalized name and MLB team
   abbreviation. Reuse that board for every team in a multi-team review.

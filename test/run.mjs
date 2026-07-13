@@ -140,7 +140,7 @@ if (
 const emptyStarterBoard = analysisMappers.mapProbableStarterBoard("2025-06-30", []);
 if (
   emptyStarterBoard.count === 0 &&
-  emptyStarterBoard.starters.columns.length === 10 &&
+  emptyStarterBoard.starters.columns.length === 8 &&
   emptyStarterBoard.starters.rows.length === 0 &&
   typeof emptyStarterBoard.note === "string"
 ) {
@@ -148,6 +148,17 @@ if (
 } else {
   failed++;
   console.log("  FAIL empty probable-starter boards preserve the compact table schema");
+}
+
+if (
+  !probableStarters.some((starter) => "team" in starter || "opponent" in starter) &&
+  !enrichedStarterBoard.starters.columns.includes("team") &&
+  !enrichedStarterBoard.starters.columns.includes("opponent")
+) {
+  console.log("  ok   probable-starter boards keep only team abbreviations");
+} else {
+  failed++;
+  console.log("  FAIL probable-starter boards keep only team abbreviations");
 }
 
 const requestedWeek = 16;

@@ -90,9 +90,7 @@ export interface ProbableStarter {
   /** MLBAM player id (not a Yahoo key). */
   mlbamId: number;
   name: string;
-  team: string;
   teamAbbr: string;
-  opponent: string;
   opponentAbbr: string;
   homeAway: "home" | "away";
   /** Game start time as an ISO-8601 UTC timestamp. */
@@ -120,9 +118,7 @@ export function mapProbableStarters(data: any): ProbableStarter[] {
       out.push({
         mlbamId: Number(pp.id),
         name: String(pp.fullName ?? ""),
-        team: String(side.team?.name ?? ""),
         teamAbbr: String(side.team?.abbreviation ?? ""),
-        opponent: String(other.team?.name ?? ""),
         opponentAbbr: String(other.team?.abbreviation ?? ""),
         homeAway,
         gameTimeUtc: String(g.gameDate ?? ""),

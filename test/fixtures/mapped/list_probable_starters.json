@@ -5,9 +5,7 @@
     "columns": [
       "mlbamId",
       "name",
-      "team",
       "teamAbbr",
-      "opponent",
       "opponentAbbr",
       "homeAway",
       "gameTimeUtc",
@@ -18,9 +16,7 @@
       [
         669923,
         "George Kirby",
-        "Seattle Mariners",
         "SEA",
-        "Chicago Cubs",
         "CHC",
         "away",
         "2025-06-20T18:20:00Z",
@@ -30,9 +26,7 @@
       [
         571510,
         "Matthew Boyd",
-        "Chicago Cubs",
         "CHC",
-        "Seattle Mariners",
         "SEA",
         "home",
         "2025-06-20T18:20:00Z",
@@ -42,9 +36,7 @@
       [
         594798,
         "Jacob deGrom",
-        "Texas Rangers",
         "TEX",
-        "Pittsburgh Pirates",
         "PIT",
         "away",
         "2025-06-20T22:40:00Z",
@@ -54,9 +46,7 @@
       [
         681347,
         "Mike Burrows",
-        "Pittsburgh Pirates",
         "PIT",
-        "Texas Rangers",
         "TEX",
         "home",
         "2025-06-20T22:40:00Z",

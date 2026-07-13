@@ -37,9 +37,7 @@ type FantasyOwnership = {
 const PROBABLE_STARTER_COLUMNS = [
   "mlbamId",
   "name",
-  "team",
   "teamAbbr",
-  "opponent",
   "opponentAbbr",
   "homeAway",
   "gameTimeUtc",
@@ -525,13 +523,14 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
       title: "List probable starting pitchers for a date",
       description:
         "List every probable starting pitcher across MLB for a date, with each one's " +
-        "opponent, home/away, and game start time (UTC). Sourced from the MLB Stats API " +
+        "opponent abbreviation, home/away, and game start time (UTC). Sourced from the MLB Stats API " +
         "(no Yahoo auth needed). MLB only posts probables for roughly today through ~2-3 " +
         "days out, so 'tomorrow' returns a full board, the day after is usually partial, " +
         "and dates further out return few or none (not yet announced — not an error). " +
         "Starters use a compact row table: starters.columns names each value in the matching " +
-        "starters.rows arrays. Columns include mlbamId, name, team, teamAbbr, opponent, " +
-        "opponentAbbr, homeAway, gameTimeUtc, gamePk, and doubleHeader. Set fantasyContext=true " +
+        "starters.rows arrays. Team and opponent are represented only by teamAbbr and opponentAbbr. " +
+        "Columns include mlbamId, name, teamAbbr, opponentAbbr, homeAway, " +
+        "gameTimeUtc, gamePk, and doubleHeader. Set fantasyContext=true " +
         "to add fantasyStatus " +
         "(yourTeam, otherTeam, freeAgent, waivers, or unknown) and, for otherTeam, ownerTeamName. " +
         "Enrichment issues about one Yahoo request per starter (~10-26), so leave it off unless " +
