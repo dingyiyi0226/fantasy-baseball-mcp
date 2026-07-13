@@ -12,8 +12,7 @@
  *      to test/fixtures/mapped/<tool>.json.
  *
  * Usage:
- *   npm run build            # mappers must be compiled to dist/ first
- *   node test/fetch-fixtures.mjs get_roster      # refresh exactly one fixture
+ *   npm run fixtures:refresh -- get_roster  # refresh exactly one fixture
  *
  * Yahoo fixtures require a configured ~/.fantasy-baseball-mcp/config.json (run the auth flow once).
  * Analysis fixtures use public MLB, Baseball Savant, and FanGraphs data and need no Yahoo auth.
@@ -49,13 +48,14 @@ const mappers = {
 
 const requestedFixture = process.argv[2];
 if (!requestedFixture || process.argv.length !== 3) {
-  console.error("Usage: node test/fetch-fixtures.mjs <fixture-name>");
+  console.error("Usage: npm run fixtures:refresh -- <fixture-name>");
   process.exit(1);
 }
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const RAW_DIR = join(HERE, "fixtures", "raw");
-const MAPPED_DIR = join(HERE, "fixtures", "mapped");
+const FIXTURES_DIR = join(HERE, "..", "test", "fixtures");
+const RAW_DIR = join(FIXTURES_DIR, "raw");
+const MAPPED_DIR = join(FIXTURES_DIR, "mapped");
 mkdirSync(RAW_DIR, { recursive: true });
 mkdirSync(MAPPED_DIR, { recursive: true });
 

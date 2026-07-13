@@ -10,7 +10,7 @@ process.env.HOME = home;
 
 try {
   const { CONFIG_PATH, LEGACY_CONFIG_PATH, loadConfig, saveConfig } = await import(
-    "../dist/app/config.js"
+    "../../dist/app/config.js"
   );
   const legacyConfig = { clientId: "legacy-id", refreshToken: "legacy-token" };
 

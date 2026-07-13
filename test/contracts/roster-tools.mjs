@@ -1,10 +1,10 @@
 /** Verify the public roster-tool split and its smallest response path. */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { registerRosterReadTools } from "../dist/yahoo/roster.js";
+import { registerRosterReadTools } from "../../dist/yahoo/roster.js";
 
 const readFixture = (name) =>
-  JSON.parse(readFileSync(new URL(`./fixtures/raw/${name}.json`, import.meta.url), "utf8"));
+  JSON.parse(readFileSync(new URL(`../fixtures/raw/${name}.json`, import.meta.url), "utf8"));
 
 const registered = new Map();
 const requests = [];

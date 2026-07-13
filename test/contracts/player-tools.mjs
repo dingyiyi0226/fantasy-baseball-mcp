@@ -1,10 +1,10 @@
 /** Verify the dedicated free-agent batter ranking request and response contract. */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { registerPlayerTools } from "../dist/yahoo/player.js";
+import { registerPlayerTools } from "../../dist/yahoo/player.js";
 
 const readFixture = (name) =>
-  JSON.parse(readFileSync(new URL(`./fixtures/raw/${name}.json`, import.meta.url), "utf8"));
+  JSON.parse(readFileSync(new URL(`../fixtures/raw/${name}.json`, import.meta.url), "utf8"));
 
 const registered = new Map();
 const requests = [];
