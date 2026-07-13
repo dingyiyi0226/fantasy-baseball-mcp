@@ -19,7 +19,6 @@ Automated browser-based workflows handle lineup adjustments and approved add/dro
   - [Codex desktop app](#codex-desktop-app)
 - [Connect your Yahoo team](#connect-your-yahoo-team)
 - [Talk to your team](#talk-to-your-team)
-- [What "analyze" looks up](#what-analyze-looks-up)
 - [Good to know](#good-to-know)
 - [License](#license)
 
@@ -118,34 +117,31 @@ The assistant will find your leagues, set your default team, and finish setup.
 | `fantasy show roster` | Show your current roster |
 | `fantasy my matchup` | Summarize this week's matchup |
 | `fantasy standings` | Show league standings |
-| `fantasy who should I add` | Find strong free-agent options |
-| `fantasy hot free-agent batters` | Rank available hitters by recent Yahoo stats |
-| `fantasy MLB leaders` | Rank all Yahoo baseball players by a stat or overall rank |
-| `fantasy my stats this week` | Show your team's weekly totals |
-| `fantasy recent moves` | List recent adds, drops, and trades |
-| `who's pitching tomorrow` | List probable starting pitchers for a date (add "and who's a free agent" for ownership) |
-| `analyze Shohei Ohtani` | Pull Statcast, xStats, FanGraphs WAR/wRC+, and recent splits |
-| `analyze my roster` | Run the same analysis for every player on your roster |
+| `fantasy who should I add?` | Find free-agent targets |
+| `who's pitching tomorrow?` | List probable starters; add “who's a free agent?” to check availability |
+| `analyze Shohei Ohtani` | Compare recent performance with Statcast and FanGraphs indicators |
+| `move <player> from BN to <slot>` | Makes one approved lineup swap in the signed-in Yahoo browser, then verifies it saved |
+| `set my lineup today` | Applies the agreed start/bench moves from a roster review |
+| `add <free agent>` | Adds that exact free agent when there is an open roster spot |
+| `add <free agent> and drop <player>` | Submits only that exact approved add/drop pair and verifies the resulting roster |
+| `review my roster today` | Reviews the current matchup, lineup, open slots, and free-agent or streamer opportunities |
+| `who on my bench should I start tonight?` | Recommends exact start/bench swaps and explains why |
+| `weekly review` | Grades lineup choices, adds/drops, and category strategy for this week or the week just finished |
+| `can I still win this week?` | Identifies realistic category flips and the best remaining path |
 
-You can also ask naturally, like *"Who on my bench should I start tonight?"*
-
-## What "analyze" looks up
-
-| Source | Stats |
-| --- | --- |
-| **MLB Stats API** | Season totals plus 14-day and 30-day splits |
-| **Baseball Savant** | xBA, xSLG, xwOBA vs. actual, plus exit velocity, barrel rate, and hard-hit rate |
-| **FanGraphs** | WAR, wRC+, FIP, xFIP, K%, BB%, SwStr%, and GB/FB% |
-
-Analysis automatically targets your **league's scoring categories**, and results link to each
-player's pages on Baseball Savant, MLB.com, Baseball Reference, and FanGraphs. Leaderboard
-data is cached for one hour.
-
----
+Browser actions use the signed-in Yahoo session: Codex's in-app browser or Claude's connected
+Chrome. They stop if Yahoo is not signed in or the requested move is ambiguous. You can always ask
+for advice first; an add/drop is submitted only after you explicitly approve the exact player or pair.
 
 ## Good to know
 
-- We store your Yahoo app credentials locally in `~/.fantasy-baseball-mcp/config.json`.
+- Your Yahoo app credentials are stored locally in `~/.fantasy-baseball-mcp/config.json`.
+- **For batters, we use** season, 14-day, and 30-day splits; xBA, xSLG, xwOBA, and their
+  expected-vs-actual gaps; exit velocity, hard-hit rate, barrel rate, launch angle, sweet-spot rate,
+  and batted-ball distance; WAR, wRC+, wOBA, ISO, BABIP, K%, BB%, SwStr%, GB%, FB%, HR/FB, and LD%.
+- **For pitchers, we use** season, 14-day, and 30-day splits; xBA, xSLG, and xwOBA allowed;
+  exit velocity, hard-hit rate, barrel rate, and launch angle allowed; WAR, ERA, FIP, xFIP, WHIP,
+  K%, BB%, SwStr%, GB%, FB%, HR/FB, BABIP, and LOB%.
 
 ## License
 
