@@ -113,6 +113,43 @@ for (const [tool, mapFixture] of analysisCases) {
   }
 }
 
+const probableStarters = statsMappers.mapProbableStarters(
+  read("raw", "list_probable_starters").schedule,
+);
+const enrichedStarterBoard = analysisMappers.mapProbableStarterBoard(
+  read("raw", "list_probable_starters").date,
+  [
+    { ...probableStarters[0], fantasyStatus: "freeAgent" },
+    { ...probableStarters[1], fantasyStatus: "otherTeam", ownerTeamName: "Team 2" },
+  ],
+  { leagueKey: "123.l.12345" },
+);
+if (
+  enrichedStarterBoard.leagueKey === "123.l.12345" &&
+  JSON.stringify(enrichedStarterBoard.starters.columns.slice(-2)) ===
+    JSON.stringify(["fantasyStatus", "ownerTeamName"]) &&
+  JSON.stringify(enrichedStarterBoard.starters.rows.map((row) => row.slice(-2))) ===
+    JSON.stringify([["freeAgent", null], ["otherTeam", "Team 2"]])
+) {
+  console.log("  ok   probable-starter ownership uses the compact row table");
+} else {
+  failed++;
+  console.log("  FAIL probable-starter ownership uses the compact row table");
+}
+
+const emptyStarterBoard = analysisMappers.mapProbableStarterBoard("2025-06-30", []);
+if (
+  emptyStarterBoard.count === 0 &&
+  emptyStarterBoard.starters.columns.length === 10 &&
+  emptyStarterBoard.starters.rows.length === 0 &&
+  typeof emptyStarterBoard.note === "string"
+) {
+  console.log("  ok   empty probable-starter boards preserve the compact table schema");
+} else {
+  failed++;
+  console.log("  FAIL empty probable-starter boards preserve the compact table schema");
+}
+
 const requestedWeek = 16;
 const filteredMatchups = mappers.mapTeamMatchups(
   read("raw", "get_team_matchup_history"),

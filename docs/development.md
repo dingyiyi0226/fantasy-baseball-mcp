@@ -40,7 +40,7 @@ injury, eligibility, lineup, and `player_stats` fields; and `list_players` vs
 `rank_players` (+stats). Use `rank_free_agent_batters` when the result must contain only
 available hitters and the returned stats must match Yahoo's `lastweek` or `lastmonth` window.
 
-**Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date; `fantasyContext: true` adds `fantasyStatus` and, for another manager's pitcher, `ownerTeamName`)
+**Analysis** (public APIs; `list_probable_starters` adds optional Yahoo ownership): `analyze_player_stats`, `analyze_roster_stats` (accepts optional `playerKeys` array, max 10 per call), `list_probable_starters` (MLB probable starting pitchers for a date in a compact `starters.columns` / `starters.rows` table; `fantasyContext: true` adds `fantasyStatus` and, for another manager's pitcher, `ownerTeamName`)
 
 Yahoo's write-scoped fantasy API is deprecated, so this server does not expose
 write tools as part of the supported workflow.

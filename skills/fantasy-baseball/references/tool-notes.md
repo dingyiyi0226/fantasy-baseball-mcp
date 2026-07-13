@@ -55,6 +55,8 @@
 - Returns detailed player data including `player_id`, `editorial_team_abbr`, `position_type`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`; it also includes `selected_position`, `status`, and `is_starting` from the roster.
 
 ### `list_probable_starters`
+- Returns starters as a compact row table: `starters.columns` names the values in each
+  corresponding `starters.rows` array.
 - For roster reviews, call once per date with `date=lineupDate, fantasyContext=false` and join the
   plain MLB board to the selected team and opponent rosters locally by normalized name and MLB team
   abbreviation. Reuse that board for every team in a multi-team review.

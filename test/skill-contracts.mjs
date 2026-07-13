@@ -20,6 +20,11 @@ assert.match(
   /once per `lineupDate`[\s\S]*?`date=lineupDate, fantasyContext=false`/,
   "daily review must fetch the plain probable-starter board once per date",
 );
+assert.match(
+  dailyReview,
+  /starter row[\s\S]*?`starters\.columns`/,
+  "daily review must decode the compact probable-starter table",
+);
 assert.doesNotMatch(
   dailyReview,
   /fantasyContext=true/,
@@ -89,6 +94,11 @@ assert.match(
   toolNotes,
   /configured default league\/team[\s\S]*?cannot be scoped to a different team/,
   "tool notes must preserve the ownership-enrichment scope limitation",
+);
+assert.match(
+  toolNotes,
+  /`starters\.columns`[\s\S]*?`starters\.rows`/,
+  "tool notes must document the compact probable-starter table",
 );
 assert.match(
   toolNotes,

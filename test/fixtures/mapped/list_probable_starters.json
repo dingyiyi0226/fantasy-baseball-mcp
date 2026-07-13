@@ -1,54 +1,68 @@
 {
   "date": "2025-06-20",
   "count": 4,
-  "starters": [
-    {
-      "mlbamId": 669923,
-      "name": "George Kirby",
-      "team": "Seattle Mariners",
-      "teamAbbr": "SEA",
-      "opponent": "Chicago Cubs",
-      "opponentAbbr": "CHC",
-      "homeAway": "away",
-      "gameTimeUtc": "2025-06-20T18:20:00Z",
-      "gamePk": 777436,
-      "doubleHeader": "N"
-    },
-    {
-      "mlbamId": 571510,
-      "name": "Matthew Boyd",
-      "team": "Chicago Cubs",
-      "teamAbbr": "CHC",
-      "opponent": "Seattle Mariners",
-      "opponentAbbr": "SEA",
-      "homeAway": "home",
-      "gameTimeUtc": "2025-06-20T18:20:00Z",
-      "gamePk": 777436,
-      "doubleHeader": "N"
-    },
-    {
-      "mlbamId": 594798,
-      "name": "Jacob deGrom",
-      "team": "Texas Rangers",
-      "teamAbbr": "TEX",
-      "opponent": "Pittsburgh Pirates",
-      "opponentAbbr": "PIT",
-      "homeAway": "away",
-      "gameTimeUtc": "2025-06-20T22:40:00Z",
-      "gamePk": 777432,
-      "doubleHeader": "N"
-    },
-    {
-      "mlbamId": 681347,
-      "name": "Mike Burrows",
-      "team": "Pittsburgh Pirates",
-      "teamAbbr": "PIT",
-      "opponent": "Texas Rangers",
-      "opponentAbbr": "TEX",
-      "homeAway": "home",
-      "gameTimeUtc": "2025-06-20T22:40:00Z",
-      "gamePk": 777432,
-      "doubleHeader": "N"
-    }
-  ]
+  "starters": {
+    "columns": [
+      "mlbamId",
+      "name",
+      "team",
+      "teamAbbr",
+      "opponent",
+      "opponentAbbr",
+      "homeAway",
+      "gameTimeUtc",
+      "gamePk",
+      "doubleHeader"
+    ],
+    "rows": [
+      [
+        669923,
+        "George Kirby",
+        "Seattle Mariners",
+        "SEA",
+        "Chicago Cubs",
+        "CHC",
+        "away",
+        "2025-06-20T18:20:00Z",
+        777436,
+        "N"
+      ],
+      [
+        571510,
+        "Matthew Boyd",
+        "Chicago Cubs",
+        "CHC",
+        "Seattle Mariners",
+        "SEA",
+        "home",
+        "2025-06-20T18:20:00Z",
+        777436,
+        "N"
+      ],
+      [
+        594798,
+        "Jacob deGrom",
+        "Texas Rangers",
+        "TEX",
+        "Pittsburgh Pirates",
+        "PIT",
+        "away",
+        "2025-06-20T22:40:00Z",
+        777432,
+        "N"
+      ],
+      [
+        681347,
+        "Mike Burrows",
+        "Pittsburgh Pirates",
+        "PIT",
+        "Texas Rangers",
+        "TEX",
+        "home",
+        "2025-06-20T22:40:00Z",
+        777432,
+        "N"
+      ]
+    ]
+  }
 }

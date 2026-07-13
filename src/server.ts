@@ -51,6 +51,9 @@ a plain player-key array. A player\'s \`player_stats\` keeps coverage metadata;
 its table is stored in sibling \`player_stats.stats.columns\` and
 \`player_stats.stats.rows\` player columns.
 
+Probable-starter results also use this format: \`starters.columns\` names the
+values in each corresponding \`starters.rows\` array.
+
 Everyday use (these default to the user's configured league/team):
 - "fantasy show roster" / "who is starting" -> get_roster (the compact seven-field
   player view: player_key, name, editorial_team_abbr, display_position, selected_position,

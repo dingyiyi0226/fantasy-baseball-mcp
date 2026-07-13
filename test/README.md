@@ -28,7 +28,8 @@ fixtures stay small and readable.
 
 The analysis fixtures contain only public MLB, Baseball Savant, and FanGraphs data.
 `analyze_player_stats`, `analyze_roster_stats`, and `list_probable_starters` can be
-refreshed without Yahoo credentials.
+refreshed without Yahoo credentials. The probable-starter mapped fixture uses the public compact
+`starters.columns` / `starters.rows` response contract.
 
 Whenever an MCP tool is added, add raw and mapped fixtures named after that tool and register it
 in both `fetch-fixtures.mjs` and `run.mjs`, even when the tool reuses an existing mapper. This keeps

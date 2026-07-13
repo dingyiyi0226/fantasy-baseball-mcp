@@ -15,6 +15,7 @@ import {
 } from "./statsClient.js";
 import { jsonResult, type McpContext, type ScoringCategory } from "../mcp.js";
 import { asArray } from "../util.js";
+import { mapRecordsTable } from "../yahoo/mappers.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
 
@@ -32,6 +33,19 @@ type FantasyOwnership = {
   fantasyStatus: "yourTeam" | "otherTeam" | "freeAgent" | "waivers" | "unknown";
   ownerTeamName?: string;
 };
+
+const PROBABLE_STARTER_COLUMNS = [
+  "mlbamId",
+  "name",
+  "team",
+  "teamAbbr",
+  "opponent",
+  "opponentAbbr",
+  "homeAway",
+  "gameTimeUtc",
+  "gamePk",
+  "doubleHeader",
+] as const;
 
 /**
  * Resolve a probable starter (known only by name from the MLB feed) to its Yahoo
@@ -359,13 +373,25 @@ export function mapAnalyzeRosterStats(
   };
 }
 
-/** Build the plain (non-Yahoo-enriched) probable-starter response. */
-export function mapProbableStarterBoard(date: string, starters: ProbableStarter[]) {
-  if (starters.length > 0) return { date, count: starters.length, starters };
-  return {
+/** Build the public probable-starter response as a compact row table. */
+export function mapProbableStarterBoard(
+  date: string,
+  starters: Array<ProbableStarter & Partial<FantasyOwnership>>,
+  metadata: { leagueKey?: string; note?: string } = {},
+) {
+  const columns = starters.some((starter) => starter.fantasyStatus !== undefined)
+    ? [...PROBABLE_STARTER_COLUMNS, "fantasyStatus", "ownerTeamName"]
+    : PROBABLE_STARTER_COLUMNS;
+  const board = {
     date,
-    count: 0,
-    starters: [],
+    count: starters.length,
+    ...metadata,
+    starters: mapRecordsTable(starters, columns),
+  };
+
+  if (starters.length > 0) return board;
+  return {
+    ...board,
     note:
       "No probable starters are posted for this date yet. MLB typically announces " +
       "probables only for today through ~2-3 days out.",
@@ -503,8 +529,10 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
         "(no Yahoo auth needed). MLB only posts probables for roughly today through ~2-3 " +
         "days out, so 'tomorrow' returns a full board, the day after is usually partial, " +
         "and dates further out return few or none (not yet announced — not an error). " +
-        "Each starter contains mlbamId, name, team, teamAbbr, opponent, opponentAbbr, homeAway, " +
-        "gameTimeUtc, gamePk, and doubleHeader. Set fantasyContext=true to add fantasyStatus " +
+        "Starters use a compact row table: starters.columns names each value in the matching " +
+        "starters.rows arrays. Columns include mlbamId, name, team, teamAbbr, opponent, " +
+        "opponentAbbr, homeAway, gameTimeUtc, gamePk, and doubleHeader. Set fantasyContext=true " +
+        "to add fantasyStatus " +
         "(yourTeam, otherTeam, freeAgent, waivers, or unknown) and, for otherTeam, ownerTeamName. " +
         "Enrichment issues about one Yahoo request per starter (~10-26), so leave it off unless " +
         "you need ownership.",
@@ -538,14 +566,13 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
       try {
         leagueKey = ctx.resolveLeagueKey();
       } catch {
-        return jsonResult({
-          date: d,
-          count: starters.length,
-          starters,
-          note:
-            "Yahoo is not set up, so ownership could not be added. Say `fantasy start` to " +
-            "connect a league, or omit fantasyContext.",
-        });
+        return jsonResult(
+          mapProbableStarterBoard(d, starters, {
+            note:
+              "Yahoo is not set up, so ownership could not be added. Say `fantasy start` to " +
+              "connect a league, or omit fantasyContext.",
+          }),
+        );
       }
       let myTeamKey: string | undefined;
       try {
@@ -560,7 +587,7 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
           ...(await lookupOwnership(ctx, leagueKey, myTeamKey, s.name)),
         })),
       );
-      return jsonResult({ date: d, count: enriched.length, leagueKey, starters: enriched });
+      return jsonResult(mapProbableStarterBoard(d, enriched, { leagueKey }));
     },
   );
 }

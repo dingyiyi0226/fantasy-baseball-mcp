@@ -67,9 +67,9 @@ to `lineupDate`. Apply the matching Strategy bullet during Phase 2A.
 
 Before reviewing any team, call `list_probable_starters` **once per `lineupDate`** with
 `date=lineupDate, fantasyContext=false`. Reuse that plain MLB board for every team in this
-review. Do not request fantasy ownership enrichment: it performs a Yahoo lookup for every starter
-and only uses the configured default league/team, which may not be the team currently under
-review.
+review. Read each starter row using its matching `starters.columns` positions. Do not request
+fantasy ownership enrichment: it performs a Yahoo lookup for every starter and only uses the
+configured default league/team, which may not be the team currently under review.
 
 ## Phase 1 — Gather
 
