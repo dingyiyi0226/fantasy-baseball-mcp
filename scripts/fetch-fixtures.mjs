@@ -35,6 +35,7 @@ import * as teamMappers from "../dist/yahoo/team.js";
 import * as transactionMappers from "../dist/yahoo/transaction.js";
 import * as analysisMappers from "../dist/analysis/index.js";
 import * as statsMappers from "../dist/analysis/statsClient.js";
+import { REDIRECT_URI } from "../dist/yahoo/callbackServer.js";
 
 const mappers = {
   ...gameMappers,
@@ -197,7 +198,7 @@ const tokenRes = await axios.post(
   "https://api.login.yahoo.com/oauth2/get_token",
   new URLSearchParams({
     grant_type: "refresh_token",
-    redirect_uri: "oob",
+    redirect_uri: REDIRECT_URI,
     refresh_token: refreshToken,
   }).toString(),
   {
