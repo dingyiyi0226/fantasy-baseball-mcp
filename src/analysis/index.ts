@@ -10,9 +10,10 @@ import {
   fetchFanGraphs,
   fetchProbableStarters,
   guessBrefId,
+  type PlayerIdentity,
   type ProbableStarter,
 } from "./statsClient.js";
-import { jsonResult, type McpContext } from "../mcp.js";
+import { jsonResult, type McpContext, type ScoringCategory } from "../mcp.js";
 import { asArray } from "../util.js";
 
 const READ_ONLY = { readOnlyHint: true } as const;
@@ -122,12 +123,39 @@ function mapPitcherMlbStat(mlb: Record<string, unknown>) {
   };
 }
 
-/** Fetch and assemble multi-source stats for a single player. */
-async function collectPlayerStats(playerName: string, season: number) {
-  const identity = await resolvePlayer(playerName);
-  if (!identity) return { error: `Player not found: "${playerName}". Try the full name.` };
+export type PlayerAnalysisSources = {
+  playerName: string;
+  season: number;
+  identity: PlayerIdentity | null;
+  mlb: Record<string, unknown> | null;
+  expected: Record<string, string> | null;
+  statcast: Record<string, string> | null;
+  fangraphs: Record<string, unknown> | null;
+  recent14d: Record<string, unknown> | null;
+  recent30d: Record<string, unknown> | null;
+};
 
-  const { mlbamId, nameSlug, fullName, primaryPositionCode } = identity;
+/** Fetch the normalized records used to build one multi-source player analysis. */
+export async function fetchPlayerAnalysisSources(
+  playerName: string,
+  season: number,
+): Promise<PlayerAnalysisSources> {
+  const identity = await resolvePlayer(playerName);
+  if (!identity) {
+    return {
+      playerName,
+      season,
+      identity: null,
+      mlb: null,
+      expected: null,
+      statcast: null,
+      fangraphs: null,
+      recent14d: null,
+      recent30d: null,
+    };
+  }
+
+  const { mlbamId, primaryPositionCode } = identity;
   const role = playerRole(primaryPositionCode);
   const isPitcher = role === "pitcher";
   const savantType = isPitcher ? "pitcher" : "batter";
@@ -149,6 +177,38 @@ async function collectPlayerStats(playerName: string, season: number) {
   const fg = val(fgResult);
   const r14 = val(r14Result);
   const r30 = val(r30Result);
+
+  return {
+    playerName,
+    season,
+    identity,
+    mlb,
+    expected: xStats,
+    statcast: sc,
+    fangraphs: fg,
+    recent14d: r14,
+    recent30d: r30,
+  };
+}
+
+/** Map normalized multi-source records to the public player-analysis response. */
+export function mapPlayerAnalysis(sources: PlayerAnalysisSources) {
+  const {
+    playerName,
+    season,
+    identity,
+    mlb,
+    expected: xStats,
+    statcast: sc,
+    fangraphs: fg,
+    recent14d: r14,
+    recent30d: r30,
+  } = sources;
+  if (!identity) return { error: `Player not found: "${playerName}". Try the full name.` };
+
+  const { mlbamId, nameSlug, fullName, primaryPositionCode } = identity;
+  const role = playerRole(primaryPositionCode);
+  const isPitcher = role === "pitcher";
 
   const brefId = guessBrefId(fullName);
   const fgId = fg?.["playerid"];
@@ -264,6 +324,54 @@ async function collectPlayerStats(playerName: string, season: number) {
   };
 }
 
+function mapLeagueScoringCategories(categories: ScoringCategory[]) {
+  return {
+    batting: categories.filter(c => c.positionType === "B").map(c => c.displayName),
+    pitching: categories.filter(c => c.positionType === "P").map(c => c.displayName),
+  };
+}
+
+/** Build the exact public response for analyze_player_stats. */
+export function mapAnalyzePlayerStats(
+  sources: PlayerAnalysisSources,
+  categories: ScoringCategory[] = [],
+) {
+  const result = mapPlayerAnalysis(sources);
+  return categories.length > 0
+    ? { ...result, leagueScoringCategories: mapLeagueScoringCategories(categories) }
+    : result;
+}
+
+/** Build the exact public response for analyze_roster_stats. */
+export function mapAnalyzeRosterStats(
+  season: number,
+  rosterDate: string,
+  categories: ScoringCategory[],
+  players: unknown[],
+) {
+  return {
+    season,
+    rosterDate,
+    ...(categories.length > 0 && {
+      leagueScoringCategories: mapLeagueScoringCategories(categories),
+    }),
+    players,
+  };
+}
+
+/** Build the plain (non-Yahoo-enriched) probable-starter response. */
+export function mapProbableStarterBoard(date: string, starters: ProbableStarter[]) {
+  if (starters.length > 0) return { date, count: starters.length, starters };
+  return {
+    date,
+    count: 0,
+    starters: [],
+    note:
+      "No probable starters are posted for this date yet. MLB typically announces " +
+      "probables only for today through ~2-3 days out.",
+  };
+}
+
 export function registerAnalysisTools(server: McpServer, ctx: McpContext): void {
   // -------------------------------------------------------------------
   // Single player analysis
@@ -293,16 +401,11 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
     },
     async ({ playerName, season }) => {
       const yr = season ?? currentSeason();
-      const [result, categories] = await Promise.all([
-        collectPlayerStats(playerName, yr),
+      const [sources, categories] = await Promise.all([
+        fetchPlayerAnalysisSources(playerName, yr),
         ctx.getLeagueScoringCategories(),
       ]);
-      if (categories.length > 0) {
-        const batting = categories.filter(c => c.positionType === "B").map(c => c.displayName);
-        const pitching = categories.filter(c => c.positionType === "P").map(c => c.displayName);
-        return jsonResult({ ...result, leagueScoringCategories: { batting, pitching } });
-      }
-      return jsonResult(result);
+      return jsonResult(mapAnalyzePlayerStats(sources, categories));
     },
   );
 
@@ -375,21 +478,14 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
         players.map(async (p: any) => {
           const name: string = p?.name?.full ?? p?.full_name ?? p?.name ?? String(p);
           try {
-            return await collectPlayerStats(name, yr);
+            return mapPlayerAnalysis(await fetchPlayerAnalysisSources(name, yr));
           } catch {
             return { player: { name, season: yr }, error: "Stats lookup failed" };
           }
         }),
       );
 
-      const leagueScoringCategories = categories.length > 0
-        ? {
-            batting: categories.filter(c => c.positionType === "B").map(c => c.displayName),
-            pitching: categories.filter(c => c.positionType === "P").map(c => c.displayName),
-          }
-        : undefined;
-
-      return jsonResult({ season: yr, rosterDate: d, ...(leagueScoringCategories && { leagueScoringCategories }), players: results });
+      return jsonResult(mapAnalyzeRosterStats(yr, d, categories, results));
     },
   );
 
@@ -430,18 +526,11 @@ export function registerAnalysisTools(server: McpServer, ctx: McpContext): void 
       const starters = await fetchProbableStarters(d);
 
       if (starters.length === 0) {
-        return jsonResult({
-          date: d,
-          count: 0,
-          starters: [],
-          note:
-            "No probable starters are posted for this date yet. MLB typically announces " +
-            "probables only for today through ~2-3 days out.",
-        });
+        return jsonResult(mapProbableStarterBoard(d, starters));
       }
 
       if (!fantasyContext) {
-        return jsonResult({ date: d, count: starters.length, starters });
+        return jsonResult(mapProbableStarterBoard(d, starters));
       }
 
       // Enrich with Yahoo ownership; degrade to the plain list if Yahoo isn't set up.

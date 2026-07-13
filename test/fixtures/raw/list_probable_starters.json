@@ -1,0 +1,376 @@
+{
+  "date": "2025-06-20",
+  "schedule": {
+    "copyright": "Copyright 2026 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+    "totalItems": 15,
+    "totalEvents": 0,
+    "totalGames": 15,
+    "totalGamesInProgress": 0,
+    "dates": [
+      {
+        "date": "2025-06-20",
+        "totalItems": 15,
+        "totalEvents": 0,
+        "totalGames": 15,
+        "totalGamesInProgress": 0,
+        "games": [
+          {
+            "gamePk": 777436,
+            "gameGuid": "e90f625f-8f34-4143-adde-a36bf87db3cc",
+            "link": "/api/v1.1/game/777436/feed/live",
+            "gameType": "R",
+            "season": "2025",
+            "gameDate": "2025-06-20T18:20:00Z",
+            "officialDate": "2025-06-20",
+            "status": {
+              "abstractGameState": "Final",
+              "codedGameState": "F",
+              "detailedState": "Final",
+              "statusCode": "F",
+              "startTimeTBD": false,
+              "abstractGameCode": "F"
+            },
+            "teams": {
+              "away": {
+                "team": {
+                  "springLeague": {
+                    "id": 114,
+                    "name": "Cactus League",
+                    "link": "/api/v1/league/114",
+                    "abbreviation": "CL"
+                  },
+                  "allStarStatus": "N",
+                  "id": 136,
+                  "name": "Seattle Mariners",
+                  "link": "/api/v1/teams/136",
+                  "season": 2025,
+                  "venue": {
+                    "id": 680,
+                    "name": "T-Mobile Park",
+                    "link": "/api/v1/venues/680"
+                  },
+                  "springVenue": {"id": 2530, "link": "/api/v1/venues/2530"},
+                  "teamCode": "sea",
+                  "fileCode": "sea",
+                  "abbreviation": "SEA",
+                  "teamName": "Mariners",
+                  "locationName": "Seattle",
+                  "firstYearOfPlay": "1977",
+                  "league": {
+                    "id": 103,
+                    "name": "American League",
+                    "link": "/api/v1/league/103"
+                  },
+                  "division": {
+                    "id": 200,
+                    "name": "American League West",
+                    "link": "/api/v1/divisions/200"
+                  },
+                  "sport": {
+                    "id": 1,
+                    "link": "/api/v1/sports/1",
+                    "name": "Major League Baseball"
+                  },
+                  "shortName": "Seattle",
+                  "franchiseName": "Seattle",
+                  "clubName": "Mariners",
+                  "active": true
+                },
+                "leagueRecord": {
+                  "wins": 38,
+                  "losses": 36,
+                  "ties": 0,
+                  "pct": ".514"
+                },
+                "score": 9,
+                "isWinner": true,
+                "probablePitcher": {
+                  "id": 669923,
+                  "fullName": "George Kirby",
+                  "link": "/api/v1/people/669923"
+                },
+                "splitSquad": false,
+                "seriesNumber": 25,
+                "springLeague": {
+                  "id": 114,
+                  "name": "Cactus League",
+                  "link": "/api/v1/league/114",
+                  "abbreviation": "CL"
+                }
+              },
+              "home": {
+                "team": {
+                  "springLeague": {
+                    "id": 114,
+                    "name": "Cactus League",
+                    "link": "/api/v1/league/114",
+                    "abbreviation": "CL"
+                  },
+                  "allStarStatus": "N",
+                  "id": 112,
+                  "name": "Chicago Cubs",
+                  "link": "/api/v1/teams/112",
+                  "season": 2025,
+                  "venue": {
+                    "id": 17,
+                    "name": "Wrigley Field",
+                    "link": "/api/v1/venues/17"
+                  },
+                  "springVenue": {"id": 4629, "link": "/api/v1/venues/4629"},
+                  "teamCode": "chn",
+                  "fileCode": "chc",
+                  "abbreviation": "CHC",
+                  "teamName": "Cubs",
+                  "locationName": "Chicago",
+                  "firstYearOfPlay": "1874",
+                  "league": {
+                    "id": 104,
+                    "name": "National League",
+                    "link": "/api/v1/league/104"
+                  },
+                  "division": {
+                    "id": 205,
+                    "name": "National League Central",
+                    "link": "/api/v1/divisions/205"
+                  },
+                  "sport": {
+                    "id": 1,
+                    "link": "/api/v1/sports/1",
+                    "name": "Major League Baseball"
+                  },
+                  "shortName": "Chi Cubs",
+                  "franchiseName": "Chicago",
+                  "clubName": "Cubs",
+                  "active": true
+                },
+                "leagueRecord": {
+                  "wins": 45,
+                  "losses": 30,
+                  "ties": 0,
+                  "pct": ".600"
+                },
+                "score": 4,
+                "isWinner": false,
+                "probablePitcher": {
+                  "id": 571510,
+                  "fullName": "Matthew Boyd",
+                  "link": "/api/v1/people/571510"
+                },
+                "splitSquad": false,
+                "seriesNumber": 26,
+                "springLeague": {
+                  "id": 114,
+                  "name": "Cactus League",
+                  "link": "/api/v1/league/114",
+                  "abbreviation": "CL"
+                }
+              }
+            },
+            "venue": {
+              "id": 17,
+              "name": "Wrigley Field",
+              "link": "/api/v1/venues/17"
+            },
+            "content": {"link": "/api/v1/game/777436/content"},
+            "isTie": false,
+            "gameNumber": 1,
+            "publicFacing": true,
+            "doubleHeader": "N",
+            "gamedayType": "P",
+            "tiebreaker": "N",
+            "calendarEventID": "14-777436-2025-06-20",
+            "seasonDisplay": "2025",
+            "dayNight": "day",
+            "scheduledInnings": 9,
+            "reverseHomeAwayStatus": false,
+            "inningBreakLength": 120,
+            "gamesInSeries": 3,
+            "seriesGameNumber": 1,
+            "seriesDescription": "Regular Season",
+            "recordSource": "S",
+            "ifNecessary": "N",
+            "ifNecessaryDescription": "Normal Game"
+          },
+          {
+            "gamePk": 777432,
+            "gameGuid": "eebb05a1-2ad8-4781-9978-1d5637c7cf47",
+            "link": "/api/v1.1/game/777432/feed/live",
+            "gameType": "R",
+            "season": "2025",
+            "gameDate": "2025-06-20T22:40:00Z",
+            "officialDate": "2025-06-20",
+            "status": {
+              "abstractGameState": "Final",
+              "codedGameState": "F",
+              "detailedState": "Final",
+              "statusCode": "F",
+              "startTimeTBD": false,
+              "abstractGameCode": "F"
+            },
+            "teams": {
+              "away": {
+                "team": {
+                  "springLeague": {
+                    "id": 114,
+                    "name": "Cactus League",
+                    "link": "/api/v1/league/114",
+                    "abbreviation": "CL"
+                  },
+                  "allStarStatus": "N",
+                  "id": 140,
+                  "name": "Texas Rangers",
+                  "link": "/api/v1/teams/140",
+                  "season": 2025,
+                  "venue": {
+                    "id": 5325,
+                    "name": "Globe Life Field",
+                    "link": "/api/v1/venues/5325"
+                  },
+                  "springVenue": {"id": 2603, "link": "/api/v1/venues/2603"},
+                  "teamCode": "tex",
+                  "fileCode": "tex",
+                  "abbreviation": "TEX",
+                  "teamName": "Rangers",
+                  "locationName": "Arlington",
+                  "firstYearOfPlay": "1961",
+                  "league": {
+                    "id": 103,
+                    "name": "American League",
+                    "link": "/api/v1/league/103"
+                  },
+                  "division": {
+                    "id": 200,
+                    "name": "American League West",
+                    "link": "/api/v1/divisions/200"
+                  },
+                  "sport": {
+                    "id": 1,
+                    "link": "/api/v1/sports/1",
+                    "name": "Major League Baseball"
+                  },
+                  "shortName": "Texas",
+                  "franchiseName": "Texas",
+                  "clubName": "Rangers",
+                  "active": true
+                },
+                "leagueRecord": {
+                  "wins": 37,
+                  "losses": 39,
+                  "ties": 0,
+                  "pct": ".487"
+                },
+                "score": 6,
+                "isWinner": true,
+                "probablePitcher": {
+                  "id": 594798,
+                  "fullName": "Jacob deGrom",
+                  "link": "/api/v1/people/594798"
+                },
+                "splitSquad": false,
+                "seriesNumber": 25,
+                "springLeague": {
+                  "id": 114,
+                  "name": "Cactus League",
+                  "link": "/api/v1/league/114",
+                  "abbreviation": "CL"
+                }
+              },
+              "home": {
+                "team": {
+                  "springLeague": {
+                    "id": 115,
+                    "name": "Grapefruit League",
+                    "link": "/api/v1/league/115",
+                    "abbreviation": "GL"
+                  },
+                  "allStarStatus": "N",
+                  "id": 134,
+                  "name": "Pittsburgh Pirates",
+                  "link": "/api/v1/teams/134",
+                  "season": 2025,
+                  "venue": {
+                    "id": 31,
+                    "name": "PNC Park",
+                    "link": "/api/v1/venues/31"
+                  },
+                  "springVenue": {"id": 2526, "link": "/api/v1/venues/2526"},
+                  "teamCode": "pit",
+                  "fileCode": "pit",
+                  "abbreviation": "PIT",
+                  "teamName": "Pirates",
+                  "locationName": "Pittsburgh",
+                  "firstYearOfPlay": "1882",
+                  "league": {
+                    "id": 104,
+                    "name": "National League",
+                    "link": "/api/v1/league/104"
+                  },
+                  "division": {
+                    "id": 205,
+                    "name": "National League Central",
+                    "link": "/api/v1/divisions/205"
+                  },
+                  "sport": {
+                    "id": 1,
+                    "link": "/api/v1/sports/1",
+                    "name": "Major League Baseball"
+                  },
+                  "shortName": "Pittsburgh",
+                  "franchiseName": "Pittsburgh",
+                  "clubName": "Pirates",
+                  "active": true
+                },
+                "leagueRecord": {
+                  "wins": 30,
+                  "losses": 47,
+                  "ties": 0,
+                  "pct": ".390"
+                },
+                "score": 2,
+                "isWinner": false,
+                "probablePitcher": {
+                  "id": 681347,
+                  "fullName": "Mike Burrows",
+                  "link": "/api/v1/people/681347"
+                },
+                "splitSquad": false,
+                "seriesNumber": 25,
+                "springLeague": {
+                  "id": 115,
+                  "name": "Grapefruit League",
+                  "link": "/api/v1/league/115",
+                  "abbreviation": "GL"
+                }
+              }
+            },
+            "venue": {
+              "id": 31,
+              "name": "PNC Park",
+              "link": "/api/v1/venues/31"
+            },
+            "content": {"link": "/api/v1/game/777432/content"},
+            "isTie": false,
+            "gameNumber": 1,
+            "publicFacing": true,
+            "doubleHeader": "N",
+            "gamedayType": "P",
+            "tiebreaker": "N",
+            "calendarEventID": "14-777432-2025-06-20",
+            "seasonDisplay": "2025",
+            "dayNight": "night",
+            "scheduledInnings": 9,
+            "reverseHomeAwayStatus": false,
+            "inningBreakLength": 120,
+            "gamesInSeries": 3,
+            "seriesGameNumber": 1,
+            "seriesDescription": "Regular Season",
+            "recordSource": "S",
+            "ifNecessary": "N",
+            "ifNecessaryDescription": "Normal Game"
+          }
+        ],
+        "events": []
+      }
+    ]
+  }
+}

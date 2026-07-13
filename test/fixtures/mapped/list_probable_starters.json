@@ -1,0 +1,54 @@
+{
+  "date": "2025-06-20",
+  "count": 4,
+  "starters": [
+    {
+      "mlbamId": 669923,
+      "name": "George Kirby",
+      "team": "Seattle Mariners",
+      "teamAbbr": "SEA",
+      "opponent": "Chicago Cubs",
+      "opponentAbbr": "CHC",
+      "homeAway": "away",
+      "gameTimeUtc": "2025-06-20T18:20:00Z",
+      "gamePk": 777436,
+      "doubleHeader": "N"
+    },
+    {
+      "mlbamId": 571510,
+      "name": "Matthew Boyd",
+      "team": "Chicago Cubs",
+      "teamAbbr": "CHC",
+      "opponent": "Seattle Mariners",
+      "opponentAbbr": "SEA",
+      "homeAway": "home",
+      "gameTimeUtc": "2025-06-20T18:20:00Z",
+      "gamePk": 777436,
+      "doubleHeader": "N"
+    },
+    {
+      "mlbamId": 594798,
+      "name": "Jacob deGrom",
+      "team": "Texas Rangers",
+      "teamAbbr": "TEX",
+      "opponent": "Pittsburgh Pirates",
+      "opponentAbbr": "PIT",
+      "homeAway": "away",
+      "gameTimeUtc": "2025-06-20T22:40:00Z",
+      "gamePk": 777432,
+      "doubleHeader": "N"
+    },
+    {
+      "mlbamId": 681347,
+      "name": "Mike Burrows",
+      "team": "Pittsburgh Pirates",
+      "teamAbbr": "PIT",
+      "opponent": "Texas Rangers",
+      "opponentAbbr": "TEX",
+      "homeAway": "home",
+      "gameTimeUtc": "2025-06-20T22:40:00Z",
+      "gamePk": 777432,
+      "doubleHeader": "N"
+    }
+  ]
+}

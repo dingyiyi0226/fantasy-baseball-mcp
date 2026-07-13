@@ -1,8 +1,8 @@
 /**
- * Regenerates the API fixtures under test/fixtures/.
+ * Regenerates the API and analysis fixtures under test/fixtures/.
  *
  * For each read endpoint it:
- *   1. fetches the live Yahoo response (refreshing the OAuth token as needed),
+ *   1. fetches the live upstream response(s), refreshing Yahoo OAuth when needed,
  *   2. sanitizes account-specific identifiers and personal data (game/league,
  *      team/manager names, image URLs, chat ids, guids) so the fixtures are
  *      safe to commit to a public repo,
@@ -15,7 +15,8 @@
  *   npm run build            # mappers must be compiled to dist/ first
  *   node test/fetch-fixtures.mjs get_roster      # refresh exactly one fixture
  *
- * Requires a configured ~/.fantasy-baseball-mcp/config.json (run the auth flow once).
+ * Yahoo fixtures require a configured ~/.fantasy-baseball-mcp/config.json (run the auth flow once).
+ * Analysis fixtures use public MLB, Baseball Savant, and FanGraphs data and need no Yahoo auth.
  * Real player names are kept — they are public MLB data, not personal data.
  */
 import axios from "axios";
@@ -33,6 +34,8 @@ import * as playerMappers from "../dist/yahoo/player.js";
 import * as rosterMappers from "../dist/yahoo/roster.js";
 import * as teamMappers from "../dist/yahoo/team.js";
 import * as transactionMappers from "../dist/yahoo/transaction.js";
+import * as analysisMappers from "../dist/analysis/index.js";
+import * as statsMappers from "../dist/analysis/statsClient.js";
 
 const mappers = {
   ...gameMappers,
@@ -55,6 +58,133 @@ const RAW_DIR = join(HERE, "fixtures", "raw");
 const MAPPED_DIR = join(HERE, "fixtures", "mapped");
 mkdirSync(RAW_DIR, { recursive: true });
 mkdirSync(MAPPED_DIR, { recursive: true });
+
+// --- public analysis sources ----------------------------------------------
+const ANALYSIS_FIXTURES = [
+  "analyze_player_stats",
+  "analyze_roster_stats",
+  "list_probable_starters",
+];
+
+const MLB_STAT_KEYS = [
+  "gamesPlayed", "plateAppearances", "atBats", "hits", "doubles", "triples",
+  "homeRuns", "rbi", "runs", "stolenBases", "caughtStealing", "baseOnBalls",
+  "strikeOuts", "avg", "obp", "slg", "ops", "babip", "totalBases",
+  "gamesStarted", "inningsPitched", "wins", "losses", "saves", "holds",
+  "saveOpportunities", "blownSaves", "era", "whip", "strikeoutsPer9Inn",
+  "walksPer9Inn", "qualityStarts",
+];
+const EXPECTED_STAT_KEYS = [
+  "est_ba", "est_slg", "est_woba", "est_ba_minus_ba_diff",
+  "est_slg_minus_slg_diff", "est_woba_minus_woba_diff",
+];
+const STATCAST_KEYS = [
+  "avg_hit_speed", "max_hit_speed", "ev50", "ev95percent", "brl_percent", "brl_pa",
+  "avg_hit_angle", "anglesweetspotpercent", "max_distance", "avg_distance",
+];
+const FANGRAPHS_KEYS = [
+  "playerid", "WAR", "wRC+", "wOBA", "ISO", "BABIP", "K%", "BB%", "SwStr%",
+  "EV", "Barrel%", "HardHit%", "GB%", "FB%", "HR/FB", "LD%", "ERA", "FIP",
+  "xFIP", "WHIP", "LOB%",
+];
+
+function pick(record, keys) {
+  if (!record) return null;
+  return Object.fromEntries(keys.filter((key) => record[key] !== undefined).map((key) => [key, record[key]]));
+}
+
+function compactPlayerSources(sources) {
+  return {
+    ...sources,
+    mlb: pick(sources.mlb, MLB_STAT_KEYS),
+    expected: pick(sources.expected, EXPECTED_STAT_KEYS),
+    statcast: pick(sources.statcast, STATCAST_KEYS),
+    fangraphs: pick(sources.fangraphs, FANGRAPHS_KEYS),
+    recent14d: pick(sources.recent14d, MLB_STAT_KEYS),
+    recent30d: pick(sources.recent30d, MLB_STAT_KEYS),
+  };
+}
+
+async function retryPublicFetch(fetch, attempts = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      return await fetch();
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
+}
+
+async function captureAnalysisFixture(tool) {
+  const season = new Date().getFullYear();
+  if (tool === "analyze_player_stats") {
+    const sources = compactPlayerSources(await retryPublicFetch(() =>
+      analysisMappers.fetchPlayerAnalysisSources("Shohei Ohtani", season)));
+    const raw = { sources, leagueScoringCategories: [] };
+    return { raw, mapped: analysisMappers.mapAnalyzePlayerStats(sources) };
+  }
+
+  if (tool === "analyze_roster_stats") {
+    const sources = compactPlayerSources(await retryPublicFetch(() =>
+      analysisMappers.fetchPlayerAnalysisSources("Tarik Skubal", season)));
+    const categories = [
+      { statId: "7", displayName: "R", positionType: "B" },
+      { statId: "12", displayName: "HR", positionType: "B" },
+      { statId: "28", displayName: "W", positionType: "P" },
+      { statId: "42", displayName: "K", positionType: "P" },
+    ];
+    const raw = {
+      season,
+      rosterDate: new Date().toISOString().slice(0, 10),
+      leagueScoringCategories: categories,
+      players: [analysisMappers.mapPlayerAnalysis(sources)],
+    };
+    return {
+      raw,
+      mapped: analysisMappers.mapAnalyzeRosterStats(
+        raw.season,
+        raw.rosterDate,
+        raw.leagueScoringCategories,
+        raw.players,
+      ),
+    };
+  }
+
+  const date = "2025-06-20";
+  const response = await retryPublicFetch(() =>
+    axios.get("https://statsapi.mlb.com/api/v1/schedule", {
+      params: { sportId: 1, date, hydrate: "probablePitcher,team" },
+    }));
+  const games = response.data?.dates?.[0]?.games ?? [];
+  const schedule = {
+    ...response.data,
+    dates: response.data?.dates?.length > 0
+      ? [{ ...response.data.dates[0], games: games.slice(0, 2) }]
+      : [],
+  };
+  const raw = { date, schedule };
+  const starters = statsMappers.mapProbableStarters(schedule);
+  return { raw, mapped: analysisMappers.mapProbableStarterBoard(date, starters) };
+}
+
+if (ANALYSIS_FIXTURES.includes(requestedFixture)) {
+  process.stdout.write(`${requestedFixture}... `);
+  try {
+    const { raw, mapped } = await captureAnalysisFixture(requestedFixture);
+    writeFileSync(join(RAW_DIR, `${requestedFixture}.json`), stringify(raw));
+    writeFileSync(join(MAPPED_DIR, `${requestedFixture}.json`), stringify(mapped));
+    const rawKB = Math.round(JSON.stringify(raw).length / 1024);
+    const mapKB = Math.round(JSON.stringify(mapped).length / 1024);
+    console.log(`raw ${rawKB}KB -> mapped ${mapKB}KB`);
+    console.log("Done.");
+    process.exit(0);
+  } catch (e) {
+    console.error(`ERROR: ${e.message}`);
+    process.exit(1);
+  }
+}
 
 // --- auth -----------------------------------------------------------------
 const configPath = `${homedir()}/.fantasy-baseball-mcp/config.json`;
@@ -237,7 +367,7 @@ const endpoints = [
 const selectedEndpoint = endpoints.find(({ tool }) => tool === requestedFixture);
 if (!selectedEndpoint) {
   console.error(
-    `Unknown fixture \"${requestedFixture}\". Choose one of: ${endpoints.map(({ tool }) => tool).join(", ")}`,
+    `Unknown fixture \"${requestedFixture}\". Choose one of: ${[...endpoints.map(({ tool }) => tool), ...ANALYSIS_FIXTURES].join(", ")}`,
   );
   process.exit(1);
 }

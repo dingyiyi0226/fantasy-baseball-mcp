@@ -1,0 +1,105 @@
+{
+  "season": 2026,
+  "rosterDate": "2026-07-13",
+  "leagueScoringCategories": {"batting": ["R", "HR"], "pitching": ["W", "K"]},
+  "players": [
+    {
+      "player": {
+        "name": "Tarik Skubal",
+        "mlbamId": 669373,
+        "season": 2026,
+        "playerType": "pitcher"
+      },
+      "standard": {
+        "games": 13,
+        "gamesStarted": 13,
+        "inningsPitched": "75.2",
+        "wins": 5,
+        "losses": 5,
+        "saves": 0,
+        "holds": 0,
+        "saveOpportunities": 0,
+        "blownSaves": 0,
+        "era": "3.09",
+        "whip": "0.95",
+        "strikeouts": 89,
+        "walks": 11,
+        "homeRunsAllowed": 10,
+        "strikeoutsPer9": "10.59",
+        "walksPer9": "1.31"
+      },
+      "recent14d": {
+        "games": 3,
+        "gamesStarted": 3,
+        "inningsPitched": "16.0",
+        "wins": 2,
+        "losses": 1,
+        "saves": 0,
+        "holds": 0,
+        "saveOpportunities": 0,
+        "blownSaves": 0,
+        "era": "2.25",
+        "whip": "0.81",
+        "strikeouts": 23,
+        "walks": 3,
+        "homeRunsAllowed": 2,
+        "strikeoutsPer9": "12.94",
+        "walksPer9": "1.69"
+      },
+      "recent30d": {
+        "games": 6,
+        "gamesStarted": 6,
+        "inningsPitched": "32.1",
+        "wins": 2,
+        "losses": 3,
+        "saves": 0,
+        "holds": 0,
+        "saveOpportunities": 0,
+        "blownSaves": 0,
+        "era": "3.62",
+        "whip": "0.96",
+        "strikeouts": 44,
+        "walks": 5,
+        "homeRunsAllowed": 8,
+        "strikeoutsPer9": "12.25",
+        "walksPer9": "1.39"
+      },
+      "expectedStats": {
+        "xBAAgainst": "0.236",
+        "xSLGAgainst": "0.358",
+        "xwOBAAgainst": "0.278",
+        "xBAminusBAAgainst": "-0.017999999999999988",
+        "xwOBAminuswOBAAgainst": "-0.0010000000000000009"
+      },
+      "statcast": {
+        "avgExitVelocityAgainst": "87.7",
+        "maxExitVelocityAgainst": "111.8",
+        "hardHitPctAgainst": "36.8",
+        "barrelPctAgainst": "7.3",
+        "avgLaunchAngleAgainst": "9.5"
+      },
+      "fangraphs": {
+        "fanGraphsId": 22267,
+        "war": 1.8429275751113892,
+        "era": 3.0925111171541295,
+        "fip": 3.060794068150875,
+        "xfip": 2.5378435944046873,
+        "whip": 0.9515418822012707,
+        "kPct": 0.2996633,
+        "bbPct": 0.03703704,
+        "gbPct": 0.459893048,
+        "fbPct": 0.315508021,
+        "hrPerFb": 0.169491525,
+        "babip": 0.2786885245901639,
+        "lobPct": 0.75806452,
+        "swStrPct": 0.15490534
+      },
+      "sourceUrls": {
+        "mlbOfficialPage": "https://www.mlb.com/player/tarik-skubal-669373",
+        "baseballSavant": "https://baseballsavant.mlb.com/savant-player/tarik-skubal-669373?stats=statcast-r-pitching-mlb",
+        "baseballReference": "https://www.baseball-reference.com/players/s/skubata01.shtml",
+        "fanGraphs": "https://www.fangraphs.com/players/tarik-skubal/22267/stats/pitching"
+      }
+    }
+  ]
+}

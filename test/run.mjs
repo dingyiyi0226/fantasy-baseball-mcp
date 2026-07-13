@@ -22,6 +22,8 @@ import * as playerMappers from "../dist/yahoo/player.js";
 import * as rosterMappers from "../dist/yahoo/roster.js";
 import * as teamMappers from "../dist/yahoo/team.js";
 import * as transactionMappers from "../dist/yahoo/transaction.js";
+import * as analysisMappers from "../dist/analysis/index.js";
+import * as statsMappers from "../dist/analysis/statsClient.js";
 
 const mappers = {
   ...gameMappers,
@@ -80,6 +82,34 @@ for (const [tool, mapper, rawTool = tool, categoryTool] of CASES) {
   } else {
     failed++;
     console.log(`  FAIL ${tool} (${mapper} output differs from fixtures/mapped/${tool}.json)`);
+  }
+}
+
+const analysisCases = [
+  ["analyze_player_stats", (raw) =>
+    analysisMappers.mapAnalyzePlayerStats(raw.sources, raw.leagueScoringCategories)],
+  ["analyze_roster_stats", (raw) =>
+    analysisMappers.mapAnalyzeRosterStats(
+      raw.season,
+      raw.rosterDate,
+      raw.leagueScoringCategories,
+      raw.players,
+    )],
+  ["list_probable_starters", (raw) =>
+    analysisMappers.mapProbableStarterBoard(
+      raw.date,
+      statsMappers.mapProbableStarters(raw.schedule),
+    )],
+];
+
+for (const [tool, mapFixture] of analysisCases) {
+  const actual = JSON.stringify(mapFixture(read("raw", tool)), null, 2);
+  const expected = JSON.stringify(read("mapped", tool), null, 2);
+  if (actual === expected) {
+    console.log(`  ok   ${tool}`);
+  } else {
+    failed++;
+    console.log(`  FAIL ${tool} output differs from fixtures/mapped/${tool}.json`);
   }
 }
 
@@ -199,7 +229,7 @@ if (
 }
 
 if (failed) {
-  console.error(`\n${failed} mapper(s) failed.`);
+  console.error(`\n${failed} fixture mapping(s) failed.`);
   process.exit(1);
 }
-console.log(`\nAll ${CASES.length} mappers match their fixtures.`);
+console.log(`\nAll ${CASES.length + analysisCases.length} fixture mappings match.`);

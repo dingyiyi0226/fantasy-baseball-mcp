@@ -102,19 +102,9 @@ export interface ProbableStarter {
   doubleHeader: string;
 }
 
-/**
- * Every named probable starting pitcher across the MLB slate for one date.
- *
- * Returns one entry per pitcher (so a normal game yields two), flattened across
- * games and sorted by start time. MLB only posts probables for roughly today
- * through ~2-3 days out, so a future date legitimately returns fewer (or zero)
- * entries — that is "not announced yet", not an error.
- */
-export async function fetchProbableStarters(date: string): Promise<ProbableStarter[]> {
-  const res = await axios.get(`${MLB_API}/schedule`, {
-    params: { sportId: 1, date, hydrate: "probablePitcher,team" },
-  });
-  const games = res.data?.dates?.[0]?.games ?? [];
+/** Map an MLB schedule response to the flattened probable-starter rows. */
+export function mapProbableStarters(data: any): ProbableStarter[] {
+  const games = data?.dates?.[0]?.games ?? [];
   const out: ProbableStarter[] = [];
   for (const g of games) {
     const home = g?.teams?.home;
@@ -142,6 +132,21 @@ export async function fetchProbableStarters(date: string): Promise<ProbableStart
     }
   }
   return out.sort((a, b) => a.gameTimeUtc.localeCompare(b.gameTimeUtc));
+}
+
+/**
+ * Every named probable starting pitcher across the MLB slate for one date.
+ *
+ * Returns one entry per pitcher (so a normal game yields two), flattened across
+ * games and sorted by start time. MLB only posts probables for roughly today
+ * through ~2-3 days out, so a future date legitimately returns fewer (or zero)
+ * entries — that is "not announced yet", not an error.
+ */
+export async function fetchProbableStarters(date: string): Promise<ProbableStarter[]> {
+  const res = await axios.get(`${MLB_API}/schedule`, {
+    params: { sportId: 1, date, hydrate: "probablePitcher,team" },
+  });
+  return mapProbableStarters(res.data);
 }
 
 // ---------------------------------------------------------------------------
