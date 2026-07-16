@@ -75,6 +75,8 @@ write API. Follow its confirmation and post-transaction verification rules.
   browser procedure inside the review workflows.
 - For an explicitly approved Yahoo add/drop transaction, use `add-drop-player`; keep add/drop advice
   recommendation-only when execution was not explicitly authorized.
+- For every daily-review add or add/drop recommendation, state whether the target should also be
+  started that day, with the exact lineup move, or explicitly say it should remain on `BN`.
 - Run multiple user teams sequentially to avoid rate-limiting external baseball data sources.
 - Keep reports scannable: strategy first, then scoreboard, then moves, then add/drop targets.
 - Every non-trivial recommendation needs a brief `Why` plus a compact `Evidence` table.

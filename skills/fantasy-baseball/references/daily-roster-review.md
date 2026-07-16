@@ -193,6 +193,11 @@ After both scouts:
   replaceable player exists. Recommend an add/drop only when no standard spot can be freed, or
   Yahoo's transaction page confirms that a drop is required. When configured reserve capacity is
   unknown, confirm through Yahoo before requiring a drop.
+- For every proposed add (including an add/drop or streamer), decide its **lineup follow-up** for
+  `lineupDate`: either **add and start** it in an exact legal slot, naming the player to bench, or
+  **add only — leave on BN**, with the reason. Do not leave this implicit just because the target
+  can occupy an empty roster spot; an added player may be a same-day lineup upgrade rather than
+  bench depth.
 - Rank by the team's weakest categories.
 - Judge "hot" from `mlbStats.recent14d` / `mlbStats.recent30d` only when those keys are present; if absent,
   use `mlbStats.standard` and do not label the player hot.
@@ -214,6 +219,12 @@ is enough to prevent a flip after considering the opponent's best plausible acti
 
 First, finalize each legal IL/NA placement identified in Phase 1B. Treat the newly freed standard
 slot as available roster capacity when evaluating add targets.
+
+For each final add/add-drop verdict, compare the target against the player currently occupying the
+best legal active slot for `lineupDate`. Record one of these explicit outcomes before Phase 3:
+- **Add and start:** target slot and the player moving to `BN` (or the exact legal rotation needed).
+- **Add only — leave on BN:** why the target is depth, a future stream, blocked by eligibility, or
+  not a better same-day play.
 
 From Phase 1, select:
 - All non-trivial start/sit candidates
@@ -300,6 +311,13 @@ execution is unavailable, fall back to the manual checklist. The Yahoo write API
 and should not be used in normal execution. Never auto-drop in the final two days without a clear win
 reason.
 
+After each verified add/add-drop, perform its recorded lineup follow-up: when the verdict is **add
+and start**, refresh the roster state and hand the exact target-to-slot move to `adjust-lineup` if
+`autoStartBench=true`; otherwise put that move immediately after the transaction in the manual
+checklist. When the verdict is **add only — leave on BN**, report that no lineup adjustment is
+needed. Never claim an added player was started until the lineup change is separately saved and
+verified.
+
 After executing any roster change, finish by calling `get_roster` (`date=lineupDate`) to verify the
 saved state — the browser page can misrepresent what Yahoo saved, so treat `get_roster` as the
 source of truth and report any mismatch.
@@ -329,39 +347,37 @@ Rules:
   successfully saved and verified browser-plugin actions. If **Executed** is non-empty, introduce
   it with `Completed via browser plugin and verified with get_roster.` Never repeat that status in
   the individual action lines.
-- For an ordinary two-player lineup swap, write the action cleanly:
+- Follow this format for lineup and add/drop actions. For a three-way-or-larger rotation, do not
+  compress it into a single swap; list each player's destination on its own line, in execution
+  order:
 
   ```markdown
+  # swap example
   - **Player A** (2B) <-> **Player B** (BN)
-  ```
 
-  For a three-way-or-larger rotation, do not compress it into a single swap. List each player's
-  destination on its own line, in execution order:
-
-  ```markdown
+  # 3 way example
   - **Player A** (2B) -> **Player B** (BN)
   - **Player B** (BN) -> **Player C** (SS)
   - **Player C** (SS) -> **Player A** (2B)
+
+  # add/drop and start example
+  - Add **Player A** (SP); drop **Player B** (BN); then start **Player A** (SP), bench **Player C** (P)
+
+  # add-only example
+  - Add **Player A** (SP) into the open roster slot; no lineup adjustment — leave on BN
   ```
 
-- State each add/drop pair as one clean action line:
-
-  ```markdown
-  - Add **Player A** (SP); drop **Player B** (BN)
-  ```
-
-  When a verified empty standard slot is available, state the preferred add-only action instead:
-
-  ```markdown
-  - Add **Player A** (SP) into the open roster slot
-  ```
+  Every add/add-drop action must include one of those explicit lineup outcomes: `then start ...`
+  with the exact move, or `no lineup adjustment — leave on BN` with its reason in **Decision
+  Rationale**.
 
 - Example rationale:
 
   ```markdown
   ## Decision Rationale
-  - **A — Add Player A; drop Player B.** Targets W and QS, the week's closest pitching categories.
-    - Evidence: Player A starts today; Player B has no confirmed role or start.
+  **A — Add Player A; drop Player B; then start Player A and bench Player C.** Targets W and QS,
+  the week's closest pitching categories.
+  Evidence: Player A starts today; Player B has no confirmed role or start.
   ```
 
 - Phase 2 reversals must be called out with the `Phase 2 reversal` prefix.

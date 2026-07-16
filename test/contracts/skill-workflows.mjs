@@ -72,6 +72,16 @@ assert.match(
 );
 assert.match(
   dailyReview,
+  /For every proposed add[\s\S]*?lineup follow-up[\s\S]*?add and start[\s\S]*?add only — leave on BN/,
+  "daily review must give every add recommendation an explicit same-day lineup outcome",
+);
+assert.match(
+  dailyReview,
+  /After each verified add\/add-drop[\s\S]*?`adjust-lineup`[\s\S]*?no lineup adjustment is\n+needed/,
+  "daily review must execute or report the add target's recorded lineup follow-up",
+);
+assert.match(
+  dailyReview,
   /\| Vacant IL \| 5 IL \| 3 IL \| IL10 player on BN \| Move BN -> IL,[^\n]*?without a drop \|/,
   "daily review must cover moving an IL10 player into the fourth of five IL slots before an add",
 );
