@@ -73,6 +73,12 @@ Credentials resolve from saved config or from the `YF_CLIENT_ID` / `YF_CLIENT_SE
 
 ## Distribution
 
+### Package metadata
+
+`package.json` is the source for the short description, and the README intro (between the npm
+badge and `## Contents`) is the source for the long description. Run `npm run metadata:sync` after
+editing either source; `npm run metadata:check` verifies the Claude and Codex manifests are aligned.
+
 The server reaches users through three channels, all built/published by GitHub Actions on a `v*` tag:
 
 - **Claude Desktop** — the `.mcpb` bundle (`npm run pack:safe`) plus the Fantasy Baseball skill ZIP (`npm run pack:skill`), both attached to the GitHub Release.

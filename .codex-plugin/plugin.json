@@ -1,7 +1,7 @@
 {
   "name": "fantasy-baseball",
   "version": "0.9.3",
-  "description": "AI-powered fantasy baseball roster management, Statcast analytics, and free-agent scouting via natural language.",
+  "description": "Yahoo Fantasy Baseball skills and mcp for Claude and Codex — automated lineup adjustments, Statcast analytics, and free-agent scouting",
   "author": {
     "name": "dingyiyi0226"
   },
@@ -13,8 +13,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Fantasy Baseball",
-    "shortDescription": "Manage your fantasy baseball team by chat",
-    "longDescription": "Let Codex help manage your Yahoo Fantasy Baseball team: check your roster, scout free agents, review your matchup, and analyze players with Statcast and FanGraphs data. You bring your own free Yahoo app credentials and complete a one-time authorization right inside the chat (just say \"fantasy start\"). Nothing is hosted — everything runs locally and your credentials stay on your machine.",
+    "shortDescription": "Yahoo Fantasy Baseball skills and mcp for Claude and Codex — automated lineup adjustments, Statcast analytics, and free-agent scouting",
+    "longDescription": "Manage your **Yahoo Fantasy Baseball** team from Claude or Codex with built-in skills for daily roster reviews, weekly post-mortems, automated lineup adjustments, and free-agent scouting.\n\nRoster-changing actions are supported through **Claude in Chrome** or the **Codex Browser plugin**, while other features use Yahoo Fantasy Sports API.\n\nFor deeper player-performance analysis, we use the **MLB Stats API**, **Baseball Savant Statcast**, and **FanGraphs**.",
     "developerName": "dingyiyi0226",
     "websiteURL": "https://github.com/dingyiyi0226/fantasy-baseball-mcp",
     "category": "Sports",
