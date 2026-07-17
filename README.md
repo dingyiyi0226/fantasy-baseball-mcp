@@ -5,12 +5,12 @@
 Manage your **Yahoo Fantasy Baseball** team from Claude or Codex with built-in skills for
 daily roster reviews, weekly post-mortems, automated lineup adjustments, and free-agent scouting.
 
-Yahoo's Fantasy Sports API supplies league and team data, while the **MLB Stats API**,
-**Baseball Savant Statcast**, and **FanGraphs** provide advanced player data and probable
-starting pitchers for tomorrow or any requested date.
+Roster-changing actions are supported through **Claude in Chrome** or the **Codex Browser
+plugin**, while other features use Yahoo Fantasy Sports API.
 
-Automated browser-based workflows handle lineup adjustments and approved add/drop actions
-(Claude in Chrome or the Codex browser plugin), because Yahoo's write-scope API is deprecated.
+For deeper player-performance analysis, we use the **MLB Stats API**, **Baseball Savant
+Statcast**, and **FanGraphs**.
+
 
 ## Contents
 
