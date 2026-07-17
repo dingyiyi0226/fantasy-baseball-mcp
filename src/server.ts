@@ -11,7 +11,7 @@ import {
 import { registerYahooOnboardingTools } from "./yahoo/onboarding.js";
 
 /** Server version. Kept in sync with package.json/manifest.json by scripts/sync-version.js. */
-export const VERSION = "0.9.3";
+export const VERSION = "0.9.4";
 const ENABLE_YAHOO_WRITE_API = process.env.ENABLE_YAHOO_WRITE_API === "true";
 
 /**

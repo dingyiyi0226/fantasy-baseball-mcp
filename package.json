@@ -1,6 +1,6 @@
 {
   "name": "fantasy-baseball-mcp",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Yahoo Fantasy Baseball skills and mcp for Claude and Codex — automated lineup adjustments, Statcast analytics, and free-agent scouting",
   "type": "module",
   "license": "MIT",
