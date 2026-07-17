@@ -27,6 +27,25 @@ Their stat tables are sibling columns such as `player_stats.stats.columns` and
 `player_stats.stats.rows`. `get_roster` with `keyOnly=true` is the sole exception: it returns a
 plain player-key array.
 
+### Yahoo key anatomy
+
+Yahoo response keys are the canonical identifiers. A key embeds the numeric ID segments Yahoo uses
+in browser URLs, so responses do not also return a redundant separate ID field. The sanitized
+examples below use `123` as the game ID and `12345` as the league ID:
+
+| Response field | Format | Example |
+| --- | --- | --- |
+| `game_key` | `<game_id>` | `123` |
+| `league_key` | `<game_id>.l.<league_id>` | `123.l.12345` |
+| `team_key` | `<game_id>.l.<league_id>.t.<team_id>` | `123.l.12345.t.2` |
+| `player_key` | `<game_id>.p.<player_id>` | `123.p.11732` |
+| `transaction_key` | `<game_id>.l.<league_id>.tr.<transaction_id>` | `123.l.12345.tr.249` |
+
+`owner_team_key`, `winner_team_key`, `source_team_key`, and `destination_team_key` use the same
+team-key format. Camel-case fields such as `leagueKey`, `teamKey`, and `playerKeys` use the same
+formats. `stat_id` and `manager_id` are separate Yahoo attributes, not alternative forms of those
+keys.
+
 Several tools come in a light/detailed pair. Prefer the lighter one unless
 stats are needed: `list_teams` (keys/names only; do not also call `get_league`) vs `get_team`
 (one team's metadata + season stats) vs `get_league` (league settings, standings, and team

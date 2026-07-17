@@ -31,8 +31,7 @@ visual mismatch.
 ## Inputs
 
 ```text
-teamId:        required when the current Yahoo team page is not already open
-leagueId:      discover from Yahoo tools when not explicitly provided
+teamKey:       required when the current Yahoo team page is not already open
 playerName:    required for the source player the user wants to move
 targetSlot:    required when the user already knows the destination slot (`BN`, `SP`, `RP`, `P`, `Util`, etc.)
 ```
@@ -40,7 +39,7 @@ targetSlot:    required when the user already knows the destination slot (`BN`, 
 ## URL & Team Discovery
 
 When the selected browser tab is not already on the correct Yahoo team page:
-1. Discover the user's league and team ids from Yahoo tools such as `get_league`, `fantasy_status`, or other team-discovery output.
+1. Discover the user's `teamKey` from Yahoo tools such as `get_roster`, `list_teams`, or other team-discovery output, then derive the numeric URL segments from that key.
 2. Build the team URL as:
    `https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>`
 3. Use that URL as the workflow target and verify the page title and URL before making any roster

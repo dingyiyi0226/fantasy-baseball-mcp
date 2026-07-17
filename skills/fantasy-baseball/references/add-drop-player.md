@@ -30,8 +30,8 @@ addPlayerName:  required
 dropPlayerName: required only when the roster is full or the user explicitly requests an add/drop
 ```
 
-Resolve `leagueId`, `teamId`, and player ids at runtime. Never hardcode a personal league, team, or
-player example from a previous run.
+Derive Yahoo's numeric URL segments from the selected `teamKey` and `player_key` at runtime. Never
+hardcode a personal league, team, or player example from a previous run.
 
 ## Preconditions
 
@@ -44,13 +44,14 @@ Before opening Yahoo:
 4. Confirm the user has explicitly authorized the add and, when required, the exact player to drop.
    Never infer approval for a different drop candidate.
 
-The final numeric segment of a Yahoo player key is the player id used by the browser page. For
-example, extract `<player_id>` from `<game>.p.<player_id>`, then verify the browser page shows the
-same player name before any transaction click.
+The final numeric segment of a Yahoo player key is the `player_id` Yahoo expects in the browser
+page's `apid` parameter. For example, extract `<player_id>` from
+`<game_id>.p.<player_id>`, then verify the browser page shows the same player name before any
+transaction click.
 
 ## Predictable Yahoo URLs
 
-Use these URL shapes after resolving the ids:
+Use these URL shapes after deriving the numeric segments:
 
 ```text
 Search by name:
@@ -59,7 +60,7 @@ https://baseball.fantasysports.yahoo.com/b1/<league_id>/playersearch?search=<enc
 League-level add entry:
 https://baseball.fantasysports.yahoo.com/b1/<league_id>/addplayer?apid=<player_id>
 
-Team-specific add page (preferred when team and player ids are known):
+Team-specific add page (preferred when the team and player keys are known):
 https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>/addplayer?apid=<player_id>
 
 Standalone drop page:
@@ -68,8 +69,8 @@ https://baseball.fantasysports.yahoo.com/b1/<league_id>/<team_id>/dropplayer
 
 The league-level add entry may redirect to `/selectmanager` when the account owns multiple teams.
 That selector is a `GET` form with `mid=<team_id>` and an encoded `done` URL. Prefer the clean
-team-specific add page when both ids are already known; otherwise use the selector and verify the
-team name before continuing.
+team-specific add page when the relevant keys are already known; otherwise use the selector and
+verify the team name before continuing.
 
 Do not construct or replay transaction submission URLs. Both the no-drop and add/drop actions use a
 Yahoo `POST` form with a short-lived crumb. Navigate directly only to read/selection pages, then use
@@ -79,7 +80,7 @@ the live page's exact submit control.
 
 ### Phase 1 - Open and verify the add page
 
-1. Prefer the team-specific add URL when `leagueId`, `teamId`, and the add player id are known.
+1. Prefer the team-specific add URL when the selected `teamKey` and add `player_key` are known.
 2. Otherwise open the search URL, locate the exact player row, and verify:
    - the displayed name matches `addPlayerName`
    - roster status is `FA`

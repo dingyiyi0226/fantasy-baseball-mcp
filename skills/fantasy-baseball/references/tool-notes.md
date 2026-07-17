@@ -12,6 +12,19 @@
   `player_stats.stats.rows`.
 - `get_roster` with `keyOnly=true` is the exception: it returns a plain player-key array.
 
+### Yahoo key anatomy
+- Yahoo response keys are the canonical identifiers. They embed the numeric segments Yahoo uses in
+  browser URLs, so responses do not also return a redundant separate ID field.
+- `game_key` is `<game_id>`, for example `123`.
+- `league_key` is `<game_id>.l.<league_id>`, for example `123.l.12345`.
+- `team_key` is `<game_id>.l.<league_id>.t.<team_id>`, for example `123.l.12345.t.2`.
+- `player_key` is `<game_id>.p.<player_id>`, for example `123.p.11732`.
+- `transaction_key` is `<game_id>.l.<league_id>.tr.<transaction_id>`, for example
+  `123.l.12345.tr.249`.
+- `owner_team_key`, `winner_team_key`, `source_team_key`, and `destination_team_key` use the same
+  team-key format. Camel-case fields such as `leagueKey`, `teamKey`, and `playerKeys` use the same
+  formats. `stat_id` and `manager_id` are separate Yahoo attributes, not alternative keys.
+
 ### `analyze_roster_stats`
 - **Always pass `playerKeys`** — never call on a full roster without it; the raw full-roster call returns a payload too large to process.
 - **Batch size ≤ 10** — the tool enforces `.max(10)` on `playerKeys`. A 28-player roster = 3 batches (≤10 each).
@@ -27,8 +40,8 @@
 ### `rank_players`
 - Use `sortType=lastmonth` and `lastweek` for recency.
 - Returns up to 25 players per call; page with `start`.
-- The compact ranking response omits `player_id` and `batting_order`; use `player_key`, name,
-  eligibility, ownership, and stat rows for comparisons.
+- The compact ranking response uses `player_key`, name, eligibility, ownership, and stat rows for
+  comparisons.
 - The schema does **not** accept an `ownership_type` filter. Filter returned players locally where
   `ownership.ownership_type` indicates a free agent.
 
@@ -38,7 +51,7 @@
 - Use `period=lastweek` for discovery. Use `lastmonth` only as a fallback or stability check.
 - Unlike `rank_players`, its returned `player_stats.coverage_type` and stat rows match the requested
   recent period. Yahoo returns free-agent ownership as `ownership_type: "freeagents"`.
-- Its compact response also omits `player_id` and `batting_order`.
+- Its compact response uses the same player-keyed identity fields as `rank_players`.
 - Yahoo has no 14-day ranking window. For the top candidates, call `analyze_player_stats` and use
   `recent14d` to verify playing time and category production before recommending an add.
 - Use the current league's batting stat ids for category-specific `sort` values; do not hardcode a

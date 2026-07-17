@@ -5,15 +5,26 @@
  * operational constraints that prevent expensive or incorrectly scoped calls.
  */
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const read = (path) => readFileSync(join(ROOT, path), "utf8");
 
+function markdownFiles(path) {
+  return readdirSync(join(ROOT, path), { withFileTypes: true }).flatMap((entry) => {
+    const relativePath = join(path, entry.name);
+    if (entry.isDirectory()) return markdownFiles(relativePath);
+    return entry.isFile() && entry.name.endsWith(".md") ? [relativePath] : [];
+  });
+}
+
 const dailyReview = read("skills/fantasy-baseball/references/daily-roster-review.md");
 const toolNotes = read("skills/fantasy-baseball/references/tool-notes.md");
+const developmentDocs = read("docs/development.md");
+const addDrop = read("skills/fantasy-baseball/references/add-drop-player.md");
+const adjustLineup = read("skills/fantasy-baseball/references/adjust-lineup.md");
 
 assert.match(
   dailyReview,
@@ -140,5 +151,34 @@ assert.match(
   /`rank_free_agent_batters`[\s\S]*?`status=FA` and `position=B`[\s\S]*?`player_stats\.coverage_type`/,
   "tool notes must preserve the FA-only batter ranking and recent-stat response contract",
 );
+assert.match(
+  toolNotes,
+  /`team_key` is `<game_id>\.l\.<league_id>\.t\.<team_id>`, for example `123\.l\.12345\.t\.2`/,
+  "tool notes must define the team-key segments used throughout tool responses",
+);
+assert.match(
+  developmentDocs,
+  /\| `transaction_key` \| `<game_id>\.l\.<league_id>\.tr\.<transaction_id>` \| `123\.l\.12345\.tr\.249` \|/,
+  "development docs must define every returned Yahoo identity-key format",
+);
+assert.match(
+  adjustLineup,
+  /https:\/\/baseball\.fantasysports\.yahoo\.com\/b1\/<league_id>\/<team_id>/,
+  "lineup workflow must document Yahoo's canonical league/team URL parameters",
+);
+assert.match(
+  addDrop,
+  /\/b1\/<league_id>\/<team_id>\/addplayer\?apid=<player_id>/,
+  "add/drop workflow must document Yahoo's canonical URL parameters",
+);
+
+const staleResponseIdField = /(?:returns?|contains?|includes?)\b[^\n]*`(?:player|transaction|team|league|game)_id`/i;
+for (const path of ["README.md", ...markdownFiles("docs"), ...markdownFiles("skills")]) {
+  assert.doesNotMatch(
+    read(path),
+    staleResponseIdField,
+    `${path} must not present an ID segment as a returned response field`,
+  );
+}
 
 console.log("Skill workflow contracts pass.");
