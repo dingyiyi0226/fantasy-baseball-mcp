@@ -31,10 +31,8 @@ export function mapRankPlayers(data: any) {
   const league = data?.league;
   if (!league) return data;
   const players = asArray(league.players?.player).map((player: any) => {
-    const profile = mapPlayerStatsProfile(player);
-    const { player_id: _playerId, ...profileWithoutPlayerId } = profile;
     return {
-      ...profileWithoutPlayerId,
+      ...mapPlayerStatsProfile(player),
       ...(player.starting_status?.is_starting !== undefined
         ? { is_starting: player.starting_status.is_starting }
         : {}),
@@ -79,7 +77,6 @@ export function mapGameRankPlayers(data: any, statCategories: GameStatCategory[]
   return {
     game: {
       game_key: game.game_key,
-      game_id: game.game_id,
       name: game.name,
       code: game.code,
       season: game.season,

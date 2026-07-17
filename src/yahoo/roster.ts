@@ -11,7 +11,6 @@ const READ_ONLY = { readOnlyHint: true } as const;
 function mapRosterTeam(team: any) {
   return {
     team_key: team.team_key,
-    team_id: team.team_id,
     name: team.name,
     ...(team.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
   };

@@ -40,6 +40,36 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const read = (sub, tool) =>
   JSON.parse(readFileSync(join(HERE, "..", "fixtures", sub, `${tool}.json`), "utf8"));
 
+function assertNoRedundantIds(value, path = "response") {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => assertNoRedundantIds(item, `${path}[${index}]`));
+    return;
+  }
+  if (!value || typeof value !== "object") return;
+
+  const fields = new Set(Object.keys(value));
+  for (const key of fields) {
+    if (!key.endsWith("_key")) continue;
+    const id = `${key.slice(0, -4)}_id`;
+    if (fields.has(id)) {
+      throw new Error(`${path} contains both ${key} and ${id}`);
+    }
+  }
+
+  if (Array.isArray(value.columns)) {
+    const columns = new Set(value.columns);
+    for (const key of columns) {
+      if (!key.endsWith("_key")) continue;
+      const id = `${key.slice(0, -4)}_id`;
+      if (columns.has(id)) {
+        throw new Error(`${path}.columns contains both ${key} and ${id}`);
+      }
+    }
+  }
+
+  Object.entries(value).forEach(([key, item]) => assertNoRedundantIds(item, `${path}.${key}`));
+}
+
 const CASES = [
   ["get_game", "mapGame"],
   ["game_stat_categories", "mapGameStatCategories"],
@@ -75,7 +105,9 @@ for (const [tool, mapper, rawTool = tool, categoryTool] of CASES) {
     sort_order: stat.sort_order,
     position_type: stat.position_type,
   }));
-  const actual = JSON.stringify(mappers[mapper](read("raw", rawTool), categories), null, 2);
+  const mapped = mappers[mapper](read("raw", rawTool), categories);
+  assertNoRedundantIds(mapped, tool);
+  const actual = JSON.stringify(mapped, null, 2);
   const expected = JSON.stringify(read("mapped", tool), null, 2);
   if (actual === expected) {
     console.log(`  ok   ${tool}`);
@@ -103,7 +135,9 @@ const analysisCases = [
 ];
 
 for (const [tool, mapFixture] of analysisCases) {
-  const actual = JSON.stringify(mapFixture(read("raw", tool)), null, 2);
+  const mapped = mapFixture(read("raw", tool));
+  assertNoRedundantIds(mapped, tool);
+  const actual = JSON.stringify(mapped, null, 2);
   const expected = JSON.stringify(read("mapped", tool), null, 2);
   if (actual === expected) {
     console.log(`  ok   ${tool}`);

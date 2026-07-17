@@ -95,7 +95,6 @@ function mapManagers(managers: any) {
 export function mapLeagueHeader(league: any) {
   return {
     league_key: league.league_key,
-    league_id: league.league_id,
     name: league.name,
     draft_status: league.draft_status,
     num_teams: league.num_teams,
@@ -125,7 +124,6 @@ export function mapLeagueHeader(league: any) {
 export function mapTeamSummary(t: any) {
   return {
     team_key: t.team_key,
-    team_id: t.team_id,
     name: t.name,
     ...(t.is_owned_by_current_login ? { is_owned_by_current_login: 1 } : {}),
     number_of_moves: t.number_of_moves,
@@ -141,7 +139,6 @@ export function mapPlayerProfile(p: any) {
   const eligiblePositions = asArray(p.eligible_positions?.position).filter(Boolean);
   return {
     player_key: p.player_key,
-    player_id: p.player_id,
     name: p.name?.full ?? p.name,
     editorial_team_abbr: p.editorial_team_abbr,
     editorial_team_full_name: p.editorial_team_full_name,

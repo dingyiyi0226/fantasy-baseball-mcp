@@ -3,14 +3,12 @@
   "transactions": [
     {
       "transaction_key": "123.l.12345.tr.249",
-      "transaction_id": 249,
       "type": "add/drop",
       "status": "successful",
       "timestamp": 1782055825,
       "players": {
         "columns": [
           "player_key",
-          "player_id",
           "name",
           "editorial_team_abbr",
           "display_position",
@@ -20,7 +18,6 @@
         "rows": [
           [
             "123.p.60223",
-            60223,
             "Walbert Ureña",
             "LAA",
             "SP",
@@ -35,7 +32,6 @@
           ],
           [
             "123.p.12158",
-            12158,
             "J.T. Ginn",
             "ATH",
             "SP,RP",
@@ -53,14 +49,12 @@
     },
     {
       "transaction_key": "123.l.12345.tr.248",
-      "transaction_id": 248,
       "type": "add/drop",
       "status": "successful",
       "timestamp": 1782045443,
       "players": {
         "columns": [
           "player_key",
-          "player_id",
           "name",
           "editorial_team_abbr",
           "display_position",
@@ -70,7 +64,6 @@
         "rows": [
           [
             "123.p.10909",
-            10909,
             "Trevor Rogers",
             "BAL",
             "SP",
@@ -85,7 +78,6 @@
           ],
           [
             "123.p.11750",
-            11750,
             "Nick Lodolo",
             "CIN",
             "SP",
@@ -103,14 +95,12 @@
     },
     {
       "transaction_key": "123.l.12345.tr.247",
-      "transaction_id": 247,
       "type": "add",
       "status": "successful",
       "timestamp": 1781879872,
       "players": {
         "columns": [
           "player_key",
-          "player_id",
           "name",
           "editorial_team_abbr",
           "display_position",
@@ -120,7 +110,6 @@
         "rows": [
           [
             "123.p.12500",
-            12500,
             "Randy Vásquez",
             "SD",
             "SP",

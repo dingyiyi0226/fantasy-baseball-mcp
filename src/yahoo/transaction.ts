@@ -19,7 +19,6 @@ export function mapTransactions(data: any) {
     transactions: asArray(league.transactions?.transaction).map((transaction: any) => {
       const players = asArray(transaction.players?.player).map((player: any) => ({
         player_key: player.player_key,
-        player_id: player.player_id,
         name: player.name?.full ?? player.name,
         editorial_team_abbr: player.editorial_team_abbr,
         display_position: player.display_position,
@@ -28,7 +27,6 @@ export function mapTransactions(data: any) {
       }));
       return {
         transaction_key: transaction.transaction_key,
-        transaction_id: transaction.transaction_id,
         type: transaction.type,
         status: transaction.status,
         timestamp: transaction.timestamp,

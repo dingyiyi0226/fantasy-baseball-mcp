@@ -68,7 +68,8 @@ export function mapGame(data: any) {
   const game = data?.game;
   if (!game) return data;
 
-  return { game };
+  const { game_id: _gameId, ...gameWithoutGameId } = game;
+  return { game: gameWithoutGameId };
 }
 
 function mapGameStatCategoryRows(data: any): GameStatCategory[] {
@@ -88,7 +89,6 @@ export function mapGameStatCategories(data: any) {
   return {
     game: {
       game_key: game.game_key,
-      game_id: game.game_id,
       name: game.name,
       code: game.code,
       season: game.season,

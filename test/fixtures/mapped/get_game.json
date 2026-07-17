@@ -1,7 +1,6 @@
 {
   "game": {
     "game_key": 123,
-    "game_id": 123,
     "name": "Baseball",
     "code": "mlb",
     "season": 2026,

@@ -1,7 +1,6 @@
 {
   "team": {
     "team_key": "123.l.12345.t.2",
-    "team_id": 2,
     "name": "Team 2",
     "is_owned_by_current_login": 1
   },

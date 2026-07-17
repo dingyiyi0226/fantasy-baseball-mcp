@@ -1,7 +1,6 @@
 {
   "team": {
     "team_key": "123.l.12345.t.2",
-    "team_id": 2,
     "name": "Team 2",
     "is_owned_by_current_login": 1
   },
@@ -9,7 +8,6 @@
   "players": {
     "columns": [
       "player_key",
-      "player_id",
       "name",
       "editorial_team_abbr",
       "position_type",
@@ -25,7 +23,6 @@
     "rows": [
       [
         "123.p.11732",
-        11732,
         "Adley Rutschman",
         "BAL",
         "B",
@@ -49,7 +46,6 @@
       ],
       [
         "123.p.10235",
-        10235,
         "Rafael Devers",
         "SF",
         "B",
@@ -73,7 +69,6 @@
       ],
       [
         "123.p.12100",
-        12100,
         "Otto Lopez",
         "MIA",
         "B",

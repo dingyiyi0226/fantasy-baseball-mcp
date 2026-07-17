@@ -2,7 +2,6 @@
   "players": {
     "columns": [
       "player_key",
-      "player_id",
       "name",
       "editorial_team_abbr",
       "position_type",
@@ -15,7 +14,6 @@
     "rows": [
       [
         "123.p.11732",
-        11732,
         "Adley Rutschman",
         "BAL",
         "B",
@@ -68,7 +66,6 @@
       ],
       [
         "123.p.10235",
-        10235,
         "Rafael Devers",
         "SF",
         "B",

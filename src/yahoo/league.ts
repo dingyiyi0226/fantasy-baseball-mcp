@@ -115,7 +115,6 @@ export function mapListLeagues(data: any) {
       }));
       return {
         game_key: game.game_key,
-        game_id: game.game_id,
         name: game.name,
         code: game.code,
         season: game.season,

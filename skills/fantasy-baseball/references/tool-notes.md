@@ -55,7 +55,7 @@
 
 ### `get_roster_stats`
 - Use only when Yahoo player stats or detailed player profile, injury, eligibility, or lineup fields are needed.
-- Returns detailed player data including `player_id`, `editorial_team_abbr`, `position_type`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`; it also includes `selected_position`, `status`, and `is_starting` from the roster.
+- Returns detailed player data including `player_key`, `editorial_team_abbr`, `position_type`, `eligible_positions`, `status_full`, `injury_note`, `on_disabled_list`, `is_undroppable`, `is_flex`, and `player_stats`; it also includes `selected_position`, `status`, and `is_starting` from the roster.
 
 ### `list_probable_starters`
 - Returns starters as a compact row table: `starters.columns` names the values in each

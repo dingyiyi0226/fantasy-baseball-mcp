@@ -1,15 +1,8 @@
 {
-  "game": {
-    "game_key": 123,
-    "game_id": 123,
-    "name": "Baseball",
-    "code": "mlb",
-    "season": 2026
-  },
+  "game": {"game_key": 123, "name": "Baseball", "code": "mlb", "season": 2026},
   "players": {
     "columns": [
       "player_key",
-      "player_id",
       "name",
       "editorial_team_abbr",
       "position_type",
@@ -28,7 +21,6 @@
     "rows": [
       [
         "123.p.60254",
-        60254,
         "Jacob Misiorowski",
         "MIL",
         "P",
@@ -120,7 +112,6 @@
       ],
       [
         "123.p.12521",
-        12521,
         "James Wood",
         "WSH",
         "B",
@@ -197,7 +188,6 @@
       ],
       [
         "123.p.10883",
-        10883,
         "Yordan Alvarez",
         "HOU",
         "B",

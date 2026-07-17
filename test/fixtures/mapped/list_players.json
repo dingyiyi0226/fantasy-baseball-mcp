@@ -1,12 +1,8 @@
 {
-  "league": {
-    "league_key": "123.l.12345",
-    "name": "Demo League"
-  },
+  "league": {"league_key": "123.l.12345", "name": "Demo League"},
   "players": {
     "columns": [
       "player_key",
-      "player_id",
       "name",
       "editorial_team_abbr",
       "editorial_team_full_name",
@@ -20,7 +16,6 @@
     "rows": [
       [
         "123.p.12521",
-        12521,
         "James Wood",
         "WSH",
         "Washington Nationals",
@@ -37,7 +32,6 @@
       ],
       [
         "123.p.10883",
-        10883,
         "Yordan Alvarez",
         "HOU",
         "Houston Astros",
@@ -54,7 +48,6 @@
       ],
       [
         "123.p.60254",
-        60254,
         "Jacob Misiorowski",
         "MIL",
         "Milwaukee Brewers",

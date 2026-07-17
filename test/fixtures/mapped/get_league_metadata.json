@@ -1,7 +1,6 @@
 {
   "league": {
     "league_key": "123.l.12345",
-    "league_id": 12345,
     "name": "Demo League",
     "draft_status": "postdraft",
     "num_teams": 10,
