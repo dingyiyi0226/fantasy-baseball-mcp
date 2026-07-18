@@ -38,11 +38,26 @@ Use the in-app Browser plugin for Codex and `claude-in-chrome` for Claude.
 - Use the Browser plugin runtime for every Yahoo browser action. Prefer stable exact `href`, form
   value, and player-row locators over glyph text, and require the intended locator to resolve exactly
   once before clicking.
-- When a visual state determines whether an action is valid, verify it with a screenshot. For lineup
-  moves, green versus grey position pills are the reliable legality signal.
+- When a visual state determines whether an action is valid, verify it with a screenshot.
 - Yahoo may fail `domSnapshot()` with `TypeError: o.incrementalAriaSnapshot is not a function`.
   If so, use targeted `tab.playwright.evaluate(...)`, `dom_cua.get_visible_dom()`, and screenshots
   instead of treating browser control as unavailable.
+
+### Yahoo lineup controls
+
+- In swap mode, green position pills are the reliable legality signal.
+- After a Yahoo lineup source pill enters swap mode, use keyboard control by default:
+  `await tab.cua.keypress({ keys: ["ARROWUP"] })` or
+  `await tab.cua.keypress({ keys: ["ARROWDOWN"] })` to move focus through legal destinations.
+  Yahoo scrolls the focused destination into view; arrow-key navigation does not save the move. Take
+  a screenshot when the approved green destination is focused, then press `ENTER` once to save. Use
+  `ESC` to cancel swap mode.
+- Fall back to click-and-scroll only when keyboard navigation cannot reveal the approved target.
+  Scroll only through the controlled tab: use
+  `await tab.cua.scroll({ x, y, scrollX, scrollY })` or
+  `await tab.dom_cua.scroll({ x, y })`. Do not call an unscoped `scroll` method or an undocumented
+  Playwright scrolling helper. Take a fresh screenshot after every scroll, then click only the
+  approved green position pill.
 
 ## Claude
 

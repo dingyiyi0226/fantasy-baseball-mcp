@@ -64,9 +64,12 @@ Before any click:
 1. Click the source player's current position pill and wait for Yahoo to enter swap mode.
 2. Confirm that source pill is highlighted and identify the green destination pills; Yahoo permits
    only those destinations.
-3. If the green pills are not clear from the current page state, take a screenshot and inspect it
-   before choosing a destination.
-4. Click only the green pill for the approved destination.
+3. Use the default keyboard destination route in `references/browser-control.md` to focus legal
+   destinations and bring the approved target into view.
+4. Follow its visual confirmation and save procedure only after the approved destination is green
+   and focused.
+5. If the keyboard route cannot reveal the approved target, use the click-and-scroll fallback in
+   `references/browser-control.md`.
 
 Interpretation rules:
 - No green destination means the move is not legal in the current roster state.
@@ -75,8 +78,8 @@ Interpretation rules:
 
 ### Phase 3 - Complete Or Abort
 
-If the intended destination pill is green:
-1. Click only the intended green destination pill once.
+If the keyboard route or click-and-scroll fallback starts saving:
+1. Do not send another keypress or click.
 2. Wait for Yahoo to save.
 3. Confirm `Saving...` appears, then `All changes saved`.
 4. Re-read the affected roster row(s) to verify the players changed slots.
