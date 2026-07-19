@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "fantasy-baseball",
   "display_name": "Fantasy Baseball",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Yahoo Fantasy Baseball skills and mcp for Claude and Codex — automated lineup adjustments, Statcast analytics, and free-agent scouting",
   "long_description": "Manage your **Yahoo Fantasy Baseball** team from Claude or Codex with built-in skills for daily roster reviews, weekly post-mortems, automated lineup adjustments, and free-agent scouting.\n\nRoster-changing actions are supported through **Claude in Chrome** or the **Codex Browser plugin**, while other features use Yahoo Fantasy Sports API.\n\nFor deeper player-performance analysis, we use the **MLB Stats API**, **Baseball Savant Statcast**, and **FanGraphs**.",
   "author": {
