@@ -25,6 +25,7 @@ const toolNotes = read("skills/fantasy-baseball/references/tool-notes.md");
 const developmentDocs = read("docs/development.md");
 const addDrop = read("skills/fantasy-baseball/references/add-drop-player.md");
 const adjustLineup = read("skills/fantasy-baseball/references/adjust-lineup.md");
+const browserControl = read("skills/fantasy-baseball/references/browser-control.md");
 
 assert.match(
   dailyReview,
@@ -170,6 +171,16 @@ assert.match(
   addDrop,
   /\/b1\/<league_id>\/<team_id>\/addplayer\?apid=<player_id>/,
   "add/drop workflow must document Yahoo's canonical URL parameters",
+);
+assert.match(
+  browserControl,
+  /rerender the roster row[\s\S]*?do not reuse the source locator with `locator\.press\(\.\.\.\)`[\s\S]*?tab-level `tab\.cua\.keypress\(\.\.\.\)`/,
+  "lineup controls must avoid locator-scoped keys after Yahoo rerenders the source row",
+);
+assert.match(
+  browserControl,
+  /Focused input target no longer matches the resolved locator[\s\S]*?stale focus after the[\s\S]*?rerender[\s\S]*?not as a Yahoo application or lineup-eligibility error/,
+  "lineup controls must classify focused-target mismatch as stale focus after rerender",
 );
 
 const staleResponseIdField = /(?:returns?|contains?|includes?)\b[^\n]*`(?:player|transaction|team|league|game)_id`/i;

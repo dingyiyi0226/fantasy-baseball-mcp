@@ -46,12 +46,18 @@ Use the in-app Browser plugin for Codex and `claude-in-chrome` for Claude.
 ### Yahoo lineup controls
 
 - In swap mode, green position pills are the reliable legality signal.
+- Clicking a source pill may make Yahoo rerender the roster row and move focus from that pill to the
+  active row. After swap mode begins, do not reuse the source locator with `locator.press(...)`.
+  Send all destination keys through tab-level `tab.cua.keypress(...)` instead. If the Browser reports
+  `Focused input target no longer matches the resolved locator`, treat it as stale focus after the
+  rerender, not as a Yahoo application or lineup-eligibility error.
 - After a Yahoo lineup source pill enters swap mode, use keyboard control by default:
   `await tab.cua.keypress({ keys: ["ARROWUP"] })` or
   `await tab.cua.keypress({ keys: ["ARROWDOWN"] })` to move focus through legal destinations.
   Yahoo scrolls the focused destination into view; arrow-key navigation does not save the move. Take
-  a screenshot when the approved green destination is focused, then press `ENTER` once to save. Use
-  `ESC` to cancel swap mode.
+  a screenshot when the approved green destination is focused, then send
+  `await tab.cua.keypress({ keys: ["ENTER"] })` once to save. Use
+  `await tab.cua.keypress({ keys: ["ESC"] })` to cancel swap mode.
 - Fall back to click-and-scroll only when keyboard navigation cannot reveal the approved target.
   Scroll only through the controlled tab: use
   `await tab.cua.scroll({ x, y, scrollX, scrollY })` or
