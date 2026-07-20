@@ -93,10 +93,11 @@ Produce the category scoreboard in exactly this form (substitute the current mat
 | 2–1 | 1–2 | 3.64–6.26 | 1.40–1.54 | 3.33–2.31 | 4–1 | 0–1 |
 | W | L | W | W | W | W | W |
 
-### B — Your Roster & Availability
+### B — Roster Snapshot, Capacity, and Role Pools
 
 Call `get_roster` with `teamKey=currentTeamKey, date=lineupDate`. Join its pitchers to the shared
-probable-starter board locally by normalized player name and MLB team abbreviation. For each player:
+probable-starter board locally by normalized player name and MLB team abbreviation. Build one
+normalized roster snapshot before evaluating any start/sit or transaction decision. For each player:
 - Flag DTD / IL / NA status.
 - Mark whether they are Active or on BN.
 - Identify every IL/NA-status player occupying an active or `BN` slot. If configured reserve
@@ -115,8 +116,15 @@ probable-starter board locally by normalized player name and MLB team abbreviati
   transaction choices. Treat the freed active/`BN` spot as an available standard roster spot and
   prefer adding a compatible target without a drop. Consider a drop only after no standard spot
   can be freed, or after Yahoo's transaction page confirms that a drop is required.
-- Identify pitchers with a start on `lineupDate` from the `list_probable_starters` result.
-- Output: a start/sit candidate list with slot positions and "playing on lineupDate? y/n".
+- Partition the roster into three decision pools:
+  - **Batters:** every healthy active hitter plus every credible `BN` hitter who can reach a legal
+    active slot directly or through an exact multi-slot rotation.
+  - **Starting pitchers:** every pitcher matched to the `lineupDate` probable-starter board. A
+    pitcher with SP/RP eligibility belongs here for this review when a start is scheduled.
+  - **Relief pitchers:** every remaining pitcher enters a preliminary RP/hybrid pool. Refine that
+    pool from recent usage in Phase 1C; do not infer a relief role from the fantasy `RP` label alone.
+- Record `is_starting` as raw Yahoo evidence, not as a shared availability rule. Its meaning is
+  interpreted separately inside the batter, starting-pitcher, and relief-pitcher branches.
 
 Regression cases for this decision order:
 
@@ -126,48 +134,86 @@ Regression cases for this decision order:
 | Full IL | 5 IL | 5 IL | IL10 player on BN | No reserve vacancy; consider a drop only if no other standard spot can be freed or Yahoo confirms one is required |
 | Vacant NA | 3 NA | 2 NA | NA player on BN | Move BN -> NA, treat the freed standard spot as open, and recommend adding the target without a drop |
 
-### C — Opponent Roster Pressure
+### C — Role-Specific Evidence Pass
+
+Reuse the player keys from Phase 1B's roster response; do not call `get_roster` again. Use
+`analyze_roster_stats` only for players whose evidence is needed by a role branch, in batches of
+**<=10 keys**. Calls may run in parallel when available, but multiple user teams still run
+sequentially.
+
+Build the smallest sufficient evidence set:
+
+- **Batters:** every credible `BN` hitter and the active hitters who are their best legal slot
+  alternatives. Decode games and plate appearances plus skill and category production from each
+  available window.
+- **Starting pitchers:** every rostered pitcher scheduled on `lineupDate`.
+- **Relief pitchers:** rostered RPs only when saves, blown saves, holds, or fragile ratio categories
+  are strategically relevant.
+
+`analyze_roster_stats` can analyze only players on the current roster. For every free-agent SP, RP,
+or batter carried forward from Phase 1E, use `analyze_player_stats` instead.
+
+Decode each `mlbStats.standard`, `mlbStats.recent14d`, and `mlbStats.recent30d` array by matching
+values to the same player's `mlbStats.columns` indexes. Extract only:
+
+- **Batters:** games, plate appearances, PA/game, wRC+, OBP, HR, SB, TB, barrel%, xwOBA-wOBA gap,
+  and the recent 14-/30-day category production when present.
+- **Starting pitchers:** games started, innings, W, QS, ERA/xERA, WHIP, K/BB, K%, BB%, and recent
+  workload.
+- **Relief pitchers:** games, games started, innings, SV, HLD, save opportunities, BSV, ERA, WHIP,
+  K/BB, K%, and BB%, with the 14-day window primary and 30-day window as role confirmation.
+
+If a recent window is absent, mark that evidence unavailable. Do not convert missing data into a
+negative playing-time, scheduled-start, or bullpen-role signal.
+
+### D — Opponent Roster Pressure
 
 Call `get_roster` for the opponent with `teamKey=opponentTeamKey, date=lineupDate`
 before deciding whether your planned management is enough. Join the opponent's pitchers to the
-same shared probable-starter board locally by normalized player name and MLB team abbreviation. If
-the opponent roster appears unmanaged or has stale bench choices, infer the expected best active
-roster from the lineup date's Yahoo start flags and obvious active/bench conflicts.
+same shared probable-starter board locally by normalized player name and MLB team abbreviation.
+Estimate the opponent's best plausible roster with the same three role models, using a lighter pass
+than the user's roster unless a close category needs deeper evidence.
 
 For the opponent:
-- List active hitters with `is_starting=1`, benched hitters with `is_starting=1`, and active
-  hitters with `is_starting=0`.
-- List active pitchers, probable/confirmed starting pitchers, relievers with save paths, and any
-  bench pitchers who appear likely to start on `lineupDate`, using the
-  `list_probable_starters` board for probable SPs.
+- **Batters:** assume healthy regulars and obvious legal bench upgrades produce the best plausible
+  active lineup. Do not depend on Yahoo hitter `is_starting`, which is commonly unavailable during
+  the morning review.
+- **Starting pitchers:** count probable/confirmed starts from the shared board, including a
+  scheduled pitcher currently on `BN` as opponent pressure.
+- **Relief pitchers:** count only likely closer or committee arms as material SV pressure; do not
+  treat every active RP as an equal save chance.
 - Estimate opponent pressure on flippable categories: especially W, QS, SV, K/BB, SB, HR, RBI,
   OBP, and TB.
 - Compare your planned moves against that pressure. Explicitly state whether the plan is
   "enough", "barely enough", or "not enough" and why.
 
-### D — Stat Cruncher
+### E — Conditional Free-Agent Discovery
 
-Reuse the player keys from Phase 1B's roster response; do not call `get_roster` again. Split
-them into **batches of <=10 keys**. Call `analyze_roster_stats` once per batch
-(batches may run as parallel calls if available; otherwise sequential).
+Do not run every free-agent search by default. Open a role-specific scout only when the matchup
+strategy identifies a live category that the current roster cannot address well enough. Preserve
+roster depth when the likely category gain does not justify an add or drop.
 
-Extract only this compact summary from each player object:
-- Decode each `mlbStats.standard`, `mlbStats.recent14d`, and `mlbStats.recent30d` array by matching
-  values to the same player's `mlbStats.columns` indexes.
-- **Batters**: wRC+, OBP, HR, SB, TB, barrel%, xwOBA-wOBA gap; `mlbStats.recent14d` / `mlbStats.recent30d` when present.
-- **Pitchers**: ERA/xERA, WHIP, K/BB, K%, BB%, QS; `mlbStats.recent14d` / `mlbStats.recent30d` when present.
-
-### E — FA Scout
-
-#### Pitchers
+#### Starting Pitchers
 
 Use the `list_probable_starters` board first to identify SPs who are actually probable to start on
 `lineupDate`. Determine whether a probable SP is a free agent or on waivers from this league's
 `rank_players` ownership data; do not infer availability from the shared starter board.
 
 Call `rank_players` with `sortType=lastmonth` then `lastweek`, paginating from offset ~75 until
->=8 free agents are found in the returned `ownership.ownership_type` values.
-- Note if no rosterable closer is available.
+>=8 free agents are found in the returned `ownership.ownership_type` values. Carry forward only
+probable starters who can materially improve a live W, QS, strikeout, or innings path without
+unacceptable ERA/WHIP/K/BB risk. Use `analyze_player_stats` for those free-agent finalists.
+
+#### Relief Pitchers
+
+Run an RP search only when SV or another relief-driven category is live, or when a rostered RP has
+lost a meaningful role. Use the league's actual scoring-category stat id with `rank_players` and
+filter locally for free-agent relief eligibility. Shortlist at most three RPs, then use recent 14-
+and 30-day SV, HLD, save opportunities, BSV, games started, and ratio evidence from
+`analyze_player_stats` to classify their roles. Do not call a reliever a closer from eligibility,
+one save, or one blown save alone.
+
+Note explicitly when no rosterable closer or committee arm has a credible save path.
 
 #### Batters
 
@@ -178,14 +224,15 @@ batters into Phase 2.
 
 - The tool already returns only players with Yahoo `status=FA` and `position=B`; do not page
   through owned players or filter pitchers locally.
-- Treat Yahoo's same-day `is_starting` as supporting evidence when present, never as a prerequisite
-  for the shortlist. Early in the day that field may be absent.
+- Ignore Yahoo's same-day hitter `is_starting` when discovering or shortlisting batters. The normal
+  review runs before most MLB batting lineups are posted, so the shortlist must be complete without
+  it. A later non-null flag may confirm availability, but `null` is always unknown.
 - Use `period=lastmonth` only to break ties or when the last-week sample is too small. The 14-day
   validation comes from `analyze_player_stats` in Phase 2, not from Yahoo ranking.
 - Prioritize candidates who contribute to the team's weakest flippable batting categories and can
   legally fill a usable active slot.
 
-After both scouts:
+After all opened role scouts:
 
 - Before identifying a drop candidate, check the roster assignments after any proposed IL/NA
   placement. If a standard roster slot is empty or will be freed by that placement and can hold the
@@ -215,80 +262,149 @@ and opponent roster pressure.
 Write a one-line strategy per team. In the final two days, also answer whether the plan
 is enough to prevent a flip after considering the opponent's best plausible active roster.
 
-### B — Identify Targets
+### B — Batter Decision Branch
+
+Evaluate rostered batters and shortlisted free-agent batters independently of pitcher logic. The
+normal review runs before MLB batting lineups are announced, so Yahoo hitter `is_starting` is not an
+input to candidate discovery, ranking, or the default start/sit decision. A non-null flag in a later
+run may confirm a posted lineup; `null` always means unknown and never means bench.
+
+For every credible `BN` hitter, compare them with the best legal active-slot alternative. Include
+all active players required for an exact multi-slot rotation; do not compare unrelated player pairs.
+Use this evidence hierarchy:
+
+1. **Health and opportunity:** DTD/IL/NA status and whether the hitter's MLB team plays on
+   `lineupDate`.
+2. **Recent participation:** use `recent14d` games and plate appearances as the primary window,
+   with `recent30d` for stability. Compute PA/game when possible. When an exact team-game count is
+   available from reliable schedule context, compare player games with team games; otherwise do not
+   invent an appearance rate.
+3. **Role quality:** regular playing time around 3.5+ PA/game is stronger evidence than a pinch-hit
+   or sparse role. Treat smaller samples as uncertain rather than as confirmed inactivity.
+4. **Platoon context:** identify the opposing probable SP and throwing hand, then use
+   `analyze_player_stats` or targeted web research for handedness splits when the comparison is
+   close. A stable platoon pattern can lower or raise expected playing time before lineups post.
+5. **Category contribution:** compare recent R, HR, RBI, SB, TB, and OBP with the live matchup;
+   use season wRC+, barrel%, and xwOBA vs. wOBA as the skill check behind recent results.
+6. **Arsenal context only when decisive:** research the opposing SP's pitch mix only when a close
+   start/sit or add decision could reverse on a documented pitch-type weakness.
+
+Record one result for every credible bench hitter: **start** with the exact legal move, **keep on
+BN** with an evidence-backed reason, or an exact multi-slot rotation. Label confidence **high**,
+**medium**, or **low**; low-confidence uncertainty must be visible and cannot silently preserve the
+current lineup.
+
+For every shortlisted free-agent batter, call `analyze_player_stats` and use `recent14d` as the main
+validation window; use `recent30d` only when the 14-day data is absent or clearly too sparse. Do not
+reject a candidate solely because Yahoo has not posted the day's starting lineup.
+
+Batter regression cases:
+
+| Case | Evidence | Required result |
+|---|---|---|
+| All hitter flags are null | Credible bench hitter and legal active alternative | Complete the comparison and emit start, keep on BN, or an exact rotation; never preserve the lineup from null flags |
+| Bench regular vs. DTD active hitter | Strong recent participation vs. health uncertainty | Compare them directly and state the exact move or the evidence for keeping the current assignment |
+| Likely platoon hitter faces unfavorable hand | Sparse PA/game or documented split | Lower playing-time confidence and keep on BN when the incumbent has the safer role |
+
+### C — Starting-Pitcher Decision Branch
+
+Use the shared `list_probable_starters` board as the primary schedule source. Pitcher
+`is_starting` is useful here because rotations are announced earlier than batting lineups, but it is
+confirmation or fallback evidence rather than a reason to ignore the shared board.
+
+Assign one schedule state to each SP candidate:
+
+| Probable board | Yahoo `is_starting` | Schedule state |
+|---|---:|---|
+| Match | 1 | Confirmed start |
+| Match | null | Probable start; null is unknown, not a sit signal |
+| No match | 1 | Yahoo fallback; verify if practical before a consequential move |
+| Match | 0 | Source conflict; verify once rather than automatically benching |
+| No match | 0 or null | No scheduled-start evidence |
+
+For every scheduled rostered or free-agent SP:
+
+1. Check the opposing lineup quality, park factor, and outdoor-game weather.
+2. Use recent and season peripherals only when the start/sit or streamer decision is non-obvious.
+3. Check workload or innings-limit context.
+4. Project impact on W, QS, strikeouts/innings, ERA, WHIP, and K/BB using the league's actual
+   categories and current margins.
+5. Apply the Strategy ratio tradeoff: a risky SP can be correct when ERA/WHIP are already lost and
+   the innings buy a realistic W/QS path; protect a live ratio when the projected downside can flip it.
+
+Record **start**, **bench**, **stream and start**, or **avoid**, with the exact P/SP/RP slot impact.
+Do not deep-evaluate pitchers who have no scheduled-start evidence unless they belong in the relief
+branch.
+
+### D — Relief-Pitcher Decision Branch
+
+Ignore Yahoo `is_starting` for relief pitchers. Infer the current bullpen role from actual usage,
+using `recent14d` as the primary window, `recent30d` as stability evidence, and season numbers only
+as fallback.
+
+First calculate relief appearances as games minus games started, then classify each relevant RP:
+
+- **Likely closer:** repeated save opportunities with saves and/or blown saves across multiple
+  relief appearances.
+- **Committee/high leverage:** a meaningful mixture of saves, save opportunities, and holds.
+- **Setup/holds:** holds dominate while saves and save opportunities are rare.
+- **Middle/bulk relief:** few leverage outcomes, or longer multi-inning relief usage without a
+  credible save path.
+- **Hybrid/SP:** meaningful recent starts; move to the starting-pitcher branch whenever scheduled on
+  the probable board.
+
+A single save or BSV does not establish a closer role: setup pitchers can receive both. Prefer the
+combined pattern of save opportunities, saves, blown saves, holds, and relief appearances. For a
+finalist, confirm current bullpen competition and recent workload, including back-to-back usage,
+with current role evidence when available. If exact game-by-game workload is unavailable, label
+today's availability uncertain instead of inventing rest status.
+
+Only chase an RP when their role targets a live scored category. In an SV-only league, a holds-heavy
+setup arm is not a closer substitute. Balance the chance of SV against BSV, ERA, WHIP, and K/BB
+risk, and do not recommend speculative saves when the likely category gain cannot justify that risk.
+
+Record **start RP**, **keep active**, **bench**, **add for saves**, or **avoid**, with role evidence
+and the category reason.
+
+RP regression cases:
+
+| Recent pattern | Required classification |
+|---|---|
+| Multiple SV/SVOP, few HLD | Likely closer, subject to workload and role confirmation |
+| HLD dominate, no meaningful SVOP | Setup/holds; not a closer in an SV-only league |
+| Mixed SV, HLD, and BSV | Committee/high leverage; state uncertainty and ratio/BSV risk |
+| RP eligibility but recent GS or probable-board match | Hybrid/SP; use the SP branch for a scheduled start |
+
+### E — Merge Decisions and Finalize Actions
 
 First, finalize each legal IL/NA placement identified in Phase 1B. Treat the newly freed standard
-slot as available roster capacity when evaluating add targets.
+slot as available roster capacity when evaluating add targets. Then merge the three branch outputs
+against the category plan and opponent pressure.
 
-For each final add/add-drop verdict, compare the target against the player currently occupying the
-best legal active slot for `lineupDate`. Record one of these explicit outcomes before Phase 3:
-- **Add and start:** target slot and the player moving to `BN` (or the exact legal rotation needed).
-- **Add only — leave on BN:** why the target is depth, a future stream, blocked by eligibility, or
-  not a better same-day play.
+Resolve conflicts before Phase 3:
 
-From Phase 1, select:
-- All non-trivial start/sit candidates
-- All add/drop candidates
-- Up to five shortlisted free-agent batters
-- Every SP scheduled to start on `lineupDate` from the probable-starter board
-- Any RP flagged as a saves source
-- Any batter whose Phase 1 recent data was absent or sparse
+- No player may be assigned to multiple destinations, and every move must preserve legal slot
+  eligibility.
+- Prefer the smallest exact move or rotation that captures the category gain.
+- A low-confidence opportunity call may remain a recommendation; missing hitter flags alone cannot
+  lower confidence or block an otherwise approved move.
+- For each final add/add-drop verdict, compare the target against the player currently occupying the
+  best legal active slot for `lineupDate`.
+- Record **Add and start:** target slot and the player moving to `BN` (or the exact legal rotation).
+- Record **Add only — leave on BN:** why the target is depth, a future stream, blocked by
+  eligibility, or not a better same-day play.
 
-### C — FA Batter Form & Playing Time
-
-For every shortlisted free-agent batter:
-1. Call `analyze_player_stats` and use `recent14d` as the main validation window;
-   use `recent30d` only when the 14-day data is absent or clearly too sparse.
-2. Check games, plate appearances, and plate appearances per game. Prefer regular playing time
-   around 3.5+ PA/game; label smaller samples as high variance rather than treating a short hot
-   streak as a stable role.
-3. Compare recent R, HR, RBI, SB, TB, and OBP with the live matchup categories. Use season wRC+,
-   barrel%, and xwOBA vs. wOBA as the skill-quality check behind the recent results.
-4. Do not reject a candidate solely because Yahoo has not posted the day's starting lineup.
-
-### D — Platoon & Handedness
-
-For each batter target:
-1. Use the probable-starter board to identify the `lineupDate` opposing SP hand.
-2. Call `analyze_player_stats` or web-search for handedness splits.
-3. Flag a mismatch if the batter is materially weaker against that hand.
-
-### E — Pitcher Arsenal / Approach Matchup
-
-For each batter target:
-1. Web-search the opposing SP's pitch mix.
-2. Check whether the batter has a documented weakness vs that pitch type.
-3. Flag an arsenal mismatch if a clear weakness aligns with the SP's primary weapon.
-
-### F — SP Context
-
-For each SP starting on `lineupDate`:
-1. Check opposing lineup quality.
-2. Check park factor.
-3. Check weather for outdoor games.
-4. Call `analyze_player_stats` for peripherals if needed.
-5. Check for workload or innings-limit context.
-
-Apply the Strategy section's ratio-category guidance: if WHIP/ERA are punted this week, a risky SP
-can still be a good add when the move buys W/QS.
-
-### G — Closer Role Confirmation
-
-For each RP flagged as a saves source:
-1. Confirm role security and recent save usage.
-2. Verify the move does not needlessly risk BSV.
-
-### H — Evaluation Verdicts
-
-Produce one compact table per team:
+Produce one compact verdict table per team:
 
 ```markdown
-| Player       | Type   | Initial Call     | Key Finding                              | Final Call            |
-|--------------|--------|------------------|------------------------------------------|-----------------------|
-| J. Turner    | Batter | Start (SS)       | vLHP wRC+ 74; lineupDate SP is LH        | ⚠️ Start w/ caveat    |
-| C. Bellinger | Add    | High priority    | Closer role confirmed, 4 SV last 14d     | ✅ Confirmed          |
-| K. Hendricks | SP     | Stream           | Coors Field, HR/F 1.42, weak K-BB%       | ❌ Reversed -> Sit    |
+| Player | Branch | Initial call | Key evidence | Confidence | Final call |
+|---|---|---|---|---|---|
+| Player A | Batter | Start (SS) | Regular role; favorable platoon | High | Start (SS) |
+| Player B | SP | Stream | Confirmed start; W/QS live | Medium | Stream and start |
+| Player C | RP | Saves add | Holds-heavy, no recent SVOP | High | Avoid |
 ```
+
+If deeper role evidence reverses an earlier call, prefix it with `Phase 2 reversal`.
 
 ## Phase 3 — Execute or Checklist
 
